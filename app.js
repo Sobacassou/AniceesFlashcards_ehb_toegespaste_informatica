@@ -40,6 +40,8 @@ const vakken = {
     "II.3 – Processoren": (typeof kaarten_IT_deel2_les3 !== "undefined" ? kaarten_IT_deel2_les3 : ontbreekt("flashcards_ITdeel2les3_processoren.js")),
     // kaarten staan in flashcards_ITdeel2les4_chipsets.js
     "II.4 – Chipsets en bussen": (typeof kaarten_IT_deel2_les4 !== "undefined" ? kaarten_IT_deel2_les4 : ontbreekt("flashcards_ITdeel2les4_chipsets.js")),
+    // kaarten staan in flashcards_ITdeel2les5_magnetisch.js
+    "II.5 – Magnetische opslag": (typeof kaarten_IT_deel2_les5 !== "undefined" ? kaarten_IT_deel2_les5 : ontbreekt("flashcards_ITdeel2les5_magnetisch.js")),
   },
   "📊 Data Essentials": {
     "H1 – Databanken": [
