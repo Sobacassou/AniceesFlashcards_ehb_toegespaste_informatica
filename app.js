@@ -118,6 +118,49 @@ function kaartId(vak, hfst, kaart) {
 function toonScherm(id) {
   document.querySelectorAll(".scherm").forEach(s => s.classList.remove("actief"));
   document.getElementById(id).classList.add("actief");
+  bewaarSessie();
+}
+
+/* ===== Bij vernieuwen (refresh) blijf je op hetzelfde scherm =====
+   Bewaard in sessionStorage: blijft bestaan zolang dit tabblad open is. */
+function bewaarSessie() {
+  try {
+    const actief = document.querySelector(".scherm.actief");
+    const s = { scherm: actief ? actief.id : "schermVak", vak: huidigVak, hfst: gekozenHoofdstukken };
+    if (s.scherm === "schermHoofdstuk") s.aangevinkt = aangevinkteHoofdstukken();
+    if (s.scherm === "schermOefenen") {
+      s.stapel = stapel.map(k => [k.hfst, k.v]);
+      s.fouten = fouten.map(k => [k.hfst, k.v]);
+      s.index = index;
+      s.hervatbaar = hervatbaar;
+    }
+    sessionStorage.setItem("sessie", JSON.stringify(s));
+  } catch (e) {}
+}
+
+function herstelSessie() {
+  let s = null;
+  try { s = JSON.parse(sessionStorage.getItem("sessie")); } catch (e) {}
+  if (!s || !s.vak || !vakken[s.vak] || s.scherm === "schermVak") return;
+  gekozenHoofdstukken = (s.aangevinkt || s.hfst || []).filter(h => vakken[s.vak][h]);
+  kiesVak(s.vak);
+  if (s.scherm === "schermWeggegooid") { toonWeggegooid(); return; }
+  if (s.scherm !== "schermOefenen" || !s.stapel) return;
+  // de ronde opnieuw opbouwen, kaart per kaart, in dezelfde volgorde
+  const zoek = ([hfst, v]) => {
+    const k = (vakken[s.vak][hfst] || []).find(x => x.v === v);
+    return k && !verborgen.has(kaartId(s.vak, hfst, k)) ? { ...k, hfst } : null;
+  };
+  const kaarten = s.stapel.map(zoek).filter(Boolean);
+  if (kaarten.length === 0) return;
+  gekozenHoofdstukken = (s.hfst || []).filter(h => vakken[s.vak][h]);
+  stapel = kaarten;
+  fouten = (s.fouten || []).map(zoek).filter(Boolean);
+  index = Math.min(Math.max(s.index || 0, 0), stapel.length - 1);
+  acties = [];
+  hervatbaar = !!s.hervatbaar;
+  toonScherm("schermOefenen");
+  toonKaart();
 }
 
 function toonVakken() {
@@ -475,6 +518,7 @@ function toonStand(t) {
 function toonKaart() {
   const kaart = stapel[index];
   zetOngedaanKnoppen();
+  bewaarSessie();
   if (hervatbaar) {
     posities[positieSleutel()] = kaartId(huidigVak, kaart.hfst, kaart);
     bewaar("posities", posities);
@@ -764,11 +808,12 @@ document.addEventListener("keydown", e => {
 });
 
 toonVakken();
+herstelSessie();
 
 /* verder-info bijwerken als je hoofdstukken of schudden aan/uit vinkt;
    je keuze voor schudden wordt ook onthouden */
-document.getElementById("hoofdstukLijst").addEventListener("change", toonVerderInfo);
-document.getElementById("alles").addEventListener("change", () => setTimeout(toonVerderInfo));
+document.getElementById("hoofdstukLijst").addEventListener("change", () => { toonVerderInfo(); bewaarSessie(); });
+document.getElementById("alles").addEventListener("change", () => setTimeout(() => { toonVerderInfo(); bewaarSessie(); }));
 (() => {
   const schudden = document.getElementById("schudden");
   schudden.checked = laad("schudden", "nee") === "ja";
