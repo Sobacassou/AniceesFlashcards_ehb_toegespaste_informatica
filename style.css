@@ -390,8 +390,22 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 /* meerkeuzevraag mét tekening: tekening iets kleiner zodat alles op de kaart past (G = groot) */
 .voorkant:has(#vraag.meerkeuze) .kaart-fig img { max-height: min(200px, 24vh); }
 
+/* ---------- Stand: als compacte balk boven de kaart (gsm, tablet rechtop) ---------- */
+.stand {
+  display: grid; grid-template-columns: 1fr 1fr; column-gap: 22px;
+  background: var(--vlak); border: 1px solid var(--rand); border-radius: 10px;
+  padding: 6px 12px 10px; margin-bottom: 12px; font-size: 0.82rem;
+}
+.stand:empty { display: none; }
+.stand .stand-titel { display: none; }
+.stand .stand-balk { grid-column: 1 / -1; margin-top: 4px; }
+.teller .kort { display: none; }   /* ✓/✗ staan nu in de stand */
+@media (min-width: 760px) and (max-width: 1099px) {
+  /* rij 1: bovenbalk | rij 2: stand | rij 3-5: kaart, hint, knoppen */
+  #schermOefenen.actief { grid-template-rows: auto auto auto auto auto 1fr; }
+  .stand { margin-bottom: 14px; }
+}
 /* ---------- Stand links naast de kaart (brede schermen) ---------- */
-.stand { display: none; }
 @media (min-width: 1100px) {
   main:has(#schermOefenen.actief) { max-width: 1120px; }
   #schermOefenen.actief { grid-template-columns: 210px minmax(0, 480px) 320px; }
@@ -400,13 +414,14 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
   .bovenbalk .balk-links { grid-column: 2; }
   .bovenbalk .knoppen-rechts { grid-column: 3; }
   .overzicht { grid-column: 3; }
-  .stand {
-    display: block; grid-column: 1; grid-row: 2 / -1; align-self: start;
+  #schermOefenen .stand {
+    display: block; grid-column: 1; grid-row: 2 / -1; align-self: start; margin-bottom: 0;
     position: sticky; top: 20px;
     background: var(--vlak); border: 1px solid var(--rand); border-radius: 10px;
     padding: 12px 14px; font-size: 0.85rem;
   }
-  .teller .kort { display: none; }   /* ✓/✗ staan nu links */
+  .stand .stand-titel { display: block; }
+  .stand .stand-balk { margin-top: 10px; }
 }
 .stand-titel {
   font-weight: 600; color: var(--tekst-licht); margin-bottom: 8px; padding-bottom: 8px;
