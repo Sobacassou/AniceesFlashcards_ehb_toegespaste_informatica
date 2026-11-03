@@ -32,7 +32,12 @@ body {
 main { width: 100%; max-width: 480px; padding: 20px 16px; }
 /* op het oefenscherm mag main breder worden voor het overzicht */
 main:has(#schermOefenen.actief) { max-width: 840px; }
-@media (max-width: 759px) { main:has(#schermOefenen.actief) { max-width: 480px; } }
+@media (max-width: 1099px) { main:has(#schermOefenen.actief) { max-width: 480px; } }
+/* tablet rechtop: zelfde opbouw als op de gsm (alles onder elkaar), maar breder en alles wat groter */
+@media (min-width: 760px) and (max-width: 1099px) {
+  html:has(#schermOefenen.actief) { font-size: 20px; }
+  main:has(#schermOefenen.actief) { max-width: 660px; }
+}
 h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 16px; color: var(--tekst-licht); }
 h2 { font-size: 1.15rem; font-weight: 600; margin: 0 0 12px; color: var(--tekst-licht); }
 
@@ -178,7 +183,7 @@ em, i { font-style: normal; }
 }
 .overzicht:empty { display: none; }
 
-@media (min-width: 760px) {
+@media (min-width: 1100px) {
   /* rij 1: bovenbalk | rij 2-4: kaart, hint, knoppen | overzicht naast de kaart */
   #schermOefenen.actief {
     display: grid; grid-template-columns: minmax(0, 480px) 280px;
@@ -264,7 +269,7 @@ button:disabled, button:disabled:hover { background: var(--vlak); color: var(--t
 #hint { margin-top: -6px; }
 
 /* ===== Overzicht compact: zo past een lang hoofdstuk op één scherm ===== */
-@media (min-width: 760px) {
+@media (min-width: 1100px) {
   main:has(#schermOefenen.actief) { max-width: 880px; }
   #schermOefenen.actief { grid-template-columns: minmax(0, 480px) 320px; }
   .overzicht {
@@ -365,7 +370,7 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
    links (boven de kaart): Stoppen links, teller rechts tegen de rand van de kaart
    rechts (boven het overzicht): de 2 knoppen even breed, zelfde breedte als het overzicht */
 .balk-links { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex: 1; min-width: 0; }
-@media (min-width: 760px) {
+@media (min-width: 1100px) {
   #schermOefenen .oefenKolom > .bovenbalk {
     grid-column: 1 / -1;
     display: grid; grid-template-columns: subgrid; align-items: center;
@@ -376,7 +381,7 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 }
 
 /* smalle schermen (gsm): Stoppen + teller op rij 1, de 2 knoppen even breed op rij 2 */
-@media (max-width: 759px) {
+@media (max-width: 1099px) {
   #schermOefenen .bovenbalk { flex-wrap: wrap; row-gap: 8px; }
   #schermOefenen .balk-links { flex-basis: 100%; }
   #schermOefenen .knoppen-rechts { flex-basis: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
