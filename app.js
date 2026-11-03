@@ -485,8 +485,8 @@ function toonKaart() {
   document.getElementById("teller").innerHTML =
     `<span title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${index + 1} van ${stapel.length}</span>` +
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
-    `<span class="groen kort">✓ ${t.juist}</span>` +
-    `<span class="rood kort">✗ ${t.fout}</span>`;
+    `<span class="groen kort">Juist ${t.juist}</span>` +
+    `<span class="rood kort">Fout ${t.fout}</span>`;
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;

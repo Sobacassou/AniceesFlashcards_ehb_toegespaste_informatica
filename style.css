@@ -390,21 +390,8 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 /* meerkeuzevraag mét tekening: tekening iets kleiner zodat alles op de kaart past (G = groot) */
 .voorkant:has(#vraag.meerkeuze) .kaart-fig img { max-height: min(200px, 24vh); }
 
-/* ---------- Stand: als compacte balk boven de kaart (gsm, tablet rechtop) ---------- */
-.stand {
-  display: grid; grid-template-columns: 1fr 1fr; column-gap: 22px;
-  background: var(--vlak); border: 1px solid var(--rand); border-radius: 10px;
-  padding: 6px 12px 10px; margin-bottom: 12px; font-size: 0.82rem;
-}
-.stand:empty { display: none; }
-.stand .stand-titel { display: none; }
-.stand .stand-balk { grid-column: 1 / -1; margin-top: 4px; }
-.teller .kort { display: none; }   /* ✓/✗ staan nu in de stand */
-@media (min-width: 760px) and (max-width: 1099px) {
-  /* rij 1: bovenbalk | rij 2: stand | rij 3-5: kaart, hint, knoppen */
-  #schermOefenen.actief { grid-template-rows: auto auto auto auto auto 1fr; }
-  .stand { margin-bottom: 14px; }
-}
+/* ---------- Stand: alleen op brede schermen; smaller toont de teller "Kaart x van y · Juist · Fout" op één lijn ---------- */
+.stand { display: none; }
 /* ---------- Stand links naast de kaart (brede schermen) ---------- */
 @media (min-width: 1100px) {
   main:has(#schermOefenen.actief) { max-width: 1120px; }
@@ -420,8 +407,7 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
     background: var(--vlak); border: 1px solid var(--rand); border-radius: 10px;
     padding: 12px 14px; font-size: 0.85rem;
   }
-  .stand .stand-titel { display: block; }
-  .stand .stand-balk { margin-top: 10px; }
+  .teller .kort { display: none; }   /* juist/fout staan nu links */
 }
 .stand-titel {
   font-weight: 600; color: var(--tekst-licht); margin-bottom: 8px; padding-bottom: 8px;
