@@ -5,11 +5,6 @@
 
 const kaarten_IT_deel2_les4 = [
 
-  // ===== Inhoud (slide 2) =====
-  { v: "Uit welke vijf delen bestaat dit hoofdstuk?", a: "Bussen; uitbreidingsbussen en PCI Express; opslaginterfaces; chipsets; moederbord en voeding.", o: "Inhoud",
-    uitleg: "Achtergrond (wordt niet gevraagd): Rond welke vraag draait dit hoofdstuk? Hoe de onderdelen van een computer met elkaar praten (gegevens uitwisselen).\n\nAchtergrond (wordt niet gevraagd): Vul de vergelijking aan: bussen zijn de ..., de chipset is het ..., het moederbord is de ... Bussen = de wegen, de chipset = het verkeerscentrum, het moederbord = de stad." },
-  { v: "Wat doet de voeding?", a: "Ze voorziet alle onderdelen van stroom.", o: "Inhoud" },
-
   // ===== Wat zijn bussen? (slide 3) =====
   { v: "Wat is een bus?", a: "Een gemeenschappelijke weg tussen verschillende onderdelen in de computer voor de overdracht van gegevens.", o: "Wat zijn bussen?",
     uitleg: "Fysiek: een aantal geleiders (koperbaantjes op het moederbord) waarover de bits lopen." },
@@ -44,11 +39,9 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waar staat NIC voor?", a: "Network Interface Card (netwerkkaart).", o: "Twee soorten bussen" },
   { v: "Wat is de FSB?", a: "De Front-Side Bus: de hoofdverbinding tussen de CPU en de northbridge. Alles wat de CPU van buitenaf nodig had, liep hierover.", o: "Twee soorten bussen",
     uitleg: "Achtergrond (wordt niet gevraagd): Waarom heet het “front-side” bus? Er was ook een back-side bus naar het L2-cachegeheugen. De front-side bus ging naar de rest van het systeem.\n\nAchtergrond (wordt niet gevraagd): Hoe draaide de CPU sneller dan de FSB? Via een multiplier. Bv. 200 MHz × 15 = 3 GHz.\n\nAchtergrond (wordt niet gevraagd): Waarom werd de FSB een probleem? Ze werd een bottleneck: de snelle CPU moest wachten op gegevens over die ene gedeelde bus." },
-  { v: "Waardoor werd de FSB vervangen?", a: "Door DMI (Intel) of PCIe x4 (AMD) naar de chipset.", o: "Twee soorten bussen" },
   { v: "Wat deed de northbridge?", a: "Aparte chip die de CPU verbond met het werkgeheugen en de grafische kaart (de snelle verbindingen).", o: "Twee soorten bussen" },
   { v: "Waar zit de functie van de northbridge nu?", a: "In de CPU zelf: de geheugencontroller is ingebouwd (sinds ongeveer 2011 bij Intel en AMD).", o: "Twee soorten bussen" },
   { v: "Wat is het voordeel daarvan?", a: "De CPU praat rechtstreeks met het RAM, dus het geheugen is sneller bereikbaar.", o: "Twee soorten bussen" },
-  { v: "Wat is de PCH?", a: "Platform Controller Hub (Intel): de huidige chipset, met ongeveer de rol van de vroegere southbridge.", o: "Twee soorten bussen" },
   { v: "Belangrijkste verschil tussen PCI en PCIe?", a: "PCI: parallel en gedeeld (alle kaarten delen de bandbreedte). PCIe: serieel en point-to-point (elk apparaat een eigen verbinding).", o: "Twee soorten bussen" },
   { v: "Wat is een lane bij PCIe?", a: "Een verbindingspaar om te zenden en te ontvangen. Slots hebben x1, x4, x8 of x16 lanes.", o: "Twee soorten bussen" },
   { v: "Hoeveel lanes gebruiken een grafische kaart en een NVMe-SSD?", a: "Grafische kaart x16, NVMe-SSD x4.", o: "Twee soorten bussen" },
@@ -93,9 +86,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoeveel geheugen kan je aanspreken met 20 adreslijnen, en welke computer had dat?", a: "1 MiB; de eerste IBM PC (Intel 8086 en 8088).", o: "Systeembus: de adresbus" },
   { v: "Hoeveel geheugen kan een 32-bitsysteem aanspreken?", a: "4 GiB (2^32).", o: "Systeembus: de adresbus" },
   { v: "Wat is de bovengrens van x86-64?", a: "52 adreslijnen = 4 PiB.", o: "Systeembus: de adresbus" },
-  { v: "Wat is PAE?", a: "Physical Address Extension: een truc waarmee een 32-bitprocessor 36 adreslijnen (64 GiB) gebruikt.", o: "Systeembus: de adresbus" },
   { v: "Waarom kan je in de praktijk minder geheugen gebruiken dan de adresbus toelaat?", a: "Omdat de chipset, het moederbord en het besturingssysteem ook een maximum hebben.", o: "Systeembus: de adresbus" },
-  { v: "Reken uit: 2^24 = ?", a: "2^4 × 2^20 = 16 × 1 Mi = 16 MiB.", o: "Systeembus: de adresbus" },
   { v: "🖼️ Hoeveel geheugen is aanspreekbaar in vakjes 1 tot 6?", a: "1 = 1 MiB (2^20)\n2 = 16 MiB (2^24)\n3 = 4 GiB (2^32)\n4 = 64 GiB (2^36)\n5 = 1 TiB (2^40)\n6 = 4 PiB (2^52)", o: "Systeembus: de adresbus", img: "afbeeldingen/l4_s06_adrestabel_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s06_adrestabel.jpg",
     uitleg: "Rekentruc: 2^10 = Ki, 2^20 = Mi, 2^30 = Gi, 2^40 = Ti, 2^50 = Pi. Bv. 2^36 = 2^6 × 2^30 = 64 GiB." },
 
@@ -107,11 +98,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat doet elke extra adreslijn? Hoeveel geven 33 en 34 lijnen?", a: "Elke extra adreslijn verdubbelt het aanspreekbare geheugen: 33 lijnen = 8 GiB, 34 lijnen = 16 GiB.", o: "Rekenvoorbeeld adresbus",
     uitleg: "Want 2^(n+1) = 2 × 2^n." },
   { v: "Hoeveel combinaties geven 32 adreslijnen?", a: "2^32.", o: "Rekenvoorbeeld adresbus" },
-  { v: "Hoe reken je 2^32 makkelijk uit?", a: "2^32 = 2^2 × 2^30 = 4 × 1 Gi = 4 Gi.", o: "Rekenvoorbeeld adresbus" },
   { v: "Wat gebeurt er met het aanspreekbare geheugen bij elke extra adreslijn?", a: "Het verdubbelt.", o: "Rekenvoorbeeld adresbus" },
-  { v: "Hoeveel geheugen kan je aanspreken met 33 lijnen? En met 34?", a: "33 lijnen: 8 GiB; 34 lijnen: 16 GiB.", o: "Rekenvoorbeeld adresbus" },
-  { v: "Hoeveel geheugen kan je aanspreken met 35 lijnen?", a: "32 GiB.", o: "Rekenvoorbeeld adresbus" },
-  { v: "Hoeveel adreslijnen heb je nodig voor 16 GiB?", a: "34 (2^34 = 2^4 × 2^30 = 16 GiB).", o: "Rekenvoorbeeld adresbus" },
 
   // ===== Systeembus: de databus (slide 8) =====
   { v: "Wat doet de databus?", a: "Gegevens transporteren tussen de processor en het werkgeheugen of I/O-apparaten.", o: "Systeembus: de databus",
@@ -195,8 +182,6 @@ const kaarten_IT_deel2_les4 = [
   // ===== Uitbreidingsbussen (slide 14) =====
   { v: "Wat moet je onthouden van de tabel met uitbreidingsbussen?", a: "De oude bussen waren parallel, PCI Express is serieel (de rest is ter informatie).", o: "Uitbreidingsbussen",
     uitleg: "Waarom serieel beter is, zie slide 15 (signal skew)." },
-  { v: "Geef de uitbreidingsbussen uit de tabel met jaar, type, breedte en klok.", a: "1981 PC-bus: parallel, 8 bits, 4,77 MHz (eerste IBM PC)\n1992 VL-bus: parallel, 32 bits, 33 tot 40 MHz (snelle bus voor grafische kaarten)\n1992 PCI: parallel, 32 bits, 33 MHz (zeer lang de standaard, soms nog op oudere moederborden)\n1998 PCI-X: parallel, 64 bits, 66 tot 133 MHz (snellere opvolger voor servers, nooit echt doorgebroken)\n2003 PCI Express: serieel, 1 tot 16 lanes, 2,5 GT/s per lane (vervangt PCI en PCI-X, de standaard van vandaag)", o: "Uitbreidingsbussen",
-    uitleg: "Ter informatie: de details moet je niet kennen." },
   { v: "Welke bus vervangt PCI en PCI-X en is de standaard van vandaag?", a: "PCI Express (2003), serieel, 1 tot 16 lanes, 2,5 GT/s per lane.", o: "Uitbreidingsbussen",
     uitleg: "Vaak afgekort als PCIe." },
   { v: "Welke bus uit de tabel is de enige seriële?", a: "PCI Express.", o: "Uitbreidingsbussen" },
@@ -258,7 +243,6 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat betekent hot-pluggable?", a: "Je kan een apparaat toevoegen of verwijderen terwijl de computer aanstaat.", o: "PCI Express" },
   { v: "Is PCIe hot-pluggable?", a: "Ja.", o: "PCI Express" },
   { v: "Waar wordt hot-plugging bij PCIe vooral gebruikt?", a: "In servers.", o: "PCI Express" },
-  { v: "Wat toont de afbeelding “Links and Lanes” op de slide?", a: "Een overzicht van PCIe-slots en -connectoren x1, x4, x8 en x16, en dat een lane bestaat uit een zend- en een ontvangstpaar.", o: "PCI Express" },
   { v: "🖼️ Wat toont deze figuur ('Links and Lanes')?", a: "PCIe-slots en -connectoren met verschillende aantallen lanes (x1, x4, x8, x16), en dat één lane bestaat uit een zendpaar en een ontvangstpaar.", o: "PCI Express", img: "afbeeldingen/l4_s16_lanes.jpg",
     uitleg: "Meer lanes = meer bandbreedte (bv. x16 voor een grafische kaart). Omdat er een apart zend- en ontvangstpaar is, kan een lane tegelijk zenden en ontvangen." },
 
@@ -658,7 +642,6 @@ const kaarten_IT_deel2_les4 = [
 ];
 
 kaarten_IT_deel2_les4.structuur = [
-  { o: "Inhoud", slide: "2" },
   { kop: "Bussen", slide: "3–13" },
   { o: "Wat zijn bussen?", slide: "3", sub: true },
   { o: "Twee soorten bussen", slide: "4", sub: true },

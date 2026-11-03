@@ -339,11 +339,11 @@ const bestandTekst = {};   // cache: bestandsnaam -> inhoud
 async function laadScripts() {
   const namen = [...document.scripts].map(sc => sc.getAttribute("src")).filter(Boolean);
   await Promise.all(namen.map(async naam => {
-    if (naam in bestandTekst) return;
+    if (naam.split("?")[0] in bestandTekst) return;
     try {
       const r = await fetch(naam);
-      bestandTekst[naam] = r.ok ? await r.text() : null;
-    } catch (e) { bestandTekst[naam] = null; }
+      bestandTekst[naam.split("?")[0]] = r.ok ? await r.text() : null;   // zonder ?v=… in de lijst
+    } catch (e) { bestandTekst[naam.split("?")[0]] = null; }
   }));
 }
 

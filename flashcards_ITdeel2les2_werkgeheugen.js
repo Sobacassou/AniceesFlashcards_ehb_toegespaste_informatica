@@ -27,12 +27,8 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "Het adres is zelf een binair getal. Elke adresbit kan 0 of 1 zijn (2 mogelijkheden), dus met n bits heb je 2 × 2 × … (n keer) = 2^n combinaties, genummerd van 0 tot 2^n − 1." },
   { v: "Hoeveel adressen geven 3 adresbits? Welke?", a: "2³ = 8 adressen: 000 t.e.m. 111 (0 t.e.m. 7).", o: "Adresseerbaarheid",
     uitleg: "000 = 0, 001 = 1, 010 = 2, 011 = 3, 100 = 4, 101 = 5, 110 = 6, 111 = 7. Het hoogste adres is altijd 2^n − 1." },
-  { v: "Hoeveel adressen geven 12 adresbits?", a: "2^12 = 4096 adressen.", o: "Adresseerbaarheid",
-    uitleg: "Handige ankers om te onthouden: 2^10 = 1024 (≈ 1 K), 2^20 ≈ 1 M, 2^30 ≈ 1 G, 2^32 = 4 G. Dus 2^12 = 2^10 × 2^2 = 1024 × 4 = 4096." },
   { v: "Wat is meestal de kleinste adresseerbare eenheid, en hoeveel bytes zijn dan adresseerbaar met 12 adresbits?", a: "Meestal 1 byte, dus 4096 bytes.", o: "Adresseerbaarheid",
     uitleg: "Elk adres wijst één byte aan, dus 4096 adressen = 4096 bytes. Op dezelfde manier geven 32 adresbits 2^32 = 4 294 967 296 bytes = 4 GB: dat verklaart de grens van ongeveer 4 GB bij 32-bit systemen (zie H1)." },
-  { v: "Hoeveel verschillende adressen kan je maken met 16 adresbits?\na) 16\nb) 256\nc) 65 536\nd) 4 294 967 296", a: "c) 65 536 (2¹⁶)", o: "Adresseerbaarheid",
-    uitleg: "Met n bits maak je 2ⁿ adressen. 2¹⁶ = 65 536. Is de kleinste adresseerbare eenheid 1 byte, dan kan je zo 64 KB aanspreken. b) is 2⁸ (8 bits) en d) is 2³² (32 bits, goed voor 4 GB)." },
 
   // ===== Geheugenkarakteristieken › Informatiedichtheid (slide 5) =====
   { v: "Wat is informatiedichtheid?", a: "Het aantal bits per oppervlakte-eenheid, bv. per mm².", o: "Informatiedichtheid",
