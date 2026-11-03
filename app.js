@@ -586,8 +586,14 @@ function toonOverzicht(kaart) {
   vak.innerHTML =
     `<h3>${kaart.hfst}</h3><ol class="ov-onderwerpen">` +
     structuur.map(r => {
-      const klassen = [r.sub ? "sub" : "", r.kop ? "kop" : "", r.o && r.o === huidig ? "hier" : ""].join(" ");
-      return `<li class="${klassen}"><span>${r.o || r.kop}</span>` +
+      // kan je naar dit onderwerp springen? enkel als er in deze ronde nog kaarten van zijn
+      const spring = r.o && r.o !== huidig && eersteKaartVan(kaart.hfst, r.o) >= 0;
+      const leeg = r.o && r.o !== huidig && !spring;
+      const klassen = [r.sub ? "sub" : "", r.kop ? "kop" : "", r.o && r.o === huidig ? "hier" : "",
+                       spring ? "klikbaar" : "", leeg ? "leeg" : ""].join(" ");
+      const data = spring ? ` data-o="${encodeURIComponent(r.o)}" title="Ga naar de kaarten van dit onderwerp"` :
+                   leeg ? ` title="Geen kaarten van dit onderwerp in deze ronde"` : "";
+      return `<li class="${klassen}"${data}><span>${r.o || r.kop}</span>` +
              (r.slide ? `<small>${r.slide}</small>` : "") + `</li>`;
     }).join("") +
     `</ol>`;
@@ -599,6 +605,24 @@ function toonOverzicht(kaart) {
     if (boven < 0 || boven > vak.clientHeight - hier.offsetHeight) vak.scrollTop = hier.offsetTop - vak.clientHeight / 3;
   }
 }
+
+/* In het overzicht op een onderwerp klikken: naar de eerste kaart van dat onderwerp
+   in deze ronde springen (vooruit of terug). Kaarten die je overslaat blijven onbeantwoord. */
+function eersteKaartVan(hfst, o) {
+  // liefst de eerstvolgende kaart na de huidige, anders de eerste in de ronde
+  const past = k => k.hfst === hfst && (k.o || k.hfst) === o;
+  for (let i = index + 1; i < stapel.length; i++) if (past(stapel[i])) return i;
+  return stapel.findIndex(past);
+}
+document.addEventListener("click", e => {
+  const li = e.target.closest("#overzicht li.klikbaar");
+  if (!li || bezig) return;
+  const kaart = stapel[index];
+  const i = eersteKaartVan(kaart.hfst, decodeURIComponent(li.dataset.o));
+  if (i < 0) return;
+  index = i;
+  toonKaart();
+});
 
 /* Kaart laten meegroeien met een lange uitleg (in plaats van scrollen) */
 /* Tekening op de kaart zetten, met een knopje om ze groot te bekijken */

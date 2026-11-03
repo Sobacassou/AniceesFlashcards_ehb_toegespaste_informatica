@@ -220,6 +220,12 @@ em, i { font-style: normal; }
   border-left-color: var(--accent); background: rgba(0, 120, 212, 0.15);
 }
 
+/* klikbare onderwerpen in het overzicht */
+.ov-onderwerpen li.klikbaar { cursor: pointer; }
+@media (hover: hover) { .ov-onderwerpen li.klikbaar:hover { color: var(--tekst-licht); background: rgba(255, 255, 255, 0.06); } }
+.ov-onderwerpen li.klikbaar:active { background: rgba(0, 120, 212, 0.25); }
+.ov-onderwerpen li.leeg { opacity: 0.45; }
+
 /* ===== Weggegooide kaarten ===== */
 .hint.links { text-align: left; margin-top: 0; }
 .weg-hoofdstuk {
