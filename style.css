@@ -36,7 +36,7 @@ main:has(#schermOefenen.actief) { max-width: 840px; }
 /* tablet rechtop: zelfde opbouw als op de gsm (alles onder elkaar), maar breder en alles wat groter */
 @media (min-width: 760px) and (max-width: 1099px) {
   html:has(#schermOefenen.actief) { font-size: 20px; }
-  main:has(#schermOefenen.actief) { max-width: 660px; }
+  main:has(#schermOefenen.actief) { max-width: none; padding-left: 24px; padding-right: 24px; }
 }
 h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 16px; color: var(--tekst-licht); }
 h2 { font-size: 1.15rem; font-weight: 600; margin: 0 0 12px; color: var(--tekst-licht); }
