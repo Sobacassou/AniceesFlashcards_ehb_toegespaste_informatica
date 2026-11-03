@@ -109,8 +109,10 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "Snel geheugen is duur en neemt veel plaats in (SRAM), dus je kan er maar weinig van op de chip zetten. Het grote werkgeheugen is trager maar goedkoop (DRAM). Elke laag houdt dus enkel het stukje bij dat nu het meest nodig is." },
 
   // ===== Cachegeheugens › Cache levels en zoekpad (slide 11–12) =====
-  { v: "Welke levels van caching worden op slide 11 genoemd en hoe verschillen ze?", a: "Level 1: zeer snel, klein, heel dicht tegen de CPU.\nLevel 2: iets minder snel en groter, minder dicht tegen de CPU.", o: "Cache levels en zoekpad",
-    uitleg: "Verder in het hoofdstuk komt er nog een Level 3 bij. Elk volgend niveau is groter, trager en verder van de kern." },
+  { v: "Level 1 cache is … en … , en zit … tegen de CPU.", a: "Zeer snel en klein, en zit heel dicht tegen de CPU.", o: "Cache levels en zoekpad",
+    uitleg: "L1 is het eerste niveau waar de processor zoekt. Omdat hij zo dicht bij de kern zit, is hij het snelst, maar er is maar weinig plaats." },
+  { v: "Level 2 cache is … en … , en zit … tegen de CPU.", a: "Iets minder snel en groter, en zit minder dicht tegen de CPU.", o: "Cache levels en zoekpad",
+    uitleg: "Vindt de processor iets niet in L1, dan zoekt hij in L2. Verder in het hoofdstuk komt er nog een Level 3 bij. Elk volgend niveau is groter, trager en verder van de kern." },
   { v: "Wat is de algemene regel voor cacheniveaus?", a: "Hoe dichter bij de processor, hoe sneller, maar ook kleiner en duurder.", o: "Cache levels en zoekpad",
     uitleg: "Dezelfde regel geldt voor de hele geheugenhiërarchie, van registers tot harde schijf." },
   { v: "Welk cacheniveau is het kleinst en het snelst?", a: "L1.", o: "Cache levels en zoekpad",
