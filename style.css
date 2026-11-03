@@ -432,3 +432,15 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
   font-size: 0.95rem; font-weight: 500; line-height: 1.5;
   background: rgba(0, 0, 0, 0.25); border-radius: 6px; padding: 10px 12px;
 }
+
+/* ---------- Hint en antwoordknoppen op dezelfde plek: niets verspringt als je de kaart omdraait ---------- */
+#hint, #antwoordKnoppen { grid-row: 3; align-self: start; }
+#hint { display: block !important; }
+#antwoordKnoppen { display: flex !important; }
+#hint[style*="display: none"], #antwoordKnoppen[style*="display: none"] { visibility: hidden; }
+@media (max-width: 1099px) {
+  .oefenKolom { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .oefenKolom > .bovenbalk { grid-row: 1; }
+  .oefenKolom > #kaart { grid-row: 2; }
+  #hint, #antwoordKnoppen { grid-column: 1; }
+}
