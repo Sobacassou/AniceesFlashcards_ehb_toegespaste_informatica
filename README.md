@@ -3,7 +3,7 @@
 Een eenvoudige flashcard-app in HTML, CSS en JavaScript om toegepaste informatica te studeren (Erasmushogeschool Brussel).
 
 opgelet: ik ben een leerling en heb de vragen zelf gemaakt (deels AI-gegenereerd). Verifieer de info en verbeter indien nodig.
-Feel free to contribute.
+Feel free to contribute :)
 
 ## Starten
 
