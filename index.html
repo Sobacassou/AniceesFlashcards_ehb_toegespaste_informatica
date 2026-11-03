@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anicée's Flashcards !</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main>
+
+  <!-- Scherm 1: vak kiezen -->
+  <section id="schermVak" class="scherm actief">
+    <h1>📚 Wat ga je oefenen?</h1>
+    <div id="vakLijst"></div>
+  </section>
+
+  <!-- Scherm 2: hoofdstukken kiezen -->
+  <section id="schermHoofdstuk" class="scherm">
+    <button class="terug" onclick="toonScherm('schermVak')">← Vakken</button>
+    <h2 id="vakTitel"></h2>
+    <div class="hfst-kolommen">
+      <!-- links: hoofdstukken -->
+      <div class="kolom-links">
+        <div id="hoofdstukLijst"></div>
+        <label class="opties"><input type="checkbox" id="alles" onchange="vinkAlles(this.checked)"> Alles selecteren</label>
+      </div>
+      <!-- rechts: opties, start en scores -->
+      <div class="kolom-rechts">
+        <div class="filter">
+          <div class="filter-titel">Welke kaarten wil je oefenen?</div>
+          <label class="opties"><input type="checkbox" id="fNieuw" checked> Nog niet beantwoord</label>
+          <label class="opties"><input type="checkbox" id="fFout" checked> Had ik eerder <span class="rood">fout</span></label>
+          <label class="opties"><input type="checkbox" id="fJuist"> Had ik eerder <span class="groen">juist</span></label>
+        </div>
+        <label class="opties"><input type="checkbox" id="schudden"> Kaarten schudden</label>
+        <button onclick="startOefenen()">Start</button>
+        <div class="verder-info" id="verderInfo"></div>
+        <button class="licht" id="terugzetten" onclick="toonWeggegooid()"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scherm 3: oefenen -->
+  <section id="schermOefenen" class="scherm">
+   <div class="oefenKolom">
+    <div class="bovenbalk">
+      <span class="balk-links">
+        <button class="terug" onclick="kiesVak(huidigVak)">← Stoppen</button>
+        <span class="teller" id="teller"></span>
+      </span>
+      <span class="knoppen-rechts">
+        <button class="klein ongedaan" onclick="maakOngedaan()" title="Ongedaan maken: laatste antwoord of weggegooide kaart terugzetten">↶<span class="knoptekst"> Ongedaan</span> <span class="toets">Z</span></button>
+        <button class="klein" onclick="gooiWeg()" title="Weggooien">🗑️<span class="knoptekst"> Weggooien</span> <span class="toets">W</span></button>
+      </span>
+    </div>
+    <div class="kaart" id="kaart" onclick="draaiOm()">
+      <div class="binnen">
+        <div class="kant voorkant">
+          <div class="onderwerp" id="onderwerpVoor"></div>
+          <div id="vraag"></div>
+          <div class="kaart-fig" id="figVoor"></div>
+        </div>
+        <div class="kant achterkant">
+          <div class="onderwerp" id="onderwerpAchter"></div>
+          <div id="antwoord"></div>
+          <div class="kaart-fig" id="figAchter"></div>
+          <div class="uitleg" id="uitleg"></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint" id="hint">Tik op de kaart of druk op spatie om het antwoord te zien</p>
+    <div class="rij" id="antwoordKnoppen">
+      <button class="fout" onclick="volgende(false)">✗ Wist ik niet <span class="toets">←</span></button>
+      <button class="goed" onclick="volgende(true)">✓ Wist ik <span class="toets">→</span></button>
+    </div>
+   </div>
+
+    <!-- Overzicht van de cursus (rechts, alleen op brede schermen) -->
+    <aside class="overzicht" id="overzicht"></aside>
+    <!-- Stand van de gekozen hoofdstukken (links, alleen op brede schermen) -->
+    <aside class="stand" id="stand"></aside>
+  </section>
+
+  <!-- Scherm: weggegooide kaarten bekijken en terugzetten -->
+  <section id="schermWeggegooid" class="scherm">
+    <button class="terug" onclick="kiesVak(huidigVak)">← Terug</button>
+    <h2>♻️ Weggegooide kaarten</h2>
+    <div class="weg-kop">
+      <p class="hint links">Vink aan wat je wil terugzetten.</p>
+      <button class="licht klein" id="kopieerKnop" onclick="kopieerWegLijst()">📋 Lijst kopiëren</button>
+    </div>
+    <div id="wegLijst"></div>
+    <button id="wegKnop" onclick="zetGeselecteerdTerug()">Geselecteerde terugzetten</button>
+  </section>
+
+  <!-- Scherm 4: resultaat -->
+  <section id="schermEinde" class="scherm">
+    <h1>Klaar! 🎉</h1>
+    <div class="score" id="score"></div>
+    <button class="licht ongedaan" onclick="maakOngedaan()">Laatste kaart ongedaan maken <span class="toets">Z</span></button>
+    <button id="herhaalKnop" onclick="herhaalFouten()">Oefen de foute opnieuw</button>
+    <button class="licht" id="terugHoofdstukken" onclick="kiesVak(huidigVak)">Terug naar de hoofdstukken</button>
+    <button class="licht" onclick="toonScherm('schermVak')">Ander vak kiezen</button>
+  </section>
+
+</main>
+
+<!-- 1. eerst de kaarten, 2. dan de app -->
+<!-- vergrote tekening (klik of Esc om te sluiten) -->
+  <div class="groot-fig" id="grootFig" onclick="sluitGroot()"><img id="grootImg" alt=""></div>
+
+  <script src="flashcards_ITdeel1les1_talstelsels.js"></script>
+<script src="flashcards_ITdeel1les2_logischepoorten.js"></script>
+<script src="flashcards_ITdeel1les3_rekenschakelingen.js"></script>
+<script src="flashcards_ITdeel2les1_computerarchitectuur.js"></script>
+<script src="flashcards_ITdeel2les2_werkgeheugen.js"></script>
+<script src="flashcards_ITdeel2les3_processoren.js"></script>
+<script src="flashcards_ITdeel2les4_chipsets.js"></script>
+<script src="flashcards_DesktopOS_linux_intro.js"></script>
+<script src="flashcards_DesktopOS_linux_wc1.js"></script>
+<script src="flashcards_DesktopOS_linux_wc2.js"></script>
+<script src="flashcards_DesktopOS_linux_wc3.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
