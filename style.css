@@ -154,7 +154,7 @@ button.klein:hover { background: var(--vlak-hover); }
 /* Antwoorden met meerdere regels (\n) netjes onder elkaar tonen */
 #antwoord { font-size: 1.15rem; font-weight: 600; white-space: pre-wrap; }
 .uitleg {
-  font-size: 0.95rem; line-height: 1.65; color: var(--tekst-zacht);
+  font-size: 0.95rem; line-height: 1.65; color: var(--tekst-zacht); white-space: pre-line;
   margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rand);
 }
 .uitleg:empty { display: none; }
