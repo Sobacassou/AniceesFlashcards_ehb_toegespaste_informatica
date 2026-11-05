@@ -599,3 +599,7 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 }
 
 button.vak-knop, #vakTitel { display: flex; align-items: center; gap: 12px; }
+
+/* De pagina nooit breder dan het scherm: anders schuift de tablet de pagina opzij
+   (draaiende kaart of een diertje dat net buiten de rand komt) */
+html, body { overflow-x: clip; }
