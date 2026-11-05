@@ -498,3 +498,48 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 @media (prefers-reduced-motion: reduce) {
   #eenhoorn .eh-p, #eenhoorn .eh-tw { animation: none !important; }
 }
+
+
+/* ===== Beloning: draakje dat rechts zigzaggend omhoog vliegt =====
+   Snelheid 0,7: de tocht duurt 6,3 s; op ¾ hoogte spuwt hij blauw vuur. */
+#draakje { position: fixed; inset: 0; z-index: 61; pointer-events: none; overflow: hidden; }
+#draakje .dr-vlieger { position: absolute; right: 16px; top: 0; width: 170px; opacity: 0;
+  animation: dr-vlieg 6.286s linear forwards; }
+#draakje .dr-zig { transform-origin: 60% 60%; animation: dr-zig 1.571s ease-in-out infinite alternate; }
+#draakje svg { display: block; width: 100%; height: auto; overflow: visible; }
+#draakje .dr-p { transform-origin: 0 0; }
+#draakje .dr-bob  { animation: dr-bob .571s ease-in-out infinite; }
+#draakje .dr-wn   { animation: dr-flapN .571s ease-in-out infinite; }
+#draakje .dr-wf   { animation: dr-flapF .571s ease-in-out -.071s infinite; }
+#draakje .dr-tail { animation: dr-sway 1.143s ease-in-out infinite; }
+#draakje .dr-arm  { animation: dr-wave .714s ease-in-out infinite alternate; }
+#draakje .dr-tw   { transform-box: fill-box; transform-origin: center; animation: dr-tw .714s ease-in-out infinite alternate; }
+#draakje .dr-head { transition: transform .2s; }
+#draakje .dr-flame { transform: scale(0); opacity: 0; transition: transform .2s ease-out, opacity .2s; }
+#draakje .dr-happy { opacity: 0; }
+#draakje.vuur .dr-flame { transform: scale(1); opacity: 1; }
+#draakje.vuur .dr-flick { animation: dr-flick .171s ease-in-out infinite alternate; }
+#draakje.vuur .dr-head  { transform: rotate(-6deg); }
+#draakje.vuur .dr-open  { opacity: 0; }
+#draakje.vuur .dr-happy { opacity: 1; }
+
+/* de mond komt rond 25% van de schermhoogte (= ¾ hoogte) terwijl hij vuur spuwt */
+@keyframes dr-vlieg {
+  0%   { transform: translateY(100vh); opacity: 1; }
+  55%  { transform: translateY(calc(25vh - 30px)); }
+  72%  { transform: translateY(calc(25vh - 75px)); }
+  95%  { opacity: 1; }
+  100% { transform: translateY(-180px); opacity: 0; }
+}
+@keyframes dr-zig { from { transform: translateX(-55px) rotate(-7deg); } to { transform: translateX(0) rotate(7deg); } }
+@keyframes dr-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes dr-flapN { 0%, 100% { transform: rotate(-32deg) scaleY(1); } 50% { transform: rotate(22deg) scaleY(.55); } }
+@keyframes dr-flapF { 0%, 100% { transform: rotate(-26deg) scaleY(1); } 50% { transform: rotate(18deg) scaleY(.6); } }
+@keyframes dr-sway { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+@keyframes dr-wave { from { transform: rotate(-20deg); } to { transform: rotate(35deg); } }
+@keyframes dr-flick { from { transform: scale(.9, 1.1); } to { transform: scale(1.08, .9); } }
+@keyframes dr-tw { from { transform: scale(.4); opacity: .3; } to { transform: scale(1.1); opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  #draakje .dr-zig, #draakje .dr-p, #draakje .dr-bob, #draakje .dr-tw { animation: none !important; }
+}

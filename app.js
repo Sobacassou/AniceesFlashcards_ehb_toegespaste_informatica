@@ -160,6 +160,7 @@ function herstelSessie() {
   acties = [];
   hervatbaar = !!s.hervatbaar;
   zetEenhoornStand();
+  reeks = 0;
   toonScherm("schermOefenen");
   toonKaart();
 }
@@ -475,7 +476,8 @@ function startOefenen(kaarten) {
   index = 0;
   fouten = [];
   acties = [];
-  zetEenhoornStand();   // al boven 50%? dan pas opnieuw na eerst onder 50% te zakken
+  zetEenhoornStand();   // al boven 50% of 70%? dan pas opnieuw na eerst onder die grens te zakken
+  reeks = 0;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -693,13 +695,15 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: eenhoornBoven });
+  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks });
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   s.laatst = wistHet;
   stats[id] = s;
   bewaar("stats", stats);
-  controleerEenhoorn();   // over de 50% juist gegaan? dan galoppeert de eenhoorn
+  controleerEenhoorn();   // over de 50% of 70% juist gegaan? dan galoppeert de eenhoorn
+  reeks = wistHet ? reeks + 1 : 0;
+  if (wistHet && reeks % 5 === 0) toonDraak();   // 5, 10, 15 ... op rij juist: draakje
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -739,7 +743,8 @@ function maakOngedaan() {
     bewaarVerborgen();
     stapel.splice(actie.index, 0, actie.kaart);
   }
-  eenhoornBoven = actie.boven;   // eenhoorn-stand terug zoals vóór die actie (geen eenhoorn tonen)
+  eenhoornBoven = { ...actie.boven };   // beloningen terug zoals vóór die actie (niets tonen)
+  reeks = actie.reeks;
   index = actie.index;
   toonScherm("schermOefenen");
   toonKaart();
@@ -753,7 +758,7 @@ function zetOngedaanKnoppen() {
 function gooiWeg() {
   if (bezig) return;
   const kaart = stapel[index];
-  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: eenhoornBoven });
+  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: { ...eenhoornBoven }, reeks });
   verborgen.add(kaartId(huidigVak, kaart.hfst, kaart));
   bewaarVerborgen();
   zetEenhoornStand();
@@ -785,7 +790,10 @@ function toonEinde() {
     bewaar("scores", scores);
     eindeInfo.scoreBewaard = true;
   }
-  document.getElementById("herhaalKnop").style.display = fouten.length ? "block" : "none";
+  // titel: "Klaar met II.2 – Werkgeheugen! 🎉" (meerdere hoofdstukken: enkel hun nummers)
+  const namen = gekozenHoofdstukken || [];
+  const deel = namen.length === 1 ? namen[0] : namen.map(h => h.split(" – ")[0]).join(", ");
+  document.getElementById("eindeTitel").textContent = deel ? `Klaar met ${deel}! 🎉` : "Klaar! 🎉";
   // knop met de naam van het vak, bv. "Terug naar de hoofdstukken van IT Essentials"
   const vakNaam = huidigVak.replace(/^\S+\s/, "");   // emoji vooraan weglaten
   document.getElementById("terugHoofdstukken").textContent = `Terug naar de hoofdstukken van ${vakNaam}`;
@@ -799,9 +807,11 @@ function herhaalFouten() {
 
 /* ===== Beloning: eenhoorn =====
    Kijkt naar de totaalstand links (juist / (juist + fout), over al je sessies).
-   Ga je over de 50%, dan galoppeert er een eenhoorn over het scherm.
-   Daarna niet meer, tot je eerst weer onder de 50% zakt. Precies 50% verandert niets. */
-let eenhoornBoven = false;
+   Ga je over de 50% of over de 70%, dan galoppeert er een eenhoorn over het scherm.
+   Per grens: daarna niet meer, tot je eerst weer onder die grens zakt.
+   Precies op de grens verandert niets. */
+const EENHOORN_GRENZEN = [0.5, 0.7];
+let eenhoornBoven = { 0.5: false, 0.7: false };
 
 function procentJuist() {
   const t = telJuistFout(gekozenHoofdstukken);
@@ -812,16 +822,22 @@ function procentJuist() {
 // stand bepalen zonder eenhoorn te tonen (bij start, refresh, ongedaan maken, weggooien)
 function zetEenhoornStand() {
   const p = procentJuist();
-  if (p === null || p < 0.5) eenhoornBoven = false;
-  else if (p > 0.5) eenhoornBoven = true;
+  for (const g of EENHOORN_GRENZEN) {
+    if (p === null || p < g) eenhoornBoven[g] = false;
+    else if (p > g) eenhoornBoven[g] = true;
+  }
 }
 
 // na een antwoord: over de grens gegaan? dan eenhoorn tonen
 function controleerEenhoorn() {
   const p = procentJuist();
   if (p === null) return;
-  if (p > 0.5 && !eenhoornBoven) { eenhoornBoven = true; toonEenhoorn(); }
-  else if (p < 0.5) eenhoornBoven = false;
+  let tonen = false;
+  for (const g of EENHOORN_GRENZEN) {
+    if (p > g && !eenhoornBoven[g]) { eenhoornBoven[g] = true; tonen = true; }
+    else if (p < g) eenhoornBoven[g] = false;
+  }
+  if (tonen) toonEenhoorn();   // twee grenzen tegelijk? toch maar één eenhoorn
 }
 
 const EENHOORN_SVG = `
@@ -879,6 +895,81 @@ function toonEenhoorn() {
   const loper = laag.querySelector(".eh-loper");
   loper.addEventListener("animationend", e => { if (e.target === loper) laag.remove(); });
   setTimeout(() => laag.remove(), 9000); // vangnet als animationend niet komt
+}
+
+/* ===== Beloning: draakje =====
+   Telkens als je 5 kaarten op rij juist hebt (5, 10, 15 ...) vliegt er rechts een
+   blauw draakje zigzaggend van onder naar boven. Op ¾ hoogte spuwt hij blauw vuur.
+   Een fout zet de reeks terug op 0. */
+let reeks = 0;
+
+const DRAAK_SVG = `
+<svg viewBox="-60 0 220 165" aria-hidden="true">
+<path class="dr-tw" d="M86 140 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z" fill="#9CDCFE"/>
+<path class="dr-tw" d="M104 152 l2 4.5 4.5 2 -4.5 2 -2 4.5 -2 -4.5 -4.5 -2 4.5 -2z" fill="#50FA7B"/>
+<g class="dr-bob">
+<g transform="translate(100,82)"><g class="dr-wf dr-p"><path d="M0 0 Q14 -34 40 -40 Q36 -28 44 -22 Q34 -18 38 -8 Q26 -8 24 4 Q12 -2 0 8Z" fill="#1E5A8A"/></g></g>
+<g transform="translate(98,112)"><g class="dr-tail dr-p"><g transform="translate(-98,-112)">
+<path d="M98 110 Q118 122 114 136 Q111 146 124 144" stroke="#569CD6" stroke-width="9" fill="none" stroke-linecap="round"/>
+<path d="M121 139 Q132 134 136 142 Q130 150 124 150Z" fill="#4FC1FF"/>
+</g></g></g>
+<circle cx="104" cy="88" r="3.5" fill="#4FC1FF"/>
+<circle cx="107" cy="98" r="3.5" fill="#4FC1FF"/>
+<circle cx="106" cy="108" r="3" fill="#4FC1FF"/>
+<ellipse cx="88" cy="100" rx="19" ry="22" fill="#569CD6"/>
+<ellipse cx="82" cy="104" rx="11" ry="15" fill="#9CDCFE"/>
+<path d="M74 97 h15 M73 104 h17 M75 111 h13" stroke="#7DB9E8" stroke-width="1.4" stroke-linecap="round"/>
+<text x="93" y="104" font-size="9" font-family="monospace" fill="#0E3A5F">{}</text>
+<ellipse cx="79" cy="121" rx="6.5" ry="4.5" fill="#3F7FBF"/>
+<ellipse cx="94" cy="122" rx="6.5" ry="4.5" fill="#3F7FBF"/>
+<g transform="translate(74,90)"><g class="dr-arm dr-p"><ellipse cx="-3" cy="-6" rx="4" ry="7" fill="#3F7FBF"/></g></g>
+<g transform="translate(97,86)"><g class="dr-wn dr-p">
+<path d="M0 0 Q20 -32 48 -34 Q42 -22 50 -13 Q40 -11 42 0 Q30 -1 28 10 Q14 4 0 9Z" fill="#007ACC"/>
+<path d="M2 2 L48 -34 M2 4 L50 -13 M2 6 L42 0 M2 8 L28 10" stroke="#4FC1FF" stroke-width="1.5" stroke-linecap="round"/>
+</g></g>
+<g transform="translate(76,74)"><g class="dr-head dr-p"><g transform="translate(-76,-74)">
+<ellipse cx="72" cy="30" rx="5" ry="8" fill="#9CDCFE" transform="rotate(25 72 30)"/>
+<ellipse cx="57" cy="28" rx="4.5" ry="7.5" fill="#9CDCFE" transform="rotate(-10 57 28)"/>
+<path d="M84 46 l12 -3 -6 10Z" fill="#4FC1FF"/>
+<circle cx="64" cy="54" r="25" fill="#569CD6"/>
+<ellipse cx="44" cy="64" rx="12" ry="9" fill="#7DB9E8"/>
+<circle cx="38" cy="60" r="1.3" fill="#0E3A5F"/>
+<circle cx="43" cy="59" r="1.3" fill="#0E3A5F"/>
+<path d="M37 67 Q45 79 54 67Z" fill="#0E3A5F"/>
+<ellipse cx="46" cy="73" rx="4" ry="2.6" fill="#F4C0D1"/>
+<g class="dr-open">
+<ellipse cx="62" cy="50" rx="9" ry="10.5" fill="#0B1E2D"/>
+<ellipse cx="62" cy="55" rx="6" ry="4.5" fill="#2E9E5B"/>
+<circle cx="59" cy="46" r="3.4" fill="#fff"/>
+<circle cx="65.5" cy="55" r="1.6" fill="#fff"/>
+</g>
+<path class="dr-happy" d="M54 52 Q62 42 70 52" stroke="#0B1E2D" stroke-width="3" fill="none" stroke-linecap="round"/>
+<ellipse cx="75" cy="64" rx="5.5" ry="3.2" fill="#F4C0D1"/>
+<ellipse cx="44" cy="54" rx="3" ry="2" fill="#F4C0D1"/>
+<g transform="translate(36,66)"><g class="dr-flame dr-p"><g class="dr-flick dr-p">
+<path d="M0 0 Q-20 -16 -52 -12 Q-42 -5 -76 -3 Q-46 4 -64 13 Q-32 11 -18 15 Q-8 9 0 5Z" fill="#007ACC"/>
+<path d="M0 1 Q-16 -9 -42 -7 Q-32 0 -54 2 Q-30 6 -15 10 Q-6 6 0 4Z" fill="#4FC1FF"/>
+<path d="M0 2 Q-10 -3 -26 -1 Q-13 4 0 3.5Z" fill="#E8F7FF"/>
+<path d="M-74 -14 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6z" fill="#9CDCFE"/>
+<path d="M-84 6 l1.4 3 3 1.4 -3 1.4 -1.4 3 -1.4 -3 -3 -1.4 3 -1.4z" fill="#50FA7B"/>
+<circle cx="-66" cy="18" r="1.6" fill="#4FC1FF"/>
+</g></g></g>
+</g></g></g>
+</g>
+</svg>`;
+
+function toonDraak() {
+  const oud = document.getElementById("draakje");
+  if (oud) oud.remove();                 // nooit twee tegelijk
+  const laag = document.createElement("div");
+  laag.id = "draakje";
+  laag.innerHTML = `<div class="dr-vlieger"><div class="dr-zig">${DRAAK_SVG}</div></div>`;
+  document.body.appendChild(laag);
+  const duur = 6286;                     // 4,4 s op snelheid 0,7
+  // op ¾ hoogte vuur spuwen (zelfde moment als in de mockup)
+  setTimeout(() => laag.classList.add("vuur"), duur * 0.56);
+  setTimeout(() => laag.classList.remove("vuur"), duur * 0.72);
+  setTimeout(() => laag.remove(), duur + 300);
 }
 
 /* Sneltoetsen op het oefenscherm:
