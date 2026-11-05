@@ -543,3 +543,8 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 @media (prefers-reduced-motion: reduce) {
   #draakje .dr-zig, #draakje .dr-p, #draakje .dr-bob, #draakje .dr-tw { animation: none !important; }
 }
+
+/* ===== Startscherm: eenhoorn voor de titel ===== */
+.start-titel { display: flex; align-items: center; gap: 10px; }
+.titel-dieren { display: inline-flex; align-items: center; gap: 2px; flex-shrink: 0; }
+.titel-dier svg { display: block; height: 1.9em; width: auto; overflow: visible; }

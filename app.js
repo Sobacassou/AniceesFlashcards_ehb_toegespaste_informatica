@@ -794,10 +794,11 @@ function toonEinde() {
     bewaar("scores", scores);
     eindeInfo.scoreBewaard = true;
   }
-  // titel: "Klaar met II.2 – Werkgeheugen! 🎉" (meerdere hoofdstukken: enkel hun nummers)
+  // titel: "Klaar met IT Essentials – II.2 Werkgeheugen" (meerdere hoofdstukken: enkel hun nummers)
+  const vakTitel = huidigVak.replace(/^\S+\s/, "");   // emoji vooraan weglaten
   const namen = gekozenHoofdstukken || [];
-  const deel = namen.length === 1 ? namen[0] : namen.map(h => h.split(" – ")[0]).join(", ");
-  document.getElementById("eindeTitel").textContent = deel ? `Klaar met ${deel}! 🎉` : "Klaar! 🎉";
+  const deel = namen.length === 1 ? namen[0].replace(" – ", " ") : namen.map(h => h.split(" – ")[0]).join(", ");
+  document.getElementById("eindeTitel").textContent = deel ? `Klaar met ${vakTitel} – ${deel}` : `Klaar met ${vakTitel}`;
   // knop met de naam van het vak, bv. "Terug naar de hoofdstukken van IT Essentials"
   const vakNaam = huidigVak.replace(/^\S+\s/, "");   // emoji vooraan weglaten
   document.getElementById("terugHoofdstukken").textContent = `Terug naar de hoofdstukken van ${vakNaam}`;
@@ -1032,3 +1033,9 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
 window.addEventListener("resize", () => {
   if (document.getElementById("schermOefenen").classList.contains("actief")) pasHoogteAan();
 });
+
+// startscherm: de groene eenhoorn als symbooltje voor de titel
+(function () {
+  const el = document.getElementById("titelDieren");
+  if (el) el.innerHTML = `<span class="titel-dier">${EENHOORN_SVG}</span>`;
+})();
