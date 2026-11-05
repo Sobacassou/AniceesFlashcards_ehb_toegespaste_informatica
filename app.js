@@ -170,23 +170,14 @@ function herstelSessie() {
   toonKaart();
 }
 
-/* ===== Icoontjes van de vakken =====
-   De vaknamen (met emoji) blijven ongewijzigd: je scores en voortgang zijn daaraan gekoppeld.
-   Hier kiezen we enkel wat je op het scherm ziet. Een vak zonder tekeningetje toont gewoon zijn emoji. */
-const VAK_ICOON = {
-  "🌐 Web Essentials": `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="33" r="25" fill="#252526" stroke="#858585" stroke-width="2"/><ellipse cx="32" cy="33" rx="11" ry="25" fill="none" stroke="#858585" stroke-width="1.8"/><path d="M8 26 Q32 20 56 26 M8 41 Q32 47 56 41 M7 33 H57 M32 8 V58" fill="none" stroke="#858585" stroke-width="1.8"/><ellipse cx="32" cy="33" rx="31" ry="9" fill="none" stroke="#D4D4D4" stroke-width="1.8" transform="rotate(-20 32 33)" stroke-dasharray="60 200" stroke-linecap="round"/><circle cx="58" cy="22" r="3" fill="#FFFFFF"/></svg>`,
-  "💻 IT Essentials": `<svg viewBox="0 0 64 64" aria-hidden="true"><g fill="#858585"><rect x="18" y="4" width="4" height="8" rx="1.5"/><rect x="26" y="4" width="4" height="8" rx="1.5"/><rect x="34" y="4" width="4" height="8" rx="1.5"/><rect x="42" y="4" width="4" height="8" rx="1.5"/><rect x="18" y="52" width="4" height="8" rx="1.5"/><rect x="26" y="52" width="4" height="8" rx="1.5"/><rect x="34" y="52" width="4" height="8" rx="1.5"/><rect x="42" y="52" width="4" height="8" rx="1.5"/><rect x="4" y="18" width="8" height="4" rx="1.5"/><rect x="4" y="26" width="8" height="4" rx="1.5"/><rect x="4" y="34" width="8" height="4" rx="1.5"/><rect x="4" y="42" width="8" height="4" rx="1.5"/><rect x="52" y="18" width="8" height="4" rx="1.5"/><rect x="52" y="26" width="8" height="4" rx="1.5"/><rect x="52" y="34" width="8" height="4" rx="1.5"/><rect x="52" y="42" width="8" height="4" rx="1.5"/></g><rect x="10" y="10" width="44" height="44" rx="7" fill="#252526" stroke="#5A5A5A" stroke-width="1.5"/><rect x="18" y="18" width="28" height="28" rx="3" fill="#000" stroke="#D4D4D4" stroke-width="1.4"/><path d="M23 25 H31 V31 H41 M23 39 H29 V35 H41 M35 23 V28" fill="none" stroke="#858585" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="41" cy="31" r="1.8" fill="#FFFFFF"/><circle cx="41" cy="35" r="1.8" fill="#D4D4D4"/><circle cx="35" cy="23" r="1.6" fill="#D4D4D4"/><circle cx="15" cy="15" r="1.8" fill="#FFFFFF"/></svg>`,
-  "📊 Data Essentials": `<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M5 22 H59 M5 38 H59" stroke="#3C3C3C" stroke-width="1.2" stroke-dasharray="3 3"/><rect x="9" y="33" width="13" height="22" rx="3" fill="#2D2D2D" stroke="#858585" stroke-width="1.6"/><rect x="25.5" y="15" width="13" height="40" rx="3" fill="#3C3C3C" stroke="#D4D4D4" stroke-width="1.6"/><rect x="42" y="25" width="13" height="30" rx="3" fill="#1E1E1E" stroke="#FFFFFF" stroke-width="1.6"/><rect x="5" y="55" width="54" height="4" rx="2" fill="#5A5A5A"/></svg>`,
-  "🖥️ Desktop OS": `<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="7" width="56" height="39" rx="6" fill="#252526" stroke="#5A5A5A" stroke-width="1.5"/><rect x="8" y="11" width="48" height="31" rx="3" fill="#000"/><circle cx="13" cy="15" r="1.6" fill="#D4D4D4"/><circle cx="18" cy="15" r="1.6" fill="#858585"/><circle cx="23" cy="15" r="1.6" fill="#5A5A5A"/><rect x="12" y="21" width="22" height="2.4" rx="1.2" fill="#858585"/><rect x="16" y="26" width="26" height="2.4" rx="1.2" fill="#5A5A5A"/><rect x="16" y="31" width="16" height="2.4" rx="1.2" fill="#858585"/><text x="12" y="40" font-size="7" font-family="monospace" fill="#FFFFFF">&gt;_</text><circle cx="54" cy="44" r="1.3" fill="#FFFFFF"/><path d="M26 46 H38 L40 54 H24Z" fill="#3C3C3C"/><rect x="17" y="54" width="30" height="4" rx="2" fill="#3C3C3C"/></svg>`,
-};
-
+/* ===== Vaknamen op het scherm =====
+   De vaknamen (met emoji) blijven ongewijzigd in de code: je scores en voortgang zijn daaraan gekoppeld.
+   Op het scherm tonen we enkel de naam, zonder emoji of icoontje. */
 function vakZonderEmoji(vak) { return vak.replace(/^\S+\s/, ""); }
 
-// knop- of titeltekst: tekeningetje + naam zonder emoji (of de vaknaam zoals ze is)
+// knop- of titeltekst: enkel de naam, zonder emoji
 function vakLabelHTML(vak) {
-  const icoon = VAK_ICOON[vak];
-  if (!icoon) return maakVeilig(vak);
-  return `<span class="vak-icoon">${icoon}</span><span>${maakVeilig(vakZonderEmoji(vak))}</span>`;
+  return maakVeilig(vakZonderEmoji(vak));
 }
 
 function toonVakken() {
