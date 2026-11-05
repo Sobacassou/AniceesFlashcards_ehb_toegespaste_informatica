@@ -548,3 +548,52 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 .start-titel { display: flex; align-items: center; gap: 10px; }
 .titel-dieren { display: inline-flex; align-items: center; gap: 2px; flex-shrink: 0; }
 .titel-dier svg { display: block; height: 1.9em; width: auto; overflow: visible; }
+
+/* ===== Duiveltje: 3 kaarten op rij fout =====
+   Hopt op een derde van links naar beneden (snelheid 1,2) en ontploft
+   in wolkjes en codetekentjes zodra zijn voetjes de onderkant raken.
+   --bodem = zichtbare schermhoogte, gezet in toonDuiveltje(). */
+#duiveltje { position: fixed; inset: 0; z-index: 62; pointer-events: none; overflow: hidden; }
+#duiveltje .du-valler { position: absolute; left: calc(33.33vw - 67px); top: 0; width: 100px;
+  animation: du-val 2.5s linear forwards; }
+#duiveltje svg { display: block; width: 100%; height: auto; overflow: visible; }
+#duiveltje .du-p { transform-origin: 0 0; }
+#duiveltje .du-wob  { transform-origin: 50% 90.6%; animation: du-wob .917s ease-in-out infinite alternate; }   /* draaien rond zijn voetjes */
+#duiveltje .du-hop  { transform-box: view-box; transform-origin: 85px 163px; animation: du-hop .4167s infinite;   /* 6 hopjes in 2,5 s: landt precies onderaan */ }
+#duiveltje .du-wl   { animation: du-flapL .25s ease-in-out infinite; }
+#duiveltje .du-wr   { animation: du-flapR .25s ease-in-out infinite; }
+#duiveltje .du-tail { animation: du-wig .458s ease-in-out infinite; }
+#duiveltje .du-arm  { animation: du-wave .333s ease-in-out infinite alternate; }
+#duiveltje .du-fork { animation: du-fork .458s ease-in-out infinite; }
+/* ontploffing */
+#duiveltje .du-fx { position: absolute; left: 50px; top: 74px; width: 0; height: 0; display: none; }
+#duiveltje.boem .du-fx { display: block; }
+#duiveltje.boem .du-hop { animation: none; }
+#duiveltje.boem .du-wob { animation: du-krimp .12s ease-in forwards; }
+#duiveltje .du-pf { position: absolute; border-radius: 50%; opacity: 0; animation: du-wolk .75s ease-out forwards; }
+#duiveltje .du-pt { position: absolute; left: -8px; top: -10px; font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 17px; font-weight: 600; opacity: 0; animation: du-vonk .75s ease-out forwards; }
+
+/* de voetjes zitten 96px onder de bovenkant van het figuurtje */
+@keyframes du-val { from { transform: translateY(-150px); } to { transform: translateY(calc(var(--bodem, 100vh) - 96px)); } }
+@keyframes du-wob { from { transform: translateX(0) rotate(-6deg); } to { transform: translateX(34px) rotate(6deg); } }
+@keyframes du-hop {
+  0%   { transform: translateY(0) scale(1.14, .84); animation-timing-function: ease-out; }
+  14%  { transform: translateY(-8px) scale(.94, 1.08); animation-timing-function: ease-out; }
+  48%  { transform: translateY(-30px) scale(1, 1); animation-timing-function: ease-in; }
+  92%  { transform: translateY(0) scale(1.02, .98); }
+  100% { transform: translateY(0) scale(1.14, .84); }
+}
+@keyframes du-krimp { 0% { transform: translateX(17px) scale(1.25, .7); } 100% { transform: translateX(17px) scale(0); opacity: 0; } }
+@keyframes du-wolk { 0% { transform: scale(.2); opacity: .95; } 60% { opacity: .8; } 100% { transform: scale(var(--s)); opacity: 0; } }
+@keyframes du-vonk { 0% { transform: translate(0, 0) scale(.4) rotate(0); opacity: 1; } 80% { opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1) rotate(var(--r)); opacity: 0; } }
+@keyframes du-flapL { 0%, 100% { transform: rotate(12deg) scaleX(1); } 50% { transform: rotate(-14deg) scaleX(.7); } }
+@keyframes du-flapR { 0%, 100% { transform: rotate(-12deg) scaleX(1); } 50% { transform: rotate(14deg) scaleX(.7); } }
+@keyframes du-wig { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(14deg); } }
+@keyframes du-wave { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
+@keyframes du-fork { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(6deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  #duiveltje .du-wob, #duiveltje .du-hop, #duiveltje .du-p { animation: none !important; }
+}

@@ -165,6 +165,7 @@ function herstelSessie() {
   hervatbaar = !!s.hervatbaar;
   zetEenhoornStand();
   reeks = 0;
+  foutReeks = 0;
   toonScherm("schermOefenen");
   toonKaart();
 }
@@ -482,6 +483,7 @@ function startOefenen(kaarten) {
   acties = [];
   zetEenhoornStand();   // al boven 50% of 70%? dan pas opnieuw na eerst onder die grens te zakken
   reeks = 0;
+  foutReeks = 0;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -699,7 +701,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks });
+  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks, foutReeks });
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   s.laatst = wistHet;
@@ -707,7 +709,9 @@ function volgende(wistHet) {
   bewaar("stats", stats);
   controleerEenhoorn();   // over de 50% of 70% juist gegaan? dan galoppeert de eenhoorn
   reeks = wistHet ? reeks + 1 : 0;
-  if (wistHet && reeks % 5 === 0) toonDraak();   // 5, 10, 15 ... op rij juist: draakje
+  if (wistHet && reeks % 3 === 0) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
+  foutReeks = wistHet ? 0 : foutReeks + 1;
+  if (foutReeks === 3) toonDuiveltje();            // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -749,6 +753,7 @@ function maakOngedaan() {
   }
   eenhoornBoven = { ...actie.boven };   // beloningen terug zoals vóór die actie (niets tonen)
   reeks = actie.reeks;
+  foutReeks = actie.foutReeks;
   index = actie.index;
   toonScherm("schermOefenen");
   toonKaart();
@@ -762,7 +767,7 @@ function zetOngedaanKnoppen() {
 function gooiWeg() {
   if (bezig) return;
   const kaart = stapel[index];
-  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: { ...eenhoornBoven }, reeks });
+  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: { ...eenhoornBoven }, reeks, foutReeks });
   verborgen.add(kaartId(huidigVak, kaart.hfst, kaart));
   bewaarVerborgen();
   zetEenhoornStand();
@@ -903,7 +908,7 @@ function toonEenhoorn() {
 }
 
 /* ===== Beloning: draakje =====
-   Telkens als je 5 kaarten op rij juist hebt (5, 10, 15 ...) vliegt er rechts een
+   Telkens als je 3 kaarten op rij juist hebt (5, 10, 15 ...) vliegt er rechts een
    blauw draakje zigzaggend van onder naar boven. Op ¾ hoogte spuwt hij blauw vuur.
    Een fout zet de reeks terug op 0. */
 let reeks = 0;
@@ -975,6 +980,79 @@ function toonDraak() {
   setTimeout(() => laag.classList.add("vuur"), duur * 0.56);
   setTimeout(() => laag.classList.remove("vuur"), duur * 0.72);
   setTimeout(() => laag.remove(), duur + 300);
+}
+
+/* ===== Duiveltje: 3 kaarten op rij fout =====
+   Hopt op een derde van links van boven naar beneden en ontploft in wolkjes en
+   codetekentjes zodra zijn voetjes de onderkant van het scherm raken.
+   Eén keer per foute reeks: pas na een juist antwoord kan hij opnieuw komen. */
+let foutReeks = 0;
+
+const DUIVEL_SVG = `
+<svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">
+<g transform="translate(66,100)"><g class="du-wl du-p"><path d="M0 0 Q-24 -30 -46 -22 Q-38 -14 -44 -4 Q-32 -6 -32 6 Q-20 0 -16 12 Q-8 4 0 8Z" fill="#8E5A8A"/><path d="M-2 2 L-46 -22 M-2 4 L-44 -4 M-2 6 L-32 6" stroke="#C586C0" stroke-width="1.4" stroke-linecap="round"/></g></g>
+<g transform="translate(104,100)"><g class="du-wr du-p"><path d="M0 0 Q24 -30 46 -22 Q38 -14 44 -4 Q32 -6 32 6 Q20 0 16 12 Q8 4 0 8Z" fill="#8E5A8A"/><path d="M2 2 L46 -22 M2 4 L44 -4 M2 6 L32 6" stroke="#C586C0" stroke-width="1.4" stroke-linecap="round"/></g></g>
+<g transform="translate(100,138)"><g class="du-tail du-p">
+<path d="M0 0 Q22 8 26 -8 Q30 -24 44 -22" stroke="#D9474F" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M40 -30 Q54 -30 52 -18 Q46 -12 40 -14 Q44 -22 40 -30Z" fill="#D9474F"/>
+</g></g>
+<ellipse cx="73" cy="158" rx="8" ry="5" fill="#A8323A"/>
+<ellipse cx="97" cy="158" rx="8" ry="5" fill="#A8323A"/>
+<ellipse cx="85" cy="128" rx="23" ry="26" fill="#F0626A"/>
+<ellipse cx="85" cy="133" rx="14" ry="17" fill="#F7B0B3"/>
+<text x="76" y="137" font-size="11" font-family="monospace" fill="#8A2A31">!=</text>
+<g transform="translate(60,118)"><g class="du-fork du-p">
+<rect x="-10" y="-62" width="3.5" height="80" rx="1.75" fill="#DCDCAA" transform="rotate(-8)"/>
+<path d="M-26 -66 Q-25 -56 -16 -55 L-6 -56 Q2 -58 2 -68 L-2 -66 Q-3 -61 -7 -61 L-9 -72 L-13 -60 Q-20 -60 -22 -66Z" fill="#DCDCAA" transform="rotate(-8)"/>
+<ellipse cx="-2" cy="0" rx="5.5" ry="7" fill="#D9474F"/>
+</g></g>
+<g transform="translate(108,116)"><g class="du-arm du-p"><ellipse cx="4" cy="-8" rx="5" ry="8" fill="#D9474F"/></g></g>
+<path d="M58 44 Q50 22 62 12 Q62 28 70 38Z" fill="#DCDCAA"/>
+<path d="M112 44 Q120 22 108 12 Q108 28 100 38Z" fill="#DCDCAA"/>
+<path d="M58 66 L46 56 L58 78Z" fill="#F0626A"/>
+<path d="M112 66 L124 56 L112 78Z" fill="#F0626A"/>
+<circle cx="85" cy="70" r="30" fill="#F0626A"/>
+<path d="M70 44 Q78 52 85 44 Q92 52 100 44 Q92 40 85 41 Q78 40 70 44Z" fill="#D9474F"/>
+<ellipse cx="73" cy="70" rx="7.5" ry="9" fill="#2A0E14"/><ellipse cx="97" cy="70" rx="7.5" ry="9" fill="#2A0E14"/>
+<ellipse cx="73" cy="74" rx="5" ry="3.5" fill="#2E9E5B"/><ellipse cx="97" cy="74" rx="5" ry="3.5" fill="#2E9E5B"/>
+<circle cx="70.5" cy="66" r="2.8" fill="#fff"/><circle cx="94.5" cy="66" r="2.8" fill="#fff"/>
+<circle cx="75.5" cy="74" r="1.2" fill="#fff"/><circle cx="99.5" cy="74" r="1.2" fill="#fff"/>
+<path d="M65 58 L79 61 M105 58 L91 61" stroke="#8A2A31" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M74 84 Q85 96 98 83 Q86 88 74 84Z" fill="#5A1A22"/>
+<path d="M91 86.5 l1.8 4.5 2 -5.2Z" fill="#fff"/>
+<ellipse cx="64" cy="81" rx="5" ry="3" fill="#F7B0B3"/>
+<ellipse cx="106" cy="81" rx="5" ry="3" fill="#F7B0B3"/>
+</g></svg>`;
+
+// wolkjes en codetekentjes van de ontploffing
+const DUIVEL_BOEM = `
+<i class="du-pf" style="--s:2.2;width:44px;height:44px;left:-22px;top:-22px;background:#C586C0"></i>
+<i class="du-pf" style="--s:1.8;width:36px;height:36px;left:-44px;top:-6px;background:#F0626A;animation-delay:.04s"></i>
+<i class="du-pf" style="--s:1.8;width:36px;height:36px;left:8px;top:-4px;background:#F0626A;animation-delay:.04s"></i>
+<i class="du-pf" style="--s:1.6;width:30px;height:30px;left:-14px;top:-40px;background:#DCDCAA;animation-delay:.07s"></i>
+<i class="du-pf" style="--s:1.4;width:26px;height:26px;left:-13px;top:-13px;background:#F7B0B3;animation-delay:.1s"></i>
+<span class="du-pt" style="--dx:-70px;--dy:-60px;--r:-40deg;color:#DCDCAA">{</span>
+<span class="du-pt" style="--dx:72px;--dy:-58px;--r:40deg;color:#DCDCAA">}</span>
+<span class="du-pt" style="--dx:-88px;--dy:-8px;--r:-20deg;color:#C586C0">!=</span>
+<span class="du-pt" style="--dx:86px;--dy:-14px;--r:30deg;color:#50FA7B">;</span>
+<span class="du-pt" style="--dx:-40px;--dy:-96px;--r:-60deg;color:#F0626A">*</span>
+<span class="du-pt" style="--dx:36px;--dy:-100px;--r:70deg;color:#4FC1FF">#</span>
+<span class="du-pt" style="--dx:-58px;--dy:16px;--r:-90deg;color:#F0626A">✦</span>
+<span class="du-pt" style="--dx:60px;--dy:14px;--r:90deg;color:#DCDCAA">✦</span>
+<span class="du-pt" style="--dx:2px;--dy:-118px;--r:20deg;color:#C586C0">✦</span>`;
+
+function toonDuiveltje() {
+  const oud = document.getElementById("duiveltje");
+  if (oud) oud.remove();                 // nooit twee tegelijk
+  const laag = document.createElement("div");
+  laag.id = "duiveltje";
+  // zichtbare schermhoogte (op een tablet zonder de adresbalk), zodat zijn voetjes echt de onderkant raken
+  laag.style.setProperty("--bodem", window.innerHeight + "px");
+  laag.innerHTML = `<div class="du-valler"><div class="du-wob">${DUIVEL_SVG}</div><div class="du-fx">${DUIVEL_BOEM}</div></div>`;
+  document.body.appendChild(laag);
+  const val = 2500;                      // hoppen tot onderaan (snelheid 1,2)
+  setTimeout(() => laag.classList.add("boem"), val);
+  setTimeout(() => laag.remove(), val + 900);
 }
 
 /* Sneltoetsen op het oefenscherm:
