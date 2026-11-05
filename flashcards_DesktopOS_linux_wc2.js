@@ -267,7 +267,7 @@ const kaarten_DOS_linux_wc2 = [
     uitleg: "Een gewone gebruiker kan dus geen processen van andere gebruikers stoppen." },
   { v: "Wat doet killall, en wat verwacht het als argument?", a: "killall beëindigt een hele verzameling processen in 1 commando. Als argument verwacht het de naam van het commando: alle processen die met dat commando gestart werden, worden gestopt.", o: "kill en killall",
     uitleg: "Bv. killall vi beëindigt alle lopende vi-processen. Verschil met kill: kill = 1 proces via PID, killall = alle processen via naam." },
-  { v: "🖼️ Wat gebeurt er in deze terminal?", a: "Met ps aux | grep vi wordt het vi-proces gezocht (hier PID 107868, status Stopped). Met kill -9 107868 wordt het gestopt. Een nieuwe ps aux | grep vi toont dat het proces weg is ('Killed').", o: "kill en killall", img: "afbeeldingen/lx_opl3.png",
+  { v: "🖼️ Wat gebeurt er in deze terminal?", a: "Met ps aux | grep vi wordt het vi-proces gezocht (hier PID 107868, status Stopped). Met kill -9 107868 wordt het gestopt. Een nieuwe ps aux | grep vi toont dat het proces weg is ('Killed').", o: "kill en killall", img: "afbeeldingen/DesktopOS_linux_wc2/lx_opl3.png",
     uitleg: "Dit is de oplossing van de opdracht 'vi & starten, opzoeken en killen'. Alternatief: killall -9 vi. Druk G om te vergroten." },
   { v: "Proces 1234 stoppen", a: "kill 1234", o: "kill en killall",
     uitleg: "" },

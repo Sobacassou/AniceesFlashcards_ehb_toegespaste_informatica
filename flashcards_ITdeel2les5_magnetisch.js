@@ -12,7 +12,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Welke drie soorten magnetische opslagmedia komen in dit hoofdstuk aan bod?", a: "Magnetische tapes, floppy disks en harde schijven.", o: "Inhoud" },
   { v: "Is RAID een apart soort opslagmedium?", a: "Nee, RAID is een manier om meerdere harde schijven samen te gebruiken (sneller en/of veiliger).", o: "Inhoud" },
   { v: "Wat zie je op de foto van slide 2?", a: "Een geopende harde schijf: de ronde schijven (platters) en de arm met de lees- en schrijfkop.", o: "Inhoud" },
-  { v: "🖼️ Wat zie je op deze foto, en welke onderdelen herken je?", a: "Een geopende harde schijf: de ronde, spiegelende schijven (platters) op een centrale as, en de arm (kam) met de lees- en schrijfkop die over de platters beweegt.", o: "Inhoud", img: "afbeeldingen/l5_s02_hdd_open.jpg",
+  { v: "🖼️ Wat zie je op deze foto, en welke onderdelen herken je?", a: "Een geopende harde schijf: de ronde, spiegelende schijven (platters) op een centrale as, en de arm (kam) met de lees- en schrijfkop die over de platters beweegt.", o: "Inhoud", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s02_hdd_open.jpg",
     uitleg: "Harde schijven zijn het belangrijkste magnetische opslagmedium van dit hoofdstuk; RAID combineert er meerdere." },
 
   // ===== Algemene principes: magnetiseerbaar materiaal (slide 3) =====
@@ -48,9 +48,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Op welke twee manieren kan je de oppervlakte-dichtheid verhogen?", a: "Meer sporen naast elkaar leggen (hogere TPI) of meer bits per spoor schrijven (hogere BPI).", o: "Algemene principes: oppervlakte-dichtheid",
     uitleg: "Achtergrond (wordt niet gevraagd): Wat is het voordeel van een hogere oppervlakte-dichtheid? Er past meer data op dezelfde schijf." },
   { v: "Welk schijfje op de afbeelding heeft de laagste en welk de hoogste oppervlakte-dichtheid?", a: "Linksboven de laagste, rechtsonder de hoogste.", o: "Algemene principes: oppervlakte-dichtheid" },
-  { v: "🖼️ Welke dichtheid verschilt bij het bovenste paar schijfjes, en welke bij het onderste paar?", a: "Bovenste paar: de track density (TPI, tracks per inch): rechts liggen er meer sporen naast elkaar.\nOnderste paar: de linear density of recording density (BPI, bits per inch per track): rechts staan er meer bits op elk spoor.", o: "Algemene principes: oppervlakte-dichtheid", img: "afbeeldingen/l5_s05_dichtheid.jpg",
+  { v: "🖼️ Welke dichtheid verschilt bij het bovenste paar schijfjes, en welke bij het onderste paar?", a: "Bovenste paar: de track density (TPI, tracks per inch): rechts liggen er meer sporen naast elkaar.\nOnderste paar: de linear density of recording density (BPI, bits per inch per track): rechts staan er meer bits op elk spoor.", o: "Algemene principes: oppervlakte-dichtheid", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s05_dichtheid.jpg",
     uitleg: "Oppervlakte-dichtheid = track density × linear density, uitgedrukt in bits per vierkante inch (BPSI)." },
-  { v: "🖼️ Wat zie je op deze foto van een schijf?", a: "Een schijf met zichtbare sporen (concentrische cirkels) en sectoren.", o: "Algemene principes: oppervlakte-dichtheid", img: "afbeeldingen/l5_s06_schijf_sporen.jpg",
+  { v: "🖼️ Wat zie je op deze foto van een schijf?", a: "Een schijf met zichtbare sporen (concentrische cirkels) en sectoren.", o: "Algemene principes: oppervlakte-dichtheid", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s06_schijf_sporen.jpg",
     uitleg: "Hoe meer sporen naast elkaar (track density) en hoe meer bits op elk spoor (linear density), hoe hoger de oppervlakte-dichtheid." },
 
   // ===== Magnetische tapes: varianten (slide 7) =====
@@ -82,7 +82,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom kan je op een tape geen vast adres gebruiken?", a: "Omdat het lint kan uitrekken, waardoor een bit niet altijd op exact dezelfde plaats ligt.", o: "Magnetische tapes: geschiedenis en organisatie" },
   { v: "Hoe lang zijn de blokken op een tape?", a: "Ze hebben een variabele lengte.", o: "Magnetische tapes: geschiedenis en organisatie" },
   { v: "Wat betekent rendementsverlies bij een hiaat?", a: "De lege ruimte bevat geen data, dus gaat er opslagruimte verloren.", o: "Magnetische tapes: geschiedenis en organisatie" },
-  { v: "🖼️ Wat toont deze oude foto, en waarvoor gebruikte men tapes toen?", a: "Een vrouw bij een computer met grote tapekasten (tape-eenheden met spoelen). Tapes werden toen als computergeheugen gebruikt: als werkgeheugen en voor permanente opslag.", o: "Magnetische tapes: geschiedenis en organisatie", img: "afbeeldingen/l5_s08_tape_computer.jpg",
+  { v: "🖼️ Wat toont deze oude foto, en waarvoor gebruikte men tapes toen?", a: "Een vrouw bij een computer met grote tapekasten (tape-eenheden met spoelen). Tapes werden toen als computergeheugen gebruikt: als werkgeheugen en voor permanente opslag.", o: "Magnetische tapes: geschiedenis en organisatie", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s08_tape_computer.jpg",
     uitleg: "Vandaag worden tapes enkel nog als back-up- en archiveringsmedium gebruikt. Tapes werken sequentieel en zijn niet-adresseerbaar (door het rekken van het lint)." },
 
   // ===== LTO: de huidige standaard (slide 10) =====
@@ -99,7 +99,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom kan ransomware niet aan een tape in de kast?", a: "De tape is offline: ze is niet met de computer verbonden (air gap).", o: "LTO: de huidige standaard" },
   { v: "Hoe lang gaat een tape mee?", a: "Tientallen jaren.", o: "LTO: de huidige standaard",
     uitleg: "Achtergrond (wordt niet gevraagd): Hoe lang duurt het ongeveer om een tape van 30 TB vol te schrijven aan 400 MB/s? Ongeveer 21 uur (30 TB / 0,4 GB/s ≈ 75 000 s)." },
-  { v: "🖼️ Welk opslagmedium zie je op deze foto?", a: "Een LTO-tapecassette (LTO-10, Ultrium): de huidige tapestandaard.", o: "LTO: de huidige standaard", img: "afbeeldingen/l5_s10_lto.jpg",
+  { v: "🖼️ Welk opslagmedium zie je op deze foto?", a: "Een LTO-tapecassette (LTO-10, Ultrium): de huidige tapestandaard.", o: "LTO: de huidige standaard", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s10_lto.jpg",
     uitleg: "LTO-10 (2025): 30 TB per cassette, sinds 2026 ook 40 TB; met compressie 2,5 keer die grootte. Tot 400 MB/s, maar alleen sequentieel." },
 
   // ===== Floppy disks: geschiedenis (slide 11) =====
@@ -132,9 +132,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Is een 3,5 inch floppy nog 'floppy'?", a: "Ja: de behuizing is hard, maar het schijfje binnenin is nog buigzaam.", o: "De 5,25 en 3,5 inch floppy" },
   { v: "Waarvoor staan DD en HD bij een 3,5 inch floppy, en hoeveel bevatten ze?", a: "DD = Double Density: 720 KB. HD = High Density: 1440 KB (1,44 MB).", o: "De 5,25 en 3,5 inch floppy",
     uitleg: "Achtergrond (wordt niet gevraagd): Hoe herken je een HD-diskette? Aan het extra gaatje in de hoek." },
-  { v: "🖼️ Welke floppy zie je op deze foto, en wat was de bekendste capaciteit?", a: "De 5,25 inch floppy (1976); bekendste versie: 360 KB.", o: "De 5,25 en 3,5 inch floppy", img: "afbeeldingen/l5_s12_floppy525.jpg",
+  { v: "🖼️ Welke floppy zie je op deze foto, en wat was de bekendste capaciteit?", a: "De 5,25 inch floppy (1976); bekendste versie: 360 KB.", o: "De 5,25 en 3,5 inch floppy", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s12_floppy525.jpg",
     uitleg: "De eerste form factor was 8 inch (1971). De 5,25 inch floppy is zelf echt 'floppy' (buigzaam)." },
-  { v: "🖼️ Welke floppy zie je op deze foto, en welke capaciteiten bestonden er?", a: "De 3,5 inch floppy (hier een HD-diskette): harde cover, maar nog steeds een 'floppy' disk binnenin.\nDD (Double Density): 720 KB\nHD (High Density): 1440 KB (1,4 MB)", o: "De 5,25 en 3,5 inch floppy", img: "afbeeldingen/l5_s13_floppy35.jpg",
+  { v: "🖼️ Welke floppy zie je op deze foto, en welke capaciteiten bestonden er?", a: "De 3,5 inch floppy (hier een HD-diskette): harde cover, maar nog steeds een 'floppy' disk binnenin.\nDD (Double Density): 720 KB\nHD (High Density): 1440 KB (1,4 MB)", o: "De 5,25 en 3,5 inch floppy", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s13_floppy35.jpg",
     uitleg: "5,25 en 3,5 inch werden lang beide ondersteund: daarom A-drive en B-drive in Windows (en is de harde schijf C:)." },
 
   // ===== Floppy disks: werking en huidige toestand (slide 14) =====
@@ -163,8 +163,8 @@ const kaarten_IT_deel2_les5 = [
   { v: "Hoeveel data kon de IBM RAMAC bewaren?", a: "5 MB.", o: "Harde schijven: geschiedenis" },
   { v: "Hoeveel data bewaart een hedendaagse HDD?", a: "20 TB of meer.", o: "Harde schijven: geschiedenis",
     uitleg: "Achtergrond (wordt niet gevraagd): Hoeveel keer meer bewaart een HDD van 20 TB dan de RAMAC? 4 miljoen keer (20 TB / 5 MB)." },
-  { v: "🖼️ Wat zie je op deze foto?", a: "De platters (spiegelende schijven) en de lees- en schrijfkop van een harde schijf, van dichtbij.", o: "Harde schijven: geschiedenis", img: "afbeeldingen/l5_s15_hdd_platters.jpg" },
-  { v: "🖼️ Welke twee harde schijven worden hier vergeleken, en hoeveel data bevatten ze (1 en 2)?", a: "1 = IBM RAMAC – 5 MB (een van de eerste harde schijven, 1956)\n2 = Hedendaagse HDD – 20+ TB", o: "Harde schijven: geschiedenis", img: "afbeeldingen/l5_s16_ramac_hdd_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s16_ramac_hdd.jpg",
+  { v: "🖼️ Wat zie je op deze foto?", a: "De platters (spiegelende schijven) en de lees- en schrijfkop van een harde schijf, van dichtbij.", o: "Harde schijven: geschiedenis", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s15_hdd_platters.jpg" },
+  { v: "🖼️ Welke twee harde schijven worden hier vergeleken, en hoeveel data bevatten ze (1 en 2)?", a: "1 = IBM RAMAC – 5 MB (een van de eerste harde schijven, 1956)\n2 = Hedendaagse HDD – 20+ TB", o: "Harde schijven: geschiedenis", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s16_ramac_hdd_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s16_ramac_hdd.jpg",
     uitleg: "20 TB / 5 MB = 4 miljoen keer meer, in een veel kleinere behuizing." },
 
   // ===== Opbouw van een moderne harde schijf (slide 17) =====
@@ -180,9 +180,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom zorgt helium voor een stabielere kop?", a: "Helium geeft minder weerstand en turbulentie dan lucht, dus de kop trilt minder.", o: "Opbouw van een moderne harde schijf" },
   { v: "Waarom geeft helium meer capaciteit?", a: "De platters mogen dichter op elkaar, dus passen er meer platters in de behuizing.", o: "Opbouw van een moderne harde schijf" },
   { v: "Waarom moet een HDD met helium gesloten zijn?", a: "Anders ontsnapt het helium.", o: "Opbouw van een moderne harde schijf" },
-  { v: "🖼️ Benoem de onderdelen 1 tot 7 van deze harde schijf.", a: "1 = Behuizing\n2 = Centrale as (spindle)\n3 = Lees- en schrijfkop\n4 = Kam (arm met de koppen)\n5 = Actuator as\n6 = Actuator\n7 = Schijven (platters)", o: "Opbouw van een moderne harde schijf", img: "afbeeldingen/l5_s17_hdd_onderdelen_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s17_hdd_onderdelen.jpg",
+  { v: "🖼️ Benoem de onderdelen 1 tot 7 van deze harde schijf.", a: "1 = Behuizing\n2 = Centrale as (spindle)\n3 = Lees- en schrijfkop\n4 = Kam (arm met de koppen)\n5 = Actuator as\n6 = Actuator\n7 = Schijven (platters)", o: "Opbouw van een moderne harde schijf", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s17_hdd_onderdelen_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s17_hdd_onderdelen.jpg",
     uitleg: "De actuator beweegt de kam met de koppen over de schijven, die rond de centrale as draaien." },
-  { v: "🖼️ Benoem de onderdelen 8 tot 15 van deze harde schijf.", a: "8 = SCSI connector\n9 = Jumper pins\n10 = Jumper\n11 = Stroomaansluiting\n12 = Afsluitende tape\n13 = Platte kabel (verbinding koppen – circuitbord)\n14 = Schroefdraad voor montage op pc-behuizing\n15 = Schroefdraad voor montage bovenste gedeelte behuizing", o: "Opbouw van een moderne harde schijf", img: "afbeeldingen/l5_s17_hdd_onderdelen_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s17_hdd_onderdelen.jpg",
+  { v: "🖼️ Benoem de onderdelen 8 tot 15 van deze harde schijf.", a: "8 = SCSI connector\n9 = Jumper pins\n10 = Jumper\n11 = Stroomaansluiting\n12 = Afsluitende tape\n13 = Platte kabel (verbinding koppen – circuitbord)\n14 = Schroefdraad voor montage op pc-behuizing\n15 = Schroefdraad voor montage bovenste gedeelte behuizing", o: "Opbouw van een moderne harde schijf", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s17_hdd_onderdelen_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s17_hdd_onderdelen.jpg",
     uitleg: "Deze tekening toont een oudere SCSI-schijf. Een huidige schijf heeft een SATA-aansluiting en geen jumpers." },
 
   // ===== Schrijven en lezen: magnetische inductie (slide 18) =====
@@ -196,7 +196,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarvoor staan LMR en PMR?", a: "Longitudinal Magnetic Recording en Perpendicular Magnetic Recording.", o: "Schrijven en lezen: magnetische inductie" },
   { v: "Hoe liggen de deeltjes bij LMR en hoe staan ze bij PMR?", a: "Bij LMR liggen ze plat (in de lengterichting); bij PMR staan ze rechtop (loodrecht).", o: "Schrijven en lezen: magnetische inductie" },
   { v: "Waarom geeft PMR een hogere dichtheid?", a: "Rechtop staande bits nemen minder plaats in, zoals boeken in een kast.", o: "Schrijven en lezen: magnetische inductie" },
-  { v: "🖼️ Welke opnametechniek is 1 en welke is 2?", a: "1 = Longitudinal (magnetic) recording (LMR): de deeltjes liggen plat in de lengterichting (\"Ring\" writing element).\n2 = Perpendicular (magnetic) recording (PMR): de deeltjes staan loodrecht (\"Monopole\" writing element, met een extra laag onder de recording layer).", o: "Schrijven en lezen: magnetische inductie", img: "afbeeldingen/l5_s18_lmr_pmr_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s18_lmr_pmr.jpg",
+  { v: "🖼️ Welke opnametechniek is 1 en welke is 2?", a: "1 = Longitudinal (magnetic) recording (LMR): de deeltjes liggen plat in de lengterichting (\"Ring\" writing element).\n2 = Perpendicular (magnetic) recording (PMR): de deeltjes staan loodrecht (\"Monopole\" writing element, met een extra laag onder de recording layer).", o: "Schrijven en lezen: magnetische inductie", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s18_lmr_pmr_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s18_lmr_pmr.jpg",
     uitleg: "LMR werd vervangen door PMR: rechtop staande bits nemen minder plaats in, dus een hogere dichtheid." },
 
   // ===== Harde schijven: lezen (slide 19) =====
@@ -209,7 +209,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat 'ziet' de leeskop eigenlijk?", a: "De overgangen (van N naar S of omgekeerd).", o: "Harde schijven: lezen" },
   { v: "Waarom kan je bits niet gewoon wegschrijven zoals ze zijn?", a: "De data moet gecodeerd worden zodat er regelmatig overgangen zijn.", o: "Harde schijven: lezen" },
   { v: "Waarom moet de schijf aan een constante, gekende snelheid draaien?", a: "Zodat de elektronica uit de tijd tussen twee overgangen kan afleiden hoeveel bits er tussen zaten.", o: "Harde schijven: lezen" },
-  { v: "🖼️ Wat toont deze tekening over het lezen van een harde schijf?", a: "Een leeskop boven een spoor met magnetische gebieden. Alleen bij een overgang (reverse, N ↔ S) verandert het magnetisch veld en ontstaat er een stroompje; zonder verandering (no reverse) gebeurt er niets.", o: "Harde schijven: lezen", img: "afbeeldingen/l5_s19_lezen.jpg",
+  { v: "🖼️ Wat toont deze tekening over het lezen van een harde schijf?", a: "Een leeskop boven een spoor met magnetische gebieden. Alleen bij een overgang (reverse, N ↔ S) verandert het magnetisch veld en ontstaat er een stroompje; zonder verandering (no reverse) gebeurt er niets.", o: "Harde schijven: lezen", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s19_lezen.jpg",
     uitleg: "Voor lezen is verandering nodig: daarom kan je niet gewoon bits wegschrijven, en moet de data passeren aan een gekende, constante snelheid." },
 
   // ===== Harde schijven: schrijven (slide 20) =====
@@ -270,9 +270,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom staan alle koppen altijd op dezelfde cylinder?", a: "Omdat ze samen bewegen (op dezelfde arm/kam).", o: "Indeling van magnetische schijven" },
   { v: "Waarom hebben de buitenste sporen meer sectoren?", a: "Omdat ze langer zijn.", o: "Indeling van magnetische schijven" },
   { v: "Zijn sectoren op de buitenste sporen groter in datacapaciteit?", a: "Nee, alle sectoren zijn even groot in datacapaciteit.", o: "Indeling van magnetische schijven" },
-  { v: "🖼️ Benoem 1 tot 5 op deze tekening.", a: "1 = Sector (een stukje van een spoor)\n2 = Cluster (een groep sectoren)\n3 = Platters (de schijven)\n4 = Track (spoor: een cirkel op een platter)\n5 = Cylinder (alle sporen op dezelfde afstand van het midden, over alle platters)", o: "Indeling van magnetische schijven", img: "afbeeldingen/l5_s23_indeling_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s23_indeling.jpg",
+  { v: "🖼️ Benoem 1 tot 5 op deze tekening.", a: "1 = Sector (een stukje van een spoor)\n2 = Cluster (een groep sectoren)\n3 = Platters (de schijven)\n4 = Track (spoor: een cirkel op een platter)\n5 = Cylinder (alle sporen op dezelfde afstand van het midden, over alle platters)", o: "Indeling van magnetische schijven", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s23_indeling_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s23_indeling.jpg",
     uitleg: "Een magnetische schijf wordt ingedeeld in sporen, sectoren en cylinders." },
-  { v: "🖼️ Wat toont deze tekening over het aantal sectoren per spoor?", a: "Het aantal sectoren per spoor varieert: de buitenste sporen (zones) hebben meer sectoren dan de binnenste. De sectoren zelf zijn wel even groot in datacapaciteit.", o: "Indeling van magnetische schijven", img: "afbeeldingen/l5_s24_zones.jpg",
+  { v: "🖼️ Wat toont deze tekening over het aantal sectoren per spoor?", a: "Het aantal sectoren per spoor varieert: de buitenste sporen (zones) hebben meer sectoren dan de binnenste. De sectoren zelf zijn wel even groot in datacapaciteit.", o: "Indeling van magnetische schijven", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s24_zones.jpg",
     uitleg: "Buitenste sporen zijn langer, dus passen er meer sectoren op." },
 
   // ===== Sectoren: harde en zachte sectorindeling (slide 25) =====
@@ -309,7 +309,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is de File Allocation Table?", a: "Een systeembestand aan het begin van de partitie dat bijhoudt waar elk bestand staat.", o: "Formatteren in drie stappen" },
   { v: "Welke bestandssystemen horen bij Windows en welke bij Linux?", a: "Windows: FAT(16), FAT32, NTFS. Linux: EXT2, EXT3, EXT4, ReiserFS.", o: "Formatteren in drie stappen" },
   { v: "Welke stap doe je als je in Windows een schijf formatteert?", a: "Het high-level formatteren.", o: "Formatteren in drie stappen" },
-  { v: "🖼️ Welke stap van formattering toont deze tekening, en wat zie je?", a: "Stap 2: partitioneren: de schijf wordt verdeeld in logische partities (1e, 2e, 3e, 4e partitie). Je ziet een stapel platters met kop 0 tot 5.", o: "Formatteren in drie stappen", img: "afbeeldingen/l5_s27_partities.jpg",
+  { v: "🖼️ Welke stap van formattering toont deze tekening, en wat zie je?", a: "Stap 2: partitioneren: de schijf wordt verdeeld in logische partities (1e, 2e, 3e, 4e partitie). Je ziet een stapel platters met kop 0 tot 5.", o: "Formatteren in drie stappen", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s27_partities.jpg",
     uitleg: "Stap 1 = low-level formatteren (fabriek), stap 2 = partitioneren, stap 3 = high-level formatteren (besturingssysteem)." },
 
   // ===== Capaciteit: binair tegenover decimaal (slide 29) =====
@@ -347,7 +347,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarmee wordt de vlieghoogte op de afbeelding vergeleken?", a: "Met een stofdeeltje, een vingerafdruk en een haar (die zijn allemaal veel groter).", o: "Vlieghoogte en head-crash" },
   { v: "Reken na: hoeveel toeren per seconde is 7200 tpm?", a: "7200 / 60 = 120 toeren per seconde.", o: "Vlieghoogte en head-crash" },
   { v: "Waarom moet een harde schijf stofvrij en gesloten zijn?", a: "Om een head-crash te vermijden.", o: "Vlieghoogte en head-crash" },
-  { v: "🖼️ Wat toont deze afbeelding over de vlieghoogte van de kop?", a: "De vlieghoogte (fly height) van de kop is veel kleiner dan een stofdeeltje (dust particle), een vingerafdruk (fingerprint) en een menselijk haar (human hair).", o: "Vlieghoogte en head-crash", img: "afbeeldingen/l5_s31_vlieghoogte.jpg",
+  { v: "🖼️ Wat toont deze afbeelding over de vlieghoogte van de kop?", a: "De vlieghoogte (fly height) van de kop is veel kleiner dan een stofdeeltje (dust particle), een vingerafdruk (fingerprint) en een menselijk haar (human hair).", o: "Vlieghoogte en head-crash", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s31_vlieghoogte.jpg",
     uitleg: "Daarom kan één stofdeeltje een head-crash veroorzaken: de kop springt omhoog en beschadigt de harde schijf. De buitenrand van een 7200 tpm-schijf beweegt ruim 120 km/u t.o.v. de kop." },
 
   // ===== Luchtcirculatie en koeling (slide 32) =====
@@ -413,7 +413,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom maakt fragmentatie een harde schijf trager?", a: "De kop moet veel springen: veel seek time.", o: "Toegangstijd: cache en defragmentatie",
     uitleg: "Achtergrond (wordt niet gevraagd): Waarom moet je een SSD niet defragmenteren? Een SSD heeft geen kop en geen seek time; defragmenteren helpt niet en verslijt de flashcellen." },
   { v: "Wat doet defragmenteren?", a: "De stukjes van elk bestand weer bij elkaar zetten.", o: "Toegangstijd: cache en defragmentatie" },
-  { v: "🖼️ Welke schijf is gefragmenteerd en welke gedefragmenteerd?", a: "Links: gedefragmenteerd (de blauwe stukjes data liggen bij elkaar).\nRechts: gefragmenteerd (de stukjes liggen verspreid over de schijf).", o: "Toegangstijd: cache en defragmentatie", img: "afbeeldingen/l5_s36_fragmentatie.jpg",
+  { v: "🖼️ Welke schijf is gefragmenteerd en welke gedefragmenteerd?", a: "Links: gedefragmenteerd (de blauwe stukjes data liggen bij elkaar).\nRechts: gefragmenteerd (de stukjes liggen verspreid over de schijf).", o: "Toegangstijd: cache en defragmentatie", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s36_fragmentatie.jpg",
     uitleg: "Defragmentatie = data bijeenzetten om de toegangstijd te verlagen (minder seek time). Enkel op een HDD, niet op een SSD!" },
 
   // ===== Form factors en video (slide 37–38) =====
@@ -425,7 +425,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Welke form factor is de standaard voor desktops?", a: "3,5 inch.", o: "Form factors en video",
     uitleg: "Achtergrond (wordt niet gevraagd): Kan een 2,5 inch-schijf in een desktop? Ja, met een adapter." },
   { v: "Wat betekent het symbool \"?", a: "Inch.", o: "Form factors en video" },
-  { v: "🖼️ Welke twee form factors van harde schijven zie je hier, en waarvoor worden ze gebruikt?", a: "Bovenaan een 2,5\" schijf (laptops), onderaan een 3,5\" schijf (standaard, desktops).", o: "Form factors en video", img: "afbeeldingen/l5_s37_formfactors.jpg",
+  { v: "🖼️ Welke twee form factors van harde schijven zie je hier, en waarvoor worden ze gebruikt?", a: "Bovenaan een 2,5\" schijf (laptops), onderaan een 3,5\" schijf (standaard, desktops).", o: "Form factors en video", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s37_formfactors.jpg",
     uitleg: "\" = inch." },
 
   // ===== RAID: de naam (slide 39) =====
@@ -467,7 +467,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat betekent 'Fast, cheap, good: choose two'?", a: "Je kan maar twee van de drie tegelijk hebben: snelheid, lage kost of veiligheid.", o: "RAID: performantie" },
   { v: "Wat krijg je als je snel en goedkoop kiest?", a: "Een systeem dat niet veilig is (bv. RAID 0).", o: "RAID: performantie" },
   { v: "Wat krijg je als je snel en veilig kiest?", a: "Een duur systeem.", o: "RAID: performantie" },
-  { v: "🖼️ Wat staat er op de hoeken 1, 2 en 3 van deze driehoek, en wat leert hij?", a: "1 = Best Performance / Highest Capacity\n2 = Lowest Cost\n3 = Most Fault Tolerance\n\"Fast, cheap, good: choose two\": je kan nooit alle drie tegelijk maximaal hebben.", o: "RAID: performantie", img: "afbeeldingen/l5_s41_driehoek_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s41_driehoek.jpg",
+  { v: "🖼️ Wat staat er op de hoeken 1, 2 en 3 van deze driehoek, en wat leert hij?", a: "1 = Best Performance / Highest Capacity\n2 = Lowest Cost\n3 = Most Fault Tolerance\n\"Fast, cheap, good: choose two\": je kan nooit alle drie tegelijk maximaal hebben.", o: "RAID: performantie", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s41_driehoek_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s41_driehoek.jpg",
     uitleg: "Snel en goedkoop = niet veilig (bv. RAID 0); snel en veilig = duur." },
 
   // ===== RAID: tradeoff en beperkingen (slide 42) =====
@@ -500,9 +500,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is het verschil tussen mirroring en duplexing?", a: "Bij duplexing krijgt elke schijf een eigen controller.", o: "RAID-concepten: mirroring en duplexing" },
   { v: "Waarom is bij mirroring de controller nog een single point of failure?", a: "Beide schijven hangen aan dezelfde controller; valt die uit, dan werkt niets meer.", o: "RAID-concepten: mirroring en duplexing" },
   { v: "Noem twee voordelen van duplexing.", a: "Parallel lezen en schrijven (sneller) en bescherming tegen een defecte controller.", o: "RAID-concepten: mirroring en duplexing" },
-  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 43)?", a: "Disk mirroring (schijfspiegeling): het systeem schrijft via één RAID controller dezelfde bestanden (File 1, File 2, File 3, …) naar Disk #1 én Disk #2.", o: "RAID-concepten: mirroring en duplexing", img: "afbeeldingen/l5_s43_mirroring.jpg",
+  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 43)?", a: "Disk mirroring (schijfspiegeling): het systeem schrijft via één RAID controller dezelfde bestanden (File 1, File 2, File 3, …) naar Disk #1 én Disk #2.", o: "RAID-concepten: mirroring en duplexing", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s43_mirroring.jpg",
     uitleg: "Nadeel: de controller blijft een single point of failure, en je hebt dubbele ruimte nodig." },
-  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 44)?", a: "Duplexing: mirroring, maar elke schijf heeft een eigen controller (Controller #1 → Disk #1, Controller #2 → Disk #2).", o: "RAID-concepten: mirroring en duplexing", img: "afbeeldingen/l5_s44_duplexing.jpg",
+  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 44)?", a: "Duplexing: mirroring, maar elke schijf heeft een eigen controller (Controller #1 → Disk #1, Controller #2 → Disk #2).", o: "RAID-concepten: mirroring en duplexing", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s44_duplexing.jpg",
     uitleg: "Voordelen: parallel lezen en schrijven (sneller) en bescherming tegen een defecte controller." },
 
   // ===== RAID-concepten: disk striping (slide 45) =====
@@ -515,7 +515,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom is striping sneller?", a: "De schijven lezen of schrijven elk tegelijk een stuk van het bestand.", o: "RAID-concepten: disk striping",
     uitleg: "Achtergrond (wordt niet gevraagd): Met welke vergelijking kan je striping uitleggen? Vier kassa's in plaats van één." },
   { v: "Geeft striping alleen ook beveiliging?", a: "Nee, striping alleen geeft geen redundantie (zie RAID 0).", o: "RAID-concepten: disk striping" },
-  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 45)?", a: "Disk striping: de RAID controller verdeelt (\"uitsmeren\") de blokken van de bestanden (File 1 block 1, 2, 3 …) over 4 schijven, die samen 1 logisch geheel vormen.", o: "RAID-concepten: disk striping", img: "afbeeldingen/l5_s45_striping.jpg",
+  { v: "🖼️ Welk RAID-concept toont deze tekening (slide 45)?", a: "Disk striping: de RAID controller verdeelt (\"uitsmeren\") de blokken van de bestanden (File 1 block 1, 2, 3 …) over 4 schijven, die samen 1 logisch geheel vormen.", o: "RAID-concepten: disk striping", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s45_striping.jpg",
     uitleg: "Snel, want de schijven werken tegelijk; zonder parity geen beveiliging." },
 
   // ===== RAID-concepten: parity (slide 46–48) =====
@@ -537,7 +537,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wanneer geeft XOR een 1?", a: "Als de twee bits verschillen.", o: "RAID-concepten: parity" },
   { v: "Bereken 1010 XOR 0111.", a: "1101.", o: "RAID-concepten: parity" },
   { v: "Bereken de parity van D1 = 1100, D2 = 1010, D3 = 0110.", a: "1100 XOR 1010 = 0110; 0110 XOR 0110 = 0000 → parity = 0000.", o: "RAID-concepten: parity" },
-  { v: "🖼️ Vul de kolom A XOR B aan (1 tot 4).", a: "1 = 0 (0 XOR 0)\n2 = 1 (0 XOR 1)\n3 = 1 (1 XOR 0)\n4 = 0 (1 XOR 1)", o: "RAID-concepten: parity", img: "afbeeldingen/l5_s47_xor_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s47_xor.jpg",
+  { v: "🖼️ Vul de kolom A XOR B aan (1 tot 4).", a: "1 = 0 (0 XOR 0)\n2 = 1 (0 XOR 1)\n3 = 1 (1 XOR 0)\n4 = 0 (1 XOR 1)", o: "RAID-concepten: parity", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s47_xor_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s47_xor.jpg",
     uitleg: "XOR geeft 1 als de bits verschillen. Eigenschap: als A XOR B = C, dan B XOR C = A en A XOR C = B: daarmee herstelt parity verloren data." },
 
   // ===== Parity tegenover mirroring (slide 49) =====
@@ -576,7 +576,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Hoe worden de schijven bij JBOD gevuld?", a: "Na elkaar: eerst schijf 0, dan schijf 1, enzovoort.", o: "JBOD",
     uitleg: "Achtergrond (wordt niet gevraagd): Wat gebeurt er bij JBOD als één schijf uitvalt? Je bent de data op die schijf kwijt." },
   { v: "Geeft JBOD snelheidswinst?", a: "Nee.", o: "JBOD" },
-  { v: "🖼️ Welke opstelling toont deze tekening?", a: "JBOD (Just a Bunch Of Disks, spanned volume): de schijven worden na elkaar gevuld (Disk 0: A1–A4, Disk 1: A64–A67, Disk 2: A92–A95).", o: "JBOD", img: "afbeeldingen/l5_s51_jbod_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s51_jbod.jpg",
+  { v: "🖼️ Welke opstelling toont deze tekening?", a: "JBOD (Just a Bunch Of Disks, spanned volume): de schijven worden na elkaar gevuld (Disk 0: A1–A4, Disk 1: A64–A67, Disk 2: A92–A95).", o: "JBOD", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s51_jbod_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s51_jbod.jpg",
     uitleg: "Geen voordelen behalve een groter volume: geen snelheid, geen beveiliging." },
 
   // ===== RAID level 0 (slide 52–55) =====
@@ -596,9 +596,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Hoeveel schijven heeft RAID 0 minimaal nodig?", a: "2.", o: "RAID level 0" },
   { v: "Waarom gebruik je bij RAID 0 liefst identieke schijven?", a: "De kleinste of traagste schijf bepaalt het geheel.", o: "RAID level 0" },
   { v: "Welke stripe sizes zijn mogelijk?", a: "4 KB, 16 KB, 64 KB of 128 KB.", o: "RAID level 0" },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 52)?", a: "RAID 0 (data striping without parity): A1, A3, A5, A7 op Disk 0 en A2, A4, A6, A8 op Disk 1.", o: "RAID level 0", img: "afbeeldingen/l5_s52_raid0_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s52_raid0.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 52)?", a: "RAID 0 (data striping without parity): A1, A3, A5, A7 op Disk 0 en A2, A4, A6, A8 op Disk 1.", o: "RAID level 0", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s52_raid0_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s52_raid0.jpg",
     uitleg: "Geen redundantie: valt één schijf uit, dan is alles weg. Wel snel, en 100% capaciteit." },
-  { v: "🖼️ Welke stripe size hoort bij 1, 2 en 3?", a: "1 = 4KB stripe size\n2 = 64KB stripe size\n3 = 16KB stripe size", o: "RAID level 0", img: "afbeeldingen/l5_s55_stripesizes_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s55_stripesizes.jpg",
+  { v: "🖼️ Welke stripe size hoort bij 1, 2 en 3?", a: "1 = 4KB stripe size\n2 = 64KB stripe size\n3 = 16KB stripe size", o: "RAID level 0", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s55_stripesizes_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s55_stripesizes.jpg",
     uitleg: "Stripe size = hoeveelheid bytes die op een disk geschreven wordt voor er overgeschakeld wordt op de volgende disk (4KB, 16KB, 64KB, 128KB afhankelijk van de configuratie). Hoe kleiner, hoe fijner een bestand over de schijven verdeeld wordt." },
 
   // ===== RAID level 1 (slide 56–58) =====
@@ -616,7 +616,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom is RAID 1 snel bij het lezen?", a: "Er kan van beide schijven tegelijk gelezen worden (twee leesaanvragen tegelijk).", o: "RAID level 1" },
   { v: "Waarom is RAID 1 ideaal voor het besturingssysteem en programma's?", a: "Die worden vooral gelezen, en lezen is snel bij RAID 1.", o: "RAID level 1" },
   { v: "Kan RAID 1 ook softwarematig?", a: "Ja.", o: "RAID level 1" },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 58)?", a: "RAID 1: twee schijven met exact dezelfde inhoud (A1–A4 op Disk 0 én Disk 1).", o: "RAID level 1", img: "afbeeldingen/l5_s58_raid1_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s58_raid1.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 58)?", a: "RAID 1: twee schijven met exact dezelfde inhoud (A1–A4 op Disk 0 én Disk 1).", o: "RAID level 1", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s58_raid1_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s58_raid1.jpg",
     uitleg: "Mirroring of duplexing: grote veiligheid, maar dubbele opslagruimte (50% capaciteit)." },
 
   // ===== RAID level 3 en 4 (slide 59–60) =====
@@ -632,9 +632,9 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom is de prijs van RAID 3 middelmatig?", a: "Je hebt maar één extra schijf nodig voor de beveiliging.", o: "RAID level 3 en 4" },
   { v: "Wat is het verschil tussen RAID 3 en RAID 4?", a: "RAID 3 verdeelt per byte, RAID 4 per blok (groter dan 1024 bytes).", o: "RAID level 3 en 4" },
   { v: "Waarom wordt de parity-schijf bij RAID 3 en 4 een flessenhals?", a: "Ze moet bij elke schrijfoperatie bijgewerkt worden.", o: "RAID level 3 en 4" },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 59)?", a: "RAID 3: byte-level striping met een extra parity-schijf (Disk 3 bevat Ap(1-3), Ap(4-6), Bp(1-3), Bp(4-6)).", o: "RAID level 3 en 4", img: "afbeeldingen/l5_s59_raid3_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s59_raid3.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 59)?", a: "RAID 3: byte-level striping met een extra parity-schijf (Disk 3 bevat Ap(1-3), Ap(4-6), Bp(1-3), Bp(4-6)).", o: "RAID level 3 en 4", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s59_raid3_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s59_raid3.jpg",
     uitleg: "Er mag 1 schijf uitvallen; stripe size < 1024 bytes; minimum 3 schijven." },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 60)?", a: "RAID 4: block-level striping met een extra parity-schijf: blokken A1, B1, C1, D1 … op Disk 0 tot 2, alle parity (Ap, Bp, Cp, Dp) op Disk 3.", o: "RAID level 3 en 4", img: "afbeeldingen/l5_s60_raid4_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s60_raid4.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 60)?", a: "RAID 4: block-level striping met een extra parity-schijf: blokken A1, B1, C1, D1 … op Disk 0 tot 2, alle parity (Ap, Bp, Cp, Dp) op Disk 3.", o: "RAID level 3 en 4", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s60_raid4_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s60_raid4.jpg",
     uitleg: "Zelfde als RAID 3, maar met blokken (groter dan 1024 bytes). De ene parity-schijf wordt een flessenhals." },
 
   // ===== RAID level 5 (slide 61–62) =====
@@ -649,7 +649,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is de formule voor de bruikbare capaciteit van RAID 5?", a: "(N−1)/N.", o: "RAID level 5" },
   { v: "Hoeveel bruikbare ruimte geven 4 schijven van 2 TB in RAID 5?", a: "6 TB (3 × 2 TB).", o: "RAID level 5" },
   { v: "Wat is de capaciteit bij 3 en bij 16 schijven in RAID 5?", a: "3 schijven: 67%; 16 schijven: ongeveer 94%.", o: "RAID level 5" },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 62)?", a: "RAID 5: block-level striping met over de schijven verspreide parity (Ap, Bp, Cp, Dp staan telkens op een andere schijf).", o: "RAID level 5", img: "afbeeldingen/l5_s62_raid5_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s62_raid5.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 62)?", a: "RAID 5: block-level striping met over de schijven verspreide parity (Ap, Bp, Cp, Dp staan telkens op een andere schijf).", o: "RAID level 5", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s62_raid5_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s62_raid5.jpg",
     uitleg: "Capaciteit (N−1)/N; 1 schijf mag uitvallen; minimum 3 schijven; dure controller." },
 
   // ===== RAID level 6 (slide 63–65) =====
@@ -668,7 +668,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is de formule voor de effectieve opslag van RAID 6?", a: "(N−2)/N.", o: "RAID level 6" },
   { v: "Hoeveel bruikbare ruimte geven 6 schijven van 4 TB in RAID 6?", a: "16 TB (4 × 4 TB).", o: "RAID level 6" },
   { v: "Wat is de capaciteit bij 4 en bij 16 schijven in RAID 6?", a: "4 schijven: 50%; 16 schijven: ongeveer 88%.", o: "RAID level 6" },
-  { v: "🖼️ Welk RAID-level toont deze tekening (slide 65)?", a: "RAID 6: block-level striping met dubbele verspreide parity (per rij twee parity-blokken, bv. Ap en Aq), over 5 schijven.", o: "RAID level 6", img: "afbeeldingen/l5_s65_raid6_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s65_raid6.jpg",
+  { v: "🖼️ Welk RAID-level toont deze tekening (slide 65)?", a: "RAID 6: block-level striping met dubbele verspreide parity (per rij twee parity-blokken, bv. Ap en Aq), over 5 schijven.", o: "RAID level 6", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s65_raid6_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s65_raid6.jpg",
     uitleg: "2 schijven mogen uitvallen; effectieve opslag (N−2)/N; minimum 4 schijven." },
 
   // ===== Multiple RAID (slide 66–68) =====
@@ -685,11 +685,11 @@ const kaarten_IT_deel2_les5 = [
   { v: "Hoeveel capaciteit heb je bij RAID 10?", a: "50%.", o: "Multiple RAID" },
   { v: "Wat is RAID 50?", a: "Meerdere RAID 5-groepen met RAID 0 erover.", o: "Multiple RAID" },
   { v: "Wat is RAID 60?", a: "Meerdere RAID 6-groepen met RAID 0 erover.", o: "Multiple RAID" },
-  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 66)?", a: "1 = RAID 0+1\n2 = RAID 1 (de bovenste laag)\n3 = RAID 0 (de twee groepen onderaan)\nSchijven 1-2 in RAID 0 en 3-4 in RAID 0; tussen de twee RAID 0-systemen werkt men met RAID 1.", o: "Multiple RAID", img: "afbeeldingen/l5_s66_raid01_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s66_raid01.jpg",
+  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 66)?", a: "1 = RAID 0+1\n2 = RAID 1 (de bovenste laag)\n3 = RAID 0 (de twee groepen onderaan)\nSchijven 1-2 in RAID 0 en 3-4 in RAID 0; tussen de twee RAID 0-systemen werkt men met RAID 1.", o: "Multiple RAID", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s66_raid01_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s66_raid01.jpg",
     uitleg: "Eerst stripen, dan spiegelen." },
-  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 67)?", a: "1 = RAID 1+0 (RAID 10)\n2 = RAID 0 (de bovenste laag)\n3 = RAID 1 (de twee gespiegelde paren onderaan)\nSchijven 1-2 in RAID 1 en 3-4 in RAID 1; tussen de twee RAID 1-systemen werkt men met RAID 0.", o: "Multiple RAID", img: "afbeeldingen/l5_s67_raid10_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s67_raid10.jpg",
+  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 67)?", a: "1 = RAID 1+0 (RAID 10)\n2 = RAID 0 (de bovenste laag)\n3 = RAID 1 (de twee gespiegelde paren onderaan)\nSchijven 1-2 in RAID 1 en 3-4 in RAID 1; tussen de twee RAID 1-systemen werkt men met RAID 0.", o: "Multiple RAID", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s67_raid10_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s67_raid10.jpg",
     uitleg: "Eerst spiegelen, dan stripen. RAID 1+0 wordt ook RAID 10 genoemd." },
-  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 68)?", a: "1 = RAID 50\n2 = RAID 0 (de bovenste laag)\n3 = RAID 5 (twee groepen van 3 schijven onderaan)", o: "Multiple RAID", img: "afbeeldingen/l5_s68_raid50_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s68_raid50.jpg",
+  { v: "🖼️ Geneste RAID: wat zijn 1, 2 en 3 op deze tekening (slide 68)?", a: "1 = RAID 50\n2 = RAID 0 (de bovenste laag)\n3 = RAID 5 (twee groepen van 3 schijven onderaan)", o: "Multiple RAID", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s68_raid50_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s68_raid50.jpg",
     uitleg: "Andere varianten zijn mogelijk, zoals RAID 60 (RAID 6-groepen met RAID 0 erover)." },
 
   // ===== RAID-niveaus vergeleken 1/3: RAID 0, 1 en 5 (slide 69) =====
@@ -706,7 +706,7 @@ const kaarten_IT_deel2_les5 = [
     uitleg: "Achtergrond (wordt niet gevraagd): Waarom is RAID 0 geschikt voor zeer tijdelijke data? Het is snel, en het maakt niet uit als de data verloren gaat." },
   { v: "Waarom is RAID 1 geschikt voor het besturingssysteem?", a: "Het is veilig en snel bij het lezen.", o: "RAID-niveaus vergeleken 1/3: RAID 0, 1 en 5" },
   { v: "Waarom ligt de capaciteit van RAID 5 tussen 67% en 94%?", a: "(N−1)/N: bij 3 schijven 67%, bij 16 schijven 94%.", o: "RAID-niveaus vergeleken 1/3: RAID 0, 1 en 5" },
-  { v: "🖼️ Welk RAID-level hoort bij kolom 1, 2 en 3?", a: "1 = RAID 0 (min. 2, no protection, write high, 100%)\n2 = RAID 1 (min. 2, single-drive failure, write medium, 50%)\n3 = RAID 5 (min. 3, single-drive failure, write low, 67% - 94%)", o: "RAID-niveaus vergeleken 1/3: RAID 0, 1 en 5", img: "afbeeldingen/l5_s69_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s69_tabel.jpg",
+  { v: "🖼️ Welk RAID-level hoort bij kolom 1, 2 en 3?", a: "1 = RAID 0 (min. 2, no protection, write high, 100%)\n2 = RAID 1 (min. 2, single-drive failure, write medium, 50%)\n3 = RAID 5 (min. 3, single-drive failure, write low, 67% - 94%)", o: "RAID-niveaus vergeleken 1/3: RAID 0, 1 en 5", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s69_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s69_tabel.jpg",
     uitleg: "Tip: 100% capaciteit en geen bescherming = RAID 0; 50% = spiegel (RAID 1); 67–94% = (N−1)/N (RAID 5)." },
 
   // ===== RAID-niveaus vergeleken 2/3: RAID 6 en 10 (slide 70) =====
@@ -721,7 +721,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Waarom is de capaciteit van RAID 10 altijd 50%?", a: "Omdat alles gespiegeld is.", o: "RAID-niveaus vergeleken 2/3: RAID 6 en 10" },
   { v: "Wat is een high-availability-oplossing?", a: "Een systeem dat altijd beschikbaar moet zijn.", o: "RAID-niveaus vergeleken 2/3: RAID 6 en 10" },
   { v: "Geef typische toepassingen van RAID 10.", a: "Snelle databases en applicatieservers.", o: "RAID-niveaus vergeleken 2/3: RAID 6 en 10" },
-  { v: "🖼️ Welk RAID-level hoort bij kolom 1 en 2 (slide 70)?", a: "1 = RAID 6 (two-drive failure, write low, 50% - 88%)\n2 = RAID 10 (up to one disk failure in each sub-array, write medium, 50%)", o: "RAID-niveaus vergeleken 2/3: RAID 6 en 10", img: "afbeeldingen/l5_s70_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s70_tabel.jpg",
+  { v: "🖼️ Welk RAID-level hoort bij kolom 1 en 2 (slide 70)?", a: "1 = RAID 6 (two-drive failure, write low, 50% - 88%)\n2 = RAID 10 (up to one disk failure in each sub-array, write medium, 50%)", o: "RAID-niveaus vergeleken 2/3: RAID 6 en 10", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s70_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s70_tabel.jpg",
     uitleg: "Twee schijven mogen uitvallen = RAID 6; altijd 50% en sub-arrays = RAID 10 (gespiegelde paren)." },
 
   // ===== RAID-niveaus vergeleken 3/3: RAID 50 en 60 (slide 71) =====
@@ -737,7 +737,7 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is de capaciteit van RAID 50 en RAID 60?", a: "RAID 50: 67% - 94% (zoals RAID 5); RAID 60: 50% - 88% (zoals RAID 6).", o: "RAID-niveaus vergeleken 3/3: RAID 50 en 60" },
   { v: "Hoe is de schrijfperformantie van RAID 50 en 60?", a: "Gemiddeld (medium).", o: "RAID-niveaus vergeleken 3/3: RAID 50 en 60" },
   { v: "Geef typische toepassingen van RAID 50.", a: "Grote databases, fileservers en applicatieservers.", o: "RAID-niveaus vergeleken 3/3: RAID 50 en 60" },
-  { v: "🖼️ Welk RAID-level hoort bij kolom 1 en 2 (slide 71)?", a: "1 = RAID 50 (min. 6, one disk failure per sub-array, 67% - 94%)\n2 = RAID 60 (min. 8, two disk failure per sub-array, 50% - 88%)", o: "RAID-niveaus vergeleken 3/3: RAID 50 en 60", img: "afbeeldingen/l5_s71_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/l5_s71_tabel.jpg",
+  { v: "🖼️ Welk RAID-level hoort bij kolom 1 en 2 (slide 71)?", a: "1 = RAID 50 (min. 6, one disk failure per sub-array, 67% - 94%)\n2 = RAID 60 (min. 8, two disk failure per sub-array, 50% - 88%)", o: "RAID-niveaus vergeleken 3/3: RAID 50 en 60", img: "afbeeldingen/ITdeel2les5_magnetisch/l5_s71_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s71_tabel.jpg",
     uitleg: "RAID 50 heeft de capaciteit van RAID 5, RAID 60 die van RAID 6." },
 
   // ===== Bestandssysteem-geïntegreerde RAID: ZFS & Btrfs (slide 72) =====

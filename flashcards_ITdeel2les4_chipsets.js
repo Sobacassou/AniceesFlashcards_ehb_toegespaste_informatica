@@ -87,7 +87,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoeveel geheugen kan een 32-bitsysteem aanspreken?", a: "4 GiB (2^32).", o: "Systeembus: de adresbus" },
   { v: "Wat is de bovengrens van x86-64?", a: "52 adreslijnen = 4 PiB.", o: "Systeembus: de adresbus" },
   { v: "Waarom kan je in de praktijk minder geheugen gebruiken dan de adresbus toelaat?", a: "Omdat de chipset, het moederbord en het besturingssysteem ook een maximum hebben.", o: "Systeembus: de adresbus" },
-  { v: "🖼️ Hoeveel geheugen is aanspreekbaar in vakjes 1 tot 6?", a: "1 = 1 MiB (2^20)\n2 = 16 MiB (2^24)\n3 = 4 GiB (2^32)\n4 = 64 GiB (2^36)\n5 = 1 TiB (2^40)\n6 = 4 PiB (2^52)", o: "Systeembus: de adresbus", img: "afbeeldingen/l4_s06_adrestabel_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s06_adrestabel.jpg",
+  { v: "🖼️ Hoeveel geheugen is aanspreekbaar in vakjes 1 tot 6?", a: "1 = 1 MiB (2^20)\n2 = 16 MiB (2^24)\n3 = 4 GiB (2^32)\n4 = 64 GiB (2^36)\n5 = 1 TiB (2^40)\n6 = 4 PiB (2^52)", o: "Systeembus: de adresbus", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s06_adrestabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s06_adrestabel.jpg",
     uitleg: "Rekentruc: 2^10 = Ki, 2^20 = Mi, 2^30 = Gi, 2^40 = Ti, 2^50 = Pi. Bv. 2^36 = 2^6 × 2^30 = 64 GiB." },
 
   // ===== Rekenvoorbeeld adresbus (slide 7) =====
@@ -152,9 +152,9 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoeveel lanes heeft de DMI-verbinding?", a: "8 lanes.", o: "Een platform van Intel" },
   { v: "Waarom heet DMI een 'smalle' verbinding?", a: "Omdat alles wat aan de chipset hangt die ene verbinding moet delen.", o: "Een platform van Intel" },
   { v: "Wat is de logica achter de verdeling tussen processor en chipset?", a: "Snel aan de processor (geheugen, grafische kaart, snelste SSD's), traag aan de chipset (USB, SATA, netwerk, audio).", o: "Een platform van Intel" },
-  { v: "🖼️ Intel-platform (800-serie): wat is 1, wat is 2 en wat is de verbinding 3?", a: "1 = de chipset (Intel 800 Series Chipset, de PCH)\n2 = de processor (Intel Core Ultra Desktop, Series 2)\n3 = DMI (Direct Media Interface), 8 lanes (Gen 4)", o: "Een platform van Intel", img: "afbeeldingen/l4_s10_intel_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s10_intel.jpg",
+  { v: "🖼️ Intel-platform (800-serie): wat is 1, wat is 2 en wat is de verbinding 3?", a: "1 = de chipset (Intel 800 Series Chipset, de PCH)\n2 = de processor (Intel Core Ultra Desktop, Series 2)\n3 = DMI (Direct Media Interface), 8 lanes (Gen 4)", o: "Een platform van Intel", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s10_intel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s10_intel.jpg",
     uitleg: "Bovenaan de chipset met de tragere aansluitingen (USB, SATA, netwerk, wifi, audio, tot 24 PCIe 4.0-lanes), onderaan de processor met de snelle dingen. Alles aan de chipset deelt de ene smalle DMI-verbinding." },
-  { v: "🖼️ Welke onderdelen hangen op dit Intel-schema rechtstreeks aan de processor (onderaan)? Waarom net die?", a: "DDR5-werkgeheugen, 16 PCIe 5.0-lanes voor de grafische kaart (DG) en 4 PCIe 5.0- + 4 PCIe 4.0-lanes voor SSD's.", o: "Een platform van Intel", img: "afbeeldingen/l4_s10_intel.jpg",
+  { v: "🖼️ Welke onderdelen hangen op dit Intel-schema rechtstreeks aan de processor (onderaan)? Waarom net die?", a: "DDR5-werkgeheugen, 16 PCIe 5.0-lanes voor de grafische kaart (DG) en 4 PCIe 5.0- + 4 PCIe 4.0-lanes voor SSD's.", o: "Een platform van Intel", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s10_intel.jpg",
     uitleg: "Dat zijn de onderdelen die de meeste snelheid nodig hebben: ze krijgen de kortste weg naar de CPU. De rest (USB, SATA, LAN, wifi, audio) zit aan de chipset." },
 
   // ===== Een platform van AMD (slide 12–13) =====
@@ -176,7 +176,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Met welke verbinding zijn AMD-processor en chipset verbonden?", a: "PCIe 4.0 x4.", o: "Een platform van AMD" },
   { v: "Waarom kan de verbinding tussen AMD-processor en chipset een flessenhals worden?", a: "Omdat alles wat aan de chipset hangt die ene link deelt.", o: "Een platform van AMD" },
   { v: "Wat hebben het Intel- en het AMD-platform gemeen?", a: "Snelle onderdelen hangen aan de processor, tragere aan de chipset, met één verbinding tussen beide.", o: "Een platform van AMD" },
-  { v: "🖼️ AMD X870E-schema: wat zijn 1, 2 en 3, en welke verbinding is 4?", a: "1 = de processor (Socket AM5)\n2 en 3 = de chipset: de X870E bestaat uit twee chips\n4 = PCIe 4.0 x4: de enige verbinding tussen processor en chipset", o: "Een platform van AMD", img: "afbeeldingen/l4_s12_amd_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s12_amd.jpg",
+  { v: "🖼️ AMD X870E-schema: wat zijn 1, 2 en 3, en welke verbinding is 4?", a: "1 = de processor (Socket AM5)\n2 en 3 = de chipset: de X870E bestaat uit twee chips\n4 = PCIe 4.0 x4: de enige verbinding tussen processor en chipset", o: "Een platform van AMD", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s12_amd_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s12_amd.jpg",
     uitleg: "Alles wat aan de chipset hangt (USB, SATA, netwerk, wifi, PCIe) deelt die ene x4-link, die daardoor een flessenhals kan worden. Aan de processor hangen DDR5 (twee kanalen), PCIe 5.0 x16 voor de grafische kaart en 2 × PCIe 5.0 x4 voor NVMe-SSD's." },
 
   // ===== Uitbreidingsbussen (slide 14) =====
@@ -243,7 +243,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat betekent hot-pluggable?", a: "Je kan een apparaat toevoegen of verwijderen terwijl de computer aanstaat.", o: "PCI Express" },
   { v: "Is PCIe hot-pluggable?", a: "Ja.", o: "PCI Express" },
   { v: "Waar wordt hot-plugging bij PCIe vooral gebruikt?", a: "In servers.", o: "PCI Express" },
-  { v: "🖼️ Wat toont deze figuur ('Links and Lanes')?", a: "PCIe-slots en -connectoren met verschillende aantallen lanes (x1, x4, x8, x16), en dat één lane bestaat uit een zendpaar en een ontvangstpaar.", o: "PCI Express", img: "afbeeldingen/l4_s16_lanes.jpg",
+  { v: "🖼️ Wat toont deze figuur ('Links and Lanes')?", a: "PCIe-slots en -connectoren met verschillende aantallen lanes (x1, x4, x8, x16), en dat één lane bestaat uit een zendpaar en een ontvangstpaar.", o: "PCI Express", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s16_lanes.jpg",
     uitleg: "Meer lanes = meer bandbreedte (bv. x16 voor een grafische kaart). Omdat er een apart zend- en ontvangstpaar is, kan een lane tegelijk zenden en ontvangen." },
 
   // ===== PCI Express: punt-tot-punt (slide 17) =====
@@ -281,7 +281,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoeveel bit is het oude PCI-slot op de foto?", a: "32-bit.", o: "PCI Express: punt-tot-punt" },
   { v: "Wat zie je op de foto aan de lengte van de PCIe-slots?", a: "Hoe meer lanes, hoe langer het slot.", o: "PCI Express: punt-tot-punt" },
   { v: "Waarom past een PCI-kaart niet in een PCIe-slot?", a: "Het oude PCI-slot ziet er anders uit dan een PCIe-slot: PCIe is niet achterwaarts compatibel met PCI.", o: "PCI Express: punt-tot-punt" },
-  { v: "🖼️ Welke slots zijn 1 tot 5 op deze foto (van boven naar onder)?", a: "1 = PCI Express ×4\n2 = PCI Express ×16\n3 = PCI Express ×1\n4 = PCI Express ×16\n5 = Legacy PCI (32-bit)", o: "PCI Express: punt-tot-punt", img: "afbeeldingen/l4_s17_slots_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s17_slots.jpg",
+  { v: "🖼️ Welke slots zijn 1 tot 5 op deze foto (van boven naar onder)?", a: "1 = PCI Express ×4\n2 = PCI Express ×16\n3 = PCI Express ×1\n4 = PCI Express ×16\n5 = Legacy PCI (32-bit)", o: "PCI Express: punt-tot-punt", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s17_slots_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s17_slots.jpg",
     uitleg: "Hoe meer lanes, hoe langer het PCIe-slot. Het oude PCI-slot ziet er anders uit: PCIe is niet achterwaarts compatibel met PCI." },
 
   // ===== Wat hangt er aan PCI Express? (slide 18) =====
@@ -309,7 +309,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat betekent “niet beperkt door SATA”?", a: "De snelheid van de NVMe-SSD wordt niet afgeremd door de maximumsnelheid van SATA.", o: "Wat hangt er aan PCI Express?" },
   { v: "Wat toont de afbeelding op de slide?", a: "Een NVMe-SSD op een PCIe-insteekkaart.", o: "Wat hangt er aan PCI Express?",
     uitleg: "Achtergrond (wordt niet gevraagd): Waarom zet je een NVMe-SSD op een PCIe-insteekkaart? Zodat je de SSD in een gewoon PCIe-slot kan steken." },
-  { v: "🖼️ Wat zie je op deze foto (een kaart in een PCIe-slot)?", a: "Een NVMe-SSD op een PCIe-insteekkaart.", o: "Wat hangt er aan PCI Express?", img: "afbeeldingen/l4_s18_nvme_kaart.jpg",
+  { v: "🖼️ Wat zie je op deze foto (een kaart in een PCIe-slot)?", a: "Een NVMe-SSD op een PCIe-insteekkaart.", o: "Wat hangt er aan PCI Express?", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s18_nvme_kaart.jpg",
     uitleg: "Zo kan je een NVMe-SSD in een gewoon PCIe-slot steken. Via PCIe is ze niet beperkt door SATA (± 550 MB/s)." },
 
   // ===== PCIe: elke versie verdubbelt (slide 19–20) =====
@@ -321,7 +321,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waarom geeft een nieuwere versie meer bandbreedte?", a: "Elke lane wordt bij een nieuwe versie ongeveer twee keer zo snel.", o: "PCIe: elke versie verdubbelt",
     uitleg: "Achtergrond (wordt niet gevraagd): Welk slot is ongeveer even snel als een x16-slot met PCIe 3.0? Een x8-slot met PCIe 4.0 (helft van de lanes, maar elke lane dubbel zo snel)." },
   { v: "Wat betekent “per richting” bij de bandbreedte?", a: "De bandbreedte geldt voor één richting; PCIe kan tegelijk evenveel zenden als ontvangen.", o: "PCIe: elke versie verdubbelt" },
-  { v: "🖼️ Wat toont deze grafiek en welke trend zie je?", a: "De maximale bandbreedte van een x16-slot per richting voor elke PCIe-versie: elke nieuwe versie verdubbelt ongeveer de bandbreedte (4 → 8 → 15,8 → 31,5 → 63 → 121 → 242 GB/s, van 1.0 in 2003 tot 7.0 in 2025).", o: "PCIe: elke versie verdubbelt", img: "afbeeldingen/l4_s19_pcie_grafiek.jpg",
+  { v: "🖼️ Wat toont deze grafiek en welke trend zie je?", a: "De maximale bandbreedte van een x16-slot per richting voor elke PCIe-versie: elke nieuwe versie verdubbelt ongeveer de bandbreedte (4 → 8 → 15,8 → 31,5 → 63 → 121 → 242 GB/s, van 1.0 in 2003 tot 7.0 in 2025).", o: "PCIe: elke versie verdubbelt", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s19_pcie_grafiek.jpg",
     uitleg: "Onthoud: meer lanes óf een nieuwere versie geeft meer bandbreedte. De exacte getallen zijn ter informatie." },
 
   // ===== USB (slide 21) =====
@@ -364,7 +364,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoe heet de snelste versie van PATA?", a: "Ultra DMA 6.", o: "Opslaginterfaces: ATA en PATA" },
   { v: "Door wat werd PATA vervangen?", a: "Door SATA.", o: "Opslaginterfaces: ATA en PATA" },
   { v: "Waarom werd PATA vervangen door een seriële interface?", a: "Seriële verbindingen hebben geen last van skew en kunnen dus sneller werken.", o: "Opslaginterfaces: ATA en PATA" },
-  { v: "🖼️ Welke opslaginterface zie je op deze foto's en wat valt op aan de kabel?", a: "PATA (Parallel ATA, ook IDE genoemd): een brede (platte) lintkabel met veel draden.", o: "Opslaginterfaces: ATA en PATA", img: "afbeeldingen/l4_s22_pata.jpg",
+  { v: "🖼️ Welke opslaginterface zie je op deze foto's en wat valt op aan de kabel?", a: "PATA (Parallel ATA, ook IDE genoemd): een brede (platte) lintkabel met veel draden.", o: "Opslaginterfaces: ATA en PATA", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s22_pata.jpg",
     uitleg: "De kabel is breed omdat PATA parallel werkt: elke bit een eigen draad. Tot 133 MB/s (Ultra DMA 6); vervangen door SATA." },
 
   // ===== Opslaginterfaces: SATA (slide 23) =====
@@ -385,7 +385,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat is de theoretische maximumsnelheid van SATA III?", a: "6 Gb/s.", o: "Opslaginterfaces: SATA" },
   { v: "Hoeveel haalt SATA III in de praktijk?", a: "Ongeveer 550 MB/s.", o: "Opslaginterfaces: SATA" },
   { v: "Wat is het verschil tussen Gb/s en GB/s?", a: "Gb/s = gigabit per seconde, GB/s = gigabyte per seconde (1 byte = 8 bits).", o: "Opslaginterfaces: SATA" },
-  { v: "🖼️ Welke kabels en aansluitingen zie je hier?", a: "SATA: smalle (rode) datakabels en de SATA-poorten op het moederbord.", o: "Opslaginterfaces: SATA", img: "afbeeldingen/l4_s23_sata.jpg",
+  { v: "🖼️ Welke kabels en aansluitingen zie je hier?", a: "SATA: smalle (rode) datakabels en de SATA-poorten op het moederbord.", o: "Opslaginterfaces: SATA", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s23_sata.jpg",
     uitleg: "SATA (Serial ATA) is serieel en heeft dus weinig draden nodig; de stroom komt via een aparte stroomkabel. SATA III: tot 6 Gb/s, in de praktijk ± 550 MB/s." },
 
   // ===== Opslaginterfaces: SAS (slide 24) =====
@@ -397,7 +397,7 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Storage-oplossingen = opslagsystemen, bv. een SAN of NAS in een datacenter." },
   { v: "Zijn SATA en SAS compatibel?", a: "SATA-schijven passen op SAS-backplanes, omgekeerd niet.", o: "Opslaginterfaces: SAS",
     uitleg: "Backplane = printplaat in de server waar de schijven in geschoven worden." },
-  { v: "🖼️ Welke opslaginterface hoort bij deze foto's en waar wordt ze vooral gebruikt?", a: "SAS (Serial Attached SCSI): een SAS-schijf en -kabel. Vooral in servers en storage-oplossingen.", o: "Opslaginterfaces: SAS", img: "afbeeldingen/l4_s24_sas.jpg",
+  { v: "🖼️ Welke opslaginterface hoort bij deze foto's en waar wordt ze vooral gebruikt?", a: "SAS (Serial Attached SCSI): een SAS-schijf en -kabel. Vooral in servers en storage-oplossingen.", o: "Opslaginterfaces: SAS", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s24_sas.jpg",
     uitleg: "Laatste versie SAS-4: tot 22,5 Gbit/s. SATA-schijven passen op SAS-backplanes, omgekeerd niet." },
 
   // ===== Opslaginterfaces: M.2 (slide 25) =====
@@ -409,7 +409,7 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Snelheid: tot ongeveer 15,8 GB/s bij PCIe 5.0 x4." },
   { v: "Wat wordt er via M.2 aangesloten?", a: "Meestal een SSD, maar ook bv. wifi-modules.", o: "Opslaginterfaces: M.2",
     uitleg: "Een M.2-slot heeft een 'key' (inkeping): Key M voor SSD's, Key E voor wifi/bluetooth (zie het AMD-schema: 'Key E slot')." },
-  { v: "🖼️ Welke opslaginterface zie je op deze foto (plat op het moederbord)?", a: "Een M.2-SSD: een klein insteekkaartje rechtstreeks op het moederbord, zonder kabels.", o: "Opslaginterfaces: M.2", img: "afbeeldingen/l4_s25_m2.jpg",
+  { v: "🖼️ Welke opslaginterface zie je op deze foto (plat op het moederbord)?", a: "Een M.2-SSD: een klein insteekkaartje rechtstreeks op het moederbord, zonder kabels.", o: "Opslaginterfaces: M.2", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s25_m2.jpg",
     uitleg: "M.2 is een form factor, geen snelheid: de kaart werkt via SATA of PCI Express. Huidige SSD's: PCIe 4.0 of 5.0 met 4 lanes." },
 
   // ===== Opslaginterfaces: U.2 (slide 26) =====
@@ -419,7 +419,7 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Ook betere koeling." },
   { v: "Hoe sluit je U.2 aan?", a: "Kabels zijn vereist, vaak via een M.2-adapter.", o: "Opslaginterfaces: U.2",
     uitleg: "De adapter zet een M.2-slot om naar een U.2-kabelaansluiting, zodat ook een gewoon moederbord een U.2-SSD kan gebruiken." },
-  { v: "🖼️ Wat zie je op deze foto's?", a: "Een M.2-adapter met een U.2-kabel: zo sluit je een U.2-SSD aan.", o: "Opslaginterfaces: U.2", img: "afbeeldingen/l4_s26_u2.jpg",
+  { v: "🖼️ Wat zie je op deze foto's?", a: "Een M.2-adapter met een U.2-kabel: zo sluit je een U.2-SSD aan.", o: "Opslaginterfaces: U.2", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s26_u2.jpg",
     uitleg: "U.2: de SSD zit terug in een behuizing (meer ruimte voor chips, hogere capaciteit), maar kabels zijn vereist, vaak via een M.2-adapter." },
 
   // ===== Opslaginterfaces vergeleken (slide 27) =====
@@ -443,7 +443,7 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Bron: NVM Express Base Specification, AHCI 1.3.1." },
   { v: "Waarom heeft AHCI maar 1 queue?", a: "Omdat het ontworpen is rond de draaiende harde schijf.", o: "AHCI tegenover NVMe",
     uitleg: "Een harde schijf heeft één arm met koppen: die kan maar één ding tegelijk." },
-  { v: "🖼️ Vul de NVMe-kolom aan (1 tot 6).", a: "1 = PCI Express (rechtstreeks, M.2, U.2)\n2 = flashgeheugen in SSD's\n3 = tot 65 535 queues\n4 = tot 65 536 commands per queue\n5 = lage latency\n6 = intern parallellisme", o: "AHCI tegenover NVMe", img: "afbeeldingen/l4_s29_ahci_nvme_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s29_ahci_nvme.jpg",
+  { v: "🖼️ Vul de NVMe-kolom aan (1 tot 6).", a: "1 = PCI Express (rechtstreeks, M.2, U.2)\n2 = flashgeheugen in SSD's\n3 = tot 65 535 queues\n4 = tot 65 536 commands per queue\n5 = lage latency\n6 = intern parallellisme", o: "AHCI tegenover NVMe", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s29_ahci_nvme_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s29_ahci_nvme.jpg",
     uitleg: "AHCI: gemaakt voor SATA, ontworpen rond de draaiende harde schijf, 1 queue met 32 commands, hogere latency, sterk punt: hoge compatibiliteit." },
 
   // ===== Snelheden op een rij (slide 30) =====
@@ -462,7 +462,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat zie je bij de NVMe-SSD's van PCIe 3.0 naar 4.0 naar 5.0?", a: "De snelheid verdubbelt telkens: 32 → 64 → 128 Gbit/s.", o: "Snelheden op een rij",
     uitleg: "Achtergrond (wordt niet gevraagd): Hoeveel keer sneller is een NVMe-SSD met PCIe 5.0 x4 dan SATA III? Ongeveer 21 keer (128 / 6)." },
   { v: "Hoe reken je MB/s om naar Mbit/s?", a: "Maal 8 (1 byte = 8 bits).", o: "Snelheden op een rij" },
-  { v: "🖼️ Wat is speciaal aan de schaal van deze grafiek, en wat is de traagste en de snelste verbinding?", a: "Logaritmische schaal: elke rasterlijn is 10 keer sneller. Traagst: diskettestation (250 kbit/s). Snelst: PCIe x16 (6.0) met 1024 Gbit/s.", o: "Snelheden op een rij", img: "afbeeldingen/l4_s30_snelheden.jpg",
+  { v: "🖼️ Wat is speciaal aan de schaal van deze grafiek, en wat is de traagste en de snelste verbinding?", a: "Logaritmische schaal: elke rasterlijn is 10 keer sneller. Traagst: diskettestation (250 kbit/s). Snelst: PCIe x16 (6.0) met 1024 Gbit/s.", o: "Snelheden op een rij", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s30_snelheden.jpg",
     uitleg: "Zonder logaritmische schaal zouden de trage verbindingen onzichtbaar zijn (verschil ± factor 4 miljoen). Let op de NVMe-SSD's: 32 → 64 → 128 Gbit/s voor PCIe 3.0, 4.0 en 5.0." },
 
   // ===== Wat is een chipset? (slide 31) =====
@@ -524,7 +524,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waar zitten nu USB, SATA, audio en netwerk?", a: "In de chipset (bij Intel de PCH).", o: "Waar zit wat: vroeger en nu" },
   { v: "Wat was vroeger de verbinding met de processor, en wat nu?", a: "Vroeger de FSB naar de northbridge; nu DMI (Intel) of PCIe x4 (AMD) naar de chipset.", o: "Waar zit wat: vroeger en nu",
     uitleg: "Achtergrond (wordt niet gevraagd): Waarom werden geheugen en grafische kaart naar de processor verhuisd? Ze hebben baat bij een zo kort mogelijke, snelle weg naar de processor; de FSB was een flessenhals geworden." },
-  { v: "🖼️ Vul de kolom 'Nu' aan (1 tot 4).", a: "1 = processor\n2 = processor\n3 = chipset (bij Intel de PCH)\n4 = DMI (Intel) of PCIe x4 (AMD) naar de chipset", o: "Waar zit wat: vroeger en nu", img: "afbeeldingen/l4_s34_vroeger_nu_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s34_vroeger_nu.jpg",
+  { v: "🖼️ Vul de kolom 'Nu' aan (1 tot 4).", a: "1 = processor\n2 = processor\n3 = chipset (bij Intel de PCH)\n4 = DMI (Intel) of PCIe x4 (AMD) naar de chipset", o: "Waar zit wat: vroeger en nu", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s34_vroeger_nu_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s34_vroeger_nu.jpg",
     uitleg: "Kort: de taken van de northbridge zitten nu in de processor, die van de southbridge in de chipset." },
 
   // ===== Moederbord (slide 35) =====
@@ -560,7 +560,7 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waarvoor zorgt het oscillerende kristal?", a: "Voor precisie: het trilt op een vaste frequentie.", o: "Waarom een CMOS-batterij?" },
   { v: "Wat betekent 'onafhankelijk van de CPU'?", a: "De klok werkt apart van de processor en loopt ook als de processor niet werkt.", o: "Waarom een CMOS-batterij?" },
   { v: "Welk type batterij zit er vandaag op het moederbord?", a: "Een knoopcel (CR2032).", o: "Waarom een CMOS-batterij?" },
-  { v: "🖼️ Welk onderdeel is uitvergroot op deze foto en waarvoor dient het?", a: "De CMOS-batterij: een knoopcel (CR2032) die de real-time clock (RTC) laat doorlopen als de pc uit staat.", o: "Waarom een CMOS-batterij?", img: "afbeeldingen/l4_s36_cmos.jpg",
+  { v: "🖼️ Welk onderdeel is uitvergroot op deze foto en waarvoor dient het?", a: "De CMOS-batterij: een knoopcel (CR2032) die de real-time clock (RTC) laat doorlopen als de pc uit staat.", o: "Waarom een CMOS-batterij?", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s36_cmos.jpg",
     uitleg: "Vroeger (XT) was er geen RTC: de klok startte op 1-1-1980 0:00 u. Sinds AT is er een RTC met batterij en oscillerend kristal. Lege batterij = verkeerde datum/tijd na het opstarten." },
 
   // ===== Moederbord: form factors (slide 37–38) =====
@@ -577,9 +577,9 @@ const kaarten_IT_deel2_les4 = [
   { v: "Welke form factor is de laatste jaren populairder geworden?", a: "Micro-ATX.", o: "Moederbord: form factors" },
   { v: "Welke form factors zijn nog kleiner dan Mini-ITX?", a: "Nano-ITX en Pico-ITX.", o: "Moederbord: form factors",
     uitleg: "Achtergrond (wordt niet gevraagd): Wat win je en wat verlies je bij een kleiner moederbord? Je wint een compactere pc, maar verliest uitbreidingsmogelijkheden (slots)." },
-  { v: "🖼️ Welke form factors zijn 1 tot 5?", a: "1 = Standard-ATX\n2 = Micro-ATX\n3 = Mini-ITX\n4 = Nano-ITX\n5 = Pico-ITX", o: "Moederbord: form factors", img: "afbeeldingen/l4_s37_formfactors_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s37_formfactors.jpg",
+  { v: "🖼️ Welke form factors zijn 1 tot 5?", a: "1 = Standard-ATX\n2 = Micro-ATX\n3 = Mini-ITX\n4 = Nano-ITX\n5 = Pico-ITX", o: "Moederbord: form factors", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s37_formfactors_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s37_formfactors.jpg",
     uitleg: "Volgorde van groot naar klein: (EATX →) ATX → Micro-ATX → Mini-ITX → Nano-ITX → Pico-ITX. De vulpen geeft de schaal aan." },
-  { v: "🖼️ Welke form factors horen bij 1 tot 4 in deze tabel?", a: "1 = EATX (305 × 330 mm)\n2 = ATX (305 × 244 mm, 1995)\n3 = Micro-ATX (244 × 244 mm)\n4 = Mini-ITX (170 × 170 mm)", o: "Moederbord: form factors", img: "afbeeldingen/l4_s38_formfactors_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s38_formfactors_tabel.jpg",
+  { v: "🖼️ Welke form factors horen bij 1 tot 4 in deze tabel?", a: "1 = EATX (305 × 330 mm)\n2 = ATX (305 × 244 mm, 1995)\n3 = Micro-ATX (244 × 244 mm)\n4 = Mini-ITX (170 × 170 mm)", o: "Moederbord: form factors", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s38_formfactors_tabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s38_formfactors_tabel.jpg",
     uitleg: "De afmetingen zijn ter informatie; de volgorde van groot naar klein moet je kennen." },
 
   // ===== ATX-voedingen (slide 39–40) =====
@@ -601,9 +601,9 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoeveel vermogen kan de 12V-2x6-connector leveren?", a: "Tot 600 W.", o: "ATX-voedingen" },
   { v: "Welke connector gebruik je voor schijven?", a: "SATA.", o: "ATX-voedingen" },
   { v: "Welke connector gebruik je voor oudere toestellen?", a: "Molex.", o: "ATX-voedingen" },
-  { v: "🖼️ Wat toont dit schema?", a: "Het pinout-schema van de verschillende voedingsconnectors (ATX 20/24-pin, 4/8-pin, PCIe 6/8-pin, Molex, SATA …) met hun spanningen.", o: "ATX-voedingen", img: "afbeeldingen/l4_s39_pinout.jpg",
+  { v: "🖼️ Wat toont dit schema?", a: "Het pinout-schema van de verschillende voedingsconnectors (ATX 20/24-pin, 4/8-pin, PCIe 6/8-pin, Molex, SATA …) met hun spanningen.", o: "ATX-voedingen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s39_pinout.jpg",
     uitleg: "Ter informatie: je moet de pinout niet kennen, wel welke connector waarvoor dient." },
-  { v: "🖼️ Welke voedingsconnectors zijn 1 tot 6?", a: "1 = 24-pin (20+4) moederbordconnector\n2 = PCIe 6-8 pins (grafische kaart)\n3 = CPU 4+4 pins (EPS)\n4 = Molex (oudere toestellen)\n5 = SATA (schijven)\n6 = 16 pins 12VHPWR / 12V-2x6 (krachtige grafische kaarten, tot 600 W)", o: "ATX-voedingen", img: "afbeeldingen/l4_s40_connectors_vraag.jpg", imgAntwoord: "afbeeldingen/l4_s40_connectors.jpg" },
+  { v: "🖼️ Welke voedingsconnectors zijn 1 tot 6?", a: "1 = 24-pin (20+4) moederbordconnector\n2 = PCIe 6-8 pins (grafische kaart)\n3 = CPU 4+4 pins (EPS)\n4 = Molex (oudere toestellen)\n5 = SATA (schijven)\n6 = 16 pins 12VHPWR / 12V-2x6 (krachtige grafische kaarten, tot 600 W)", o: "ATX-voedingen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s40_connectors_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s40_connectors.jpg" },
 
   // ===== Een moederbord lezen (slide 41) =====
   { v: "Welke 10 onderdelen moet je op een moederbord kunnen aanwijzen (slide 41)?", a: "1. CPU-socket\n2. RAM-slots\n3. PCIe x16-slot\n4. PCIe x1-slot\n5. M.2-slot\n6. Chipset (onder de heatsink)\n7. CMOS-batterij\n8. SATA-poorten\n9. Voeding moederbord (24-pin)\n10. Voeding CPU (8-pin)", o: "Een moederbord lezen",
@@ -619,25 +619,25 @@ const kaarten_IT_deel2_les4 = [
   { v: "Hoe herken je de CMOS-batterij?", a: "Een ronde knoopcel.", o: "Een moederbord lezen" },
   { v: "Waarvoor dienen de SATA-poorten?", a: "Om SATA-schijven aan te sluiten.", o: "Een moederbord lezen" },
   { v: "Welke twee voedingsaansluitingen staan op het moederbord?", a: "De 24-pin voor het moederbord en de 8-pin (4+4 EPS) voor de CPU.", o: "Een moederbord lezen" },
-  { v: "🖼️ Wat is nummer 1 op dit moederbord?", a: "CPU-socket: de grote vierkante voet waarin de processor zit.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 1 op dit moederbord?", a: "CPU-socket: de grote vierkante voet waarin de processor zit.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 2 op dit moederbord?", a: "RAM-slots: de lange, smalle sleuven naast de CPU-socket voor het werkgeheugen.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 2 op dit moederbord?", a: "RAM-slots: de lange, smalle sleuven naast de CPU-socket voor het werkgeheugen.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 3 op dit moederbord?", a: "PCIe x16-slot: het lange slot voor de grafische kaart (het bovenste x16-slot is rechtstreeks met de CPU verbonden).", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 3 op dit moederbord?", a: "PCIe x16-slot: het lange slot voor de grafische kaart (het bovenste x16-slot is rechtstreeks met de CPU verbonden).", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 4 op dit moederbord?", a: "PCIe x1-slot: kort slot voor kaarten die weinig bandbreedte nodig hebben (bv. netwerk- of geluidskaart).", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 4 op dit moederbord?", a: "PCIe x1-slot: kort slot voor kaarten die weinig bandbreedte nodig hebben (bv. netwerk- of geluidskaart).", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 5 op dit moederbord?", a: "M.2-slot: klein slot met een schroefje om een M.2-SSD plat op het moederbord vast te zetten.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 5 op dit moederbord?", a: "M.2-slot: klein slot met een schroefje om een M.2-SSD plat op het moederbord vast te zetten.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 6 op dit moederbord?", a: "Chipset (onder de heatsink): het 'verkeerscentrum' voor USB, SATA, netwerk, audio …; de koelplaat voert de warmte af.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 6 op dit moederbord?", a: "Chipset (onder de heatsink): het 'verkeerscentrum' voor USB, SATA, netwerk, audio …; de koelplaat voert de warmte af.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 7 op dit moederbord?", a: "CMOS-batterij: ronde knoopcel (CR2032) die de real-time clock laat doorlopen als de pc uit staat.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 7 op dit moederbord?", a: "CMOS-batterij: ronde knoopcel (CR2032) die de real-time clock laat doorlopen als de pc uit staat.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 8 op dit moederbord?", a: "SATA-poorten: aansluitingen voor SATA-schijven (HDD of goedkopere SSD).", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 8 op dit moederbord?", a: "SATA-poorten: aansluitingen voor SATA-schijven (HDD of goedkopere SSD).", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 9 op dit moederbord?", a: "Voeding moederbord (24-pin): de grote ATX-stroomconnector van de PSU.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 9 op dit moederbord?", a: "Voeding moederbord (24-pin): de grote ATX-stroomconnector van de PSU.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
-  { v: "🖼️ Wat is nummer 10 op dit moederbord?", a: "Voeding CPU (8-pin, 4+4 EPS): aparte stroomtoevoer voor de processor.", o: "Een moederbord lezen", img: "afbeeldingen/l4_s41_moederbord.jpg",
+  { v: "🖼️ Wat is nummer 10 op dit moederbord?", a: "Voeding CPU (8-pin, 4+4 EPS): aparte stroomtoevoer voor de processor.", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
     uitleg: "Moederbord: ASUS Prime X570-P (AMD)." },
 ];
 
