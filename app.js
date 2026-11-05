@@ -908,7 +908,7 @@ function toonEenhoorn() {
 }
 
 /* ===== Beloning: draakje =====
-   Telkens als je 3 kaarten op rij juist hebt (5, 10, 15 ...) vliegt er rechts een
+   Telkens als je 3 kaarten op rij juist hebt (3, 6, 9 ...) vliegt er rechts een
    blauw draakje zigzaggend van onder naar boven. Op ¾ hoogte spuwt hij blauw vuur.
    Een fout zet de reeks terug op 0. */
 let reeks = 0;

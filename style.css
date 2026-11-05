@@ -550,7 +550,7 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 .titel-dier svg { display: block; height: 1.9em; width: auto; overflow: visible; }
 
 /* ===== Duiveltje: 3 kaarten op rij fout =====
-   Hopt op een derde van links naar beneden (snelheid 1,2) en ontploft
+   Hopt in 2 grote hopjes op een derde van links naar beneden (snelheid 1,2) en ontploft
    in wolkjes en codetekentjes zodra zijn voetjes de onderkant raken.
    --bodem = zichtbare schermhoogte, gezet in toonDuiveltje(). */
 #duiveltje { position: fixed; inset: 0; z-index: 62; pointer-events: none; overflow: hidden; }
@@ -558,8 +558,8 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
   animation: du-val 2.5s linear forwards; }
 #duiveltje svg { display: block; width: 100%; height: auto; overflow: visible; }
 #duiveltje .du-p { transform-origin: 0 0; }
-#duiveltje .du-wob  { transform-origin: 50% 90.6%; animation: du-wob .917s ease-in-out infinite alternate; }   /* draaien rond zijn voetjes */
-#duiveltje .du-hop  { transform-box: view-box; transform-origin: 85px 163px; animation: du-hop .4167s infinite;   /* 6 hopjes in 2,5 s: landt precies onderaan */ }
+#duiveltje .du-wob  { transform-origin: 50% 90.6%; animation: du-wob .833s ease-in-out infinite alternate; }   /* draaien rond zijn voetjes */
+#duiveltje .du-hop  { transform-box: view-box; transform-origin: 85px 163px; animation: du-hop .833s infinite;   /* 2 hopjes, de 3de landing valt precies onderaan */ }
 #duiveltje .du-wl   { animation: du-flapL .25s ease-in-out infinite; }
 #duiveltje .du-wr   { animation: du-flapR .25s ease-in-out infinite; }
 #duiveltje .du-tail { animation: du-wig .458s ease-in-out infinite; }
@@ -578,11 +578,11 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 @keyframes du-val { from { transform: translateY(-150px); } to { transform: translateY(calc(var(--bodem, 100vh) - 96px)); } }
 @keyframes du-wob { from { transform: translateX(0) rotate(-6deg); } to { transform: translateX(34px) rotate(6deg); } }
 @keyframes du-hop {
-  0%   { transform: translateY(0) scale(1.14, .84); animation-timing-function: ease-out; }
-  14%  { transform: translateY(-8px) scale(.94, 1.08); animation-timing-function: ease-out; }
-  48%  { transform: translateY(-30px) scale(1, 1); animation-timing-function: ease-in; }
-  92%  { transform: translateY(0) scale(1.02, .98); }
-  100% { transform: translateY(0) scale(1.14, .84); }
+  0%   { transform: translateY(0) scale(1.2, .78); animation-timing-function: ease-out; }
+  10%  { transform: translateY(-10px) scale(.92, 1.1); animation-timing-function: ease-out; }
+  48%  { transform: translateY(-58px) scale(1, 1); animation-timing-function: ease-in; }
+  94%  { transform: translateY(0) scale(1.03, .97); }
+  100% { transform: translateY(0) scale(1.2, .78); }
 }
 @keyframes du-krimp { 0% { transform: translateX(17px) scale(1.25, .7); } 100% { transform: translateX(17px) scale(0); opacity: 0; } }
 @keyframes du-wolk { 0% { transform: scale(.2); opacity: .95; } 60% { opacity: .8; } 100% { transform: scale(var(--s)); opacity: 0; } }
