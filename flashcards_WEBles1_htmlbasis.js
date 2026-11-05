@@ -5,28 +5,9 @@
 
 const kaarten_WEB_les1 = [
 
-  // ===== Vakorganisatie (1) =====
-  { v: "Uit hoeveel lessen bestaat de cursus Web Essentials?", a: "6 intensieve lessen.", o: "Vakorganisatie",
-    uitleg: "In die 6 lessen leer je de basis van HTML, CSS en webpagina's. Web Essentials is de start van de leerlijn web development in de opleiding Toegepaste Informatica. Buiten de lessen moet je ook zelf tijd aan het vak besteden, zoals de ECTS-fiche aangeeft." },
-  { v: "Hoeveel studiepunten (ECTS) telt Web Essentials?", a: "4 studiepunten.", o: "Vakorganisatie" },
-  { v: "Web Essentials is de start van de leerlijn …", a: "Web development.", o: "Vakorganisatie",
-    uitleg: "Het is het eerste vak in de reeks vakken rond webontwikkeling in de bachelor Toegepaste Informatica." },
-
   // ===== 1.1 Studiemateriaal & platformen (1.1) =====
-  { v: "Wat is Canvas (canvas.ehb.be) voor dit vak?", a: "Het centrale platform met de thematische modules, leerdoelen, oefeningen en evaluatie-info.", o: "1.1 Studiemateriaal & platformen" },
   { v: "Welke code-editor gebruik je in Web Essentials?", a: "Visual Studio Code (VS Code).", o: "1.1 Studiemateriaal & platformen",
     uitleg: "VS Code is gratis voor Windows en macOS via code.visualstudio.com." },
-  { v: "Wat is LinkedIn Learning voor dit vak?", a: "Een extern leerplatform voor verdiepende oefeningen en video's.", o: "1.1 Studiemateriaal & platformen",
-    uitleg: "Studenten krijgen er toegang toe zonder extra te betalen, via Academic Software." },
-  { v: "Waar en hoe krijg je begeleiding bij Web Essentials?", a: "Tijdens de contacturen op de campus, en online via Microsoft Teams (op afspraak).", o: "1.1 Studiemateriaal & platformen" },
-  { v: "Geef de 4 platformen of hulpmiddelen uit \"Studiemateriaal & platformen\".", a: "Canvas, Visual Studio Code, LinkedIn Learning en begeleiding (campus + Microsoft Teams).", o: "1.1 Studiemateriaal & platformen" },
-
-  // ===== 1.2 Evaluatieoverzicht (1.2) =====
-  { v: "Hoe word je als dagstudent geëvalueerd in de eerste examenkans (januari)?", a: "20% permanente evaluatie: een schriftelijke toets tijdens het semester.\n80% praktijkexamen: een vaardigheidsproef in de examenperiode.", o: "1.2 Evaluatieoverzicht",
-    uitleg: "Het praktijkexamen weegt dus het zwaarst: je moet echt zelf HTML en CSS kunnen schrijven. De theorie (deze flashcards) is goed voor 20%." },
-  { v: "Hoe word je als dagstudent geëvalueerd in de tweede examenkans?", a: "20% theorie (schriftelijke evaluatie) en 80% praktijkexamen (vaardigheidsproef).", o: "1.2 Evaluatieoverzicht" },
-  { v: "Hoe wordt het werktraject / postgraduaat geëvalueerd?", a: "20% theorie (theoretische vragen) en 80% praktijk: een vaardigheidsproef (geïntegreerd examen). Dat geldt voor beide examenkansen.", o: "1.2 Evaluatieoverzicht" },
-  { v: "Hoeveel procent van de punten is theorie, en hoeveel praktijk?", a: "20% theorie, 80% praktijk.", o: "1.2 Evaluatieoverzicht" },
 
   // ===== 2.1 Ontstaan van het web, HTML & W3C (2.1) =====
   { v: "Wie ontwikkelde HTML, waar en in welk jaar?", a: "Sir Tim Berners-Lee, bij CERN in Genève, in 1991.", o: "2.1 Ontstaan van het web, HTML & W3C",
