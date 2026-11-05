@@ -159,6 +159,7 @@ function herstelSessie() {
   index = Math.min(Math.max(s.index || 0, 0), stapel.length - 1);
   acties = [];
   hervatbaar = !!s.hervatbaar;
+  zetEenhoornStand();
   toonScherm("schermOefenen");
   toonKaart();
 }
@@ -474,6 +475,7 @@ function startOefenen(kaarten) {
   index = 0;
   fouten = [];
   acties = [];
+  zetEenhoornStand();   // al boven 50%? dan pas opnieuw na eerst onder 50% te zakken
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -691,12 +693,13 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet });
+  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: eenhoornBoven });
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   s.laatst = wistHet;
   stats[id] = s;
   bewaar("stats", stats);
+  controleerEenhoorn();   // over de 50% juist gegaan? dan galoppeert de eenhoorn
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -736,6 +739,7 @@ function maakOngedaan() {
     bewaarVerborgen();
     stapel.splice(actie.index, 0, actie.kaart);
   }
+  eenhoornBoven = actie.boven;   // eenhoorn-stand terug zoals vóór die actie (geen eenhoorn tonen)
   index = actie.index;
   toonScherm("schermOefenen");
   toonKaart();
@@ -749,9 +753,10 @@ function zetOngedaanKnoppen() {
 function gooiWeg() {
   if (bezig) return;
   const kaart = stapel[index];
-  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart) });
+  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: eenhoornBoven });
   verborgen.add(kaartId(huidigVak, kaart.hfst, kaart));
   bewaarVerborgen();
+  zetEenhoornStand();
   stapel.splice(index, 1);
   if (index < stapel.length) toonKaart();
   else toonEinde();
@@ -790,6 +795,90 @@ function toonEinde() {
 
 function herhaalFouten() {
   startOefenen(fouten);
+}
+
+/* ===== Beloning: eenhoorn =====
+   Kijkt naar de totaalstand links (juist / (juist + fout), over al je sessies).
+   Ga je over de 50%, dan galoppeert er een eenhoorn over het scherm.
+   Daarna niet meer, tot je eerst weer onder de 50% zakt. Precies 50% verandert niets. */
+let eenhoornBoven = false;
+
+function procentJuist() {
+  const t = telJuistFout(gekozenHoofdstukken);
+  const beantwoord = t.juist + t.fout;
+  return beantwoord ? t.juist / beantwoord : null;
+}
+
+// stand bepalen zonder eenhoorn te tonen (bij start, refresh, ongedaan maken, weggooien)
+function zetEenhoornStand() {
+  const p = procentJuist();
+  if (p === null || p < 0.5) eenhoornBoven = false;
+  else if (p > 0.5) eenhoornBoven = true;
+}
+
+// na een antwoord: over de grens gegaan? dan eenhoorn tonen
+function controleerEenhoorn() {
+  const p = procentJuist();
+  if (p === null) return;
+  if (p > 0.5 && !eenhoornBoven) { eenhoornBoven = true; toonEenhoorn(); }
+  else if (p < 0.5) eenhoornBoven = false;
+}
+
+const EENHOORN_SVG = `
+<svg viewBox="-30 -30 180 160" aria-hidden="true">
+<path class="eh-tw" d="M-22 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#DCDCAA"/>
+<path class="eh-tw" d="M-8 88 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#9FE1CB"/>
+<g transform="translate(70,90)"><g class="eh-rock eh-p"><g transform="translate(-70,-90)">
+<g transform="translate(42,58)"><g class="eh-hair eh-p"><g transform="translate(-42,-58)">
+<path d="M44 56 Q22 44 12 62 Q2 82 12 106 Q12 92 20 88 Q16 104 28 112 Q26 96 34 88 Q30 100 40 104 Q36 86 42 76 Q46 66 48 62Z" fill="#3B6D11"/>
+<path d="M40 60 Q22 58 18 76 Q16 88 22 96 Q22 82 30 76 Q28 88 34 94 Q34 78 42 68Z" fill="#6A9955"/>
+<path d="M30 64 Q22 74 24 88" stroke="#97C459" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+</g></g></g>
+<g transform="translate(45,70)"><g class="eh-hu2 eh-p"><path d="M-8 -8 L6 -8 L3.5 22 L-3 22Z" fill="#2E8B6E"/><g transform="translate(0,21)"><g class="eh-hk2 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#2E8B6E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#5DCAA5"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#173404"/></g></g></g></g>
+<g transform="translate(88,70)"><g class="eh-fu2 eh-p"><path d="M-5 -6 L5 -6 L3 22 L-3 22Z" fill="#2E8B6E"/><g transform="translate(0,21)"><g class="eh-fk2 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#2E8B6E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#5DCAA5"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#173404"/></g></g></g></g>
+<circle cx="50" cy="62" r="17" fill="#3FB68E"/>
+<ellipse cx="70" cy="66" rx="28" ry="15" fill="#3FB68E"/>
+<circle cx="90" cy="64" r="15" fill="#3FB68E"/>
+<path d="M58 78 Q70 82 84 78" stroke="#2E8B6E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+<g transform="translate(52,72)"><g class="eh-hu1 eh-p"><path d="M-9 -8 L7 -8 L4 22 L-3 22Z" fill="#3FB68E"/><g transform="translate(0,21)"><g class="eh-hk1 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#3FB68E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#9FE1CB"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#27500A"/></g></g></g></g>
+<g transform="translate(94,72)"><g class="eh-fu1 eh-p"><path d="M-6 -6 L6 -6 L3.5 22 L-3.5 22Z" fill="#3FB68E"/><g transform="translate(0,21)"><g class="eh-fk1 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#3FB68E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#9FE1CB"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#27500A"/></g></g></g></g>
+<text x="40" y="66" font-size="11" font-family="monospace" fill="#085041">&lt;/&gt;</text>
+<g transform="translate(92,58)"><g class="eh-nod eh-p"><g transform="translate(-92,-58)">
+<path d="M82 60 Q84 36 104 20 L126 30 Q108 44 104 70Z" fill="#3FB68E"/>
+<path d="M110 0 Q92 -6 86 12 Q76 20 80 36 Q72 46 78 60 Q82 52 88 54 Q84 42 94 38 Q90 28 100 26 Q98 16 110 14Z" fill="#3B6D11"/>
+<path d="M104 6 Q92 8 90 22 Q86 32 88 44 Q92 34 98 30 Q94 22 102 16Z" fill="#6A9955"/>
+<path d="M96 12 Q88 22 90 34 M86 40 Q82 48 84 56" stroke="#97C459" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+<circle cx="118" cy="22" r="17" fill="#3FB68E"/>
+<ellipse cx="134" cy="32" rx="12" ry="10" fill="#52C49A"/>
+<ellipse cx="139" cy="29" rx="1.6" ry="2.2" fill="#085041"/>
+<path d="M129 39 q5 4 10 0" stroke="#085041" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M106 8 Q100 -12 113 -7 Q116 1 114 9Z" fill="#3FB68E"/>
+<path d="M108 4 Q105 -6 111 -4 Q112 1 111 6Z" fill="#9FE1CB"/>
+<path d="M120 6 L131 -20 L126 8Z" fill="#DCDCAA"/>
+<path d="M124 -4 l5 1.5 M122 2 l5 1.5 M127 -11 l3 1" stroke="#BA7517" stroke-width="1.2"/>
+<path d="M110 2 Q122 -8 132 4 Q126 2 124 10 Q120 3 114 12 Q112 6 108 8Z" fill="#3B6D11"/>
+<path d="M116 2 Q123 -2 128 4 Q122 3 120 7Z" fill="#6A9955"/>
+<ellipse cx="122" cy="22" rx="7" ry="8.5" fill="#fff"/>
+<ellipse cx="123.5" cy="23" rx="5.5" ry="7" fill="#0F6E56"/>
+<circle cx="124" cy="24" r="3.4" fill="#04342C"/>
+<circle cx="125.8" cy="20.5" r="2" fill="#fff"/>
+<circle cx="122" cy="27" r="1" fill="#fff"/>
+<path d="M115.5 16 Q122 11 129 15.5 M128 15 l3.5 -3 M126 13.5 l2 -4 M123 13 l0.5 -4" stroke="#04342C" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<ellipse cx="125" cy="33" rx="4" ry="2.2" fill="#F4C0D1"/>
+</g></g></g>
+</g></g></g>
+</svg>`;
+
+function toonEenhoorn() {
+  const oud = document.getElementById("eenhoorn");
+  if (oud) oud.remove();                 // nooit twee tegelijk
+  const laag = document.createElement("div");
+  laag.id = "eenhoorn";
+  laag.innerHTML = `<div class="eh-loper">${EENHOORN_SVG}</div>`;
+  document.body.appendChild(laag);
+  const loper = laag.querySelector(".eh-loper");
+  loper.addEventListener("animationend", e => { if (e.target === loper) laag.remove(); });
+  setTimeout(() => laag.remove(), 9000); // vangnet als animationend niet komt
 }
 
 /* Sneltoetsen op het oefenscherm:
