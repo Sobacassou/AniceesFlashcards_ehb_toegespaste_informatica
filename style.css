@@ -597,3 +597,8 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 @media (prefers-reduced-motion: reduce) {
   #duiveltje .du-wob, #duiveltje .du-hop, #duiveltje .du-p { animation: none !important; }
 }
+
+/* ===== Icoontjes van de vakken (startscherm en titel van het hoofdstukkenscherm) ===== */
+button.vak-knop, #vakTitel { display: flex; align-items: center; gap: 12px; }
+.vak-icoon { display: inline-flex; flex-shrink: 0; }
+.vak-icoon svg { display: block; width: 1.6em; height: 1.6em; overflow: visible; }
