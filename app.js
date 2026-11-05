@@ -44,9 +44,13 @@ const vakken = {
     "II.5 – Magnetische opslag": (typeof kaarten_IT_deel2_les5 !== "undefined" ? kaarten_IT_deel2_les5 : ontbreekt("flashcards_ITdeel2les5_magnetisch.js")),
   },
   "📊 Data Essentials": {
-    "H1 – Databanken": [
-      { v: "Wat is een primaire sleutel?", a: "Een veld dat elke rij in een tabel uniek identificeert", o: "1.1 Tabellen" },
-      { v: "Met welk SQL-commando haal je gegevens op?", a: "SELECT", o: "1.2 SQL" },
+    // voorlopig 5 dummykaarten, worden later vervangen door echte kaarten uit de cursus
+    "H1 – Dummykaarten": [
+      { v: "Dummykaart 1: wat is een primaire sleutel?", a: "Een veld dat elke rij in een tabel uniek identificeert.", o: "Dummy" },
+      { v: "Dummykaart 2: met welk SQL-commando haal je gegevens op?", a: "SELECT", o: "Dummy" },
+      { v: "Dummykaart 3: hoe heet een rij in een tabel ook wel?", a: "Een record.", o: "Dummy" },
+      { v: "Dummykaart 4: hoe heet een kolom in een tabel ook wel?", a: "Een veld (attribuut).", o: "Dummy" },
+      { v: "Dummykaart 5: wat is een vreemde sleutel?", a: "Een veld dat verwijst naar de primaire sleutel van een andere tabel.", o: "Dummy" },
     ],
   },
   "🖥️ Desktop OS": {
