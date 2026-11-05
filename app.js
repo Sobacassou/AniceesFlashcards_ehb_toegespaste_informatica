@@ -15,16 +15,10 @@ function ontbreekt(bestand) {
 
 const vakken = {
   "🌐 Web Essentials": {
-    "H1 – HTML": [
-      { v: "Waar staat HTML voor?", a: "HyperText Markup Language", o: "1.1 Wat is HTML?" },
-      { v: "Welke tag gebruik je voor de grootste titel?", a: "<h1>", o: "1.2 Tags" },
-      { v: "Welke tag maakt een link?", a: "<a href=\"...\">", o: "1.2 Tags" },
-    ],
-    "H2 – CSS": [
-      { v: "Waar staat CSS voor?", a: "Cascading Style Sheets", o: "2.1 Basis" },
-      { v: "Hoe selecteer je een element met id=\"menu\"?", a: "#menu", o: "2.2 Selectors" },
-      { v: "Hoe selecteer je alle elementen met class=\"knop\"?", a: ".knop", o: "2.2 Selectors" },
-    ],
+    "1 – Introductie & HTML-basis": (typeof kaarten_WEB_les1 !== "undefined" ? kaarten_WEB_les1 : ontbreekt("flashcards_WEBles1_htmlbasis.js")),
+    "2 – HTML media, tabellen & formulieren": (typeof kaarten_WEB_les2 !== "undefined" ? kaarten_WEB_les2 : ontbreekt("flashcards_WEBles2_htmlmedia.js")),
+    "3 – CSS-basis, kleuren & typografie": (typeof kaarten_WEB_les3 !== "undefined" ? kaarten_WEB_les3 : ontbreekt("flashcards_WEBles3_cssbasis.js")),
+    "4 – CSS media, tabellen, formulieren & box model": (typeof kaarten_WEB_les4 !== "undefined" ? kaarten_WEB_les4 : ontbreekt("flashcards_WEBles4_boxmodel.js")),
   },
   "💻 IT Essentials": {
     // ===== Deel I: Getalrepresentaties en schakelingen =====
