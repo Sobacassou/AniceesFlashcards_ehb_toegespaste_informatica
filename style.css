@@ -215,16 +215,38 @@ em, i { font-style: normal; }
 .ov-onderwerpen li.sub.hier { font-weight: 500; }   /* aangeduid, maar minder vet dan een hoofdtitel */
 .ov-onderwerpen li.kop { color: var(--tekst); }
 /* waar je je nu bevindt */
-.ov-onderwerpen li.hier {
-  color: var(--tekst-licht); font-weight: 600;
-  border-left-color: var(--accent); background: rgba(0, 120, 212, 0.15);
-}
+.ov-onderwerpen li.hier { font-weight: 600; }
+.ov-onderwerpen li.hier > span { color: #00ff41; }   /* waar je nu bent: hackersgroen */
 
 /* klikbare onderwerpen in het overzicht */
 .ov-onderwerpen li.klikbaar { cursor: pointer; }
 @media (hover: hover) { .ov-onderwerpen li.klikbaar:hover { color: var(--tekst-licht); background: rgba(255, 255, 255, 0.06); } }
 .ov-onderwerpen li.klikbaar:active { background: rgba(0, 120, 212, 0.25); }
-.ov-onderwerpen li.leeg { opacity: 0.45; }
+/* klikbaar: helderder, met het aantal kaarten van deze ronde in een blauw bolletje */
+.ov-onderwerpen li.klikbaar { color: var(--tekst); }
+/* rechts 2 nette kolommen (teller | slidenummer), op de hoogte van de eerste regel van de titel */
+.ov-onderwerpen li { align-items: baseline; }
+.ov-onderwerpen li small { display: inline-flex; align-items: baseline; gap: 6px; opacity: 1; flex-shrink: 0; padding-top: 0; }
+.ov-onderwerpen li small .ov-nr { opacity: 0.7; display: inline-block; min-width: 2.4rem; text-align: right; }
+/* in de teller staan de schuine strepen onder elkaar: vinkje | getal (rechts) | /totaal (links) */
+.ov-aantal { display: inline-block; }
+.ov-vink { display: inline-block; width: 1.6ch; text-align: left; }
+.ov-open { display: inline-block; min-width: 2ch; text-align: right; }
+.ov-totaal { display: inline-block; min-width: 3.2ch; text-align: left; }
+/* teller "onbeantwoord of fout / totaal" in terminal-stijl (VS Code + hackersgroen) */
+.ov-aantal { font-family: "Cascadia Code", Consolas, "Courier New", monospace; font-weight: 600; font-size: 0.68rem;
+  white-space: nowrap; color: #00ff41; }
+/* het totaal ("/13") minder opvallend, in zacht gedimd VS Code-groen */
+.ov-totaal { font-weight: 400; color: rgba(115, 201, 145, 0.3); margin-left: 1px; font-size: 0.9em; }
+/* alles juist: "✓ 0/18" in datzelfde zachte groen (de rij zelf is ook gedimd, daarom iets feller) */
+.ov-aantal.klaar { font-weight: 400; }
+.ov-aantal.klaar, .ov-aantal.klaar .ov-totaal { color: rgba(115, 201, 145, 0.45); }
+/* wat je nog moet doen: vet; wat al gedaan is: niet vet */
+.ov-onderwerpen li.tedoen > span { font-weight: 600; }
+.ov-onderwerpen li:not(.tedoen):not(.kop) > span { font-weight: 300; }
+/* niet klikbaar: gedimd; met een groen vinkje als je alles juist hebt */
+.ov-onderwerpen li.leeg { opacity: 0.4; }
+.ov-onderwerpen li.leeg.juist { opacity: 0.6; }
 
 /* ===== Weggegooide kaarten ===== */
 .hint.links { text-align: left; margin-top: 0; }
@@ -292,7 +314,7 @@ button:disabled, button:disabled:hover { background: var(--vlak); color: var(--t
 .ov-onderwerpen li.sub { padding-left: 22px; font-size: 0.72rem; }
 .ov-onderwerpen li:not(.sub) { margin-top: 2px; }
 .ov-onderwerpen li.hier { padding-top: 1px; padding-bottom: 1px; }
-.ov-onderwerpen li small { font-size: 0.7rem; padding-top: 1px; }
+.ov-onderwerpen li small { font-size: 0.7rem; }
 
 /* kleine toets-aanduiding in de knoppen (← en →) */
 .toets {

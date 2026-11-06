@@ -603,16 +603,40 @@ function toonOverzicht(kaart) {
       // kan je naar dit onderwerp springen? enkel als er in deze ronde nog kaarten van zijn
       const spring = r.o && r.o !== huidig && eersteKaartVan(kaart.hfst, r.o) >= 0;
       const leeg = r.o && r.o !== huidig && !spring;
+      // stand van dit onderwerp: onbeantwoord of fout / totaal (zonder weggegooide kaarten)
+      const st = r.o ? standVan(kaart.hfst, r.o) : { open: 0, totaal: 0 };
+      const alleJuist = st.totaal > 0 && st.open === 0;
       const klassen = [r.sub ? "sub" : "", r.kop ? "kop" : "", r.o && r.o === huidig ? "hier" : "",
-                       spring ? "klikbaar" : "", leeg ? "leeg" : ""].join(" ");
+                       spring ? "klikbaar" : "", leeg ? "leeg" : "", leeg && alleJuist ? "juist" : "",
+                       st.open > 0 ? "tedoen" : ""].join(" ");
       const data = spring ? ` data-o="${encodeURIComponent(r.o)}" title="Ga naar de kaarten van dit onderwerp"` :
+                   leeg && alleJuist ? ` title="Alle kaarten van dit onderwerp juist"` :
                    leeg ? ` title="Geen kaarten van dit onderwerp in deze ronde"` : "";
+      const teken = st.totaal === 0 ? "" :
+        `<b class="ov-aantal${alleJuist ? " klaar" : ""}" title="onbeantwoord of fout / totaal">` +
+        `<span class="ov-vink">${alleJuist ? "✓" : "&nbsp;"}</span><span class="ov-open">${st.open}</span>` +
+        `<span class="ov-totaal">/${st.totaal}</span></b>`;
       return `<li class="${klassen}"${data}><span>${r.o || r.kop}</span>` +
-             (r.slide ? `<small>${r.slide}</small>` : "") + `</li>`;
+             `<small>${teken}<span class="ov-nr">${nrInTitel(r.o || r.kop, r.slide) ? "" : (r.slide || "")}</span></small></li>`;
     }).join("") +
     `</ol>`;
 
   pasOverzichtAan();
+}
+
+// staat het nummer (bv. "2.3" of "M1") al vooraan in de titel? dan tonen we het rechts niet nog eens
+function nrInTitel(titel, nr) {
+  if (!nr || !titel) return false;
+  if (titel.startsWith(nr) && !/\d/.test(titel.charAt(nr.length))) return true;   // "2.3 De ontwikkelomgeving" – 2.3
+  const m = nr.match(/^M(\d+)$/);                                                    // "Module 1: …" – M1
+  return !!m && new RegExp("^Module " + m[1] + "\\b").test(titel);
+}
+
+// stand van een onderwerp: hoeveel kaarten nog onbeantwoord of fout zijn, op het totaal (zonder weggegooide)
+function standVan(hfst, o) {
+  const ks = (vakken[huidigVak][hfst] || []).filter(k => (k.o || hfst) === o && !verborgen.has(kaartId(huidigVak, hfst, k)));
+  const open = ks.filter(k => { const s = stats[kaartId(huidigVak, hfst, k)]; return !s || s.laatst !== true; }).length;
+  return { open, totaal: ks.length };
 }
 
 // huidig onderwerp in beeld houden binnen het paneel
