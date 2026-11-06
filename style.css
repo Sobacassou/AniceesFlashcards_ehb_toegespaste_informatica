@@ -603,3 +603,8 @@ button.vak-knop, #vakTitel { display: flex; align-items: center; gap: 12px; }
 /* De pagina nooit breder dan het scherm: anders schuift de tablet de pagina opzij
    (draaiende kaart of een diertje dat net buiten de rand komt) */
 html, body { overflow-x: clip; }
+
+/* Portret: overzicht onder de kaart met een eigen scrollbalk (hoogte zet app.js) */
+@media (max-width: 1099px) {
+  .overzicht { position: relative; overflow-y: auto; overscroll-behavior: contain; }
+}

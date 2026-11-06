@@ -612,12 +612,34 @@ function toonOverzicht(kaart) {
     }).join("") +
     `</ol>`;
 
-  // huidig onderwerp in beeld houden binnen het paneel
+  pasOverzichtAan();
+}
+
+// huidig onderwerp in beeld houden binnen het paneel
+function houdHierInBeeld(vak) {
   const hier = vak.querySelector("li.hier");
   if (hier && vak.scrollHeight > vak.clientHeight) {
     const boven = hier.offsetTop - vak.scrollTop;
     if (boven < 0 || boven > vak.clientHeight - hier.offsetHeight) vak.scrollTop = hier.offsetTop - vak.clientHeight / 3;
   }
+}
+
+/* Portret (smal scherm): het overzicht onder de kaart krijgt een eigen scrollbalk
+   en loopt tot onderaan het scherm, zodat je altijd ziet waar je bent */
+function pasOverzichtAan() {
+  const vak = document.getElementById("overzicht");
+  if (!vak) return;
+  if (window.innerWidth < 1100) {
+    const boven = vak.getBoundingClientRect().top + window.scrollY;   // los van hoe ver je gescrold bent
+    let hoogte = Math.max(220, window.innerHeight - boven - 16);
+    vak.style.maxHeight = hoogte + "px";
+    // past de pagina dan nog net niet (marges onderaan)? dan het overzicht nog iets kleiner maken
+    const teVeel = document.documentElement.scrollHeight - window.innerHeight;
+    if (teVeel > 0 && hoogte - teVeel >= 220) vak.style.maxHeight = (hoogte - teVeel) + "px";
+  } else {
+    vak.style.maxHeight = "";
+  }
+  houdHierInBeeld(vak);
 }
 
 /* In het overzicht op een onderwerp klikken: naar de eerste kaart van dat onderwerp
@@ -683,6 +705,7 @@ function pasHoogteAan() {
   // vergelijken met de standaardhoogte (400px uit style.css), niet met clientHeight:
   // door de animatie op de hoogte is clientHeight op dit moment nog de oude hoogte
   kaartEl.style.height = nodig > 400 ? nodig + "px" : "";
+  setTimeout(pasOverzichtAan, 250);   // na de animatie op de kaarthoogte staat het overzicht op zijn plaats
 }
 
 function draaiOm() {
@@ -1113,7 +1136,7 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen
 window.addEventListener("resize", () => {
-  if (document.getElementById("schermOefenen").classList.contains("actief")) pasHoogteAan();
+  if (document.getElementById("schermOefenen").classList.contains("actief")) { pasHoogteAan(); pasOverzichtAan(); }
 });
 
 // startscherm: de groene eenhoorn als symbooltje voor de titel
