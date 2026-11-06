@@ -635,8 +635,20 @@ html, body { overflow-x: clip; }
 /* Portret: overzicht onder de kaart met een eigen scrollbalk (hoogte zet app.js) */
 @media (max-width: 1099px) {
   .overzicht { position: relative; overflow-y: auto; overscroll-behavior: contain; }
-  /* opengeklapt (je scrolde de pagina naar beneden): geen eigen scrollbalk, de pagina scrolt */
+  /* opengeklapt: geen eigen scrollbalk, de pagina scrolt */
   .overzicht.open { overflow-y: visible; overscroll-behavior: auto; }
+  /* knop onder het compacte overzicht (stijl); tonen/verbergen staat onderaan dit bestand */
+  #schermOefenen.actief .ov-open-knop { width: 100%; margin-top: 8px; padding: 8px 12px; font-size: 0.85rem; }
+}
+
+/* knoppen van het overzicht: standaard verborgen (alleen in portret, zie hierboven) */
+.ov-open-knop, .ov-inklap { display: none; }
+.overzicht h3 { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.overzicht h3 .ov-inklap { width: auto; margin: 0; padding: 4px 10px; font-size: 0.75rem; font-weight: 500; flex-shrink: 0; }
+@media (max-width: 1099px) {
+  #schermOefenen.actief .ov-open-knop { display: block; }
+  body.overzicht-open #schermOefenen.actief .ov-open-knop { display: none; }
+  .overzicht.open .ov-inklap { display: inline-block; }
 }
 
 /* ===== Beloning: gele eenhoorn (onderdeel op ✓) =====

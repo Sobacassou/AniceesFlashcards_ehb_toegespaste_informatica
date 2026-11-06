@@ -603,7 +603,8 @@ function toonOverzicht(kaart) {
   const metNrs = structuur.filter(r => nrVan(r)).length > structuur.length / 2;
 
   vak.innerHTML =
-    `<h3>${kaart.hfst}</h3><ol class="ov-onderwerpen${metNrs ? " met-nrs" : ""}">` +
+    `<h3><span>${kaart.hfst}</span><button type="button" class="licht ov-inklap">⌃ Inklappen</button></h3>` +
+    `<ol class="ov-onderwerpen${metNrs ? " met-nrs" : ""}">` +
     structuur.map(r => {
       // kan je naar dit onderwerp springen? enkel als er in deze ronde nog kaarten van zijn
       const spring = r.o && r.o !== huidig && eersteKaartVan(kaart.hfst, r.o) >= 0;
@@ -627,7 +628,7 @@ function toonOverzicht(kaart) {
     `</ol>`;
 
   // nieuwe kaart terwijl het overzicht opengeklapt is (bv. op een onderwerp getikt): terug naar boven, compact
-  if (ovOpen) { ovOpen = false; vak.classList.remove("open"); window.scrollTo(0, 0); }
+  if (ovOpen) { ovOpen = false; vak.classList.remove("open"); document.body.classList.remove("overzicht-open"); window.scrollTo(0, 0); }
   pasOverzichtAan();
 }
 
@@ -655,36 +656,31 @@ function houdHierInBeeld(vak) {
   }
 }
 
-/* Portret: wil je verder naar beneden dan het overzicht toont (veeg onder de kaart, of verder
-   vegen als het overzicht al onderaan is), dan klapt het overzicht helemaal open zonder eigen
-   scrollbalk en scrol je gewoon de pagina. Terug helemaal bovenaan, of een nieuwe kaart:
-   weer compact. */
+/* Portret: onder het compacte overzicht staat een knop "Hele overzicht tonen". Dan klapt het
+   overzicht helemaal open (geen eigen scrollbalk, je scrolt gewoon de pagina). Met "Inklappen"
+   bovenaan, of bij een nieuwe kaart, wordt het weer compact. */
 let ovOpen = false;
 function zetOverzichtOpen(open) {
   const vak = document.getElementById("overzicht");
   if (!vak || open === ovOpen) return;
-  const verschoven = vak.scrollTop;       // zelfde onderwerpen in beeld houden bij het openklappen
+  const verschoven = vak.scrollTop;       // dezelfde onderwerpen in beeld houden bij het openklappen
   ovOpen = open;
   vak.classList.toggle("open", open);
+  document.body.classList.toggle("overzicht-open", open);
   pasOverzichtAan();
-  if (open && verschoven > 0) window.scrollBy(0, verschoven);
+  if (open) { if (verschoven > 0) window.scrollBy(0, verschoven); }
+  else window.scrollTo(0, 0);
 }
-function wilVerderNaarBeneden(doel) {
-  if (ovOpen || window.innerWidth >= 1100) return false;
-  if (!document.getElementById("schermOefenen").classList.contains("actief")) return false;
-  if (doel.closest && doel.closest("#kaart")) return false;           // in de kaart zelf scrollen blijft scrollen in de kaart
+(function maakOverzichtKnop() {
   const vak = document.getElementById("overzicht");
-  if (vak.contains(doel)) return vak.scrollTop + vak.clientHeight >= vak.scrollHeight - 2;   // overzicht staat al onderaan
-  return true;
-}
-window.addEventListener("wheel", e => { if (e.deltaY > 0 && wilVerderNaarBeneden(e.target)) zetOverzichtOpen(true); }, { passive: true });
-let veegStart = null;
-window.addEventListener("touchstart", e => { veegStart = e.touches[0].clientY; }, { passive: true });
-window.addEventListener("touchmove", e => {
-  if (veegStart === null) return;
-  if (veegStart - e.touches[0].clientY > 30 && wilVerderNaarBeneden(e.target)) { zetOverzichtOpen(true); veegStart = null; }
-}, { passive: true });
-window.addEventListener("scroll", () => { if (ovOpen && window.scrollY <= 0) zetOverzichtOpen(false); }, { passive: true });
+  if (!vak) return;
+  const knop = document.createElement("button");
+  knop.id = "ovOpenKnop"; knop.className = "licht ov-open-knop"; knop.type = "button";
+  knop.textContent = "⌄ Hele overzicht tonen";
+  knop.onclick = () => zetOverzichtOpen(true);
+  vak.after(knop);
+  vak.addEventListener("click", e => { if (e.target.closest(".ov-inklap")) zetOverzichtOpen(false); });
+})();
 
 /* Portret (smal scherm): het overzicht onder de kaart krijgt een eigen scrollbalk
    en loopt tot onderaan het scherm, zodat je altijd ziet waar je bent */
