@@ -179,6 +179,44 @@ function herstelSessie() {
   toonKaart();
 }
 
+/* ===== Eigen pop-ups (in plaats van alert/confirm van de browser) =====
+   In Consolas en de zwart-witte kleuren van VS Code. melding() toont een boodschap met OK;
+   bevestig() vraagt "zeker?" en geeft true (bevestigd) of false (annuleren). Enter = OK, Esc = annuleren. */
+function popup(tekst, knoppen) {
+  return new Promise(klaar => {
+    document.getElementById("popup")?.remove();
+    const laag = document.createElement("div");
+    laag.id = "popup";
+    laag.innerHTML = `<div class="popup-venster" role="dialog" aria-modal="true">
+        <div class="popup-titel">Anicée's Flashcards</div>
+        <div class="popup-tekst"></div>
+        <div class="popup-knoppen"></div>
+      </div>`;
+    laag.querySelector(".popup-tekst").textContent = tekst;
+    const rij = laag.querySelector(".popup-knoppen");
+    const sluit = waarde => { document.removeEventListener("keydown", toets, true); laag.remove(); klaar(waarde); };
+    for (const k of knoppen) {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = k.tekst; b.className = k.hoofd ? "popup-hoofd" : "popup-gewoon";
+      b.onclick = () => sluit(k.waarde);
+      rij.appendChild(b);
+    }
+    const toets = e => {
+      if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); sluit(knoppen.length > 1 ? false : true); }
+      else if (e.key === "Enter") { e.preventDefault(); e.stopPropagation(); sluit(true); }
+      else e.stopPropagation();   // sneltoetsen van de kaarten (spatie, pijlen, Z, W) niet laten doorgaan
+    };
+    document.addEventListener("keydown", toets, true);
+    laag.addEventListener("click", e => { if (e.target === laag) sluit(knoppen.length > 1 ? false : true); });
+    document.body.appendChild(laag);
+    rij.querySelector(".popup-hoofd")?.focus();
+  });
+}
+function melding(tekst) { return popup(tekst, [{ tekst: "OK", waarde: true, hoofd: true }]); }
+function bevestig(tekst, ja = "OK") {
+  return popup(tekst, [{ tekst: "Annuleren", waarde: false }, { tekst: ja, waarde: true, hoofd: true }]);
+}
+
 /* ===== Vaknamen op het scherm =====
    De vaknamen (met emoji) blijven ongewijzigd in de code: je scores en voortgang zijn daaraan gekoppeld.
    Op het scherm tonen we enkel de naam, zonder emoji of icoontje. */
@@ -299,8 +337,8 @@ function toonGeschiedenis() {
     `<button class="terug" onclick="wisVoortgang()">Voortgang van dit vak wissen</button>`;
 }
 
-function wisVoortgang() {
-  if (!confirm("Alle scores en foute kaarten van dit vak wissen?")) return;
+async function wisVoortgang() {
+  if (!(await bevestig("Alle scores en foute kaarten van dit vak wissen?", "Wissen"))) return;
   delete scores[huidigVak];
   for (const id in stats) if (id.startsWith(huidigVak + "|")) delete stats[id];
   bewaar("scores", scores);
@@ -483,16 +521,16 @@ function startOefenen(kaarten) {
   const gewoneStart = !kaarten;
   if (!kaarten) {
     gekozenHoofdstukken = [...document.querySelectorAll("#hoofdstukLijst input:checked")].map(c => c.value);
-    if (gekozenHoofdstukken.length === 0) { alert("Kies minstens één hoofdstuk."); return; }
+    if (gekozenHoofdstukken.length === 0) { melding("Kies minstens één hoofdstuk."); return; }
     kaarten = gekozenHoofdstukken
       .flatMap(h => vakken[huidigVak][h].map(k => ({ ...k, hfst: h })))
       .filter(k => !verborgen.has(kaartId(huidigVak, k.hfst, k)));
-    if (kaarten.length === 0) { alert("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
+    if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
     // filter: nog niet beantwoord / fout / juist
     const wil = gekozenFilters();
-    if (!wil.nieuw && !wil.fout && !wil.juist) { alert("Vink minstens één soort kaarten aan."); return; }
+    if (!wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
     kaarten = kaarten.filter(k => wil[statusVan(kaartId(huidigVak, k.hfst, k))]);
-    if (kaarten.length === 0) { alert("Er zijn geen kaarten van die soort in deze hoofdstukken 🎉"); return; }
+    if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken 🎉"); return; }
   }
   stapel = [...kaarten];
   const geschud = document.getElementById("schudden").checked;

@@ -695,3 +695,21 @@ html, body { overflow-x: clip; }
 
 /* label "↻ Herhaling" / "↻ Controle" bovenaan een kaart die terugkomt */
 .herhaal-label { color: #00ff41; font-weight: 700; }
+
+/* ===== Eigen pop-ups: Consolas, zwart-wit zoals VS Code ===== */
+#popup { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center;
+  padding: 16px; background: rgba(0, 0, 0, 0.55); }
+.popup-venster { width: min(420px, 100%); background: #1e1e1e; color: #d4d4d4; border: 1px solid #454545;
+  border-radius: 4px; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+  font-family: Consolas, "Cascadia Code", "Courier New", monospace; letter-spacing: normal; }
+.popup-titel { padding: 8px 14px; font-size: 0.8rem; color: #cccccc; background: #252526; border-bottom: 1px solid #454545;
+  border-radius: 4px 4px 0 0; }
+.popup-tekst { padding: 18px 14px 6px; font-size: 0.95rem; line-height: 1.55; white-space: pre-line; }
+.popup-knoppen { display: flex; justify-content: flex-end; gap: 8px; padding: 14px; }
+.popup-knoppen button { width: auto; margin: 0; padding: 6px 16px; font-family: inherit; font-size: 0.85rem; font-weight: 400;
+  border-radius: 2px; text-align: center; }
+.popup-knoppen .popup-hoofd { background: #d4d4d4; color: #1e1e1e; border: 1px solid #d4d4d4; }
+.popup-knoppen .popup-hoofd:hover { background: #ffffff; border-color: #ffffff; }
+.popup-knoppen .popup-gewoon { background: #3c3c3c; color: #d4d4d4; border: 1px solid #454545; }
+.popup-knoppen .popup-gewoon:hover { background: #4a4a4a; }
+.popup-knoppen button:focus-visible { outline: 1px solid #ffffff; outline-offset: 2px; }
