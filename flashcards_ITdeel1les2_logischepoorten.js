@@ -5,8 +5,6 @@
 
 const kaarten_IT_deel1_les2 = [
   // ===== Inhoud =====
-  { v: "Welke 3 onderwerpen behandelt hoofdstuk 2?", a: "Logische poorten, logische schakelingen en rekenregels.", o: "Inhoud",
-    uitleg: "In hoofdstuk 3 worden die poorten gecombineerd tot rekenschakelingen (optellers). Achtergrond bij deze slide: Logische poorten zijn de bouwstenen; schakelingen zijn combinaties van poorten; met rekenregels vereenvoudig je die schakelingen." },
   // ===== Logische poorten en de schakelaar =====
   { v: "Welke 3 basispoorten bestaan er?", a: "AND-poort (EN-poort), OR-poort (OF-poort) en NOT-poort (NIET-poort).", o: "Logische poorten en de schakelaar",
     uitleg: "Alle andere poorten (NAND, NOR, XOR) zijn combinaties hiervan. Achtergrond bij deze slide: Een logische poort krijgt één of meer ingangen (0 of 1) en geeft een uitgang volgens een vaste regel. In de chip is een poort gemaakt van transistors die als schakelaars werken. 'Abstractie maken' = we kijken alleen naar 0 en 1, niet naar de elektronica." },

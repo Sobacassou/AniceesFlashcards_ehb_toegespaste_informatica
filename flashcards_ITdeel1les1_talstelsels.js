@@ -19,8 +19,6 @@ const kaarten_IT_deel1_les1 = [
   // ===== Binair =====
   { v: "Wat is het grondtal van het binaire talstelsel en hoe tel je binair?", a: "Grondtal 2. Tellen: 0, 1, 10, 11, 100, …", o: "Binair",
     uitleg: "Na 1 is er geen cijfer meer, dus je gaat naar de volgende positie: 1 + 1 = 10 (spreek uit: één-nul). Achtergrond bij deze slide: De grap: '10' in binair is 2. Er zijn dus twee soorten mensen. Een computer werkt met spanning: 0V = 0 en 5V = 1. Daarom past binair perfect bij elektronica." },
-  { v: "Leg de grap 'There's 10 kinds of people: those who know binary and those who don't' uit.", a: "10 in binair is 2 in decimaal: er zijn dus 2 soorten mensen.", o: "Binair",
-    uitleg: "Wie binair niet kent, leest 'tien soorten'." },
   { v: "Zet 11011 (binair) om naar decimaal.", a: "(1x2^4) + (1x2^3) + (0x2^2) + (1x2^1) + (1x2^0) = 16 + 8 + 0 + 2 + 1 = 27", o: "Binair",
     uitleg: "Tip: schrijf de positiewaarden 16 8 4 2 1 boven de bits en tel op waar een 1 staat." },
   { v: "Waarom is binair een goed formaat voor computers?", a: "Er zijn maar twee waarden: 0 → 0V en 1 → 5V.", o: "Binair",
@@ -32,8 +30,6 @@ const kaarten_IT_deel1_les1 = [
     uitleg: "A = 10 en B = 11. Met de conversietabel hexadecimaal lees je de waarden meteen af per positie." },
   { v: "Waarom gebruikt men hexadecimaal?", a: "Binair vereist veel symbolen voor kleine waarden en is niet mensvriendelijk; hexadecimaal is een eenvoudigere weergave.", o: "Hexadecimaal",
     uitleg: "Elk hexcijfer vervangt 4 bits: 16 bits = 4 hexcijfers." },
-  { v: "Geef het voorbeeld van het MAC-adres uit de cursus.", a: "c0-ea-e4-69-96-5c = 110000001110101011100100011010011001011001011100", o: "Hexadecimaal",
-    uitleg: "Elk paar hexcijfers is 1 byte (8 bits): c0 = 11000000, ea = 11101010, … Nagerekend: de omzetting klopt. Een MAC-adres is het unieke hardware-adres van een netwerkkaart." },
   { v: "Zet 2F (hex) om naar binair en naar decimaal.", a: "Binair: 0010 1111\nDecimaal: 2 × 16 + 15 = 47", o: "Hexadecimaal",
     uitleg: "Naar binair: elk hexcijfer wordt 4 bits (2 = 0010, F = 1111). Naar decimaal: elk cijfer × zijn positiewaarde (16¹ = 16, 16⁰ = 1). F = 15." },
   // ===== Relatie tussen binaire en hexadecimale schrijfwijze =====
@@ -53,8 +49,6 @@ const kaarten_IT_deel1_les1 = [
   { v: "🖼️ Vul de rij 'Waarde in decimaal' (vak 1) aan voor positie 8 tot 1.", a: "128 – 64 – 32 – 16 – 8 – 4 – 2 – 1", o: "Conversietabel decimaal → binair, positie 1 tot 8", img: "afbeeldingen/ITdeel1les1_talstelsels/i1_s08_tabel_1_8_vraag.png", imgAntwoord: "afbeeldingen/ITdeel1les1_talstelsels/i1_s08_tabel_1_8.png",
     uitleg: "Elke positie is een macht van 2: positie 1 = 2⁰ = 1, positie 2 = 2¹ = 2, … positie 8 = 2⁷ = 128. Elke stap naar links verdubbelt de waarde. Samen vormen deze 8 posities 1 byte: alles op 1 (11111111) = 255." },
   // ===== Conversietabel positie 9 tot 16 =====
-  { v: "Wat zijn de waarden van de posities 9 tot 16?", a: "Positie 16 tot 9: 2^15=32768, 2^14=16384, 2^13=8192, 2^12=4096, 2^11=2048, 2^10=1024, 2^9=512, 2^8=256.", o: "Conversietabel positie 9 tot 16",
-    uitleg: "Elke positie is het dubbele van de vorige. Achtergrond bij deze slide: Met 16 posities kan je tot 65535 gaan (een woord). 2^10 = 1024 is de basis van de binaire voorvoegsels (kibi)." },
   // ===== Conversietabel na de komma, positie -8 tot 1 =====
   { v: "Wat zijn de waarden van de posities ná de komma (-1 tot -8)?", a: "2^-1 = 0,5; 2^-2 = 0,25; 2^-3 = 0,125; 2^-4 = 0,06; 2^-5 = 0,03; 2^-6 = 0,02; 2^-7 = 0,01; 2^-8 = 0 (afgerond).", o: "Conversietabel na de komma, positie -8 tot 1",
     uitleg: "Elke positie is de helft van de vorige. Exact: 0,0625 / 0,03125 / 0,015625 / 0,0078125 / 0,00390625. Achtergrond bij deze slide: 'Negatieve getallen' slaat hier op negatieve POSITIES (machten): de cijfers na de komma, niet op getallen onder nul. De waarden zijn afgerond; exact: 2^-4 = 0,0625, 2^-5 = 0,03125, 2^-6 = 0,015625, 2^-7 = 0,0078125, 2^-8 = 0,00390625." },
