@@ -638,3 +638,19 @@ html, body { overflow-x: clip; }
   /* opengeklapt (je scrolde de pagina naar beneden): geen eigen scrollbalk, de pagina scrolt */
   .overzicht.open { overflow-y: visible; overscroll-behavior: auto; }
 }
+
+/* ===== Beloning: gele eenhoorn (onderdeel op ✓) =====
+   Loopt één rondje in het midden van het scherm en steigert. De beweging zelf
+   wordt in app.js berekend (toonGeleEenhoorn); hier enkel de laag, manen en sterretjes.
+   Snelheid 0,7: manen en sterretjes 0,5 s / 0,7 en 0,55 s / 0,7. */
+#geleEenhoorn { position: fixed; inset: 0; z-index: 63; pointer-events: none; overflow: hidden; }
+#geleEenhoorn .gh-loper { position: absolute; left: 0; top: 0; width: 130px; opacity: 0; transform-origin: 50% 50%; }
+#geleEenhoorn svg { display: block; width: 100%; height: auto; overflow: visible; }
+#geleEenhoorn .gh-p { transform-origin: 0 0; }
+#geleEenhoorn .gh-hair { animation: gh-wapper .714s ease-in-out infinite; }
+#geleEenhoorn .gh-tw { transform-box: fill-box; transform-origin: center; animation: gh-twinkel .786s ease-in-out infinite alternate; }
+@keyframes gh-wapper { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(9deg); } }
+@keyframes gh-twinkel { from { transform: scale(.4); opacity: .3; } to { transform: scale(1.1); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  #geleEenhoorn .gh-hair, #geleEenhoorn .gh-tw { animation: none !important; }
+}

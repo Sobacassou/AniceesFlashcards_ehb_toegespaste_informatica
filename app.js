@@ -795,14 +795,20 @@ function volgende(wistHet) {
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
   acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks, foutReeks });
+  const onderdeel = kaart.o || kaart.hfst;
+  const openVoor = standVan(kaart.hfst, onderdeel).open;   // nog open kaarten van dit onderdeel, vóór dit antwoord
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   s.laatst = wistHet;
   stats[id] = s;
   bewaar("stats", stats);
-  controleerEenhoorn();   // over de 50% of 70% juist gegaan? dan galoppeert de eenhoorn
+  // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
+  const onderdeelKlaar = wistHet && openVoor > 0 && standVan(kaart.hfst, onderdeel).open === 0;
+  if (onderdeelKlaar) toonGeleEenhoorn();
+  // de gele eenhoorn krijgt voorrang: dan die keer geen groene eenhoorn en geen draakje
+  controleerEenhoorn(!onderdeelKlaar);   // over de 50% of 70% juist gegaan? dan galoppeert de eenhoorn
   reeks = wistHet ? reeks + 1 : 0;
-  if (wistHet && reeks % 3 === 0) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
+  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (foutReeks === 3) toonDuiveltje();            // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
@@ -932,7 +938,7 @@ function zetEenhoornStand() {
 }
 
 // na een antwoord: over de grens gegaan? dan eenhoorn tonen
-function controleerEenhoorn() {
+function controleerEenhoorn(magTonen = true) {
   const p = procentJuist();
   if (p === null) return;
   let tonen = false;
@@ -940,7 +946,7 @@ function controleerEenhoorn() {
     if (p > g && !eenhoornBoven[g]) { eenhoornBoven[g] = true; tonen = true; }
     else if (p < g) eenhoornBoven[g] = false;
   }
-  if (tonen) toonEenhoorn();   // twee grenzen tegelijk? toch maar één eenhoorn
+  if (tonen && magTonen) toonEenhoorn();   // twee grenzen tegelijk? toch maar één eenhoorn
 }
 
 const EENHOORN_SVG = `
@@ -1146,6 +1152,172 @@ function toonDuiveltje() {
   const val = 2500;                      // hoppen tot onderaan (snelheid 1,2)
   setTimeout(() => laag.classList.add("boem"), val);
   setTimeout(() => laag.remove(), val + 900);
+}
+
+/* ===== Beloning: gele eenhoorn =====
+   Verschijnt wanneer een onderdeel op ✓ springt: je beantwoordt de laatste openstaande kaart
+   van dat onderdeel juist. Hij galoppeert één rondje in het midden van het scherm, steigert
+   (afremmen, achterbenen onder het lijf, voorbenen plooien, landen) en loopt vervagend verder.
+   De benen worden per beeld berekend, zodat galop en steigeren vloeiend in elkaar overgaan. */
+const GH_SNELHEID = 0.7;
+const GH = { TA: 2800, TB: 1900, TC: 900, P: 500, BIN: 450, BOUT: 400 };   // in ms op snelheid 1
+GH.D = GH.TA + GH.TB + GH.TC;
+const GH_BENEN = ["hu1", "hk1", "hu2", "hk2", "fu1", "fk1", "fu2", "fk2"];
+
+const ghSm = u => u * u * (3 - 2 * u);
+const ghLerp = (a, b, u) => a + (b - a) * u;
+const GH_V = 1 / 0.9;
+// eerst gewoon galopperen, op het einde afremmen tot stilstand (en omgekeerd: optrekken)
+function ghRem(u) { return u < 0.8 ? u * GH_V : 0.8 * GH_V + GH_V * (u - 0.8) - GH_V * (u - 0.8) * (u - 0.8) / 0.4; }
+function ghOptrek(u) { return 1 - ghRem(1 - u); }
+// positie op het rondje (0 = vooraan in het midden)
+function ghHoek(t) {
+  if (t < GH.TA) return 2 * Math.PI * ghRem(t / GH.TA);
+  if (t < GH.TA + GH.TB) return 2 * Math.PI;
+  return 2 * Math.PI + (Math.PI / 2) * ghOptrek(Math.min(1, (t - GH.TA - GH.TB) / GH.TC));
+}
+
+// galop: hoeken per gewricht doorheen één sprong (zelfde ritme als de groene eenhoorn)
+const GH_T = {
+  hu: [[0, -22], [.30, 32], [.45, 38], [.70, 0], [.90, -28], [1, -22]],
+  hk: [[0, -8], [.15, -18], [.30, -4], [.45, -35], [.60, -70], [.80, -45], [.92, -12], [1, -8]],
+  fu: [[0, -28], [.25, 8], [.35, 24], [.50, 18], [.65, -6], [.85, -42], [1, -28]],
+  fk: [[0, -4], [.30, 2], [.40, 45], [.55, 115], [.70, 90], [.85, 10], [1, -4]],
+  rty: [[0, 1], [.25, 0], [.5, 2], [.7, 0], [.87, -5], [1, 1]],
+  rr: [[0, -1], [.25, -4], [.5, 1], [.7, 4], [.87, 0], [1, -1]],
+  nod: [[0, -2], [.2, -6], [.55, 6], [.8, 2], [1, -2]],
+};
+function ghSamp(tab, ph) {
+  ph = ((ph % 1) + 1) % 1;
+  for (let i = 1; i < tab.length; i++) {
+    if (ph <= tab[i][0]) { const a = tab[i - 1], b = tab[i]; return a[1] + (b[1] - a[1]) * (ph - a[0]) / (b[0] - a[0]); }
+  }
+  return tab[tab.length - 1][1];
+}
+function ghGalop(t) {
+  const ph = t / GH.P;
+  return {
+    hu1: ghSamp(GH_T.hu, ph), hk1: ghSamp(GH_T.hk, ph), hu2: ghSamp(GH_T.hu, ph + .9), hk2: ghSamp(GH_T.hk, ph + .9),
+    fu1: ghSamp(GH_T.fu, ph + .55), fk1: ghSamp(GH_T.fk, ph + .55), fu2: ghSamp(GH_T.fu, ph + .65), fk2: ghSamp(GH_T.fk, ph + .65),
+    nod: ghSamp(GH_T.nod, ph), ang: 0, dy: 0,
+  };
+}
+// steigeren: houdingen op vaste momenten (u = 0..1), daartussen vloeiend
+const GH_VELDEN = [...GH_BENEN, "nod", "ang", "dy"];
+const GH_K = [
+  { u: 0,   hu1: -12, hk1: -14, hu2: -18, hk2: -10, fu1: -16, fk1: 0,   fu2: -6,  fk2: 0,   nod: -6,  ang: 2,   dy: 1 },  // remmen
+  { u: .16, hu1: -28, hk1: -24, hu2: -24, hk2: -22, fu1: -10, fk1: 4,   fu2: -2,  fk2: 2,   nod: -16, ang: -7,  dy: 5 },  // achterhand zakt
+  { u: .36, hu1: 34,  hk1: -30, hu2: 28,  hk2: -26, fu1: -72, fk1: 128, fu2: -58, fk2: 118, nod: -6,  ang: -50, dy: 0 },  // omhoog
+  { u: .70, hu1: 34,  hk1: -30, hu2: 28,  hk2: -26, fu1: -72, fk1: 128, fu2: -58, fk2: 118, nod: -6,  ang: -50, dy: 0 },  // steigeren
+  { u: .86, hu1: 6,   hk1: -14, hu2: 2,   hk2: -12, fu1: -30, fk1: 20,  fu2: -14, fk2: 8,   nod: -2,  ang: -10, dy: 0 },  // voorbenen naar beneden
+  { u: 1,   hu1: -6,  hk1: -14, hu2: -14, hk2: -10, fu1: -6,  fk1: 6,   fu2: 10,  fk2: 0,   nod: 4,   ang: 3,   dy: 2 },  // landen
+];
+function ghHouding(u) {
+  let i = 1;
+  while (i < GH_K.length - 1 && u > GH_K[i].u) i++;
+  const a = GH_K[i - 1], b = GH_K[i], q = ghSm(Math.max(0, Math.min(1, (u - a.u) / (b.u - a.u)))), o = {};
+  GH_VELDEN.forEach(f => o[f] = ghLerp(a[f], b[f], q));
+  if (u > .36 && u < .70) {   // trappelen met de geplooide voorbeentjes
+    const q2 = (u - .36) / .34, env = Math.sin(Math.PI * q2), w = q2 * Math.PI * 4;
+    o.fu1 += 10 * Math.sin(w) * env; o.fk1 -= 22 * Math.sin(w) * env;
+    o.fu2 += 10 * Math.sin(w + Math.PI) * env; o.fk2 -= 22 * Math.sin(w + Math.PI) * env;
+    o.ang += 2.5 * Math.sin(q2 * Math.PI * 3) * env;
+  }
+  return o;
+}
+
+const GELE_EENHOORN_SVG = `
+<svg viewBox="-30 -30 180 160" aria-hidden="true">
+<path class="gh-tw" d="M-22 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#FFFFFF"/>
+<path class="gh-tw" d="M-8 88 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#D7BA7D"/>
+<g transform="translate(50,116)"><g class="gh-p gh-rear"><g transform="translate(-50,-116)">
+<g transform="translate(70,90)"><g class="gh-p gh-rock"><g transform="translate(-70,-90)">
+<g transform="translate(42,58)"><g class="gh-p gh-hair"><g transform="translate(-42,-58)">
+<path d="M44 56 Q22 44 12 62 Q2 82 12 106 Q12 92 20 88 Q16 104 28 112 Q26 96 34 88 Q30 100 40 104 Q36 86 42 76 Q46 66 48 62Z" fill="#B5933F"/>
+<path d="M40 60 Q22 58 18 76 Q16 88 22 96 Q22 82 30 76 Q28 88 34 94 Q34 78 42 68Z" fill="#D7BA7D"/>
+<path d="M30 64 Q22 74 24 88" stroke="#F2E6A0" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+</g></g></g>
+<g transform="translate(45,70)"><g class="gh-p gh-hu2"><path d="M-8 -8 L6 -8 L3.5 22 L-3 22Z" fill="#B8B27E"/><g transform="translate(0,21)"><g class="gh-p gh-hk2"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#B8B27E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#D7BA7D"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#5C4A1E"/></g></g></g></g>
+<g transform="translate(88,70)"><g class="gh-p gh-fu2"><path d="M-5 -6 L5 -6 L3 22 L-3 22Z" fill="#B8B27E"/><g transform="translate(0,21)"><g class="gh-p gh-fk2"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#B8B27E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#D7BA7D"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#5C4A1E"/></g></g></g></g>
+<circle cx="50" cy="62" r="17" fill="#DCDCAA"/>
+<ellipse cx="70" cy="66" rx="28" ry="15" fill="#DCDCAA"/>
+<circle cx="90" cy="64" r="15" fill="#DCDCAA"/>
+<path d="M58 78 Q70 82 84 78" stroke="#B8B27E" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+<g transform="translate(52,72)"><g class="gh-p gh-hu1"><path d="M-9 -8 L7 -8 L4 22 L-3 22Z" fill="#DCDCAA"/><g transform="translate(0,21)"><g class="gh-p gh-hk1"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#DCDCAA"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#F2E6A0"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#795E26"/></g></g></g></g>
+<g transform="translate(94,72)"><g class="gh-p gh-fu1"><path d="M-6 -6 L6 -6 L3.5 22 L-3.5 22Z" fill="#DCDCAA"/><g transform="translate(0,21)"><g class="gh-p gh-fk1"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#DCDCAA"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#F2E6A0"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#795E26"/></g></g></g></g>
+<text x="40" y="66" font-size="11" font-family="monospace" fill="#795E26">&lt;/&gt;</text>
+<g transform="translate(92,58)"><g class="gh-p gh-nod"><g transform="translate(-92,-58)">
+<path d="M82 60 Q84 36 104 20 L126 30 Q108 44 104 70Z" fill="#DCDCAA"/>
+<path d="M110 0 Q92 -6 86 12 Q76 20 80 36 Q72 46 78 60 Q82 52 88 54 Q84 42 94 38 Q90 28 100 26 Q98 16 110 14Z" fill="#B5933F"/>
+<path d="M104 6 Q92 8 90 22 Q86 32 88 44 Q92 34 98 30 Q94 22 102 16Z" fill="#D7BA7D"/>
+<path d="M96 12 Q88 22 90 34 M86 40 Q82 48 84 56" stroke="#F2E6A0" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+<circle cx="118" cy="22" r="17" fill="#DCDCAA"/>
+<ellipse cx="134" cy="32" rx="12" ry="10" fill="#E8E6C0"/>
+<ellipse cx="139" cy="29" rx="1.6" ry="2.2" fill="#795E26"/>
+<path d="M129 39 q5 4 10 0" stroke="#795E26" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M106 8 Q100 -12 113 -7 Q116 1 114 9Z" fill="#DCDCAA"/>
+<path d="M108 4 Q105 -6 111 -4 Q112 1 111 6Z" fill="#F2E6A0"/>
+<path d="M120 6 L131 -20 L126 8Z" fill="#FFFFFF"/>
+<path d="M124 -4 l5 1.5 M122 2 l5 1.5 M127 -11 l3 1" stroke="#569CD6" stroke-width="1.2"/>
+<path d="M110 2 Q122 -8 132 4 Q126 2 124 10 Q120 3 114 12 Q112 6 108 8Z" fill="#B5933F"/>
+<path d="M116 2 Q123 -2 128 4 Q122 3 120 7Z" fill="#D7BA7D"/>
+<ellipse cx="122" cy="22" rx="7" ry="8.5" fill="#fff"/>
+<ellipse cx="123.5" cy="23" rx="5.5" ry="7" fill="#8A6D1E"/>
+<circle cx="124" cy="24" r="3.4" fill="#2B1D00"/>
+<circle cx="125.8" cy="20.5" r="2" fill="#fff"/>
+<circle cx="122" cy="27" r="1" fill="#fff"/>
+<path d="M115.5 16 Q122 11 129 15.5 M128 15 l3.5 -3 M126 13.5 l2 -4 M123 13 l0.5 -4" stroke="#2B1D00" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<ellipse cx="125" cy="33" rx="4" ry="2.2" fill="#F4C0D1"/>
+</g></g></g>
+</g></g></g>
+</g></g></g>
+</svg>`;
+
+function toonGeleEenhoorn() {
+  const oud = document.getElementById("geleEenhoorn");
+  if (oud) oud.remove();                 // nooit twee tegelijk
+  const laag = document.createElement("div");
+  laag.id = "geleEenhoorn";
+  laag.innerHTML = `<div class="gh-loper">${GELE_EENHOORN_SVG}</div>`;
+  document.body.appendChild(laag);
+  const loper = laag.querySelector(".gh-loper");
+  const deel = n => laag.querySelector(".gh-" + n);
+  const E = {};
+  GH_BENEN.forEach(k => E[k] = deel(k));
+  const rearEl = deel("rear"), rockEl = deel("rock"), nodEl = deel("nod");
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const begin = performance.now();
+
+  function beeld(nu) {
+    if (!laag.isConnected) return;
+    const t = (nu - begin) * GH_SNELHEID;
+    if (t >= GH.D) { laag.remove(); return; }
+    // plaats op het rondje: vooraan groter en naar rechts, achteraan kleiner en naar links
+    const hoek = ghHoek(t), rx = Math.min(170, window.innerWidth * 0.3), ry = 48;
+    const x = rx * Math.sin(hoek), y = ry * Math.cos(hoek), schaal = 0.82 + 0.18 * Math.cos(hoek);
+    let sx = Math.cos(hoek);
+    sx = (sx < 0 ? -1 : 1) * Math.max(Math.abs(sx), 0.18);
+    const w = loper.offsetWidth, h = loper.offsetHeight;
+    loper.style.transform = `translate(${window.innerWidth / 2 + x - w / 2}px, ${window.innerHeight / 2 + y - h / 2}px) scale(${sx * schaal}, ${schaal})`;
+    const uit = t < GH.TA + GH.TB ? 1 : 1 - (t - GH.TA - GH.TB) / GH.TC;
+    loper.style.opacity = Math.max(0, Math.min(1, t / 300, uit));
+
+    // benen: galop, en rond het steigeren vloeiend overgaan naar de steigerhoudingen
+    const G = rustig ? ghHouding(1) : ghGalop(t);
+    let H = null, mix = 0;
+    if (t >= GH.TA - GH.BIN && t < GH.TA) { mix = ghSm((t - (GH.TA - GH.BIN)) / GH.BIN); H = ghHouding(0); }
+    else if (t >= GH.TA && t < GH.TA + GH.TB) { mix = 1; H = ghHouding((t - GH.TA) / GH.TB); }
+    else if (t >= GH.TA + GH.TB && t < GH.TA + GH.TB + GH.BOUT) { mix = 1 - ghSm((t - GH.TA - GH.TB) / GH.BOUT); H = ghHouding(1); }
+    const V = {};
+    GH_VELDEN.forEach(f => V[f] = H ? ghLerp(G[f], H[f], mix) : G[f]);
+    GH_BENEN.forEach(k => E[k].style.transform = `rotate(${V[k]}deg)`);
+    nodEl.style.transform = `rotate(${V.nod}deg)`;
+    const ph = t / GH.P, wieg = rustig ? 0 : 1 - mix;
+    rockEl.style.transform = `translateY(${ghSamp(GH_T.rty, ph) * wieg}px) rotate(${ghSamp(GH_T.rr, ph) * wieg}deg)`;
+    rearEl.style.transform = `translateY(${V.dy}px) rotate(${V.ang}deg)`;
+    requestAnimationFrame(beeld);
+  }
+  requestAnimationFrame(beeld);
 }
 
 /* Sneltoetsen op het oefenscherm:
