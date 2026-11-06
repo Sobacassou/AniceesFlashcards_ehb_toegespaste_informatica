@@ -1,4 +1,4 @@
-# 📚 Anicée's Flashcards
+# Anicée's Flashcards
 
 **Gratis flashcards om te studeren voor Toegepaste Informatica aan de Erasmushogeschool Brussel (EhB).**
 
