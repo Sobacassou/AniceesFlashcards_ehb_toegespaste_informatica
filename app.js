@@ -280,7 +280,6 @@ function kiesVak(vak) {
   terug.style.display = aantalWeg ? "block" : "none";
   terug.textContent = `♻️ ${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
 
-  toonVerderInfo();
   toonScherm("schermHoofdstuk");
 }
 
@@ -306,24 +305,6 @@ function hervatIndex() {
   if (plaats < 0) return 0;
   const i = stapel.findIndex(k => volgorde.indexOf(kaartId(huidigVak, k.hfst, k)) >= plaats);
   return i < 0 ? 0 : i;
-}
-// toont onder de Start-knop of je verder gaat, met een link om opnieuw te beginnen
-function toonVerderInfo() {
-  const info = document.getElementById("verderInfo");
-  if (!info) return;
-  const hfst = aangevinkteHoofdstukken();
-  const id = hfst.length ? posities[positieSleutel(hfst)] : null;
-  const volgorde = id ? volledigeVolgorde(hfst) : [];
-  const plaats = volgorde.indexOf(id);
-  if (!id || plaats < 0 || document.getElementById("schudden").checked) { info.style.display = "none"; return; }
-  info.style.display = "block";
-  info.innerHTML = `▶ Je gaat verder bij kaart ${plaats + 1} van ${volgorde.length} · ` +
-    `<a href="#" onclick="beginOpnieuw(); return false;">begin bij kaart 1</a>`;
-}
-function beginOpnieuw() {
-  delete posities[positieSleutel(aangevinkteHoofdstukken())];
-  bewaar("posities", posities);
-  toonVerderInfo();
 }
 
 function toonGeschiedenis() {
@@ -362,6 +343,7 @@ function gekozenFilters() {
     nieuw: document.getElementById("fNieuw").checked,
     fout:  document.getElementById("fFout").checked,
     juist: document.getElementById("fJuist").checked,
+    moeilijk: document.getElementById("fMoeilijk").checked,
   };
 }
 
@@ -528,8 +510,12 @@ function startOefenen(kaarten) {
     if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
     // filter: nog niet beantwoord / fout / juist
     const wil = gekozenFilters();
-    if (!wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
-    kaarten = kaarten.filter(k => wil[statusVan(kaartId(huidigVak, k.hfst, k))]);
+    if (!wil.nieuw && !wil.fout && !wil.juist && !wil.moeilijk) { melding("Vink minstens één soort kaarten aan."); return; }
+    kaarten = kaarten.filter(k => {
+      const id = kaartId(huidigVak, k.hfst, k);
+      if (wil[statusVan(id)]) return true;
+      return wil.moeilijk && statusVan(id) === "juist" && stats[id].moeilijk === true;   // juist, maar was moeilijk
+    });
     if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken 🎉"); return; }
   }
   stapel = [...kaarten];
@@ -875,6 +861,10 @@ function volgende(wistHet) {
   if (wistHet) s.goed++; else s.fout++;
   // een foute kaart gaat pas van de teller als ook de controle (na 10) juist is: de herhaling na 5 telt nog niet
   s.laatst = wistHet && !(kaart.herhaling === 1 && document.getElementById("herhalen").checked);
+  // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
+  if (!wistHet && kaart.herhaling) s.moeilijk = true;
+  // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
+  if (wistHet && !kaart.herhaling) delete s.moeilijk;
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
@@ -1615,14 +1605,13 @@ document.addEventListener("keydown", e => {
 toonVakken();
 herstelSessie();
 
-/* verder-info bijwerken als je hoofdstukken of schudden aan/uit vinkt;
-   je keuze voor schudden wordt ook onthouden */
-document.getElementById("hoofdstukLijst").addEventListener("change", () => { toonVerderInfo(); bewaarSessie(); });
-document.getElementById("alles").addEventListener("change", () => setTimeout(() => { toonVerderInfo(); bewaarSessie(); }));
+/* aangevinkte hoofdstukken bewaren; je keuze voor schudden wordt ook onthouden */
+document.getElementById("hoofdstukLijst").addEventListener("change", () => bewaarSessie());
+document.getElementById("alles").addEventListener("change", () => setTimeout(() => bewaarSessie()));
 (() => {
   const schudden = document.getElementById("schudden");
   schudden.checked = laad("schudden", "nee") === "ja";
-  schudden.addEventListener("change", () => { bewaar("schudden", schudden.checked ? "ja" : "nee"); toonVerderInfo(); });
+  schudden.addEventListener("change", () => { bewaar("schudden", schudden.checked ? "ja" : "nee"); });
   const herhalen = document.getElementById("herhalen");
   herhalen.checked = laad("herhalen", "ja") === "ja";   // standaard aan
   herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));

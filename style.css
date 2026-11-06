@@ -345,8 +345,6 @@ main:has(#schermWeggegooid.actief) { max-width: 1400px; }
 #schermWeggegooid #wegKnop { max-width: 420px; margin-left: auto; margin-right: auto; }
 
 /* "je gaat verder bij kaart X" onder de Start-knop */
-.verder-info { display: none; font-size: 0.8rem; color: var(--tekst-zacht, #9d9d9d); margin-top: -4px; }
-.verder-info a { color: #3794ff; }   /* VS Code linkkleur */
 
 /* Tekeningen op de kaart */
 .kaart-fig { position: relative; margin-top: 14px; text-align: center; }
