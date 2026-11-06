@@ -46,6 +46,20 @@ const vakken = {
       { v: "Dummykaart 4: hoe heet een kolom in een tabel ook wel?", a: "Een veld (attribuut).", o: "Dummy" },
       { v: "Dummykaart 5: wat is een vreemde sleutel?", a: "Een veld dat verwijst naar de primaire sleutel van een andere tabel.", o: "Dummy" },
     ],
+    // 11 testkaarten: beantwoord ze allemaal fout om het grote duiveltje (10 fout op rij) te testen
+    "H2 – Testkaarten duiveltjes": [
+      { v: "Testkaart 1: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 1.", o: "Test duiveltjes" },
+      { v: "Testkaart 2: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 2.", o: "Test duiveltjes" },
+      { v: "Testkaart 3: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 3.", o: "Test duiveltjes" },
+      { v: "Testkaart 4: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 4.", o: "Test duiveltjes" },
+      { v: "Testkaart 5: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 5.", o: "Test duiveltjes" },
+      { v: "Testkaart 6: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 6.", o: "Test duiveltjes" },
+      { v: "Testkaart 7: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 7.", o: "Test duiveltjes" },
+      { v: "Testkaart 8: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 8.", o: "Test duiveltjes" },
+      { v: "Testkaart 9: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 9.", o: "Test duiveltjes" },
+      { v: "Testkaart 10: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 10.", o: "Test duiveltjes" },
+      { v: "Testkaart 11: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 11.", o: "Test duiveltjes" },
+    ],
   },
   "🖥️ Desktop OS": {
     // ===== Deel I: Linux =====
@@ -807,6 +821,7 @@ function volgende(wistHet) {
   if (wistHet && reeks % 3 === 0 && !onderdeelKlaar) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (foutReeks === 3) toonDuiveltje();            // 3 op rij fout: duiveltje (1 keer per foute reeks)
+  if (foutReeks === 10) toonGrootDuiveltje();      // 10 op rij fout: groot duiveltje dat in 5 kleintjes ontploft
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -1311,6 +1326,143 @@ function toonGeleEenhoorn() {
     const ph = t / GH.P, wieg = rustig ? 0 : 1 - mix;
     rockEl.style.transform = `translateY(${ghSamp(GH_T.rty, ph) * wieg}px) rotate(${ghSamp(GH_T.rr, ph) * wieg}deg)`;
     rearEl.style.transform = `translateY(${V.dy}px) rotate(${V.ang}deg)`;
+    requestAnimationFrame(beeld);
+  }
+  requestAnimationFrame(beeld);
+}
+
+/* ===== Groot duiveltje: 10 kaarten op rij fout =====
+   Hopt op een derde van links naar beneden, net zoals het gewone duiveltje. Halverwege de
+   hoogte van je kaart ontploft hij in 5 kleine duiveltjes (elk een eigen kleur en "fout" op
+   hun buik). Die vliegen alle kanten op en ontploffen elk tegen de rand van het scherm.
+   Eén keer per foute reeks: pas na een juist antwoord kan hij opnieuw komen. */
+const GD = { P: 833, TV: 2500, BD: 650, SNEL: 0.75 };   // hopje, valtijd, duur van een ontploffing (ms), snelheid kleintjes (px/ms)
+
+function gdDuivel(c) {
+  return `<svg viewBox="0 0 170 180" aria-hidden="true"><g class="gd-sq">
+<g transform="translate(66,100)"><g class="gd-p gd-wl"><path d="M0 0 Q-24 -30 -46 -22 Q-38 -14 -44 -4 Q-32 -6 -32 6 Q-20 0 -16 12 Q-8 4 0 8Z" fill="${c.w}"/><path d="M-2 2 L-46 -22 M-2 4 L-44 -4 M-2 6 L-32 6" stroke="${c.wl}" stroke-width="1.4" stroke-linecap="round"/></g></g>
+<g transform="translate(104,100)"><g class="gd-p gd-wr"><path d="M0 0 Q24 -30 46 -22 Q38 -14 44 -4 Q32 -6 32 6 Q20 0 16 12 Q8 4 0 8Z" fill="${c.w}"/><path d="M2 2 L46 -22 M2 4 L44 -4 M2 6 L32 6" stroke="${c.wl}" stroke-width="1.4" stroke-linecap="round"/></g></g>
+<g transform="translate(100,138)"><g class="gd-p gd-tail"><path d="M0 0 Q22 8 26 -8 Q30 -24 44 -22" stroke="${c.d}" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M40 -30 Q54 -30 52 -18 Q46 -12 40 -14 Q44 -22 40 -30Z" fill="${c.d}"/></g></g>
+<ellipse cx="73" cy="158" rx="8" ry="5" fill="${c.f}"/><ellipse cx="97" cy="158" rx="8" ry="5" fill="${c.f}"/>
+<ellipse cx="85" cy="128" rx="23" ry="26" fill="${c.b}"/><ellipse cx="85" cy="133" rx="14" ry="17" fill="${c.l}"/>
+<text x="85" y="137" text-anchor="middle" font-size="${c.t.length > 2 ? 9 : 11}" font-family="monospace" fill="${c.x}">${c.t}</text>
+<g transform="translate(60,118)"><g class="gd-p gd-fork"><rect x="-10" y="-62" width="3.5" height="80" rx="1.75" fill="#DCDCAA" transform="rotate(-8)"/><path d="M-26 -66 Q-25 -56 -16 -55 L-6 -56 Q2 -58 2 -68 L-2 -66 Q-3 -61 -7 -61 L-9 -72 L-13 -60 Q-20 -60 -22 -66Z" fill="#DCDCAA" transform="rotate(-8)"/><ellipse cx="-2" cy="0" rx="5.5" ry="7" fill="${c.d}"/></g></g>
+<g transform="translate(108,116)"><g class="gd-p gd-arm"><ellipse cx="4" cy="-8" rx="5" ry="8" fill="${c.d}"/></g></g>
+<path d="M58 44 Q50 22 62 12 Q62 28 70 38Z" fill="#DCDCAA"/><path d="M112 44 Q120 22 108 12 Q108 28 100 38Z" fill="#DCDCAA"/>
+<path d="M58 66 L46 56 L58 78Z" fill="${c.b}"/><path d="M112 66 L124 56 L112 78Z" fill="${c.b}"/>
+<circle cx="85" cy="70" r="30" fill="${c.b}"/>
+<path d="M70 44 Q78 52 85 44 Q92 52 100 44 Q92 40 85 41 Q78 40 70 44Z" fill="${c.d}"/>
+<ellipse cx="73" cy="70" rx="7.5" ry="9" fill="#2A0E14"/><ellipse cx="97" cy="70" rx="7.5" ry="9" fill="#2A0E14"/>
+<ellipse cx="73" cy="74" rx="5" ry="3.5" fill="#2E9E5B"/><ellipse cx="97" cy="74" rx="5" ry="3.5" fill="#2E9E5B"/>
+<circle cx="70.5" cy="66" r="2.8" fill="#fff"/><circle cx="94.5" cy="66" r="2.8" fill="#fff"/>
+<circle cx="75.5" cy="74" r="1.2" fill="#fff"/><circle cx="99.5" cy="74" r="1.2" fill="#fff"/>
+<path d="M65 58 L79 61 M105 58 L91 61" stroke="${c.x}" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M74 84 Q85 96 98 83 Q86 88 74 84Z" fill="#5A1A22"/><path d="M91 86.5 l1.8 4.5 2 -5.2Z" fill="#fff"/>
+<ellipse cx="64" cy="81" rx="5" ry="3" fill="${c.l}"/><ellipse cx="106" cy="81" rx="5" ry="3" fill="${c.l}"/>
+</g></svg>`;
+}
+const GD_GROOT = { b: "#F0626A", l: "#F7B0B3", d: "#D9474F", f: "#A8323A", w: "#8E5A8A", wl: "#C586C0", x: "#8A2A31", t: "!=" };
+// de 5 kleintjes: eigen kleur, eigen "fout" op de buik en de richting waarin ze wegvliegen (graden)
+const GD_KLEIN = [
+  { b: "#F14C4C", l: "#F9B4B4", d: "#C93636", f: "#8E2424", w: "#7A2E2E", wl: "#F48771", x: "#6B1A1A", t: "404",  a: -100 },
+  { b: "#C586C0", l: "#E4C1E1", d: "#A066A0", f: "#6F3F6B", w: "#5A3358", wl: "#D7A6D3", x: "#4A2448", t: "NaN",  a: -25 },
+  { b: "#CE9178", l: "#EBC6B4", d: "#B07058", f: "#7A4A35", w: "#6E4A3A", wl: "#E0B29C", x: "#5A3020", t: "null", a: 30 },
+  { b: "#E06C9F", l: "#F2B8D0", d: "#C04F82", f: "#86325A", w: "#7A3A5C", wl: "#F0A0C4", x: "#5E1E3E", t: "err",  a: 110 },
+  { b: "#D16969", l: "#EFB3B3", d: "#B04A4A", f: "#7A2E2E", w: "#6A3A4A", wl: "#E89A9A", x: "#5A1E1E", t: ";;",   a: 190 },
+];
+const GD_TEKENS = ["{", "}", "!=", ";", "*", "#", "✦", "✦"];
+
+// één ontploffing (wolkjes en codetekentjes), stap per stap getekend met gdToonWolk
+function gdMaakWolk(laag, kleuren, groot) {
+  const e = document.createElement("div");
+  e.className = "gd-wolk";
+  const s = groot ? 1.3 : 0.8, n = groot ? 8 : 5;
+  const puffs = [[44, -22, -22, 2.2, 0, kleuren[0]], [36, -44, -6, 1.8, 40, kleuren[1]], [36, 8, -4, 1.8, 40, kleuren[1]],
+                 [30, -14, -40, 1.6, 70, "#DCDCAA"], [26, -13, -13, 1.4, 100, kleuren[2]]];
+  const tekens = [];
+  for (let i = 0; i < n; i++) {
+    const h = i / n * Math.PI * 2 + 0.4;
+    tekens.push([GD_TEKENS[i % GD_TEKENS.length], ["#DCDCAA", "#C586C0", "#50FA7B", "#4FC1FF", kleuren[0]][i % 5],
+                 Math.cos(h) * (groot ? 90 : 55), Math.sin(h) * (groot ? 80 : 50), (i % 2 ? 1 : -1) * 60]);
+  }
+  e.innerHTML = puffs.map(p => `<i style="width:${p[0] * s}px;height:${p[0] * s}px;left:${p[1] * s}px;top:${p[2] * s}px;background:${p[5]}"></i>`).join("") +
+                tekens.map(t => `<span style="color:${t[1]}">${t[0]}</span>`).join("");
+  laag.appendChild(e);
+  return { e, puffs, tekens, I: [...e.querySelectorAll("i")], S: [...e.querySelectorAll("span")] };
+}
+function gdToonWolk(W, k, x, y) {
+  if (k < 0 || k > 1) { W.e.style.display = "none"; return; }
+  W.e.style.display = "block";
+  W.e.style.transform = `translate(${x}px, ${y}px)`;
+  W.I.forEach((el, i) => {
+    const p = W.puffs[i], kk = Math.max(0, k - p[4] / GD.BD);
+    el.style.transform = `scale(${0.2 + (p[3] - 0.2) * Math.min(1, kk * 1.3)})`;
+    el.style.opacity = kk <= 0 ? 0 : Math.max(0, 0.95 * (1 - kk));
+  });
+  W.S.forEach((el, i) => {
+    const t = W.tekens[i];
+    el.style.transform = `translate(${t[2] * k}px, ${t[3] * k}px) scale(${0.4 + 0.6 * k}) rotate(${t[4] * k}deg)`;
+    el.style.opacity = k < 0.8 ? 1 : 1 - (k - 0.8) / 0.2;
+  });
+}
+
+function toonGrootDuiveltje() {
+  const oud = document.getElementById("grootDuiveltje");
+  if (oud) oud.remove();                 // nooit twee tegelijk
+  const laag = document.createElement("div");
+  laag.id = "grootDuiveltje";
+  document.body.appendChild(laag);
+  const maak = (c, breedte) => { const e = document.createElement("div"); e.className = "gd-duivel"; e.style.width = breedte + "px"; e.innerHTML = gdDuivel(c); laag.appendChild(e); return e; };
+  const groot = maak(GD_GROOT, 100);
+  const grootSq = groot.querySelector(".gd-sq");
+  const klein = GD_KLEIN.map(c => maak(c, 44));
+  const midden = gdMaakWolk(laag, ["#C586C0", "#F0626A", "#F7B0B3"], true);
+  const randen = GD_KLEIN.map(c => gdMaakWolk(laag, [c.b, c.d, c.l], false));
+
+  // waar ontploft hij? op een derde van links, op halve hoogte van je kaart (zoals ze nu op het scherm staat)
+  const B = window.innerWidth, H = window.innerHeight;
+  const kaartEl = document.getElementById("kaart");
+  const r = kaartEl ? kaartEl.getBoundingClientRect() : null;
+  const bx = B / 3, by = r && r.height ? r.top + r.height / 2 : H / 2, m = 20;
+  // waar raakt elk kleintje de rand van het scherm, en hoe lang vliegt het daarheen
+  const doelen = GD_KLEIN.map(c => {
+    const h = c.a * Math.PI / 180, dx = Math.cos(h), dy = Math.sin(h);
+    const tx = dx > 0 ? (B - m - bx) / dx : dx < 0 ? (m - bx) / dx : Infinity;
+    const ty = dy > 0 ? (H - m - by) / dy : dy < 0 ? (m - by) / dy : Infinity;
+    const afstand = Math.min(tx, ty);
+    return { x: bx + dx * afstand, y: by + dy * afstand, duur: Math.max(380, Math.min(900, afstand / GD.SNEL)) };
+  });
+  const T0 = GD.TV + 60;
+  const einde = T0 + Math.max(...doelen.map(d => d.duur)) + GD.BD + 50;
+  const lerp = (a, b, u) => a + (b - a) * u;
+  const begin = performance.now();
+
+  function beeld(nu) {
+    if (!laag.isConnected) return;
+    const t = nu - begin;
+    if (t >= einde) { laag.remove(); return; }
+    // het grote duiveltje: 2 hopjes, bij de 3de landing (halverwege de kaart) ontploft hij
+    if (t < GD.TV + 130) {
+      const ph = (t % GD.P) / GD.P, hop = t < GD.TV ? -58 * Math.sin(Math.PI * ph) : 0;
+      const wieg = 17 * Math.sin(t / GD.P * Math.PI), draai = 6 * Math.sin(t / GD.P * Math.PI);
+      const y = lerp(-170, by - 74, Math.min(1, t / GD.TV)) + hop;   // 74 = midden van zijn lijf in de tekening
+      let sq = ph < 0.1 ? lerp(0.84, 1, ph / 0.1) : ph > 0.92 ? lerp(1, 0.84, (ph - 0.92) / 0.08) : 1, sc = 1, op = 1;
+      if (t >= GD.TV) { const k = (t - GD.TV) / 130; sq = lerp(0.7, 0.3, k); sc = 1 - k; op = 1 - k; }
+      groot.style.transform = `translate(${bx - 50 + wieg}px, ${y}px) rotate(${draai}deg) scale(${sc})`;
+      grootSq.style.transform = `scale(${2 - sq}, ${sq})`;
+      groot.style.opacity = op;
+    } else groot.style.opacity = 0;
+    gdToonWolk(midden, (t - GD.TV) / GD.BD, bx, by);
+    // de 5 kleintjes vliegen naar de rand van het scherm en ontploffen daar
+    doelen.forEach((d, i) => {
+      const k = (t - T0) / d.duur;
+      if (k >= 0 && k < 1) {
+        const pop = Math.min(1, 0.3 + k / 0.15 * 0.7);
+        klein[i].style.opacity = 1;
+        klein[i].style.transform = `translate(${lerp(bx, d.x, k) - 22}px, ${lerp(by, d.y, k) - 26}px) rotate(${(i % 2 ? 1 : -1) * 240 * k}deg) scale(${pop})`;
+      } else klein[i].style.opacity = 0;
+      gdToonWolk(randen[i], (t - T0 - d.duur) / GD.BD, d.x, d.y);
+    });
     requestAnimationFrame(beeld);
   }
   requestAnimationFrame(beeld);

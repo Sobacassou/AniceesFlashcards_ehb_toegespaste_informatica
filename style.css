@@ -666,3 +666,29 @@ html, body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   #geleEenhoorn .gh-hair, #geleEenhoorn .gh-tw { animation: none !important; }
 }
+
+/* ===== Groot duiveltje: 10 kaarten op rij fout =====
+   De beweging en de ontploffingen worden in app.js berekend (toonGrootDuiveltje);
+   hier enkel de laag en het klapperen van vleugels, staartje, armpje en drietand. */
+#grootDuiveltje { position: fixed; inset: 0; z-index: 64; pointer-events: none; overflow: hidden; }
+#grootDuiveltje .gd-duivel { position: absolute; left: 0; top: 0; opacity: 0; }
+#grootDuiveltje svg { display: block; width: 100%; height: auto; overflow: visible; }
+#grootDuiveltje .gd-p { transform-origin: 0 0; }
+#grootDuiveltje .gd-sq { transform-box: view-box; transform-origin: 85px 163px; }   /* inveren rond zijn voetjes */
+#grootDuiveltje .gd-wl   { animation: gd-flapL .25s ease-in-out infinite; }
+#grootDuiveltje .gd-wr   { animation: gd-flapR .25s ease-in-out infinite; }
+#grootDuiveltje .gd-tail { animation: gd-wig .45s ease-in-out infinite; }
+#grootDuiveltje .gd-arm  { animation: gd-wave .33s ease-in-out infinite alternate; }
+#grootDuiveltje .gd-fork { animation: gd-fork .45s ease-in-out infinite; }
+#grootDuiveltje .gd-wolk { position: absolute; left: 0; top: 0; width: 0; height: 0; display: none; }
+#grootDuiveltje .gd-wolk i { position: absolute; border-radius: 50%; opacity: 0; }
+#grootDuiveltje .gd-wolk span { position: absolute; left: -8px; top: -10px; font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 15px; font-weight: 600; opacity: 0; white-space: nowrap; }
+@keyframes gd-flapL { 0%, 100% { transform: rotate(12deg) scaleX(1); } 50% { transform: rotate(-14deg) scaleX(.7); } }
+@keyframes gd-flapR { 0%, 100% { transform: rotate(-12deg) scaleX(1); } 50% { transform: rotate(14deg) scaleX(.7); } }
+@keyframes gd-wig { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(14deg); } }
+@keyframes gd-wave { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
+@keyframes gd-fork { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(6deg); } }
+@media (prefers-reduced-motion: reduce) {
+  #grootDuiveltje .gd-p { animation: none !important; }
+}
