@@ -10,7 +10,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 
 ---
 
-## 📖 Welke vakken zitten erin?
+## Welke vakken zitten erin?
 
 | Vak | Hoofdstukken |
 |-|-|
@@ -30,7 +30,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 - **Kaarten weggooien** die je uit de code wilt verwijderen (je kan ze terugzetten als je per ongeluk verkeerd klikt)
 - **Je voortgang wordt onthouden** in je browser (elk toestel heeft zijn eigen voortgang)
 
-📱 **Tip:** open de app op je gsm en kies *Toevoegen aan startscherm*. Dan heb je hem altijd bij de hand.
+**Tip:** open de app op je gsm en kies *Toevoegen aan startscherm*. Dan heb je hem altijd bij de hand.
 
 ## Sneltoetsen op laptop of pc
 
