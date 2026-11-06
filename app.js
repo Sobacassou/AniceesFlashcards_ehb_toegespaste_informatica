@@ -141,8 +141,8 @@ function bewaarSessie() {
     const s = { scherm: actief ? actief.id : "schermVak", vak: huidigVak, hfst: gekozenHoofdstukken };
     if (s.scherm === "schermHoofdstuk") s.aangevinkt = aangevinkteHoofdstukken();
     if (s.scherm === "schermOefenen") {
-      s.stapel = stapel.map(k => [k.hfst, k.v]);
-      s.fouten = fouten.map(k => [k.hfst, k.v]);
+      s.stapel = stapel.map(k => [k.hfst, k.v, k.herhaling || 0]);
+      s.fouten = fouten.map(k => [k.hfst, k.v, k.herhaling || 0]);
       s.index = index;
       s.hervatbaar = hervatbaar;
     }
@@ -159,9 +159,10 @@ function herstelSessie() {
   if (s.scherm === "schermWeggegooid") { toonWeggegooid(); return; }
   if (s.scherm !== "schermOefenen" || !s.stapel) return;
   // de ronde opnieuw opbouwen, kaart per kaart, in dezelfde volgorde
-  const zoek = ([hfst, v]) => {
+  const zoek = ([hfst, v, herhaling]) => {
     const k = (vakken[s.vak][hfst] || []).find(x => x.v === v);
-    return k && !verborgen.has(kaartId(s.vak, hfst, k)) ? { ...k, hfst } : null;
+    if (!k || verborgen.has(kaartId(s.vak, hfst, k))) return null;
+    return herhaling ? { ...k, hfst, herhaling } : { ...k, hfst };
   };
   const kaarten = s.stapel.map(zoek).filter(Boolean);
   if (kaarten.length === 0) return;
@@ -547,7 +548,7 @@ function toonKaart() {
   const kaart = stapel[index];
   zetOngedaanKnoppen();
   bewaarSessie();
-  if (hervatbaar) {
+  if (hervatbaar && !kaart.herhaling) {
     posities[positieSleutel()] = kaartId(huidigVak, kaart.hfst, kaart);
     bewaar("posities", posities);
   }
@@ -556,8 +557,11 @@ function toonKaart() {
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
   const t = telJuistFout(gekozenHoofdstukken);
+  // herhalingen tellen niet mee in "Kaart x van y"
+  const gewoon = stapel.filter(k => !k.herhaling).length;
+  const hierGewoon = stapel.slice(0, index + 1).filter(k => !k.herhaling).length;
   document.getElementById("teller").innerHTML =
-    `<span title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${index + 1} van ${stapel.length}</span>` +
+    `<span title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
     `<span class="groen kort">Juist ${t.juist}</span>` +
     `<span class="rood kort">Fout ${t.fout}</span>`;
@@ -574,10 +578,12 @@ function toonKaart() {
   // titel bovenaan: hoofdstuk › onderwerp
   const titel = kaart.o ? `${kaart.hfst} › ${kaart.o}` : kaart.hfst;
   document.getElementById("onderwerpVoor").textContent = titel;
+  zetHerhaalLabel(kaart);
 
   // achterkant pas invullen na de draai, zodat je het antwoord niet ziet flitsen
   setTimeout(() => {
     document.getElementById("onderwerpAchter").textContent = titel;
+    zetHerhaalLabel(kaart);
     const antwoordEl = document.getElementById("antwoord");
     antwoordEl.textContent = kaart.a;
     // ingesprongen regels (bv. een .yaml-bestand): in een vaste letterbreedte, spaties blijven staan
@@ -822,7 +828,9 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  acties.push({ soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks, foutReeks });
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks, foutReeks };
+  actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
+  acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
   const openVoor = standVan(kaart.hfst, onderdeel).open;   // nog open kaarten van dit onderdeel, vóór dit antwoord
   const s = stats[id] || { goed: 0, fout: 0 };
@@ -874,10 +882,12 @@ function maakOngedaan() {
     if (actie.vorig) stats[actie.id] = actie.vorig; else delete stats[actie.id];
     bewaar("stats", stats);
     if (actie.fout) fouten.pop();
+    if (actie.ingepland >= 0) stapel.splice(actie.ingepland, 1);
   } else {
     verborgen.delete(actie.id);
     bewaarVerborgen();
     stapel.splice(actie.index, 0, actie.kaart);
+    for (const [i, k] of actie.kopies || []) stapel.splice(i, 0, k);   // ook de ingeplande herhalingen terug
   }
   eenhoornBoven = { ...actie.boven };   // beloningen terug zoals vóór die actie (niets tonen)
   reeks = actie.reeks;
@@ -900,6 +910,13 @@ function gooiWeg() {
   bewaarVerborgen();
   zetEenhoornStand();
   stapel.splice(index, 1);
+  // ingeplande herhalingen van dezelfde kaart ook weghalen (en onthouden voor ongedaan maken)
+  const weg = acties[acties.length - 1];
+  weg.kopies = [];
+  for (let i = stapel.length - 1; i >= index; i--) {
+    const k = stapel[i];
+    if (k.herhaling && k.hfst === kaart.hfst && k.v === kaart.v) { weg.kopies.unshift([i, k]); stapel.splice(i, 1); }
+  }
   if (index < stapel.length) toonKaart();
   else toonEinde();
 }
@@ -912,8 +929,10 @@ function toonEinde() {
   if (stapel.length === 0) {
     score.textContent = "Geen kaarten meer";
   } else {
-    const goed = stapel.length - fouten.length;
-    score.textContent = `${goed} / ${stapel.length}`;
+    // herhalingen tellen niet mee in de score: enkel je eerste antwoord per kaart
+    const gewoon = stapel.filter(k => !k.herhaling).length;
+    const goed = gewoon - fouten.filter(k => !k.herhaling).length;
+    score.textContent = `${goed} / ${gewoon}`;
 
     // score bewaren in de geschiedenis van dit vak (max. 20)
     const lijst = scores[huidigVak] || [];
@@ -921,7 +940,7 @@ function toonEinde() {
     lijst.push({
       datum: nu.toLocaleDateString("nl-BE") + " " + nu.toLocaleTimeString("nl-BE", { hour: "2-digit", minute: "2-digit" }),
       goed: goed,
-      totaal: stapel.length,
+      totaal: gewoon,
     });
     scores[huidigVak] = lijst.slice(-20);
     bewaar("scores", scores);
@@ -940,7 +959,36 @@ function toonEinde() {
 }
 
 function herhaalFouten() {
-  startOefenen(fouten);
+  startOefenen(fouten.filter(k => !k.herhaling));
+}
+
+/* ===== Foute kaarten herhalen tijdens het oefenen (vinkje op het hoofdstukkenscherm) =====
+   Gespreide herhaling: een foute kaart komt terug na 5 kaarten. Juist bij die herhaling?
+   Dan nog één controle na 10 kaarten. Weer fout? Dan opnieuw na 5. Wat op het einde van de
+   ronde nog openstaat, komt vóór het eindscherm. */
+const HERHAAL_NA = { 1: 5, 2: 10 };
+function planHerhaling(kaart, wistHet) {
+  if (!document.getElementById("herhalen").checked) return -1;
+  let niveau = 0;
+  if (!wistHet) niveau = 1;                                // fout: na 5 kaarten terug
+  else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 10
+  if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 10 juist: klaar
+  const kopie = { ...kaart, herhaling: niveau };
+  const plek = Math.min(index + 1 + HERHAAL_NA[niveau], stapel.length);
+  stapel.splice(plek, 0, kopie);
+  return plek;
+}
+function zetHerhaalLabel(kaart) {
+  for (const id of ["onderwerpVoor", "onderwerpAchter"]) {
+    const el = document.getElementById(id);
+    el.querySelector(".herhaal-label")?.remove();
+    if (kaart.herhaling) {
+      const lab = document.createElement("span");
+      lab.className = "herhaal-label";
+      lab.textContent = kaart.herhaling === 2 ? "↻ Controle · " : "↻ Herhaling · ";
+      el.prepend(lab);
+    }
+  }
 }
 
 /* ===== Beloning: eenhoorn =====
@@ -1536,6 +1584,9 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
   const schudden = document.getElementById("schudden");
   schudden.checked = laad("schudden", "nee") === "ja";
   schudden.addEventListener("change", () => { bewaar("schudden", schudden.checked ? "ja" : "nee"); toonVerderInfo(); });
+  const herhalen = document.getElementById("herhalen");
+  herhalen.checked = laad("herhalen", "ja") === "ja";   // standaard aan
+  herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));
 })();
 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen

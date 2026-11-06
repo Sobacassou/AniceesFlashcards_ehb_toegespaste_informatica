@@ -692,3 +692,6 @@ html, body { overflow-x: clip; }
 @media (prefers-reduced-motion: reduce) {
   #grootDuiveltje .gd-p { animation: none !important; }
 }
+
+/* label "↻ Herhaling" / "↻ Controle" bovenaan een kaart die terugkomt */
+.herhaal-label { color: #00ff41; font-weight: 700; }
