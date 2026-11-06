@@ -769,12 +769,30 @@ function vergrootHuidige() {
   if (img) toonGroot(img.src);
 }
 
+// hoogte die de inhoud van een kant van de kaart nodig heeft, los van hoe groot de kaart nu is
+function inhoudHoogte(kant) {
+  const cs = getComputedStyle(kant);
+  let boven = Infinity, onder = -Infinity;
+  for (const c of kant.children) {
+    const ccs = getComputedStyle(c);
+    if (ccs.display === "none" || ccs.position === "absolute") continue;   // titel bovenaan zit al in de padding
+    const r = c.getBoundingClientRect();
+    if (!r.height) continue;
+    boven = Math.min(boven, r.top - parseFloat(ccs.marginTop));
+    onder = Math.max(onder, r.bottom + parseFloat(ccs.marginBottom));
+  }
+  const rand = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom) + parseFloat(cs.borderTopWidth) + parseFloat(cs.borderBottomWidth);
+  return onder > boven ? (onder - boven) + rand : 0;
+}
+
 function pasHoogteAan() {
   const kaartEl = document.getElementById("kaart");
   const achter = kaartEl.querySelector(".achterkant");
   const voor = kaartEl.querySelector(".voorkant");
   kaartEl.style.height = "";                       // eerst terug naar de standaardhoogte
-  let nodig = Math.max(achter.scrollHeight, voor.scrollHeight) + 2;
+  // de hoogte van de inhoud zelf meten: scrollHeight zou de oude (grote) kaarthoogte geven,
+  // omdat de kaart tijdens de animatie nog even zo hoog is; dan bleef de kaart te groot
+  let nodig = Math.max(inhoudHoogte(achter), inhoudHoogte(voor)) + 2;
   // niet hoger dan het scherm: dan scrolt de kaart zelf (knoppen blijven zichtbaar)
   const ruimte = window.innerHeight - kaartEl.getBoundingClientRect().top - 80;
   nodig = Math.min(nodig, Math.max(ruimte, 400));
