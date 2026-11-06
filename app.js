@@ -873,7 +873,8 @@ function volgende(wistHet) {
   const openVoor = standVan(kaart.hfst, onderdeel).open;   // nog open kaarten van dit onderdeel, vóór dit antwoord
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
-  s.laatst = wistHet;
+  // een foute kaart gaat pas van de teller als ook de controle (na 10) juist is: de herhaling na 5 telt nog niet
+  s.laatst = wistHet && !(kaart.herhaling === 1 && document.getElementById("herhalen").checked);
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
