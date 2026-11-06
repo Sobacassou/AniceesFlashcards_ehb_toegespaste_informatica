@@ -216,7 +216,7 @@ em, i { font-style: normal; }
 .ov-onderwerpen li.kop { color: var(--tekst); }
 /* waar je je nu bevindt */
 .ov-onderwerpen li.hier { font-weight: 600; }
-.ov-onderwerpen li.hier > span { color: #00ff41; }   /* waar je nu bent: hackersgroen */
+.ov-onderwerpen li.hier > .ov-titel { color: #00ff41; }   /* waar je nu bent: hackersgroen */
 
 /* klikbare onderwerpen in het overzicht */
 .ov-onderwerpen li.klikbaar { cursor: pointer; }
@@ -227,7 +227,12 @@ em, i { font-style: normal; }
 /* rechts 2 nette kolommen (teller | slidenummer), op de hoogte van de eerste regel van de titel */
 .ov-onderwerpen li { align-items: baseline; }
 .ov-onderwerpen li small { display: inline-flex; align-items: baseline; gap: 6px; opacity: 1; flex-shrink: 0; padding-top: 0; }
-.ov-onderwerpen li small .ov-nr { opacity: 0.7; display: inline-block; min-width: 2.4rem; text-align: right; }
+/* nummer (slide of sectie) vooraan in een vaste kolom, zoals een inhoudstafel */
+.ov-onderwerpen .ov-nr { font-style: normal; flex: 0 0 2.7rem; color: var(--tekst-zacht); opacity: 0.7; font-size: 0.68rem; font-weight: 400; }
+.ov-onderwerpen .ov-titel { flex: 1 1 auto; min-width: 0; }
+/* ondertitels inspringen ná de nummerkolom */
+.ov-onderwerpen.met-nrs li.sub { padding-left: 8px; }   /* zelfde als de hoofdtitels: nummers in één kolom */
+.ov-onderwerpen.met-nrs li.sub .ov-titel { padding-left: 14px; }
 /* in de teller staan de schuine strepen onder elkaar: vinkje | getal (rechts) | /totaal (links) */
 .ov-aantal { display: inline-block; }
 .ov-vink { display: inline-block; width: 1.6ch; text-align: left; }
@@ -241,9 +246,10 @@ em, i { font-style: normal; }
 /* alles juist: "✓ 0/18" in datzelfde zachte groen (de rij zelf is ook gedimd, daarom iets feller) */
 .ov-aantal.klaar { font-weight: 400; }
 .ov-aantal.klaar, .ov-aantal.klaar .ov-totaal { color: rgba(115, 201, 145, 0.45); }
-/* wat je nog moet doen: vet; wat al gedaan is: niet vet */
-.ov-onderwerpen li.tedoen > span { font-weight: 600; }
-.ov-onderwerpen li:not(.tedoen):not(.kop) > span { font-weight: 300; }
+/* hoofdtitels vet, ondertitels niet; wat al gedaan is: dun */
+.ov-onderwerpen li:not(.sub) > .ov-titel { font-weight: 600; }
+.ov-onderwerpen li.sub > .ov-titel { font-weight: 400; }
+.ov-onderwerpen li.sub:not(.tedoen) > .ov-titel { font-weight: 300; }
 /* niet klikbaar: gedimd; met een groen vinkje als je alles juist hebt */
 .ov-onderwerpen li.leeg { opacity: 0.4; }
 .ov-onderwerpen li.leeg.juist { opacity: 0.6; }
@@ -629,4 +635,6 @@ html, body { overflow-x: clip; }
 /* Portret: overzicht onder de kaart met een eigen scrollbalk (hoogte zet app.js) */
 @media (max-width: 1099px) {
   .overzicht { position: relative; overflow-y: auto; overscroll-behavior: contain; }
+  /* opengeklapt (je scrolde de pagina naar beneden): geen eigen scrollbalk, de pagina scrolt */
+  .overzicht.open { overflow-y: visible; overscroll-behavior: auto; }
 }

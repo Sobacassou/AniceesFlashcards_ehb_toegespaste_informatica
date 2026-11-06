@@ -597,8 +597,13 @@ function toonOverzicht(kaart) {
   const structuur = vakken[huidigVak][kaart.hfst].structuur ||
                     onderwerpenVan(kaart.hfst).map(o => ({ o }));
 
+  // nummers (slide of sectie) vooraan in een eigen kolom; die kolom alleen tonen als de meeste regels
+  // een nummer hebben dat niet al in de titel staat (in Web Essentials staat het nummer al in de titel)
+  const nrVan = r => nrInTitel(r.o || r.kop, r.slide) ? "" : (r.slide || "");
+  const metNrs = structuur.filter(r => nrVan(r)).length > structuur.length / 2;
+
   vak.innerHTML =
-    `<h3>${kaart.hfst}</h3><ol class="ov-onderwerpen">` +
+    `<h3>${kaart.hfst}</h3><ol class="ov-onderwerpen${metNrs ? " met-nrs" : ""}">` +
     structuur.map(r => {
       // kan je naar dit onderwerp springen? enkel als er in deze ronde nog kaarten van zijn
       const spring = r.o && r.o !== huidig && eersteKaartVan(kaart.hfst, r.o) >= 0;
@@ -616,11 +621,13 @@ function toonOverzicht(kaart) {
         `<b class="ov-aantal${alleJuist ? " klaar" : ""}" title="onbeantwoord of fout / totaal">` +
         `<span class="ov-vink">${alleJuist ? "✓" : "&nbsp;"}</span><span class="ov-open">${st.open}</span>` +
         `<span class="ov-totaal">/${st.totaal}</span></b>`;
-      return `<li class="${klassen}"${data}><span>${r.o || r.kop}</span>` +
-             `<small>${teken}<span class="ov-nr">${nrInTitel(r.o || r.kop, r.slide) ? "" : (r.slide || "")}</span></small></li>`;
+      return `<li class="${klassen}"${data}>` + (metNrs ? `<i class="ov-nr">${nrVan(r)}</i>` : "") +
+             `<span class="ov-titel">${r.o || r.kop}</span><small>${teken}</small></li>`;
     }).join("") +
     `</ol>`;
 
+  // nieuwe kaart terwijl het overzicht opengeklapt is (bv. op een onderwerp getikt): terug naar boven, compact
+  if (ovOpen) { ovOpen = false; vak.classList.remove("open"); window.scrollTo(0, 0); }
   pasOverzichtAan();
 }
 
@@ -648,11 +655,46 @@ function houdHierInBeeld(vak) {
   }
 }
 
+/* Portret: wil je verder naar beneden dan het overzicht toont (veeg onder de kaart, of verder
+   vegen als het overzicht al onderaan is), dan klapt het overzicht helemaal open zonder eigen
+   scrollbalk en scrol je gewoon de pagina. Terug helemaal bovenaan, of een nieuwe kaart:
+   weer compact. */
+let ovOpen = false;
+function zetOverzichtOpen(open) {
+  const vak = document.getElementById("overzicht");
+  if (!vak || open === ovOpen) return;
+  const verschoven = vak.scrollTop;       // zelfde onderwerpen in beeld houden bij het openklappen
+  ovOpen = open;
+  vak.classList.toggle("open", open);
+  pasOverzichtAan();
+  if (open && verschoven > 0) window.scrollBy(0, verschoven);
+}
+function wilVerderNaarBeneden(doel) {
+  if (ovOpen || window.innerWidth >= 1100) return false;
+  if (!document.getElementById("schermOefenen").classList.contains("actief")) return false;
+  if (doel.closest && doel.closest("#kaart")) return false;           // in de kaart zelf scrollen blijft scrollen in de kaart
+  const vak = document.getElementById("overzicht");
+  if (vak.contains(doel)) return vak.scrollTop + vak.clientHeight >= vak.scrollHeight - 2;   // overzicht staat al onderaan
+  return true;
+}
+window.addEventListener("wheel", e => { if (e.deltaY > 0 && wilVerderNaarBeneden(e.target)) zetOverzichtOpen(true); }, { passive: true });
+let veegStart = null;
+window.addEventListener("touchstart", e => { veegStart = e.touches[0].clientY; }, { passive: true });
+window.addEventListener("touchmove", e => {
+  if (veegStart === null) return;
+  if (veegStart - e.touches[0].clientY > 30 && wilVerderNaarBeneden(e.target)) { zetOverzichtOpen(true); veegStart = null; }
+}, { passive: true });
+window.addEventListener("scroll", () => { if (ovOpen && window.scrollY <= 0) zetOverzichtOpen(false); }, { passive: true });
+
 /* Portret (smal scherm): het overzicht onder de kaart krijgt een eigen scrollbalk
    en loopt tot onderaan het scherm, zodat je altijd ziet waar je bent */
 function pasOverzichtAan() {
   const vak = document.getElementById("overzicht");
   if (!vak) return;
+  if (window.innerWidth < 1100 && ovOpen) {
+    vak.style.maxHeight = "none";        // opengeklapt: geen eigen scrollbalk, de pagina scrolt
+    return;
+  }
   if (window.innerWidth < 1100) {
     const boven = vak.getBoundingClientRect().top + window.scrollY;   // los van hoe ver je gescrold bent
     let hoogte = Math.max(220, window.innerHeight - boven - 16);
