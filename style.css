@@ -96,6 +96,9 @@ button.klein:hover { background: var(--vlak-hover); }
 #terugzetten { margin-top: 6px; }
 .rood { color: var(--rood); font-weight: 600; }
 .groen { color: var(--groen); font-weight: 600; }
+.moeilijk { color: #ce9178; font-weight: 600; }   /* VS Code oranje */
+.opties.lang { align-items: baseline; }          /* vierkantje op de hoogte van de eerste regel */
+.opties.lang input { flex-shrink: 0; transform: translateY(2px); }
 
 .geschiedenis {
   background: var(--vlak); border: 1px solid var(--rand); border-radius: 6px;
