@@ -318,7 +318,7 @@ function toonVerderInfo() {
   if (!id || plaats < 0 || document.getElementById("schudden").checked) { info.style.display = "none"; return; }
   info.style.display = "block";
   info.innerHTML = `▶ Je gaat verder bij kaart ${plaats + 1} van ${volgorde.length} · ` +
-    `<a href="#" onclick="beginOpnieuw(); return false;">opnieuw beginnen</a>`;
+    `<a href="#" onclick="beginOpnieuw(); return false;">begin bij kaart 1</a>`;
 }
 function beginOpnieuw() {
   delete posities[positieSleutel(aangevinkteHoofdstukken())];
