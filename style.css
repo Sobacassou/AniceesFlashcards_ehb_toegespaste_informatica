@@ -653,11 +653,11 @@ html, body { overflow-x: clip; }
 }
 
 /* ===== Beloning: gele eenhoorn (onderdeel op ✓) =====
-   Loopt één rondje in het midden van het scherm en steigert. De beweging zelf
+   Loopt één rondje over het kaartje en steigert, enkel binnen de kaart. De beweging zelf
    wordt in app.js berekend (toonGeleEenhoorn); hier enkel de laag, manen en sterretjes.
    Snelheid 0,7: manen en sterretjes 0,5 s / 0,7 en 0,55 s / 0,7. */
-#geleEenhoorn { position: fixed; inset: 0; z-index: 63; pointer-events: none; overflow: hidden; }
-#geleEenhoorn .gh-loper { position: absolute; left: 0; top: 0; width: 130px; opacity: 0; transform-origin: 50% 50%; }
+#geleEenhoorn { position: fixed; left: 0; top: 0; z-index: 63; pointer-events: none; overflow: hidden; }   /* plaats en grootte = die van de kaart, gezet in app.js */
+#geleEenhoorn .gh-loper { position: absolute; left: 0; top: 0; width: 160px; opacity: 0; transform-origin: 50% 50%; }
 #geleEenhoorn svg { display: block; width: 100%; height: auto; overflow: visible; }
 #geleEenhoorn .gh-p { transform-origin: 0 0; }
 #geleEenhoorn .gh-hair { animation: gh-wapper .714s ease-in-out infinite; }

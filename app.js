@@ -1262,7 +1262,7 @@ function toonDuiveltje() {
 
 /* ===== Beloning: gele eenhoorn =====
    Verschijnt wanneer een onderdeel op ✓ springt: je beantwoordt de laatste openstaande kaart
-   van dat onderdeel juist. Hij galoppeert één rondje in het midden van het scherm, steigert
+   van dat onderdeel juist. Hij galoppeert één rondje over het kaartje (enkel binnen de kaart), steigert
    (afremmen, achterbenen onder het lijf, voorbenen plooien, landen) en loopt vervagend verder.
    De benen worden per beeld berekend, zodat galop en steigeren vloeiend in elkaar overgaan. */
 const GH_SNELHEID = 0.7;
@@ -1392,19 +1392,31 @@ function toonGeleEenhoorn() {
   GH_BENEN.forEach(k => E[k] = deel(k));
   const rearEl = deel("rear"), rockEl = deel("rock"), nodEl = deel("nod");
   const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const kaartEl = document.getElementById("kaart");
   const begin = performance.now();
 
   function beeld(nu) {
     if (!laag.isConnected) return;
     const t = (nu - begin) * GH_SNELHEID;
     if (t >= GH.D) { laag.remove(); return; }
-    // plaats op het rondje: vooraan groter en naar rechts, achteraan kleiner en naar links
-    const hoek = ghHoek(t), rx = Math.min(170, window.innerWidth * 0.3), ry = 48;
+    // de laag ligt precies over het kaartje (elk beeld opnieuw, zodat hij meeloopt als je scrolt):
+    // wat buiten de kaart komt, wordt afgeknipt met de afgeronde hoeken van de kaart
+    const r = kaartEl ? kaartEl.getBoundingClientRect() : null;
+    const opKaart = r && r.width > 0 && r.height > 0;
+    const kx = opKaart ? r.left : 0, ky = opKaart ? r.top : 0;
+    const kb = opKaart ? r.width : window.innerWidth, kh = opKaart ? r.height : window.innerHeight;
+    laag.style.left = kx + "px"; laag.style.top = ky + "px";
+    laag.style.width = kb + "px"; laag.style.height = kh + "px";
+    laag.style.borderRadius = opKaart ? getComputedStyle(kaartEl).borderRadius : "0";
+    // 160 px breed, op een smalle kaart iets kleiner zodat hij er nog op past
+    const w = Math.min(160, kb * 0.42), h = w * 160 / 180;
+    loper.style.width = w + "px";
+    // plaats op het rondje binnen de kaart: vooraan groter en naar rechts, achteraan kleiner en naar links
+    const hoek = ghHoek(t), rx = Math.max(0, kb / 2 - w * 0.6), ry = Math.min(48, kh * 0.12);
     const x = rx * Math.sin(hoek), y = ry * Math.cos(hoek), schaal = 0.82 + 0.18 * Math.cos(hoek);
     let sx = Math.cos(hoek);
     sx = (sx < 0 ? -1 : 1) * Math.max(Math.abs(sx), 0.18);
-    const w = loper.offsetWidth, h = loper.offsetHeight;
-    loper.style.transform = `translate(${window.innerWidth / 2 + x - w / 2}px, ${window.innerHeight / 2 + y - h / 2}px) scale(${sx * schaal}, ${schaal})`;
+    loper.style.transform = `translate(${kb / 2 + x - w / 2}px, ${kh / 2 + y - h / 2 + 10}px) scale(${sx * schaal}, ${schaal})`;
     const uit = t < GH.TA + GH.TB ? 1 : 1 - (t - GH.TA - GH.TB) / GH.TC;
     loper.style.opacity = Math.max(0, Math.min(1, t / 300, uit));
 
