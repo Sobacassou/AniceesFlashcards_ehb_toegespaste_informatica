@@ -580,6 +580,7 @@ function startOefenen(kaarten) {
   acties = [];
   reeks = 0;
   foutReeks = 0;
+  kansMoeilijk = new Set();
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -907,7 +908,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id) };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -922,8 +923,13 @@ function volgende(wistHet) {
   const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
   // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
   if (wistHet && !kaart.herhaling) delete s.moeilijk;
-  // of in dezelfde sessie: herhaling én controle juist (de controle komt enkel na een juiste herhaling)
-  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked) delete s.moeilijk;
+  // één kans: net moeilijk geworden, of een moeilijke kaart de eerste keer in deze sessie weer fout
+  if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling))) kansMoeilijk.add(id);
+  else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
+  // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
+  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && kansMoeilijk.has(id)) {
+    delete s.moeilijk; kansMoeilijk.delete(id);
+  }
   const overwonnen = wasMoeilijk && s.moeilijk !== true;   // moeilijke kaart overwonnen? dan groene eenhoorn
   stats[id] = s;
   bewaar("stats", stats);
@@ -969,6 +975,7 @@ function maakOngedaan() {
 
   if (actie.soort === "antwoord") {
     if (actie.vorig) stats[actie.id] = actie.vorig; else delete stats[actie.id];
+    if (actie.kans) kansMoeilijk.add(actie.id); else kansMoeilijk.delete(actie.id);   // kans terug zoals vóór dit antwoord
     bewaar("stats", stats);
     if (actie.fout) fouten.pop();
     if (actie.ingepland >= 0) stapel.splice(actie.ingepland, 1);
@@ -1270,6 +1277,10 @@ function toonDraak() {
    codetekentjes zodra zijn voetjes de onderkant van het scherm raken.
    Eén keer per foute reeks: pas na een juist antwoord kan hij opnieuw komen. */
 let foutReeks = 0;
+/* Moeilijke kaarten met nog één kans in deze sessie: wordt een kaart moeilijk (of had je een moeilijke kaart
+   de eerste keer weer fout), dan gaat ze enkel van de stapel moeilijk als de eerstvolgende herhaling én de
+   controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
+let kansMoeilijk = new Set();
 
 const DUIVEL_SVG = `
 <svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">
