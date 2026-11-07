@@ -623,6 +623,46 @@ function toonStand(t) {
     </div>`;
 }
 
+/* ===== Web Essentials: code in het antwoord tonen zoals in VS Code =====
+   Regels met HTML of CSS komen in een donker codeblok met de kleuren van VS Code;
+   tags in een gewone zin (bv. "Het <img>-element") krijgen dezelfde kleuren. */
+function kleurHTML(s) {   // s is al veilig gemaakt (&lt; en &gt;)
+  const st = s.split(/(&lt;!--.*?--&gt;)/);   // commentaar apart (groen)
+  if (st.length > 1) return st.map((d, i) => i % 2 ? `<span class="c-com">${d}</span>` : kleurHTML(d)).join("");
+  return s.replace(/&lt;(\/?)([a-zA-Z][\w-]*)((?:(?!&gt;).)*?)(\/?)&gt;/g, (m, sl, naam, attrs, zelf) => {
+    const a = attrs.replace(/([\w:-]+)(=)("[^"]*"|[^\s"]+)?/g,
+      (x, n, is, w) => `<span class="c-attr">${n}</span>${is}${w ? `<span class="c-str">${w}</span>` : ""}`);
+    return `<span class="c-punt">&lt;${sl}</span><span class="c-tag">${naam}</span>${a}<span class="c-punt">${zelf}&gt;</span>`;
+  });
+}
+function kleurCSS(s) {
+  const c = s.match(/^(.*?)(\s*\/\*.*\*\/\s*)$/);   // commentaar achteraan (groen)
+  if (c) return kleurCSS(c[1]) + `<span class="c-com">${c[2]}</span>`;
+  let e = s.match(/^(\s*)([^{]+?)(\s*\{\s*)(.+?)(\s*\}\s*)$/);   // regel op één lijn: h1 { color: red; }
+  if (e) return `${e[1]}<span class="c-sel">${e[2]}</span><span class="c-punt">${e[3]}</span>${e[4].split(/(?<=;)\s*/).map(d => kleurCSS(d)).join(" ")}<span class="c-punt">${e[5]}</span>`;
+  if (/^\s*\}\s*$/.test(s)) return `<span class="c-punt">${s}</span>`;
+  if (/^\s*[^\s{}<>:;]+(?:::?[\w-]+)?,\s*$/.test(s) || /^\s*[.#*]?[\w-]*(?:::?[\w-]+)?\s*$/.test(s)) return `<span class="c-sel">${s}</span>`;   // selector op een eigen regel
+  let m = s.match(/^(\s*)([^{]+?)(\s*\{\s*)$/);
+  if (m) return `${m[1]}<span class="c-sel">${m[2]}</span><span class="c-punt">${m[3]}</span>`;
+  m = s.match(/^(\s*)([\w-]+)(\s*:\s*)(.+?)(;)(\s*)$/) || s.match(/^(\s+)([\w-]+)(\s*:\s*)(.+?)()(\s*)$/);
+  if (m) return `${m[1]}<span class="c-attr">${m[2]}</span>${m[3]}<span class="c-str">${m[4].replace(/(?<![#\w.-])(-?\d*\.?\d+)(px|rem|em|%|vh|vw|s)?(?![\w])/g, '<span class="c-num">$1$2</span>')}</span>${m[5]}${m[6]}`;
+  return s;
+}
+function isCodeRegel(r) {
+  return /^\s*&lt;/.test(r) || /^\s*[^{}]+\{\s*$/.test(r) || /^\s*[^{}&]+\{[^}]*\}/.test(r) || /^\s*\.\.\.\s*$/.test(r) || /^[\w-]+\.html\b/.test(r) || /\/\*.*\*\/\s*$/.test(r) || /^\s*\/[*/]/.test(r) || /^\s*[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s*@[\w-]+/.test(r) || /^\s*[^\s{}<>]+,\s*$/.test(r) || /^\s*\}\s*$/.test(r) || /^\s+[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s{2,}\S/.test(r);
+}
+function codeVisueel(tekst) {
+  const regels = maakVeilig(tekst).split("\n");
+  let html = "", blok = [];
+  const sluit = () => { if (blok.length) { html += `<pre class="codeblok">${blok.join("\n")}</pre>`; blok = []; } };
+  for (const r of regels) {
+    if (isCodeRegel(r)) blok.push(/&lt;/.test(r) ? kleurHTML(r) : kleurCSS(r));
+    else { sluit(); html += `<div>${r.replace(/&lt;\/?[a-zA-Z](?:(?!&gt;).)*&gt;/g, m => `<code class="code-in">${kleurHTML(m)}</code>`)}</div>`; }
+  }
+  sluit();
+  return html;
+}
+
 function toonKaart() {
   const kaart = stapel[index];
   zetOngedaanKnoppen();
@@ -666,9 +706,12 @@ function toonKaart() {
     document.getElementById("onderwerpAchter").textContent = titel;
     zetHerhaalLabel(kaart);
     const antwoordEl = document.getElementById("antwoord");
-    antwoordEl.textContent = kaart.a;
-    // ingesprongen regels (bv. een .yaml-bestand): in een vaste letterbreedte, spaties blijven staan
-    antwoordEl.classList.toggle("code", /\n {2,}/.test(kaart.a));
+    if (huidigVak === "Web Essentials") { antwoordEl.innerHTML = codeVisueel(kaart.a); antwoordEl.classList.remove("code"); }
+    else {
+      antwoordEl.textContent = kaart.a;
+      // ingesprongen regels (bv. een .yaml-bestand): in een vaste letterbreedte, spaties blijven staan
+      antwoordEl.classList.toggle("code", /\n {2,}/.test(kaart.a));
+    }
     document.getElementById("uitleg").textContent = kaart.uitleg || "";
     // achterkant: de volledige tekening (met namen), anders dezelfde als voorkant
     zetFiguur("figAchter", kaart.imgAntwoord || kaart.img);

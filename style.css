@@ -754,3 +754,13 @@ html, body { overflow-x: clip; }
 .popup-knoppen .popup-gewoon { background: #3c3c3c; color: #d4d4d4; border: 1px solid #454545; }
 .popup-knoppen .popup-gewoon:hover { background: #4a4a4a; }
 .popup-knoppen button:focus-visible { outline: 1px solid #ffffff; outline-offset: 2px; }
+
+/* Web Essentials: code zoals in VS Code (Dark+) */
+#antwoord .codeblok { margin: 6px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
+  font-family: Consolas, "Cascadia Code", monospace; font-size: 0.85rem; font-weight: 400; line-height: 1.5;
+  letter-spacing: 0; word-spacing: 0; white-space: pre-wrap; text-align: left; color: #d4d4d4; overflow-x: auto; }
+#antwoord .code-in { font-family: Consolas, "Cascadia Code", monospace; font-weight: 400; letter-spacing: 0;
+  background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 4px; padding: 0 4px; }
+#antwoord .c-punt { color: #808080; } #antwoord .c-tag { color: #569cd6; } #antwoord .c-attr { color: #9cdcfe; }
+#antwoord .c-str { color: #ce9178; } #antwoord .c-sel { color: #d7ba7d; } #antwoord .c-num { color: #b5cea8; }
+#antwoord .c-com { color: #6a9955; }

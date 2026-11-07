@@ -33,17 +33,17 @@ const kaarten_WEB_les1 = [
   { v: "Geef de evolutie van websites volgens de cursus, met voorbeelden.", a: "Statische tekstpagina's in de jaren '90 (Amazon 1994, Yahoo 1996, Apple 1996)\n→ rijke sociale netwerken (Facebook 2004, YouTube 2005)\n→ moderne responsive webapps (Buienradar, NMBS Webapp).", o: "2.1 Ontstaan van het web, HTML & W3C" },
 
   // ===== 2.2 Drie pijlers van het web (2.2) =====
-  { v: "Geef de 3 pijlers (lagen) van elke moderne webpagina.", a: "HTML5: structuur & inhoud\nCSS3: vormgeving, layout & design\nJavaScript: interactiviteit, dynamiek & logica", o: "2.2 Drie pijlers van het web",
+  { v: "Geef de 3 pijlers (lagen) van elke moderne webpagina.", a: "HTML5: structuur & inhoud\nCSS3: vormgeving, layout & design\nJavaScript: interactiviteit, dynamiek & logica\n\n<h1>Titel</h1>  <!-- HTML -->\nh1 { color: #0056b3; }  /* CSS */", o: "2.2 Drie pijlers van het web",
     uitleg: "De drie lagen zijn gescheiden: HTML zegt wát er op de pagina staat, CSS hoe het eruitziet, JavaScript wat er gebeurt als je ermee werkt." },
   { v: "Welke technologie hoort bij elk nummer?", a: "1 = HTML5 (structuur & inhoud)\n2 = CSS3 (vormgeving, layout & design)\n3 = JavaScript (interactiviteit, dynamiek & logica)", o: "2.2 Drie pijlers van het web", img: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers_vraag.png", imgAntwoord: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers.png" },
-  { v: "HTML zorgt voor … & …", a: "Structuur & inhoud.", o: "2.2 Drie pijlers van het web",
+  { v: "HTML zorgt voor … & …", a: "Structuur & inhoud.\n\n<h1>Welkom</h1>\n<p>Een paragraaf tekst.</p>", o: "2.2 Drie pijlers van het web",
     uitleg: "HTML definieert de elementen, titels, paragrafen, lijsten, hyperlinks en semantiek." },
-  { v: "CSS zorgt voor … & …", a: "Vormgeving & layout.", o: "2.2 Drie pijlers van het web",
+  { v: "CSS zorgt voor … & …", a: "Vormgeving & layout.\n\np {\n  color: #333333;\n  margin: 10px;\n}", o: "2.2 Drie pijlers van het web",
     uitleg: "CSS definieert kleuren, typografie, margins, padding, Flexbox, Grid en animaties." },
   { v: "JavaScript zorgt voor … & …", a: "Gedrag & dynamiek (interactiviteit).", o: "2.2 Drie pijlers van het web",
     uitleg: "JavaScript definieert interactiviteit, DOM-manipulatie, event-listeners, API fetch en berekeningen." },
-  { v: "Welke technologie definieert elementen, titels, paragrafen, lijsten, hyperlinks en semantiek?", a: "HTML.", o: "2.2 Drie pijlers van het web" },
-  { v: "Welke technologie definieert kleuren, typografie, margins, padding, Flexbox, Grid en animaties?", a: "CSS.", o: "2.2 Drie pijlers van het web" },
+  { v: "Welke technologie definieert elementen, titels, paragrafen, lijsten, hyperlinks en semantiek?", a: "HTML.\n\n<h1>Titel</h1>\n<p>Paragraaf met een <a href=\"info.html\">link</a>.</p>\n<ul>\n  <li>Lijstitem</li>\n</ul>", o: "2.2 Drie pijlers van het web" },
+  { v: "Welke technologie definieert kleuren, typografie, margins, padding, Flexbox, Grid en animaties?", a: "CSS.\n\nh1 {\n  color: #0056b3;\n  font-size: 2rem;\n  margin: 20px;\n  padding: 10px;\n}", o: "2.2 Drie pijlers van het web" },
   { v: "Welke technologie definieert DOM-manipulatie, event-listeners, API fetch en berekeningen?", a: "JavaScript.", o: "2.2 Drie pijlers van het web" },
 
   // ===== 2.3 De ontwikkelomgeving (2.3) =====
@@ -81,44 +81,44 @@ const kaarten_WEB_les1 = [
   { v: "Waarom moet je HTML kennen, ook als je later met React, Vue of Angular werkt?", a: "Omdat de browser uiteindelijk altijd HTML, CSS en JavaScript te verwerken krijgt.", o: "3.1 Waarom HTML leren?" },
 
   // ===== 3.2 Elementen, tags en attributen (3.2) =====
-  { v: "Waarmee omschrijft HTML inhoud, en waardoor wordt dat omsloten?", a: "Met tags, omsloten door scherpe haakjes < >.", o: "3.2 Elementen, tags en attributen" },
-  { v: "Een container-element heeft een …, … en een …", a: "Openingstag, inhoud en een sluitingstag.", o: "3.2 Elementen, tags en attributen",
+  { v: "Waarmee omschrijft HTML inhoud, en waardoor wordt dat omsloten?", a: "Met tags, omsloten door scherpe haakjes < >.\n\n<p>Tekst</p>", o: "3.2 Elementen, tags en attributen" },
+  { v: "Een container-element heeft een …, … en een …", a: "Openingstag, inhoud en een sluitingstag.\n\n<p>Dit is de inhoud</p>\n<!-- <p> = openingstag, \"Dit is de inhoud\" = inhoud, </p> = sluitingstag -->", o: "3.2 Elementen, tags en attributen",
     uitleg: "Voorbeeld: <p>Dit is tekst</p>. De sluitingstag heeft een schuine streep /." },
   { v: "Hoe herken je een sluitingstag?", a: "Aan de schuine streep / na het openingshaakje, bv. </p>.", o: "3.2 Elementen, tags en attributen" },
-  { v: "Wat is een leeg element?", a: "Een element zonder inhoud en zonder sluitingstag.", o: "3.2 Elementen, tags en attributen",
+  { v: "Wat is een leeg element?", a: "Een element zonder inhoud en zonder sluitingstag.\n\n<br>\n<hr>\n<img src=\"images/foto.jpg\" alt=\"Foto\">", o: "3.2 Elementen, tags en attributen",
     uitleg: "Voorbeelden: <br> en <hr>. In de cursus van les 2 heet dat ook een \"void\" element." },
   { v: "Geef 2 voorbeelden van lege elementen uit les 1.", a: "<br> (regelomloop / regel afbreken) en <hr> (horizontale scheidingslijn).", o: "3.2 Elementen, tags en attributen" },
-  { v: "Wat doet <br>?", a: "Een regelomloop: de tekst gaat verder op een nieuwe regel (regel afbreken).", o: "3.2 Elementen, tags en attributen" },
-  { v: "Wat doet <hr>?", a: "Een horizontale scheidingslijn.", o: "3.2 Elementen, tags en attributen" },
-  { v: "Is <br /> (met afsluitende slash) fout in HTML5?", a: "Nee, het is niet fout, maar sinds HTML5 is het verouderd.", o: "3.2 Elementen, tags en attributen",
+  { v: "Wat doet <br>?", a: "Een regelomloop: de tekst gaat verder op een nieuwe regel (regel afbreken).\n\n<p>Erasmushogeschool Brussel<br>\nNijverheidskaai 170</p>", o: "3.2 Elementen, tags en attributen" },
+  { v: "Wat doet <hr>?", a: "Een horizontale scheidingslijn.\n\n<p>Eerste deel</p>\n<hr>\n<p>Tweede deel</p>", o: "3.2 Elementen, tags en attributen" },
+  { v: "Is <br /> (met afsluitende slash) fout in HTML5?", a: "Nee, het is niet fout, maar sinds HTML5 is het verouderd.\n\n<br>    <!-- HTML5 -->\n<br />  <!-- niet fout, wel verouderd -->", o: "3.2 Elementen, tags en attributen",
     uitleg: "Je vindt het vaak nog in oudere HTML. In de code-afspraken van de cursus (6.4) schrijf je het wel zonder slash: <br>." },
-  { v: "Blok-elementen beginnen op een … en nemen standaard de … in.", a: "Nieuwe regel; volledige beschikbare breedte.", o: "3.2 Elementen, tags en attributen",
+  { v: "Blok-elementen beginnen op een … en nemen standaard de … in.", a: "Nieuwe regel; volledige beschikbare breedte.\n\n<p>Ik begin op een nieuwe regel.</p>\n<h2>Ik ook.</h2>", o: "3.2 Elementen, tags en attributen",
     uitleg: "Voorbeelden: <h1>, <h4>, <p>, <section>." },
-  { v: "Inline-elementen blijven op … en nemen alleen de ruimte in die …", a: "Dezelfde regel staan; hun inhoud nodig heeft.", o: "3.2 Elementen, tags en attributen",
+  { v: "Inline-elementen blijven op … en nemen alleen de ruimte in die …", a: "Dezelfde regel staan; hun inhoud nodig heeft.\n\n<p>Dit is <strong>belangrijk</strong> en <a href=\"#\">een link</a> op dezelfde regel.</p>", o: "3.2 Elementen, tags en attributen",
     uitleg: "Voorbeelden: <a>, <strong>, <em>." },
   { v: "Geef 4 voorbeelden van blok-elementen uit les 1.", a: "<h1>, <h4>, <p> en <section>.", o: "3.2 Elementen, tags en attributen" },
   { v: "Geef 3 voorbeelden van inline-elementen uit les 1.", a: "<a>, <strong> en <em>.", o: "3.2 Elementen, tags en attributen" },
-  { v: "Wat is whitespace collapse?", a: "De browser voegt meerdere opeenvolgende spaties, tabs en newlines in je HTML-code samen tot één enkele spatie.", o: "3.2 Elementen, tags en attributen" },
+  { v: "Wat is whitespace collapse?", a: "De browser voegt meerdere opeenvolgende spaties, tabs en newlines in je HTML-code samen tot één enkele spatie.\n\n<p>Dit   is\n   tekst</p>\n<!-- de browser toont: Dit is tekst -->", o: "3.2 Elementen, tags en attributen" },
   { v: "Hoe toont de browser dit?\n<p>Dit is\n     tekst met\n     extra spaties.</p>", a: "Dit is tekst met extra spaties.", o: "3.2 Elementen, tags en attributen",
     uitleg: "Door whitespace collapse worden alle enters en extra spaties één spatie. Wil je echt een nieuwe regel, dan gebruik je <br> of een nieuwe paragraaf." },
-  { v: "Wat zijn attributen?", a: "Extra informatie of eigenschappen die je aan een element meegeeft.", o: "3.2 Elementen, tags en attributen" },
-  { v: "Waar staan attributen, en welk formaat volgen ze?", a: "Altijd in de openingstag, in het formaat naam=\"waarde\".", o: "3.2 Elementen, tags en attributen",
+  { v: "Wat zijn attributen?", a: "Extra informatie of eigenschappen die je aan een element meegeeft.\n\n<a href=\"contact.html\">Contact</a>\n<img src=\"images/logo.png\" alt=\"Logo\">", o: "3.2 Elementen, tags en attributen" },
+  { v: "Waar staan attributen, en welk formaat volgen ze?", a: "Altijd in de openingstag, in het formaat naam=\"waarde\".\n\n<img src=\"images/logo.png\" alt=\"Logo\">\n<!-- naam=\"waarde\": src=\"...\" en alt=\"...\" -->", o: "3.2 Elementen, tags en attributen",
     uitleg: "Voorbeeld: <a href=\"https://ehb.be\">Erasmushogeschool Brussel</a>. Hier is href de naam en https://ehb.be de waarde." },
   { v: "Mag een element meerdere attributen hebben?", a: "Ja, bv. <img class=\"product-image\" src=\"foto.jpg\" alt=\"witte sneaker\" width=\"600\" height=\"400\">.", o: "3.2 Elementen, tags en attributen" },
 
   // ===== 3.3 Regels bij het nesten (3.3) =====
-  { v: "Wat is nesten in HTML?", a: "Elementen in elkaar plaatsen (ouder- en kind-elementen).", o: "3.3 Regels bij het nesten",
+  { v: "Wat is nesten in HTML?", a: "Elementen in elkaar plaatsen (ouder- en kind-elementen).\n\n<ul>\n  <li>Ik ben een kind van ul</li>\n</ul>", o: "3.3 Regels bij het nesten",
     uitleg: "De cursus vergelijkt het met een schoendoos die in een kast past, maar een kast past niet in een schoendoos. HTML kent strikte afspraken over welke elementen als ouder en kind mogen." },
   { v: "Wat mogen inhoudelijke containers zoals <section>, <article> en <aside> bevatten?", a: "Vrijwel alle andere elementen, bv. een kop <h2>, meerdere paragrafen <p> en afbeeldingen <img>.", o: "3.3 Regels bij het nesten" },
-  { v: "Mag een <blockquote> meerdere paragrafen <p> bevatten?", a: "Ja, om de tekst van het citaat op te delen.", o: "3.3 Regels bij het nesten" },
-  { v: "Mogen tekstuele blok-elementen (koppen, paragrafen, lijsten) andere blok-elementen bevatten?", a: "Nee, ze mogen geen andere blok-elementen of structuurblokken bevatten.", o: "3.3 Regels bij het nesten" },
+  { v: "Mag een <blockquote> meerdere paragrafen <p> bevatten?", a: "Ja, om de tekst van het citaat op te delen.\n\n<blockquote>\n  <p>Eerste paragraaf van het citaat.</p>\n  <p>Tweede paragraaf.</p>\n</blockquote>", o: "3.3 Regels bij het nesten" },
+  { v: "Mogen tekstuele blok-elementen (koppen, paragrafen, lijsten) andere blok-elementen bevatten?", a: "Nee, ze mogen geen andere blok-elementen of structuurblokken bevatten.\n\n<!-- fout -->\n<p><h2>Titel</h2></p>\n<!-- juist -->\n<h2>Titel</h2>\n<p>Tekst</p>", o: "3.3 Regels bij het nesten" },
   { v: "Wat is hier fout, en hoe los je het op?\n<p>Mijn lijst:\n  <ol><li>Item</li></ol>\n</p>", a: "Een paragraaf <p> mag geen geordende lijst <ol> bevatten.\nOplossing: plaats de paragraaf en de lijst los achter elkaar op hetzelfde niveau.", o: "3.3 Regels bij het nesten" },
-  { v: "Mag een kop (bv. <h3>) een paragraaf <p> of een lijst <ul> bevatten?", a: "Nee. Een kop dient louter als titel; plaats de lopende tekst of lijst eronder.", o: "3.3 Regels bij het nesten" },
-  { v: "Wat is de regel voor inline-elementen bij nesten?", a: "Inline-elementen beïnvloeden enkel een stukje tekst binnen een regel en mogen nooit grotere blok-elementen omsluiten. Andere inline-elementen mogen ze wel bevatten.", o: "3.3 Regels bij het nesten" },
+  { v: "Mag een kop (bv. <h3>) een paragraaf <p> of een lijst <ul> bevatten?", a: "Nee. Een kop dient louter als titel; plaats de lopende tekst of lijst eronder.\n\n<!-- fout -->\n<h3><p>Tekst</p></h3>\n<!-- juist -->\n<h3>Titel</h3>\n<p>Tekst</p>", o: "3.3 Regels bij het nesten" },
+  { v: "Wat is de regel voor inline-elementen bij nesten?", a: "Inline-elementen beïnvloeden enkel een stukje tekst binnen een regel en mogen nooit grotere blok-elementen omsluiten. Andere inline-elementen mogen ze wel bevatten.\n\n<!-- fout -->\n<strong><p>Tekst</p></strong>\n<!-- juist -->\n<p><strong>Tekst</strong></p>", o: "3.3 Regels bij het nesten" },
   { v: "Wat is hier fout?\n<em><p>Dit is belangrijk.</p></em>", a: "Een inline-element (<em>) mag geen blok-element (<p>) omsluiten.\nJuist: <p>Dit is <em>belangrijk</em>.</p>", o: "3.3 Regels bij het nesten" },
-  { v: "Mag een hyperlink <a> een afbeelding <img> of een <strong> bevatten?", a: "Ja: inline-elementen mogen andere inline-elementen bevatten. Zo maak je bv. een afbeelding aanklikbaar.", o: "3.3 Regels bij het nesten" },
+  { v: "Mag een hyperlink <a> een afbeelding <img> of een <strong> bevatten?", a: "Ja: inline-elementen mogen andere inline-elementen bevatten. Zo maak je bv. een afbeelding aanklikbaar.\n\n<a href=\"index.html\"><img src=\"images/logo.png\" alt=\"Logo\"></a>\n<a href=\"info.html\"><strong>Meer info</strong></a>", o: "3.3 Regels bij het nesten" },
   { v: "Wat doe je als je twijfelt of een combinatie van elementen mag?", a: "Vertrouw op de logische opbouw van je document en controleer je code altijd via de W3C HTML Validator.", o: "3.3 Regels bij het nesten" },
-  { v: "Wat betekent FILO bij het nesten van HTML-elementen?", a: "First In, Last Out: geneste elementen sluit je af in de omgekeerde volgorde waarin je ze opent. Het element dat je het laatst opent, sluit je als eerste.", o: "3.3 Regels bij het nesten" },
+  { v: "Wat betekent FILO bij het nesten van HTML-elementen?", a: "First In, Last Out: geneste elementen sluit je af in de omgekeerde volgorde waarin je ze opent. Het element dat je het laatst opent, sluit je als eerste.\n\n<p><strong>Tekst</strong></p>\n<!-- p eerst open, dus p als laatste dicht -->", o: "3.3 Regels bij het nesten" },
   { v: "Wat is hier fout?\n<p><strong>Belangrijke tekst</p></strong>", a: "De sluittags staan in de verkeerde volgorde (FILO).\nJuist: <p><strong>Belangrijke tekst</strong></p>", o: "3.3 Regels bij het nesten",
     uitleg: "<strong> is als laatste geopend, dus moet hij als eerste gesloten worden." },
   { v: "Wat is hier fout?\n<p><a href=\"contact.html\">Contacteer ons als je vragen hebt</p>", a: "De link <a> wordt niet afgesloten.\nJuist: <p><a href=\"contact.html\">Contacteer ons</a> als je vragen hebt</p>", o: "3.3 Regels bij het nesten",
@@ -126,7 +126,7 @@ const kaarten_WEB_les1 = [
   { v: "Geef de 4 regels bij het nesten van HTML-elementen.", a: "1. Inhoudelijke containers (section, article, aside, blockquote) mogen vrijwel alles bevatten.\n2. Tekstuele blok-elementen (koppen, paragrafen, lijsten) mogen geen andere blok-elementen bevatten.\n3. Inline-elementen mogen nooit blok-elementen omsluiten (wel andere inline-elementen).\n4. Correct starten en afsluiten: FILO.", o: "3.3 Regels bij het nesten" },
 
   // ===== 4. Boilerplate (4) =====
-  { v: "Wat geeft <!DOCTYPE html> aan?", a: "Dat het document een HTML5-document is.", o: "4. Boilerplate" },
+  { v: "Wat geeft <!DOCTYPE html> aan?", a: "Dat het document een HTML5-document is.\n\n<!DOCTYPE html>", o: "4. Boilerplate" },
   { v: "Vul de boilerplate aan:\n<!DOCTYPE html>\n<html lang=\"nl\">\n  <head>\n    <meta charset=\"…\">\n    <meta name=\"viewport\" content=\"…\">\n    <title>…</title>\n    <link rel=\"…\" href=\"style.css\">\n  </head>\n  <…>\n    …\n  </…>\n</html>", a: "<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>Titel in de tab van de browser</title>\n<link rel=\"stylesheet\" href=\"style.css\">\n<body> … </body>", o: "4. Boilerplate",
     uitleg: "Het <link>-element koppelt het externe CSS-bestand. Alles binnen de <body> is zichtbaar in de browser-viewport." },
   { v: "Welk deel van een HTML-document is zichtbaar in de browser-viewport?", a: "Alles binnen de <body>.", o: "4. Boilerplate" },
@@ -135,73 +135,73 @@ const kaarten_WEB_les1 = [
   { v: "Welke meta-tag zorgt voor de juiste weergave op mobiele schermen?", a: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">", o: "4. Boilerplate" },
 
   // ===== 4.1 Onderdelen van de head (4.1) =====
-  { v: "Waarom gebruik je <!DOCTYPE html>?", a: "Het voorkomt \"quirks mode\" in oudere browsers en dwingt HTML5-rendering af.", o: "4.1 Onderdelen van de head",
+  { v: "Waarom gebruik je <!DOCTYPE html>?", a: "Het voorkomt \"quirks mode\" in oudere browsers en dwingt HTML5-rendering af.\n\n<!DOCTYPE html>\n<html lang=\"nl\">", o: "4.1 Onderdelen van de head",
     uitleg: "In quirks mode bootst een browser oude, foutieve gedragingen na, waardoor je pagina anders kan getoond worden dan je verwacht." },
-  { v: "Wat doet <html lang=\"nl\">?", a: "Het is het root-element; lang bepaalt de taal voor zoekmachines en screenreaders.", o: "4.1 Onderdelen van de head" },
+  { v: "Wat doet <html lang=\"nl\">?", a: "Het is het root-element; lang bepaalt de taal voor zoekmachines en screenreaders.\n\n<html lang=\"nl\">\n  ...\n</html>", o: "4.1 Onderdelen van de head" },
   { v: "Wat is het root-element van een HTML-document?", a: "Het <html>-element.", o: "4.1 Onderdelen van de head" },
-  { v: "Waarom is <meta charset=\"UTF-8\"> essentieel?", a: "Voor de juiste weergave van speciale tekens, accenten en leestekens.", o: "4.1 Onderdelen van de head" },
-  { v: "Wat bepaalt <title>?", a: "De tekst op de browser-tab en de titel in de Google-zoekresultaten.", o: "4.1 Onderdelen van de head" },
-  { v: "<!DOCTYPE html> voorkomt …", a: "Quirks mode (in oudere browsers).", o: "4.1 Onderdelen van de head" },
+  { v: "Waarom is <meta charset=\"UTF-8\"> essentieel?", a: "Voor de juiste weergave van speciale tekens, accenten en leestekens.\n\n<head>\n  <meta charset=\"UTF-8\">\n</head>", o: "4.1 Onderdelen van de head" },
+  { v: "Wat bepaalt <title>?", a: "De tekst op de browser-tab en de titel in de Google-zoekresultaten.\n\n<head>\n  <title>Mijn eerste webpagina</title>\n</head>", o: "4.1 Onderdelen van de head" },
+  { v: "<!DOCTYPE html> voorkomt …", a: "Quirks mode (in oudere browsers).\n\n<!DOCTYPE html>", o: "4.1 Onderdelen van de head" },
 
   // ===== 4.2 HTML-commentaar (4.2) =====
   { v: "Hoe schrijf je commentaar in HTML?", a: "<!-- Dit is een commentaar -->", o: "4.2 HTML-commentaar",
     uitleg: "Commentaar wordt niet getoond op de pagina." },
-  { v: "Waarvoor gebruik je HTML-commentaar?", a: "Om code te documenteren of tijdelijk uit te schakelen. Het wordt niet getoond op de pagina.", o: "4.2 HTML-commentaar" },
+  { v: "Waarvoor gebruik je HTML-commentaar?", a: "Om code te documenteren of tijdelijk uit te schakelen. Het wordt niet getoond op de pagina.\n\n<!-- Dit is commentaar: je ziet het niet op de pagina -->\n<!-- <p>Tijdelijk uitgeschakeld</p> -->", o: "4.2 HTML-commentaar" },
 
   // ===== 5. Opmaak los van design (5) =====
-  { v: "Wat is de basisregel bij het kiezen van HTML-elementen?", a: "Gebruik elementen volgens hun betekenis en niet alleen voor hun standaardweergave. Het uitzicht pas je later aan met CSS.", o: "5. Opmaak los van design",
+  { v: "Wat is de basisregel bij het kiezen van HTML-elementen?", a: "Gebruik elementen volgens hun betekenis en niet alleen voor hun standaardweergave. Het uitzicht pas je later aan met CSS.\n\n<!-- juist: kop omdat het een titel is -->\n<h2>Openingsuren</h2>\n<!-- fout: kop alleen omdat de tekst groot moet zijn -->", o: "5. Opmaak los van design",
     uitleg: "HTML-opmaak staat los van hoe je wilt dat het eruitziet (design)." },
 
   // ===== 5.1 Headings (koppen) (5.1) =====
   { v: "Hoeveel niveaus van koppen biedt HTML?", a: "6: <h1> tot en met <h6>.", o: "5.1 Headings (koppen)" },
-  { v: "Hoe vaak mag <h1> op een pagina voorkomen?", a: "Slechts 1 keer per pagina (de hoofdtitel).", o: "5.1 Headings (koppen)" },
+  { v: "Hoe vaak mag <h1> op een pagina voorkomen?", a: "Slechts 1 keer per pagina (de hoofdtitel).\n\n<h1>Hoofdtitel van de pagina</h1>\n<h2>Onderdeel</h2>\n<h3>Deelonderwerp</h3>", o: "5.1 Headings (koppen)" },
   { v: "Wat is hier fout?\n<h1>Als dit een paragraaf is waarvan ik de tekst gewoon groter wil maken dan mag ik daarvoor geen titel-element gebruiken.</h1>", a: "Oneigenlijk gebruik van een titel-element: een kop gebruik je voor een titel, niet om tekst groter te maken. Gebruik <p> en maak de tekst groter met CSS.", o: "5.1 Headings (koppen)" },
   { v: "Waarvoor gebruik je <h2>, <h3> en <h4> volgens het voorbeeld in de cursus?", a: "<h2> = belangrijke subkop (niveau 2), <h3> = sectiekop (niveau 3), <h4> = subsectie (niveau 4).", o: "5.1 Headings (koppen)" },
 
   // ===== 5.2 Paragrafen & regelomloop (5.2) =====
-  { v: "Wat is een paragraaf <p>?", a: "Een inhoudelijke eenheid tekst.", o: "5.2 Paragrafen & regelomloop" },
-  { v: "Waarvoor gebruik je <br>?", a: "Om binnen dezelfde paragraaf op een nieuwe regel verder te gaan.", o: "5.2 Paragrafen & regelomloop" },
+  { v: "Wat is een paragraaf <p>?", a: "Een inhoudelijke eenheid tekst.\n\n<p>Dit is een paragraaf: een inhoudelijke eenheid tekst.</p>", o: "5.2 Paragrafen & regelomloop" },
+  { v: "Waarvoor gebruik je <br>?", a: "Om binnen dezelfde paragraaf op een nieuwe regel verder te gaan.\n\n<p>Lijn een<br>\nLijn twee</p>", o: "5.2 Paragrafen & regelomloop" },
   { v: "Wat is hier fout?\n<p>Een eerste paragraaf</p>\n<br>\n<br>\n<br>\n<p>Tweede paragraaf</p>", a: "Extra <br>-elementen gebruiken om witruimte te maken. Witruimte hoort in CSS ingesteld te worden.", o: "5.2 Paragrafen & regelomloop",
     uitleg: "<br> mag wel voor tekst die op een nieuwe lijn moet binnen een paragraaf." },
 
   // ===== 5.3 Visuele vs. semantische opmaak (5.3) =====
   { v: "Wat is het verschil tussen <strong> en <b>?", a: "<strong> is semantisch: sterke nadruk / belangrijk (vetgedrukt); screenreaders benadrukken het.\n<b> is visueel: vetgedrukte tekst zonder extra inhoudelijke betekenis.", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Wat is het verschil tussen <em> en <i>?", a: "<em> is semantisch: emphasis / klemtoon (cursief).\n<i> is visueel: cursieve tekst (bv. een vreemd woord of vakterm), zonder extra nadruk.", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "<strong> is … en wordt …", a: "Semantisch; vetgedrukt weergegeven (sterke nadruk / belangrijk). Screenreaders benadrukken dit.", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "<em> is … en wordt …", a: "Semantisch; cursief weergegeven (emphasis / klemtoon).", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "<b> is … : …", a: "Visueel: bold tekst zonder extra inhoudelijke betekenis.", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "<i> is … : …", a: "Visueel: italic tekst, bv. een vreemd woord of een vakterm.", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "<strong> is … en wordt …", a: "Semantisch; vetgedrukt weergegeven (sterke nadruk / belangrijk). Screenreaders benadrukken dit.\n\n<p>Let op: <strong>de deadline is vrijdag</strong>.</p>", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "<em> is … en wordt …", a: "Semantisch; cursief weergegeven (emphasis / klemtoon).\n\n<p>Dat is <em>echt</em> belangrijk.</p>", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "<b> is … : …", a: "Visueel: bold tekst zonder extra inhoudelijke betekenis.\n\n<p>Producten: <b>appels</b>, <b>peren</b>.</p>", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "<i> is … : …", a: "Visueel: italic tekst, bv. een vreemd woord of een vakterm.\n\n<p>Het woord <i>déjà vu</i> komt uit het Frans.</p>", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Waarvoor dient <sup>? Geef een voorbeeld.", a: "Superscript (typografisch): tekst hoger en kleiner, bv. E = MC<sup>2</sup> → E = MC².", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Waarvoor dient <sub>? Geef een voorbeeld.", a: "Subscript (typografisch): tekst lager en kleiner, bv. CO<sub>2</sub> → CO₂.", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Waarvoor dienen <del> en <ins>? Geef een voorbeeld.", a: "Schrappen en invoegen (semantisch), bv. bij een prijswijziging: <del>€99</del> <ins>€49</ins>.", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "Waarvoor dient <blockquote>, en welk attribuut mag het hebben?", a: "Een lang citaat op een eigen regel. Het mag een cite=\"...\"-attribuut hebben (de bron).", o: "5.3 Visuele vs. semantische opmaak",
+  { v: "Waarvoor dient <blockquote>, en welk attribuut mag het hebben?", a: "Een lang citaat op een eigen regel. Het mag een cite=\"...\"-attribuut hebben (de bron).\n\n<blockquote cite=\"https://www.voorbeeld.be\">\n  <p>Een lang citaat op een eigen regel.</p>\n</blockquote>", o: "5.3 Visuele vs. semantische opmaak",
     uitleg: "Voorbeeld uit de cursus: <blockquote cite=\"http://en.wikipedia.org/wiki/Winnie-the-Pooh\"><p>Did you ever stop to think, and forget to start again?</p></blockquote>" },
   { v: "Wat is het verschil tussen <blockquote> en <q>?", a: "<blockquote> = lang citaat op een eigen regel.\n<q> = kort citaat binnen een lopende zin (voegt automatisch aanhalingstekens toe).", o: "5.3 Visuele vs. semantische opmaak",
     uitleg: "In de cursustabel staat \"haakjes\"; bedoeld zijn de aanhalingstekens die de browser automatisch rond het citaat zet." },
-  { v: "Waarvoor dient <abbr>, en welk attribuut gebruik je erbij?", a: "Een afkorting. Met title=\"...\" geef je de volledig uitgeschreven term.", o: "5.3 Visuele vs. semantische opmaak",
+  { v: "Waarvoor dient <abbr>, en welk attribuut gebruik je erbij?", a: "Een afkorting. Met title=\"...\" geef je de volledig uitgeschreven term.\n\n<abbr title=\"HyperText Markup Language\">HTML</abbr>", o: "5.3 Visuele vs. semantische opmaak",
     uitleg: "Voorbeeld: <abbr title=\"National Aeronautics and Space Administration\">NASA</abbr>" },
-  { v: "Waarvoor dient <dfn>?", a: "De definitie van een nieuw begrip.", o: "5.3 Visuele vs. semantische opmaak" },
-  { v: "Waarvoor dient <cite>?", a: "Een verwijzing naar de titel van een werk (boek, film, onderzoek).", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "Waarvoor dient <dfn>?", a: "De definitie van een nieuw begrip.\n\n<p><dfn>HTML</dfn> is de opmaaktaal van het web.</p>", o: "5.3 Visuele vs. semantische opmaak" },
+  { v: "Waarvoor dient <cite>?", a: "Een verwijzing naar de titel van een werk (boek, film, onderzoek).\n\n<p>Mijn favoriete boek is <cite>De Kleine Prins</cite>.</p>", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Welke tags uit de tabel zijn visueel, welke typografisch?", a: "Visueel: <b> en <i>.\nTypografisch: <sup> en <sub>.\nDe rest is semantisch: <strong>, <em>, <del>/<ins>, <blockquote>, <q>, <abbr>, <dfn>, <cite>.", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Welke tag gebruik je voor de waarschuwing \"Pas op:\" in \"Pas op: Zakkenrollers actief in deze zone.\"?", a: "<strong>: <p><strong>Pas op:</strong> Zakkenrollers actief in deze zone.</p>", o: "5.3 Visuele vs. semantische opmaak",
     uitleg: "Het is echt belangrijke informatie, dus semantische nadruk." },
 
   // ===== 5.4 div en span (5.4) =====
-  { v: "Wat zijn <div> en <span>?", a: "Algemene elementen zonder specifieke semantische betekenis. Je gebruikt ze om inhoud te groeperen om er later met CSS of JavaScript mee te werken.", o: "5.4 div en span" },
+  { v: "Wat zijn <div> en <span>?", a: "Algemene elementen zonder specifieke semantische betekenis. Je gebruikt ze om inhoud te groeperen om er later met CSS of JavaScript mee te werken.\n\n<div class=\"kaart\">\n  <p>Tekst met een <span class=\"rood\">gekleurd woord</span>.</p>\n</div>", o: "5.4 div en span" },
   { v: "Wat is het verschil tussen <div> en <span>?", a: "<div> is een blok-element en begint standaard op een nieuwe regel.\n<span> is een inline-element en blijft op dezelfde regel als de omliggende tekst.", o: "5.4 div en span" },
   { v: "Wanneer gebruik je <div> en <span>?", a: "Alleen wanneer er geen geschikter (semantisch) element is, zoals <header>, <article> of <strong>.", o: "5.4 div en span" },
 
   // ===== 6.1 Kleine letters (6.1) =====
-  { v: "In welke letters schrijf je HTML-elementen en attribuutnamen?", a: "Consistent in kleine letters.", o: "6.1 Kleine letters",
+  { v: "In welke letters schrijf je HTML-elementen en attribuutnamen?", a: "Consistent in kleine letters.\n\n<!-- juist -->\n<p class=\"intro\">Tekst</p>\n<!-- fout -->\n<P CLASS=\"intro\">Tekst</P>", o: "6.1 Kleine letters",
     uitleg: "Fout: <IMG SRC=\"logo.png\">, <Img Src=\"logo.png\">, <a HREF=\"...\">. Correct: <img src=\"logo.png\" alt=\"Logo\">, <a href=\"...\">." },
   { v: "Is dit correct volgens de code-afspraken? <Img Src=\"logo.png\">", a: "Nee: tags en attributen in kleine letters. Correct: <img src=\"logo.png\" alt=\"Logo\">.", o: "6.1 Kleine letters" },
 
   // ===== 6.2 Dubbele quotes (6.2) =====
-  { v: "Hoe omsluit je attribuutwaarden?", a: "Steeds met dubbele aanhalingstekens \"...\".", o: "6.2 Dubbele quotes" },
+  { v: "Hoe omsluit je attribuutwaarden?", a: "Steeds met dubbele aanhalingstekens \"...\".\n\n<img src=\"images/foto.jpg\" alt=\"Een foto\">", o: "6.2 Dubbele quotes" },
   { v: "Wat is fout aan deze twee links?\n<a href=https://ehb.be target=_blank>\n<a href='https://ehb.be'>", a: "Eerste: geen aanhalingstekens. Tweede: enkele in plaats van dubbele.\nCorrect: <a href=\"https://ehb.be\" target=\"_blank\">", o: "6.2 Dubbele quotes" },
 
   // ===== 6.3 Container-elementen sluiten (6.3) =====
-  { v: "Moet je container-elementen altijd afsluiten, ook al toont de browser het zonder?", a: "Ja. Browsers zijn vergevingsgezind, maar in professionele code sluit je elk container-element netjes af.", o: "6.3 Container-elementen sluiten",
+  { v: "Moet je container-elementen altijd afsluiten, ook al toont de browser het zonder?", a: "Ja. Browsers zijn vergevingsgezind, maar in professionele code sluit je elk container-element netjes af.\n\n<p>Tekst</p>   <!-- juist -->\n<p>Tekst       <!-- fout: sluitingstag vergeten -->", o: "6.3 Container-elementen sluiten",
     uitleg: "Fout: <p>Eerste paragraaf<p>Tweede paragraaf. Correct: <p>Eerste paragraaf</p><p>Tweede paragraaf</p>." },
 
   // ===== 6.4 Geen slash bij lege elementen (6.4) =====
@@ -209,8 +209,8 @@ const kaarten_WEB_les1 = [
   { v: "Geef 4 voorbeelden van lege elementen uit 6.4.", a: "<img>, <input>, <br> en <meta>.", o: "6.4 Geen slash bij lege elementen" },
 
   // ===== 6.5 Structuur & inspringen (6.5) =====
-  { v: "Welke 2 correcte manieren zijn er om een element in je code te schrijven?", a: "1. Openingstag, inhoud en sluitingstag op dezelfde regel.\n2. Op aparte regels, met de inhoud netjes ingesprongen.", o: "6.5 Structuur & inspringen" },
-  { v: "Wat is hier fout?\n<main><section class=\"hero\">\n<h1>Welkom op onze website</h1>\n<p>Dit is een voorbeeld.</p></section></main>", a: "Een rommelige, onregelmatige structuur. Zet elk element op een eigen regel en spring de inhoud netjes in.", o: "6.5 Structuur & inspringen" },
+  { v: "Welke 2 correcte manieren zijn er om een element in je code te schrijven?", a: "1. Openingstag, inhoud en sluitingstag op dezelfde regel.\n2. Op aparte regels, met de inhoud netjes ingesprongen.\n\n<p>Op dezelfde regel</p>\n<ul>\n  <li>Op aparte regels, netjes ingesprongen</li>\n</ul>", o: "6.5 Structuur & inspringen" },
+  { v: "Wat is hier fout?\n<main><section class=\"hero\">\n<h1>Welkom op onze website</h1>\n<p>Dit is een voorbeeld.</p></section></main>", a: "Een rommelige, onregelmatige structuur. Zet elk element op een eigen regel en spring de inhoud netjes in.\n\n<main>\n  <section class=\"hero\">\n    <h1>Welkom op onze website</h1>\n    <p>Dit is een voorbeeld.</p>\n  </section>\n</main>", o: "6.5 Structuur & inspringen" },
   { v: "Met welke sneltoets laat je VS Code je document automatisch formatteren (Format Document)?", a: "Windows: Shift + Alt + F\nMac: Shift + Option + F", o: "6.5 Structuur & inspringen",
     uitleg: "Je kan ook rechtsklikken in de editor en \"Format Document\" kiezen, of Format On Save aanzetten." },
 
@@ -218,19 +218,19 @@ const kaarten_WEB_les1 = [
   { v: "Geef de 3 soorten lijsten in HTML.", a: "1. Ongeordende lijst <ul>\n2. Geordende lijst <ol>\n3. Definitielijst <dl>", o: "7. Soorten lijsten" },
 
   // ===== 7.1 Ongeordende lijst (ul) (7.1) =====
-  { v: "Wanneer gebruik je een ongeordende lijst <ul>?", a: "Als de volgorde van de items niet van belang is (opsommingstekens / bullets).", o: "7.1 Ongeordende lijst (ul)",
+  { v: "Wanneer gebruik je een ongeordende lijst <ul>?", a: "Als de volgorde van de items niet van belang is (opsommingstekens / bullets).\n\n<ul>\n  <li>Melk</li>\n  <li>Brood</li>\n</ul>", o: "7.1 Ongeordende lijst (ul)",
     uitleg: "Voorbeeld uit de cursus: een boodschappenlijstje (1kg aardappelen, 100ml melk, 50g boter)." },
   { v: "Met welk element maak je een item in een <ul> of <ol>?", a: "<li> (list item).", o: "7.1 Ongeordende lijst (ul)" },
-  { v: "Waar staat ul voor?", a: "Unordered list (ongeordende lijst).", o: "7.1 Ongeordende lijst (ul)" },
+  { v: "Waar staat ul voor?", a: "Unordered list (ongeordende lijst).\n\n<ul>\n  <li>Item</li>\n</ul>", o: "7.1 Ongeordende lijst (ul)" },
 
   // ===== 7.2 Geordende lijst (ol) (7.2) =====
-  { v: "Wanneer gebruik je een geordende lijst <ol>?", a: "Voor stappenplannen of rangschikkingen waarbij de volgorde essentieel is (nummering).", o: "7.2 Geordende lijst (ol)",
+  { v: "Wanneer gebruik je een geordende lijst <ol>?", a: "Voor stappenplannen of rangschikkingen waarbij de volgorde essentieel is (nummering).\n\n<ol>\n  <li>Stap 1</li>\n  <li>Stap 2</li>\n</ol>", o: "7.2 Geordende lijst (ol)",
     uitleg: "Voorbeeld uit de cursus: de stappen van een recept (schil de aardappelen, kook ze, giet af en stamp fijn)." },
-  { v: "Waar staat ol voor?", a: "Ordered list (geordende lijst).", o: "7.2 Geordende lijst (ol)" },
+  { v: "Waar staat ol voor?", a: "Ordered list (geordende lijst).\n\n<ol>\n  <li>Item</li>\n</ol>", o: "7.2 Geordende lijst (ol)" },
 
   // ===== 7.3 Definitielijst (dl) (7.3) =====
   { v: "Waaruit bestaat een definitielijst <dl>?", a: "Uit termen <dt> en hun bijbehorende definities of beschrijvingen <dd>.", o: "7.3 Definitielijst (dl)" },
-  { v: "Waar staan dl, dt en dd voor?", a: "dl = definition list, dt = definition term (de term), dd = definition description (de beschrijving).", o: "7.3 Definitielijst (dl)" },
+  { v: "Waar staan dl, dt en dd voor?", a: "dl = definition list, dt = definition term (de term), dd = definition description (de beschrijving).\n\n<dl>\n  <dt>HTML</dt>\n  <dd>De opmaaktaal van het web.</dd>\n</dl>", o: "7.3 Definitielijst (dl)" },
   { v: "Schrijf een definitielijst met de term HTML en de beschrijving \"HyperText Markup Language\".", a: "<dl>\n  <dt>HTML</dt>\n  <dd>HyperText Markup Language.</dd>\n</dl>", o: "7.3 Definitielijst (dl)" },
 
   // ===== 7.4 Geneste lijsten (7.4) =====
@@ -239,31 +239,31 @@ const kaarten_WEB_les1 = [
   { v: "Wat is hier fout?\n<ul>\n  <li>Gebak</li>\n  <ul>\n    <li>Croissant</li>\n  </ul>\n</ul>", a: "De geneste <ul> staat rechtstreeks in de <ul>. Ze moet binnen de <li> \"Gebak\" staan, vóór de </li>.", o: "7.4 Geneste lijsten" },
 
   // ===== 8.1 Externe en interne links (8.1) =====
-  { v: "Waarvoor kan je hyperlinks gebruiken?", a: "Om naar een andere pagina, website of specifieke plek op een pagina te navigeren, en om een e-mailadres of telefoonnummer aanklikbaar te maken.", o: "8.1 Externe en interne links" },
+  { v: "Waarvoor kan je hyperlinks gebruiken?", a: "Om naar een andere pagina, website of specifieke plek op een pagina te navigeren, en om een e-mailadres of telefoonnummer aanklikbaar te maken.\n\n<a href=\"https://www.ehb.be\">EhB</a>\n<a href=\"#contact\">Naar contact</a>\n<a href=\"mailto:info@ehb.be\">Mail ons</a>\n<a href=\"tel:+3225234000\">Bel ons</a>", o: "8.1 Externe en interne links" },
   { v: "Hoe maak je een link naar https://www.imdb.com?", a: "<a href=\"https://www.imdb.com\">Bekijk IMDb</a>", o: "8.1 Externe en interne links" },
   { v: "Hoe open je een externe link in een nieuw tabblad?", a: "Met target=\"_blank\" (en rel=\"noopener\"):\n<a href=\"https://www.imdb.com\" target=\"_blank\" rel=\"noopener\">IMDb</a>", o: "8.1 Externe en interne links" },
   { v: "Hoe maak je een link die een e-mail opent?", a: "<a href=\"mailto:tom.aertssens@ehb.be\">Stuur e-mail</a>", o: "8.1 Externe en interne links" },
   { v: "Hoe maak je een link die een telefoonnummer belt?", a: "<a href=\"tel:+3212345678\">Bel ons op</a>", o: "8.1 Externe en interne links" },
 
   // ===== 8.2 Ankerlinks (8.2) =====
-  { v: "Wat is een ankerlink?", a: "Een link naar een plek op dezelfde pagina.", o: "8.2 Ankerlinks" },
+  { v: "Wat is een ankerlink?", a: "Een link naar een plek op dezelfde pagina.\n\n<a href=\"#contact\">Naar contact</a>\n...\n<section id=\"contact\">...</section>", o: "8.2 Ankerlinks" },
   { v: "Hoe maak je een link die naar de sectie <h2 id=\"contact\"> springt?", a: "<a href=\"#contact\">Spring naar contactsectie</a>", o: "8.2 Ankerlinks",
     uitleg: "De # verwijst naar het id van het element waarnaar je springt." },
   { v: "Hoe maak je een link \"terug naar boven\"?", a: "<a href=\"#top\">Terug naar boven</a>", o: "8.2 Ankerlinks" },
 
   // ===== 8.3 Mappenstructuur & relatieve URL's (8.3) =====
-  { v: "Wat betekent href=\"index.html\"?", a: "Een bestand in dezelfde map (SAME).", o: "8.3 Mappenstructuur & relatieve URL's" },
-  { v: "Wat betekent href=\"music/index.html\"?", a: "Eén map dieper, in de submap music (CHILD).", o: "8.3 Mappenstructuur & relatieve URL's" },
-  { v: "Wat betekent href=\"../index.html\"?", a: "Eén map hoger (PARENT).", o: "8.3 Mappenstructuur & relatieve URL's" },
-  { v: "Wat betekent href=\"../../index.html\"?", a: "Twee mappen hoger (GRANDPARENT).", o: "8.3 Mappenstructuur & relatieve URL's" },
-  { v: "Geef de 3 regels voor bestandsnamen.", a: "Uitsluitend kleine letters, geen spaties (gebruik een koppelteken -) en geen speciale tekens.", o: "8.3 Mappenstructuur & relatieve URL's" },
-  { v: "Hoe heet de startpagina van een website vrijwel altijd?", a: "index.html", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Wat betekent href=\"index.html\"?", a: "Een bestand in dezelfde map (SAME).\n\n<a href=\"index.html\">Home</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Wat betekent href=\"music/index.html\"?", a: "Eén map dieper, in de submap music (CHILD).\n\n<a href=\"music/index.html\">Muziek</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Wat betekent href=\"../index.html\"?", a: "Eén map hoger (PARENT).\n\n<a href=\"../index.html\">Terug</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Wat betekent href=\"../../index.html\"?", a: "Twee mappen hoger (GRANDPARENT).\n\n<a href=\"../../index.html\">Home</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Geef de 3 regels voor bestandsnamen.", a: "Uitsluitend kleine letters, geen spaties (gebruik een koppelteken -) en geen speciale tekens.\n\nmijn-eerste-pagina.html   <!-- juist -->\nMijn Eerste Pagina!.html  <!-- fout -->", o: "8.3 Mappenstructuur & relatieve URL's" },
+  { v: "Hoe heet de startpagina van een website vrijwel altijd?", a: "index.html\n\n<a href=\"index.html\">Home</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
 
   // ===== 9. Character entities (9) =====
-  { v: "Waarom heb je character entities nodig?", a: "Tekens zoals < en > worden gebruikt voor HTML-tags. Om ze als tekst te tonen, gebruik je entities.", o: "9. Character entities" },
-  { v: "Welke entity gebruik je voor < ?", a: "&lt; (less than)", o: "9. Character entities" },
-  { v: "Welke entity gebruik je voor > ?", a: "&gt; (greater than)", o: "9. Character entities" },
-  { v: "Welke entity gebruik je voor & ?", a: "&amp; (ampersand)", o: "9. Character entities" },
+  { v: "Waarom heb je character entities nodig?", a: "Tekens zoals < en > worden gebruikt voor HTML-tags. Om ze als tekst te tonen, gebruik je entities.\n\n<p>Gebruik &lt;p&gt; voor een paragraaf.</p>\n<!-- de browser toont: Gebruik <p> voor een paragraaf. -->", o: "9. Character entities" },
+  { v: "Welke entity gebruik je voor < ?", a: "&lt; (less than)\n\n<p>3 &lt; 5</p>", o: "9. Character entities" },
+  { v: "Welke entity gebruik je voor > ?", a: "&gt; (greater than)\n\n<p>5 &gt; 3</p>", o: "9. Character entities" },
+  { v: "Welke entity gebruik je voor & ?", a: "&amp; (ampersand)\n\n<p>Tom &amp; Jerry</p>", o: "9. Character entities" },
   { v: "Welke entity gebruik je voor \" ?", a: "&quot;", o: "9. Character entities" },
   { v: "Welke entity gebruik je voor © ?", a: "&copy;", o: "9. Character entities" },
   { v: "Wat toont de browser voor: <p>Tom &amp; Jerry</p>", a: "Tom & Jerry", o: "9. Character entities" },
@@ -272,22 +272,22 @@ const kaarten_WEB_les1 = [
   { v: "Hoeveel tekens kan UTF-8 coderen?", a: "Meer dan een miljoen.", o: "9. Character entities" },
   { v: "Waarom moet je voor accenten en emoji's meestal geen entity gebruiken?", a: "Dankzij de tekencodering UTF-8 worden de meeste speciale tekens (accenten, niet-Latijnse alfabetten, emoji's) rechtstreeks en correct weergegeven.", o: "9. Character entities" },
   { v: "Voor welke tekens blijven character entities wel nodig, ook met UTF-8?", a: "Voor tekens met een speciale betekenis in HTML: <, > en &.", o: "9. Character entities" },
-  { v: "Hoe ziet een numerieke code voor een teken eruit? Geef een voorbeeld.", a: "&#x gevolgd door de hexadecimale code en ;, bv. &#x1D11E; voor de muzieksleutel 𝄞.", o: "9. Character entities",
+  { v: "Hoe ziet een numerieke code voor een teken eruit? Geef een voorbeeld.", a: "&#x gevolgd door de hexadecimale code en ;, bv. &#x1D11E; voor de muzieksleutel 𝄞.\n\n<p>&#x1D11E;</p>", o: "9. Character entities",
     uitleg: "Andere voorbeelden uit de cursus: &#x10000; (Lineair B-teken), &#x12000; (spijkerschrift), &#x13000; (Egyptische hiëroglief)." },
 
   // ===== 10.1 Semantische layout-elementen (10.1) =====
   { v: "Wat is \"div-soep\"?", a: "Een pagina waarbij alle indelingen met <div class=\"...\"> gemaakt worden, in plaats van met betekenisvolle HTML5-layout-elementen.", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarom gebruik je semantische layout-elementen in plaats van div's?", a: "Ze helpen zoekmachines en toegankelijkheidstools de opbouw van je pagina te begrijpen.", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarom gebruik je semantische layout-elementen in plaats van div's?", a: "Ze helpen zoekmachines en toegankelijkheidstools de opbouw van je pagina te begrijpen.\n\n<header>...</header>\n<nav>...</nav>\n<main>...</main>\n<footer>...</footer>", o: "10.1 Semantische layout-elementen" },
   { v: "Geef de 7 semantische layout-elementen van HTML5 uit de cursus.", a: "<header>, <nav>, <main>, <section>, <article>, <aside>, <footer>.", o: "10.1 Semantische layout-elementen" },
   { v: "Waarvoor dient <header>, en welke regel geldt?", a: "De introductie van een pagina of sectie (meestal titels, logo en navigatie). Een header mag niet genest worden in een andere <header> of <footer>.", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarvoor dient <nav>?", a: "Een sectie met de belangrijkste navigatielinks van de website.", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarvoor dient <main>, en hoe vaak mag het voorkomen?", a: "De unieke hoofdinhoud van het document. Slechts 1 keer per pagina.", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarvoor dient <nav>?", a: "Een sectie met de belangrijkste navigatielinks van de website.\n\n<nav>\n  <ul>\n    <li><a href=\"index.html\">Home</a></li>\n    <li><a href=\"contact.html\">Contact</a></li>\n  </ul>\n</nav>", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarvoor dient <main>, en hoe vaak mag het voorkomen?", a: "De unieke hoofdinhoud van het document. Slechts 1 keer per pagina.\n\n<main>\n  <h1>Hoofdinhoud</h1>\n</main>", o: "10.1 Semantische layout-elementen" },
   { v: "Waarvoor dient <section>?", a: "Een thematische groepering van inhoud, typisch met een eigen kop (<h2>).", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarvoor dient <article>?", a: "Zelfstandige, herbruikbare inhoud, bv. een blogpost, nieuwsbericht, productkaart of tweet.", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarvoor dient <aside>?", a: "Een zijbalk of gerelateerde info die losstaat van de hoofdinhoud (bv. gerelateerde artikels, citaten, advertenties).", o: "10.1 Semantische layout-elementen" },
-  { v: "Waarvoor dient <footer>?", a: "De voettekst van een pagina of sectie (copyright, sitemap, contactlinks).", o: "10.1 Semantische layout-elementen" },
-  { v: "Wanneer gebruik je nog een <div> in een semantische layout?", a: "Alleen voor CSS-styling of JavaScript, als er geen semantisch alternatief is.", o: "10.1 Semantische layout-elementen" },
-  { v: "Mag <nav> in de <header> staan?", a: "Ja, de nav kan in de header, maar ook als losstaand blok.", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarvoor dient <article>?", a: "Zelfstandige, herbruikbare inhoud, bv. een blogpost, nieuwsbericht, productkaart of tweet.\n\n<article>\n  <h2>Titel van de blogpost</h2>\n  <p>Tekst van het bericht.</p>\n</article>", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarvoor dient <aside>?", a: "Een zijbalk of gerelateerde info die losstaat van de hoofdinhoud (bv. gerelateerde artikels, citaten, advertenties).\n\n<aside>\n  <h3>Gerelateerde artikels</h3>\n</aside>", o: "10.1 Semantische layout-elementen" },
+  { v: "Waarvoor dient <footer>?", a: "De voettekst van een pagina of sectie (copyright, sitemap, contactlinks).\n\n<footer>\n  <p>&copy; 2026 Mijn website</p>\n</footer>", o: "10.1 Semantische layout-elementen" },
+  { v: "Wanneer gebruik je nog een <div> in een semantische layout?", a: "Alleen voor CSS-styling of JavaScript, als er geen semantisch alternatief is.\n\n<div class=\"kaart-raster\">\n  <article>...</article>\n</div>", o: "10.1 Semantische layout-elementen" },
+  { v: "Mag <nav> in de <header> staan?", a: "Ja, de nav kan in de header, maar ook als losstaand blok.\n\n<header>\n  <nav>...</nav>\n</header>", o: "10.1 Semantische layout-elementen" },
 
   // ===== 10.1 Voorbeelden semantische layout (10.1) =====
   { v: "Zet deze pagina om naar semantische HTML5: welk element komt rond elk deel?\n1. Titel \"TechNews Magazine\" + navigatielijst\n2. Het hoofdgedeelte van de pagina\n3. Het blok \"Laatste nieuws\"\n4. Eén nieuwsbericht \"HTML & CSS\"\n5. \"Aanbevolen links\" (gerelateerde info)\n6. \"Erasmushogeschool Brussel\" onderaan", a: "1. <header> (met de lijst in een <nav>)\n2. <main>\n3. <section>\n4. <article>\n5. <aside>\n6. <footer>", o: "10.1 Voorbeelden semantische layout" },
@@ -311,13 +311,13 @@ const kaarten_WEB_les1 = [
   { v: "Welke lijst gebruik je voor culinaire begrippen met hun uitleg (Al dente, Mise-en-place)?", a: "Een definitielijst: <dl> met <dt> voor het begrip en <dd> voor de uitleg.", o: "Oefening: lijsten" },
 
   // ===== Oefening: relatieve paden (Oef. 5) =====
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: link naar about.html?", a: "href=\"pages/about.html\"", o: "Oefening: relatieve paden" },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: afbeelding logo.png?", a: "src=\"assets/images/logo.png\"", o: "Oefening: relatieve paden" },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn about.html: link terug naar index.html?", a: "href=\"../index.html\"", o: "Oefening: relatieve paden",
+  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: link naar about.html?", a: "href=\"pages/about.html\"\n\n<a href=\"pages/about.html\">Over ons</a>", o: "Oefening: relatieve paden" },
+  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: afbeelding logo.png?", a: "src=\"assets/images/logo.png\"\n\n<img src=\"assets/images/logo.png\" alt=\"Logo\">", o: "Oefening: relatieve paden" },
+  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn about.html: link terug naar index.html?", a: "href=\"../index.html\"\n\n<a href=\"../index.html\">Home</a>", o: "Oefening: relatieve paden",
     uitleg: "about.html zit in pages/, dus één map hoger (PARENT) ligt index.html." },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: link naar about.html?", a: "href=\"../about.html\"", o: "Oefening: relatieve paden",
+  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: link naar about.html?", a: "href=\"../about.html\"\n\n<a href=\"../about.html\">Over ons</a>", o: "Oefening: relatieve paden",
     uitleg: "article1.html zit in pages/blog/; één map hoger is pages/, waar about.html staat." },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: afbeelding logo.png?", a: "src=\"../../assets/images/logo.png\"", o: "Oefening: relatieve paden",
+  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: afbeelding logo.png?", a: "src=\"../../assets/images/logo.png\"\n\n<img src=\"../../assets/images/logo.png\" alt=\"Logo\">", o: "Oefening: relatieve paden",
     uitleg: "Twee mappen hoger (GRANDPARENT) kom je in my-website/, daarna ga je naar assets/images/." },
   { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: link naar style.css?", a: "<link rel=\"stylesheet\" href=\"../../assets/css/style.css\">", o: "Oefening: relatieve paden" },
 
