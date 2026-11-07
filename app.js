@@ -986,10 +986,10 @@ function volgende(wistHet) {
   // de gele eenhoorn krijgt voorrang: dan die keer geen groene eenhoorn en geen draakje
   if (overwonnen && !onderdeelKlaar) toonEenhoorn();
   reeks = wistHet ? reeks + 1 : 0;
-  // om de 25 beantwoorde kaarten (juist of fout, herhalingen tellen mee): roos konijntje,
+  // om de 25 juiste antwoorden in een ronde (niet op rij; herhalingen tellen mee): roos konijntje,
   // tenzij er op hetzelfde moment een eenhoorn of een duiveltje komt; het konijntje gaat voor het draakje
-  aantalBeantwoord++;
-  const konijnNu = aantalBeantwoord % 25 === 0 && !onderdeelKlaar && !overwonnen;
+  if (wistHet) aantalBeantwoord++;   // enkel juiste antwoorden tellen (ook herhalingen en controles)
+  const konijnNu = wistHet && aantalBeantwoord % 25 === 0 && !onderdeelKlaar && !overwonnen;
   if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen && !konijnNu) toonDraak();   // 3, 6, 9 ... op rij juist: draakje (groen paardje en konijntje gaan voor)
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
@@ -1325,7 +1325,7 @@ function toonDraak() {
   setTimeout(() => laag.remove(), duur + 300);
 }
 
-/* ===== Roos konijntje: om de 25 beantwoorde kaarten in een ronde =====
+/* ===== Roos konijntje: om de 25 juiste antwoorden in een ronde =====
    Hopt over de hele breedte van het scherm, ter hoogte van de onderste rand van het kaartje. */
 let aantalBeantwoord = 0;
 const KONIJN_SVG = `
