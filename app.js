@@ -93,6 +93,36 @@ let scores = laad("scores", {});                    // per vak: je laatste score
 let posities = laad("posities", {});                // waar je gebleven was (enkel zonder schudden)
 let hervatbaar = false;                             // huidige ronde onthoudt zijn plaats?
 
+/* Eenmalig: de vaknamen hadden vroeger een icoontje vooraan ("💻 IT Essentials", "🖥️ Desktop OS" …).
+   Je voortgang staat nog onder die oude namen; hier wordt ze overgezet naar de namen zonder icoontje.
+   Heb je een kaart intussen opnieuw beantwoord, dan blijft dat nieuwe antwoord staan. */
+(function migreerVaknamenZonderIcoontje() {
+  const ICOON = /^[^\p{L}\p{N}|]+\s/u;                   // icoontje + spatie vooraan de vaknaam
+  const zonder = s => s.replace(ICOON, "");
+  let gewijzigd = false;
+  for (const id of Object.keys(stats)) {
+    const n = zonder(id);
+    if (n !== id) { if (!stats[n]) stats[n] = stats[id]; delete stats[id]; gewijzigd = true; }
+  }
+  for (const id of [...verborgen]) {
+    const n = zonder(id);
+    if (n !== id) { verborgen.delete(id); verborgen.add(n); gewijzigd = true; }
+  }
+  for (const p of Object.keys(posities)) {
+    const n = zonder(p);
+    if (n !== p) { if (!posities[n]) posities[n] = zonder(posities[p]); delete posities[p]; gewijzigd = true; }
+  }
+  for (const v of Object.keys(scores)) {
+    const n = zonder(v);
+    if (n !== v) { scores[n] = [...scores[v], ...(scores[n] || [])].slice(-20); delete scores[v]; gewijzigd = true; }
+  }
+  if (gewijzigd) { bewaar("stats", stats); bewaar("verborgen", [...verborgen]); bewaar("posities", posities); bewaar("scores", scores); }
+  try {
+    const s = sessionStorage.getItem("sessie");
+    if (s) { const o = JSON.parse(s); if (o && typeof o.vak === "string" && ICOON.test(o.vak)) { o.vak = zonder(o.vak); sessionStorage.setItem("sessie", JSON.stringify(o)); } }
+  } catch (e) {}
+})();
+
 /* Eenmalig: voortgang van het oude hoofdstuk "introductie en werkcollege 1" overzetten naar de 2 nieuwe hoofdstukken */
 (function migreerLinuxSplitsing() {
   const vak = "Desktop OS|";
@@ -239,8 +269,8 @@ function bevestig(tekst, ja = "OK") {
 }
 
 /* ===== Vaknamen op het scherm =====
-   De vaknamen (met emoji) blijven ongewijzigd in de code: je scores en voortgang zijn daaraan gekoppeld.
-   Op het scherm tonen we enkel de naam, zonder emoji of icoontje. */
+   De vaknamen in de code hebben geen icoontje meer (oude voortgang wordt bovenaan overgezet).
+   Op het scherm tonen we de naam met het academiejaar. */
 const ACADEMIEJAAR = "2026-27";   // getoond achter elke vaknaam
 // vaknaam om te tonen: een eventueel icoontje vooraan weg (enkel als het geen letter of cijfer is), plus het academiejaar
 function vakZonderEmoji(vak) { return vak.replace(/^[^\p{L}\p{N}]+\s/u, "") + ` (${ACADEMIEJAAR})`; }
