@@ -221,6 +221,8 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "" },
   { v: "Waar verander je het standaardprofiel van Terminal?", a: "In de settings van Terminal.", o: "Windows Terminal",
     uitleg: "" },
+  { v: "Wat kan je veranderen via de settings van Terminal?", a: "Het standaardprofiel en de grafische instellingen.", o: "Windows Terminal",
+    uitleg: "" },
   // ===== Bestandsbeheer =====
   // -- witte kaarten: uitleg --
   { v: "Help van een commando: /?", a: "Van elk commando bekijk je de mogelijkheden met <commando> /?. Bv. dir /? toont de help van dir.", o: "Bestandsbeheer", wit: true,
@@ -235,6 +237,9 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "Bv. team.txt of term.txt." },
   { v: "Opdracht: dir geordend op datum", a: "In C:\\Windows: dir /o:d (of dir /od) toont de bestanden geordend op datum, oudste eerst. Omgekeerd: dir /o:-d.", o: "Bestandsbeheer", wit: true,
     uitleg: "/o = order (volgorde), d = date, het minteken keert de volgorde om. Je vindt dit met dir /?." },
+  // -- extra info, niet uit de cursus --
+  { v: "Slash / en backslash \\ in CMD", a: "In dir /o:d is de / een schakelaar (switch). Hij zegt tegen het commando: \"nu volgt een optie\". /o betekent order (sorteren), :d betekent op datum. /o:-d keert dat om, dus nieuwste eerst.\nDe \\ gebruikt Windows om mappen in een pad te scheiden, zoals in C:\\Users\\Jan\\Documents. Het zijn dus twee verschillende tekens met twee verschillende taken.", o: "Bestandsbeheer", extra: true,
+    uitleg: "" },
   { v: "WAARSCHUWING: jokertekens", a: "Jokertekens zijn handig om bestanden op te zoeken, maar gevaarlijk samen met del of erase.", o: "Bestandsbeheer", wit: true,
     uitleg: "del *.* verwijdert alles in de map." },
   // -- zwarte kaarten: test jezelf --
@@ -262,6 +267,15 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "" },
   { v: "cd c:\\test · cd \\", a: "cd c:\\test gaat naar de submap test van volume C:\\. cd \\ gaat naar de root van het volume (bv. van c:\\Documents and Settings\\jos naar c:\\).", o: "Navigeren", wit: true,
     uitleg: "Achtergrond (wordt niet gevraagd): in CMD schrijf je paden met een backslash \\ en opties met een slash / (dir /s). In Linux is het net andersom." },
+  // -- extra info, niet uit de cursus --
+  { v: "Wat betekent cd \\?", a: "cd \\ is een commando in de Windows-opdrachtprompt (CMD) en betekent: ga naar de hoofdmap (root) van de huidige schijf. cd = change directory, oftewel \"wissel van map\". \\ = de hoofdmap van de schijf.", o: "Navigeren", extra: true,
+    uitleg: "Voorbeeld:\nC:\\Users\\Jan\\Documenten\\Projecten> cd \\\nC:\\>" },
+  { v: "cd \\: hoe diep je ook zit", a: "Hoe diep je ook in de mappenstructuur zit, je springt meteen terug naar C:\\, of naar de root van de schijf waarop je op dat moment werkt, zoals D:\\.", o: "Navigeren", extra: true,
+    uitleg: "" },
+  { v: "Verwante commando's van cd", a: "cd .. gaat één map omhoog. cd zonder iets erachter toont de huidige map.", o: "Navigeren", extra: true,
+    uitleg: "" },
+  { v: "cd / op Linux en macOS", a: "Op Linux en macOS werkt dit anders. Daar gebruik je / in plaats van \\, dus cd / brengt je naar de root.", o: "Navigeren", extra: true,
+    uitleg: "" },
   { v: "mkdir", a: "mkdir maakt een nieuwe map aan.", o: "Navigeren", wit: true,
     uitleg: "Opdracht: c: · cd \\ · mkdir test." },
   { v: "Opdracht: help van move, find, findstr, copy en robocopy", a: "Bekijk de help met move /?, find /?, findstr /?, copy /? en robocopy /?.", o: "Navigeren", wit: true,
