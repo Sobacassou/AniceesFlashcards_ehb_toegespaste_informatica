@@ -35,7 +35,7 @@ const kaarten_WEB_les1 = [
   // ===== 2.2 Drie pijlers van het web (2.2) =====
   { v: "Geef de 3 pijlers (lagen) van elke moderne webpagina.", a: "HTML5: structuur & inhoud\nCSS3: vormgeving, layout & design\nJavaScript: interactiviteit, dynamiek & logica", o: "2.2 Drie pijlers van het web",
     uitleg: "De drie lagen zijn gescheiden: HTML zegt wát er op de pagina staat, CSS hoe het eruitziet, JavaScript wat er gebeurt als je ermee werkt." },
-  { v: "🖼️ Welke technologie hoort bij elk nummer?", a: "1 = HTML5 (structuur & inhoud)\n2 = CSS3 (vormgeving, layout & design)\n3 = JavaScript (interactiviteit, dynamiek & logica)", o: "2.2 Drie pijlers van het web", img: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers_vraag.png", imgAntwoord: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers.png" },
+  { v: "Welke technologie hoort bij elk nummer?", a: "1 = HTML5 (structuur & inhoud)\n2 = CSS3 (vormgeving, layout & design)\n3 = JavaScript (interactiviteit, dynamiek & logica)", o: "2.2 Drie pijlers van het web", img: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers_vraag.png", imgAntwoord: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers.png" },
   { v: "HTML zorgt voor … & …", a: "Structuur & inhoud.", o: "2.2 Drie pijlers van het web",
     uitleg: "HTML definieert de elementen, titels, paragrafen, lijsten, hyperlinks en semantiek." },
   { v: "CSS zorgt voor … & …", a: "Vormgeving & layout.", o: "2.2 Drie pijlers van het web",

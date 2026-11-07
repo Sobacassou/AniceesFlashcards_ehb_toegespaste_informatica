@@ -112,9 +112,9 @@ const kaarten_WEB_les2 = [
   // ===== 3.2 Cellen samenvoegen (3.2) =====
   { v: "Met welk attribuut laat je een cel over meerdere kolommen lopen?", a: "colspan, bv. <td colspan=\"2\">.", o: "3.2 Cellen samenvoegen" },
   { v: "Met welk attribuut laat je een cel over meerdere rijen lopen?", a: "rowspan, bv. <td rowspan=\"2\">.", o: "3.2 Cellen samenvoegen" },
-  { v: "🖼️ Met welk attribuut is de cel \"Netwerken & Hardware (Dubbelblok)\" gemaakt?", a: "colspan=\"2\": de cel beslaat 2 kolommen.", o: "3.2 Cellen samenvoegen", img: "afbeeldingen/WEBles2_htmlmedia/we2_colspan.png",
+  { v: "Met welk attribuut is de cel \"Netwerken & Hardware (Dubbelblok)\" gemaakt?", a: "colspan=\"2\": de cel beslaat 2 kolommen.", o: "3.2 Cellen samenvoegen", img: "afbeeldingen/WEBles2_htmlmedia/we2_colspan.png",
     uitleg: "<td colspan=\"2\">Netwerken & Hardware (Dubbelblok)</td>" },
-  { v: "🖼️ Met welk attribuut is de cel \"Praktijkexamen Project\" gemaakt?", a: "rowspan=\"2\": de cel beslaat 2 opeenvolgende rijen.", o: "3.2 Cellen samenvoegen", img: "afbeeldingen/WEBles2_htmlmedia/we2_rowspan.png",
+  { v: "Met welk attribuut is de cel \"Praktijkexamen Project\" gemaakt?", a: "rowspan=\"2\": de cel beslaat 2 opeenvolgende rijen.", o: "3.2 Cellen samenvoegen", img: "afbeeldingen/WEBles2_htmlmedia/we2_rowspan.png",
     uitleg: "In de tweede rij schrijf je die cel dan niet meer: de tweede <tr> bevat alleen <th>11:00 - 13:00</th> en <td>Lokaal A.102</td>." },
   { v: "colspan voegt … samen, rowspan voegt … samen.", a: "Kolommen (horizontaal); rijen (verticaal).", o: "3.2 Cellen samenvoegen" },
 
@@ -173,12 +173,12 @@ const kaarten_WEB_les2 = [
   { v: "Wanneer gebruik je checkboxes?", a: "Als de gebruiker nul, één of meerdere opties mag selecteren.", o: "4.6 Radio buttons & checkboxes" },
   { v: "Hoe zet je een radio button of checkbox standaard aangevinkt?", a: "Met het attribuut checked.", o: "4.6 Radio buttons & checkboxes" },
   { v: "Wat stuurt het attribuut value van een radio button naar de server?", a: "De waarde van de gekozen optie, bv. name=\"traject\" value=\"dagstudent\" → traject=dagstudent.", o: "4.6 Radio buttons & checkboxes" },
-  { v: "🖼️ Welk type input zie je hier, en hoe herken je dat meerdere keuzes mogelijk zijn?", a: "Checkboxes (type=\"checkbox\") in een <fieldset> met <legend> \"Interesses (Meerdere keuzes mogelijk)\". Webdevelopment is standaard aangevinkt met checked.", o: "4.6 Radio buttons & checkboxes", img: "afbeeldingen/WEBles2_htmlmedia/we2_checkboxes.png" },
+  { v: "Welk type input zie je hier, en hoe herken je dat meerdere keuzes mogelijk zijn?", a: "Checkboxes (type=\"checkbox\") in een <fieldset> met <legend> \"Interesses (Meerdere keuzes mogelijk)\". Webdevelopment is standaard aangevinkt met checked.", o: "4.6 Radio buttons & checkboxes", img: "afbeeldingen/WEBles2_htmlmedia/we2_checkboxes.png" },
   { v: "Wat is het verschil tussen radio buttons en checkboxes?", a: "Radio buttons: precies één keuze uit een groep (zelfde name).\nCheckboxes: nul, één of meerdere keuzes.", o: "4.6 Radio buttons & checkboxes" },
 
   // ===== 4.7 select, option en optgroup (4.7) =====
   { v: "Hoe maak je een drop-downmenu (klapmenu)?", a: "Met <select> en daarin <option>-elementen.", o: "4.7 select, option en optgroup" },
-  { v: "🖼️ Welke HTML-elementen maken deze keuzelijst?", a: "Een <select> met 3 <option>-elementen (Campus Kaai, Campus Bloemenhof, Online / Afstand), gekoppeld aan het <label> \"Kies je campus\".", o: "4.7 select, option en optgroup", img: "afbeeldingen/WEBles2_htmlmedia/we2_select.png" },
+  { v: "Welke HTML-elementen maken deze keuzelijst?", a: "Een <select> met 3 <option>-elementen (Campus Kaai, Campus Bloemenhof, Online / Afstand), gekoppeld aan het <label> \"Kies je campus\".", o: "4.7 select, option en optgroup", img: "afbeeldingen/WEBles2_htmlmedia/we2_select.png" },
   { v: "Welke waarde wordt verstuurd bij een <option> zonder value-attribuut?", a: "De tekst tussen de tags, bv. \"Campus Kaai (Anderlecht)\".", o: "4.7 select, option en optgroup" },
   { v: "Waarom gebruik je meestal toch een value-attribuut bij <option>?", a: "Zo stuur je een korte, vaste en betekenisvolle waarde naar de server, terwijl je een duidelijke tekst toont. Handig bij meerdere talen: overal value=\"blauw\", maar \"Blauw\" voor Nederlandstaligen en \"Bleu\" voor Franstaligen.", o: "4.7 select, option en optgroup" },
   { v: "Waarvoor dient <optgroup>?", a: "Om opties in een langere lijst (optioneel) te groeperen, met een label, bv. <optgroup label=\"Brussel\">.", o: "4.7 select, option en optgroup" },

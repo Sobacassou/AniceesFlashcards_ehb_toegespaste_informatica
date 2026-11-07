@@ -10,17 +10,17 @@
 const ontbrekendeBestanden = [];
 function ontbreekt(bestand) {
   ontbrekendeBestanden.push(bestand);
-  return [{ v: "⚠️ Het bestand " + bestand + " is niet gevonden.", a: "Zet " + bestand + " in dezelfde map als index.html (exact deze naam), en controleer of index.html er een <script>-regel voor heeft. Druk daarna op Ctrl+F5.", o: "Ontbrekend bestand" }];
+  return [{ v: "Het bestand " + bestand + " is niet gevonden.", a: "Zet " + bestand + " in dezelfde map als index.html (exact deze naam), en controleer of index.html er een <script>-regel voor heeft. Druk daarna op Ctrl+F5.", o: "Ontbrekend bestand" }];
 }
 
 const vakken = {
-  "🌐 Web Essentials": {
+  "Web Essentials": {
     "1 – Introductie & HTML-basis": (typeof kaarten_WEB_les1 !== "undefined" ? kaarten_WEB_les1 : ontbreekt("flashcards_WEBles1_htmlbasis.js")),
     "2 – HTML media, tabellen & formulieren": (typeof kaarten_WEB_les2 !== "undefined" ? kaarten_WEB_les2 : ontbreekt("flashcards_WEBles2_htmlmedia.js")),
     "3 – CSS-basis, kleuren & typografie": (typeof kaarten_WEB_les3 !== "undefined" ? kaarten_WEB_les3 : ontbreekt("flashcards_WEBles3_cssbasis.js")),
     "4 – CSS media, tabellen, formulieren & box model": (typeof kaarten_WEB_les4 !== "undefined" ? kaarten_WEB_les4 : ontbreekt("flashcards_WEBles4_boxmodel.js")),
   },
-  "💻 IT Essentials": {
+  "IT Essentials": {
     // ===== Deel I: Getalrepresentaties en schakelingen =====
     "I.1 – Talstelsels en codesystemen": (typeof kaarten_IT_deel1_les1 !== "undefined" ? kaarten_IT_deel1_les1 : ontbreekt("flashcards_ITdeel1les1_talstelsels.js")),
     "I.2 – Logische poorten en schakelingen": (typeof kaarten_IT_deel1_les2 !== "undefined" ? kaarten_IT_deel1_les2 : ontbreekt("flashcards_ITdeel1les2_logischepoorten.js")),
@@ -37,7 +37,7 @@ const vakken = {
     // kaarten staan in flashcards_ITdeel2les5_magnetisch.js
     "II.5 – Magnetische opslag": (typeof kaarten_IT_deel2_les5 !== "undefined" ? kaarten_IT_deel2_les5 : ontbreekt("flashcards_ITdeel2les5_magnetisch.js")),
   },
-  "📊 Data Essentials": {
+  "Data Essentials": {
     // voorlopig 5 dummykaarten, worden later vervangen door echte kaarten uit de cursus
     "H1 – Dummykaarten": [
       { v: "Dummykaart 1: wat is een primaire sleutel?", a: "Een veld dat elke rij in een tabel uniek identificeert.", o: "Dummy" },
@@ -61,7 +61,7 @@ const vakken = {
       { v: "Testkaart 11: beantwoord met \u201cWist ik niet\u201d", a: "Testantwoord 11.", o: "Test duiveltjes" },
     ],
   },
-  "🖥️ Desktop OS": {
+  "Desktop OS": {
     // ===== Deel I: Linux =====
     "I.0 – Linux: introductie": (typeof kaarten_DOS_linux_intro !== "undefined" ? kaarten_DOS_linux_intro : ontbreekt("flashcards_DesktopOS_linux_intro.js")),
     "I.1 – Linux: werkcollege 1": (typeof kaarten_DOS_linux_wc1 !== "undefined" ? kaarten_DOS_linux_wc1 : ontbreekt("flashcards_DesktopOS_linux_wc1.js")),
@@ -98,7 +98,7 @@ let hervatbaar = false;                             // huidige ronde onthoudt zi
 
 /* Eenmalig: voortgang van het oude hoofdstuk "introductie en werkcollege 1" overzetten naar de 2 nieuwe hoofdstukken */
 (function migreerLinuxSplitsing() {
-  const vak = "🖥️ Desktop OS|";
+  const vak = "Desktop OS|";
   const oud = vak + "I.1 – Linux: introductie en werkcollege 1|";
   if (typeof kaarten_DOS_linux_intro === "undefined") return;
   const introVragen = new Set(kaarten_DOS_linux_intro.map(k => k.v));
@@ -117,6 +117,31 @@ let hervatbaar = false;                             // huidige ronde onthoudt zi
     if (p.includes("introductie en werkcollege 1")) { delete posities[p]; gewijzigd = true; }
   }
   if (gewijzigd) { bewaar("stats", stats); bewaar("verborgen", [...verborgen]); bewaar("posities", posities); }
+})();
+
+/* Eenmalig: de icoontjes (🖼️ ⚠️ …) zijn uit de vragen gehaald. De app herkent een kaart aan de tekst
+   van de vraag, dus je voortgang wordt hier overgezet naar de vraag zonder icoontje. */
+(function migreerZonderIcoontjes() {
+  const ICOON = /\s?(?:\u{1F5BC}|\u26A0|\u{1F4C4}|\u267B|\u{1F4CB}|\u{1F389}|\u{1F5D1}|\u2B50)\uFE0F?\s?/gu;
+  const zonder = s => s.replace(ICOON, m => (m.length > 2 && /^\s/.test(m) && /\s$/.test(m)) ? " " : "");
+  let gewijzigd = false;
+  for (const id of Object.keys(stats)) {
+    const n = zonder(id);
+    if (n !== id) { if (!stats[n]) stats[n] = stats[id]; delete stats[id]; gewijzigd = true; }
+  }
+  for (const id of [...verborgen]) {
+    const n = zonder(id);
+    if (n !== id) { verborgen.delete(id); verborgen.add(n); gewijzigd = true; }
+  }
+  for (const p of Object.keys(posities)) {
+    const n = zonder(posities[p]);
+    if (n !== posities[p]) { posities[p] = n; gewijzigd = true; }
+  }
+  if (gewijzigd) { bewaar("stats", stats); bewaar("verborgen", [...verborgen]); bewaar("posities", posities); }
+  try {
+    const s = sessionStorage.getItem("sessie");
+    if (s && zonder(s) !== s) sessionStorage.setItem("sessie", zonder(s));
+  } catch (e) {}
 })();
 
 function bewaarVerborgen() { bewaar("verborgen", [...verborgen]); }
@@ -240,7 +265,7 @@ function toonVakken() {
   if (ontbrekendeBestanden.length) {
     const p = document.createElement("p");
     p.style.cssText = "color:#f5a623;text-align:left;font-size:.9em";
-    p.textContent = "⚠️ Niet gevonden: " + ontbrekendeBestanden.join(", ") + " — zet deze bestanden in dezelfde map als index.html en druk Ctrl+F5.";
+    p.textContent = "Niet gevonden: " + ontbrekendeBestanden.join(", ") + " — zet deze bestanden in dezelfde map als index.html en druk Ctrl+F5.";
     lijst.appendChild(p);
   }
 }
@@ -278,7 +303,7 @@ function kiesVak(vak) {
 
   const terug = document.getElementById("terugzetten");
   terug.style.display = aantalWeg ? "block" : "none";
-  terug.textContent = `♻️ ${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
+  terug.textContent = `${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
 
   toonScherm("schermHoofdstuk");
 }
@@ -313,7 +338,7 @@ function toonGeschiedenis() {
   const lijst = (scores[huidigVak] || []).slice(-5).reverse();
   if (lijst.length === 0) { vak.style.display = "none"; return; }
   vak.style.display = "block";
-  vak.innerHTML = "<h3>📈 Je laatste scores</h3>" +
+  vak.innerHTML = "<h3>Je laatste scores</h3>" +
     lijst.map(s => `<div><span>${s.datum}</span><b>${s.goed} / ${s.totaal}</b></div>`).join("") +
     `<button class="terug" onclick="wisVoortgang()">Voortgang van dit vak wissen</button>`;
 }
@@ -362,9 +387,9 @@ function toonWeggegooid() {
         <label class="weg-kaart">
           <input type="checkbox" data-id="${encodeURIComponent(id)}" onchange="telGeselecteerd()">
           <span>
-            <span class="weg-vraag">${k.img ? "🖼️ " : ""}${maakVeilig(k.v)}</span>
+            <span class="weg-vraag">${k.img ? " " : ""}${maakVeilig(k.v)}</span>
             <span class="weg-antwoord">${maakVeilig(k.a)}</span>
-            <span class="weg-bron" data-vraag="${encodeURIComponent(k.v)}">📄 bestand zoeken…</span>
+            <span class="weg-bron" data-vraag="${encodeURIComponent(k.v)}">bestand zoeken…</span>
           </span>
         </label>`;
     }
@@ -413,15 +438,15 @@ async function vulBronnenIn() {
   document.querySelectorAll(".weg-bron").forEach(el => {
     const vraag = decodeURIComponent(el.dataset.vraag);
     if (!gelukt) {
-      el.textContent = "📄 open de app via Live Server om het bestand en de regel te zien";
+      el.textContent = "open de app via Live Server om het bestand en de regel te zien";
       return;
     }
     const bron = bronVan(vraag);
     if (bron) {
-      el.textContent = `📄 ${bron.naam} · regel ${bron.regel}`;
+      el.textContent = ` ${bron.naam} · regel ${bron.regel}`;
       el.title = "Open dit bestand in VS Code en druk Ctrl+G om naar de regel te springen";
     } else {
-      el.textContent = "📄 niet gevonden in de bestanden";
+      el.textContent = "niet gevonden in de bestanden";
     }
   });
 }
@@ -465,7 +490,7 @@ async function kopieerWegLijst() {
     a.click();
     knop.textContent = "✓ Gedownload als weggegooide-kaarten.txt";
   }
-  setTimeout(() => { knop.textContent = "📋 Lijst kopiëren"; }, 3000);
+  setTimeout(() => { knop.textContent = "Lijst kopiëren"; }, 3000);
 }
 
 /* tekens als < en > in vragen (bv. "<h1>") tonen in plaats van uitvoeren */
@@ -516,7 +541,7 @@ function startOefenen(kaarten) {
       if (wil[statusVan(id)]) return true;
       return wil.moeilijk && statusVan(id) === "juist" && stats[id].moeilijk === true;   // juist, maar was moeilijk
     });
-    if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken 🎉"); return; }
+    if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
   }
   stapel = [...kaarten];
   const geschud = document.getElementById("schudden").checked;
@@ -776,7 +801,7 @@ function zetFiguur(id, src) {
   img.src = src;
   img.alt = "tekening";
   img.onload = pasHoogteAan;                        // kaart groter maken als de tekening geladen is
-  img.onerror = () => { vak.innerHTML = `<div class="fig-fout">⚠️ Tekening niet gevonden: ${src}</div>`; };
+  img.onerror = () => { vak.innerHTML = `<div class="fig-fout">Tekening niet gevonden: ${src}</div>`; };
   const knop = document.createElement("button");
   knop.className = "vergroot";
   knop.type = "button";

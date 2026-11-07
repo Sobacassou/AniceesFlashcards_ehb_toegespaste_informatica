@@ -111,7 +111,7 @@ const kaarten_WEB_les4 = [
 
   // ===== 5. Elk element is een box (5) =====
   { v: "Wat is elk HTML-element op een webpagina in essentie?", a: "Een rechthoekige box.", o: "5. Elk element is een box" },
-  { v: "🖼️ Benoem de 4 lagen van het box model.", a: "1 = margin (marge)\n2 = border (rand)\n3 = padding (opvulling)\n4 = content (inhoud)", o: "5. Elk element is een box", img: "afbeeldingen/WEBles4_boxmodel/we4_boxmodel_vraag.png", imgAntwoord: "afbeeldingen/WEBles4_boxmodel/we4_boxmodel.png" },
+  { v: "Benoem de 4 lagen van het box model.", a: "1 = margin (marge)\n2 = border (rand)\n3 = padding (opvulling)\n4 = content (inhoud)", o: "5. Elk element is een box", img: "afbeeldingen/WEBles4_boxmodel/we4_boxmodel_vraag.png", imgAntwoord: "afbeeldingen/WEBles4_boxmodel/we4_boxmodel.png" },
 
   // ===== 5.1 De 4 lagen van het box model (5.1) =====
   { v: "Geef de 4 lagen van het box model, van binnen naar buiten.", a: "Content → padding → border → margin.", o: "5.1 De 4 lagen van het box model" },
@@ -167,8 +167,8 @@ const kaarten_WEB_les4 = [
   { v: "Wat is margin collapsing?", a: "Wanneer een ondermarge en een bovenmarge van opeenvolgende block-elementen elkaar raken, tellen ze niet op, maar smelten ze samen tot de grootste van de twee.", o: "6.3 Margin collapsing" },
   { v: "h2 { margin-bottom: 30px; } en p { margin-top: 20px; }. Hoeveel ruimte is er tussen de h2 en de p eronder?", a: "30px (de grootste van de twee), niet 50px.", o: "6.3 Margin collapsing" },
   { v: "Geldt margin collapsing voor horizontale of verticale marges?", a: "Voor verticale marges (boven en onder) van block-elementen.", o: "6.3 Margin collapsing" },
-  { v: "🖼️ Twee paragrafen met margin: 20px in een blauwe parent. Waarom zit de bovenste marge niet binnen de blauwe parent?", a: "Margin collapsing: de bovenmarge van het eerste kind smelt samen met de bovenmarge van de parent en steekt erbuiten.", o: "6.3 Margin collapsing", img: "afbeeldingen/WEBles4_boxmodel/we4_margin_collapse.png" },
-  { v: "🖼️ Hier zit de marge wél binnen de blauwe parent. Wat werd er toegevoegd aan de parent?", a: "padding (bv. padding: 1px;). Daardoor kan de marge van het kind niet meer samensmelten met die van de parent.", o: "6.3 Margin collapsing", img: "afbeeldingen/WEBles4_boxmodel/we4_margin_padding.png" },
+  { v: "Twee paragrafen met margin: 20px in een blauwe parent. Waarom zit de bovenste marge niet binnen de blauwe parent?", a: "Margin collapsing: de bovenmarge van het eerste kind smelt samen met de bovenmarge van de parent en steekt erbuiten.", o: "6.3 Margin collapsing", img: "afbeeldingen/WEBles4_boxmodel/we4_margin_collapse.png" },
+  { v: "Hier zit de marge wél binnen de blauwe parent. Wat werd er toegevoegd aan de parent?", a: "padding (bv. padding: 1px;). Daardoor kan de marge van het kind niet meer samensmelten met die van de parent.", o: "6.3 Margin collapsing", img: "afbeeldingen/WEBles4_boxmodel/we4_margin_padding.png" },
   { v: "Hoe voorkom je dat de marge van het eerste kind buiten de parent steekt?", a: "Geef de parent padding, bv. .parent { padding: 1px; }.", o: "6.3 Margin collapsing" },
 
   // ===== 6.4 Borders & afgeronde hoeken (6.4) =====

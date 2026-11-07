@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anicée's Flashcards !</title>
-<link rel="stylesheet" href="style.css?v=52">
+<link rel="stylesheet" href="style.css?v=53">
 </head>
 <body>
 
@@ -53,7 +53,7 @@
       </span>
       <span class="knoppen-rechts">
         <button class="klein ongedaan" onclick="maakOngedaan()" title="Ongedaan maken: laatste antwoord of weggegooide kaart terugzetten">↶<span class="knoptekst"> Ongedaan</span> <span class="toets">Z</span></button>
-        <button class="klein" onclick="gooiWeg()" title="Weggooien">🗑️<span class="knoptekst"> Weggooien</span> <span class="toets">W</span></button>
+        <button class="klein" onclick="gooiWeg()" title="Weggooien">Weggooien <span class="toets">W</span></button>
       </span>
     </div>
     <!-- Stand van de gekozen hoofdstukken: links naast de kaart (breed scherm) of als balk boven de kaart -->
@@ -87,10 +87,10 @@
   <!-- Scherm: weggegooide kaarten bekijken en terugzetten -->
   <section id="schermWeggegooid" class="scherm">
     <button class="terug" onclick="kiesVak(huidigVak)">← Terug</button>
-    <h2>♻️ Weggegooide kaarten</h2>
+    <h2>Weggegooide kaarten</h2>
     <div class="weg-kop">
       <p class="hint links">Vink aan wat je wil terugzetten.</p>
-      <button class="licht klein" id="kopieerKnop" onclick="kopieerWegLijst()">📋 Lijst kopiëren</button>
+      <button class="licht klein" id="kopieerKnop" onclick="kopieerWegLijst()">Lijst kopiëren</button>
     </div>
     <div id="wegLijst"></div>
     <button id="wegKnop" onclick="zetGeselecteerdTerug()">Geselecteerde terugzetten</button>
@@ -98,7 +98,7 @@
 
   <!-- Scherm 4: resultaat -->
   <section id="schermEinde" class="scherm">
-    <h1 id="eindeTitel">Klaar! 🎉</h1>
+    <h1 id="eindeTitel">Klaar!</h1>
     <div class="score" id="score"></div>
     <button class="licht ongedaan" onclick="maakOngedaan()">Laatste kaart ongedaan maken <span class="toets">Z</span></button>
     <button class="licht" id="terugHoofdstukken" onclick="kiesVak(huidigVak)">Terug naar de hoofdstukken</button>
@@ -111,22 +111,22 @@
 <!-- vergrote tekening (klik of Esc om te sluiten) -->
   <div class="groot-fig" id="grootFig" onclick="sluitGroot()"><img id="grootImg" alt=""></div>
 
-  <script src="flashcards_WEBles1_htmlbasis.js?v=52"></script>
-  <script src="flashcards_WEBles2_htmlmedia.js?v=52"></script>
-  <script src="flashcards_WEBles3_cssbasis.js?v=52"></script>
-  <script src="flashcards_WEBles4_boxmodel.js?v=52"></script>
-  <script src="flashcards_ITdeel1les1_talstelsels.js?v=52"></script>
-<script src="flashcards_ITdeel1les2_logischepoorten.js?v=52"></script>
-<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=52"></script>
-<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=52"></script>
-<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=52"></script>
-<script src="flashcards_ITdeel2les3_processoren.js?v=52"></script>
-<script src="flashcards_ITdeel2les4_chipsets.js?v=52"></script>
-<script src="flashcards_ITdeel2les5_magnetisch.js?v=52"></script>
-<script src="flashcards_DesktopOS_linux_intro.js?v=52"></script>
-<script src="flashcards_DesktopOS_linux_wc1.js?v=52"></script>
-<script src="flashcards_DesktopOS_linux_wc2.js?v=52"></script>
-<script src="flashcards_DesktopOS_linux_wc3.js?v=52"></script>
-<script src="app.js?v=52"></script>
+  <script src="flashcards_WEBles1_htmlbasis.js?v=53"></script>
+  <script src="flashcards_WEBles2_htmlmedia.js?v=53"></script>
+  <script src="flashcards_WEBles3_cssbasis.js?v=53"></script>
+  <script src="flashcards_WEBles4_boxmodel.js?v=53"></script>
+  <script src="flashcards_ITdeel1les1_talstelsels.js?v=53"></script>
+<script src="flashcards_ITdeel1les2_logischepoorten.js?v=53"></script>
+<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=53"></script>
+<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=53"></script>
+<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=53"></script>
+<script src="flashcards_ITdeel2les3_processoren.js?v=53"></script>
+<script src="flashcards_ITdeel2les4_chipsets.js?v=53"></script>
+<script src="flashcards_ITdeel2les5_magnetisch.js?v=53"></script>
+<script src="flashcards_DesktopOS_linux_intro.js?v=53"></script>
+<script src="flashcards_DesktopOS_linux_wc1.js?v=53"></script>
+<script src="flashcards_DesktopOS_linux_wc2.js?v=53"></script>
+<script src="flashcards_DesktopOS_linux_wc3.js?v=53"></script>
+<script src="app.js?v=53"></script>
 </body>
 </html>
