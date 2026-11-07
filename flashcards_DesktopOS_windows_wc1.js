@@ -1,6 +1,7 @@
 // Desktop OS – Deel II: Windows – Werkcollege 1
 // v = vraag, a = antwoord, o = onderwerp, uitleg = extra uitleg, img/imgAntwoord = afbeelding (map afbeeldingen/)
 // wit: true = witte kaart: stelt de cursus voor (uitleg). Zonder wit = zwarte kaart: ondervraagt de cursus.
+// extra: true = kaart met extra info die niet uit de cursus komt (donker met turquoise rand).
 // Per onderwerp eerst de witte kaarten, daarna de zwarte. De structuur onderaan bepaalt het overzicht rechts.
 
 const kaarten_DOS_windows_wc1 = [
@@ -17,6 +18,15 @@ const kaarten_DOS_windows_wc1 = [
   // -- witte kaarten: uitleg --
   { v: "Verbinden met een Windows-instantie", a: "Net zoals bij Linux maak je verbinding met een Windows-instantie waarop je adminrechten hebt. Maar je gebruikt geen SSH: je gebruikt RDP.", o: "RDP", wit: true,
     uitleg: "Bij Linux was het een SSH-verbinding (enkel tekst). Met RDP zie je het volledige bureaublad." },
+  // -- extra info, niet uit de cursus --
+  { v: "Wat is SSH echt?", a: "SSH (Secure Shell) is een manier om veilig met een andere computer te praten over een onveilig netwerk, meestal het internet. Je logt in op een server en voert daar commando's uit alsof je er zelf achter zit.", o: "RDP", extra: true,
+    uitleg: "Bij Linux verbond je zo met je VM. Bij Windows gebruik je RDP: dan zie je het hele bureaublad in plaats van enkel tekst." },
+  { v: "Wat gebeurt er bij ssh gebruiker@server.be?", a: "1. Verbinding: je computer (de client) maakt een TCP-verbinding met de server, standaard op poort 22.\n2. Afspraken: client en server kiezen samen de versleutelingsalgoritmes.\n3. Sleuteluitwisseling: met Diffie-Hellman maken ze samen een geheime sleutel, zonder dat die ooit over het netwerk gaat.\n4. De server bewijst wie hij is met zijn host key.\n5. Jij bewijst wie je bent: met een wachtwoord, of beter met een sleutelpaar.\n6. Vanaf nu is alles wat je typt en terugkrijgt versleuteld.", o: "RDP", extra: true,
+    uitleg: "Host key: de eerste keer vraagt SSH of je hem vertrouwt (\"Are you sure you want to continue connecting?\"). Daarna onthoudt je computer hem in ~/.ssh/known_hosts. Verandert hij plots, dan krijg je een luide waarschuwing: dat kan wijzen op een man-in-the-middle-aanval.\n\nVergelijking: een telefoongesprek waarin jullie samen een geheime taal verzinnen terwijl iedereen meeluistert, en toch begrijpt niemand anders die taal. Daarna toont de server zijn paspoort, en jij bewijst met een zegel dat alleen jij bezit wie je bent." },
+  { v: "SSH-sleutelparen", a: "Met ssh-keygen maak je twee bestanden: een privésleutel (bv. id_ed25519) die je nooit deelt, en een publieke sleutel (id_ed25519.pub) die je op de server zet in ~/.ssh/authorized_keys.", o: "RDP", extra: true,
+    uitleg: "Bij het inloggen stuurt de server een soort uitdaging. Je computer ondertekent die met de privésleutel, en de server controleert de handtekening met de publieke sleutel. Zo bewijs je dat je de privésleutel hebt, zonder hem ooit te versturen: veiliger en handiger dan een wachtwoord." },
+  { v: "SSH: meer dan alleen inloggen", a: "SSH is een algemene versleutelde tunnel. Je kan er ook mee: bestanden kopiëren (scp, sftp), Git gebruiken met GitHub (git@github.com:… is gewoon SSH), port forwarding (ssh -L 8080:localhost:80 server) en commando's op afstand uitvoeren (ssh server \"df -h\").", o: "RDP", extra: true,
+    uitleg: "Port forwarding: een dienst op de server bereiken alsof hij lokaal op je eigen computer draait." },
   { v: "RDP – Remote Desktop Protocol", a: "Het protocol om vanop afstand verbinding te maken met een pc én om die pc ook over te nemen.", o: "RDP", wit: true,
     uitleg: "Je ziet het scherm van de andere pc en je bedient hem met je eigen muis en toetsenbord." },
   { v: "Wie maakte RDP, en waarvoor dient het in bedrijven?", a: "RDP werd ontwikkeld en gepatenteerd door Microsoft zelf. In het bedrijfsleven kan je er gemakkelijk hulp op afstand mee bieden.", o: "RDP", wit: true,
@@ -153,6 +163,25 @@ const kaarten_DOS_windows_wc1 = [
     img: "afbeeldingen/DesktopOS_windows_wc1/terminal_menu.jpg", uitleg: "In het menu zie je o.a. Windows PowerShell, Command Prompt en Azure Cloud Shell." },
   { v: "CMD en PowerShell", a: "Windows bevat standaard een commandline tool (de Command Prompt, CMD). Microsoft investeerde veel in een nieuwere commandline tool: PowerShell. Die is vergelijkbaar met de shell van Linux/Unix, maar met Windows-commando's.", o: "Windows Terminal", wit: true,
     uitleg: "In PowerShell zijn er aliassen gemaakt voor Linux-commando's (bv. ls), zodat die daar ook werken." },
+  // -- extra info, niet uit de cursus --
+  { v: "CMD of PowerShell: tekst of objecten", a: "CMD geeft gewone tekst terug. PowerShell geeft objecten terug: elk resultaat heeft eigenschappen die je kan opvragen en filteren.", o: "Windows Terminal", extra: true,
+    uitleg: "Voorbeeld: in CMD toont dir een lijst tekst. In PowerShell geeft Get-ChildItem | Where-Object Length -gt 1MB meteen enkel de bestanden groter dan 1 MB, omdat elk bestand een object is met een eigenschap Length." },
+  { v: "CMD of PowerShell: namen van commando's", a: "CMD heeft korte, oude commando's: dir, cd, copy, del. PowerShell gebruikt de vorm Werkwoord-Zelfstandignaamwoord: Get-ChildItem, Copy-Item, Remove-Item.", o: "Windows Terminal", extra: true,
+    uitleg: "Voor de bekende namen zijn er aliassen: dir, ls, cd, cp en rm werken in PowerShell als afkorting." },
+  { v: "CMD of PowerShell: opties", a: "In CMD schrijf je opties met een slash: dir /s. In PowerShell met een minteken: Get-ChildItem -Recurse.", o: "Windows Terminal", extra: true,
+    uitleg: "" },
+  { v: "CMD of PowerShell: wat werkt anders?", a: "< (input redirection) werkt niet in PowerShell. && en || werken pas in PowerShell 7, niet in de ingebouwde Windows PowerShell 5.1.", o: "Windows Terminal", extra: true,
+    uitleg: "Daarom gebruik je voor de opdrachten met <, && en || (sorteren, ip.txt, TryMulti) het best CMD, zoals de cursus doet." },
+  { v: "CMD of PowerShell: scripts", a: "CMD-scripts zijn .bat- of .cmd-bestanden en zijn beperkt. PowerShell-scripts zijn .ps1-bestanden: een echte programmeertaal.", o: "Windows Terminal", extra: true,
+    uitleg: "" },
+  { v: "CMD of PowerShell: waarvoor?", a: "CMD is eenvoudig en oud, vooral voor bestanden en eenvoudige taken. PowerShell beheert heel Windows (services, register, gebruikers, Azure …) en is wat systeembeheerders vandaag vooral gebruiken.", o: "Windows Terminal", extra: true,
+    uitleg: "Voor dit werkcollege volstaat CMD." },
+  { v: "Terminal, shell en ssh: drie verschillende dingen", a: "Windows Terminal is het venster (een terminal-emulator): het toont tekst en geeft je toetsaanslagen door, maar voert zelf niets uit. PowerShell (of CMD) is de shell: die begrijpt je commando's en voert ze uit. ssh is gewoon een programma dat een verbinding opent.", o: "Windows Terminal", extra: true,
+    uitleg: "In Windows Terminal open je verschillende shells: PowerShell, Command Prompt, Linux via WSL of een SSH-sessie.\nDe OpenSSH-client zit sinds Windows 10 (versie 1809) standaard in Windows: C:\\Windows\\System32\\OpenSSH\\ssh.exe. Je start hem vanuit elke shell." },
+  { v: "Windows PowerShell 5.1 en PowerShell 7+", a: "Windows PowerShell 5.1 zit standaard ingebouwd in Windows (het blauwe venster). PowerShell 7+ is de nieuwere, cross-platform versie die je apart installeert.", o: "Windows Terminal", extra: true,
+    uitleg: "PowerShell werkt met objecten in plaats van gewone tekst, wat het anders maakt dan bash op Linux." },
+  { v: "Hoe hangen Terminal, PowerShell en ssh samen?", a: "Windows Terminal (het venster) → PowerShell (de shell waarin je typt) → ssh gebruiker@server (opent de verbinding) → bash op de server (vanaf nu typ je op de andere computer). Met exit ben je terug in je lokale PowerShell.", o: "Windows Terminal", extra: true,
+    uitleg: "Praktisch: een sleutel maken doe je met ssh-keygen in PowerShell; de sleutels komen in C:\\Users\\<jouwnaam>\\.ssh\\. Verbinden: ssh gebruiker@server.be. Handig: in Windows Terminal kan je een eigen profiel maken dat meteen ssh gebruiker@server.be start, zodat je met één klik op je server zit." },
   { v: "Welke shell in de werkcolleges?", a: "We werken met de \"oude\" DOS Command Prompt. Alle gebruikte commando's werken ook nog in PowerShell.", o: "Windows Terminal", wit: true,
     uitleg: "De shell is vooral handig om gegevens op te vragen die niet (gemakkelijk) via de grafische omgeving beschikbaar zijn." },
   { v: "Waarom gebruiken informatici nog de CLI?", a: "De prompt is een krachtige omgeving: ervaren gebruikers kunnen er eenvoudig veel informatie opvragen, operaties uitvoeren en taken automatiseren.", o: "Windows Terminal", wit: true,

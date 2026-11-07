@@ -601,6 +601,7 @@ function toonKaart() {
   }
   document.getElementById("kaart").classList.remove("omgedraaid");
   document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
+  document.getElementById("kaart").classList.toggle("extra", kaart.extra === true);   // lichtgroene kaart = extra info, niet uit de cursus
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
@@ -1036,6 +1037,13 @@ function zetHerhaalLabel(kaart) {
   for (const id of ["onderwerpVoor", "onderwerpAchter"]) {
     const el = document.getElementById(id);
     el.querySelector(".herhaal-label")?.remove();
+    el.querySelector(".extra-label")?.remove();
+    if (kaart.extra) {
+      const lab = document.createElement("span");
+      lab.className = "extra-label";
+      lab.textContent = "Extra info, niet uit de cursus · ";
+      el.prepend(lab);
+    }
     if (kaart.herhaling) {
       const lab = document.createElement("span");
       lab.className = "herhaal-label";

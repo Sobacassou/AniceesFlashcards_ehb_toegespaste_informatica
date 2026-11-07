@@ -168,6 +168,12 @@ button.klein:hover { background: var(--vlak-hover); }
 .kaart.wit .onderwerp, .kaart.wit .uitleg { color: #555555; }
 .kaart.wit .uitleg { border-top-color: #c8c8c8; }
 .kaart.wit .herhaal-label { color: #008a2e; }
+/* Kaarten met extra info die niet uit de cursus komt: donker, met turquoise rand en label (VS Code #4EC9B0) */
+.kaart.extra .voorkant  { background: #2d2d30; }
+.kaart.extra .achterkant { background: #252526; }
+.kaart.extra .kant { border: 2px solid #4ec9b0; }
+.kaart.extra .onderwerp { color: #9cdcfe; }
+.extra-label { color: #4ec9b0; font-weight: 600; }
 .hint {
   text-align: center; color: var(--tekst-zacht); font-size: 0.78rem;
   letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;

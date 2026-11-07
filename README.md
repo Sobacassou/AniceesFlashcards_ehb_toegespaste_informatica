@@ -15,7 +15,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 | Vak | Hoofdstukken |
 |-|-|
 | **IT Essentials** | I.1 Talstelsels · I.2 Logische poorten · I.3 Rekenschakelingen · II.1 Computerarchitectuur · II.2 Werkgeheugen · II.3 Processoren · II.4 Chipsets en bussen · II.5 Magnetische opslag |
-| **Desktop OS** | I.0 Linux: introductie · I.1–I.3 Linux: werkcolleges 1–3 · II Windows *(nog aan te vullen)* |
+| **Desktop OS** | I.0 Linux: introductie · I.1–I.3 Linux: werkcolleges 1–3 · II.1 Windows: werkcollege 1 |
 | **Web Essentials** | 1 Introductie & HTML-basis · 2 HTML media, tabellen & formulieren · 3 CSS-basis, kleuren & typografie · 4 CSS media, tabellen, formulieren & box model |
 
 ## Wat kan je ermee?
@@ -24,8 +24,10 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 - **Slim filteren**: oefen alleen kaarten die je nog niet beantwoord hebt, die je eerder fout had, of die moeilijk waren
 - **Figuren en schema's** op de kaarten (schakelingen, tabellen, Linux-uitvoer…), met genummerde vakjes op de voorkant
 - **Extra uitleg** bij veel antwoorden
-- **Kaarten schudden** voor een willekeurige volgorde
-- **Foute kaarten opnieuw oefenen** als je klaar bent
+- **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt
+- **Overzicht met teller** per onderdeel (nog open / totaal), en klikken om naar een onderwerp te springen
+- **Kaarten schudden** voor een willekeurige volgorde (geldt voor één ronde)
+- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 5 kaarten terug en daarna nog eens na 10, en gaat pas van de teller als je ook die controle juist hebt
 - **Ongedaan maken** als je per ongeluk verkeerd klikt
 - **Kaarten weggooien** die je uit de code wilt verwijderen (je kan ze terugzetten als je per ongeluk verkeerd klikt)
 - **Je voortgang wordt onthouden** in je browser (elk toestel heeft zijn eigen voortgang)
@@ -70,7 +72,7 @@ Een kaart ziet er zo uit:
   img: "afbeeldingen/…_vraag.jpg", imgAntwoord: "afbeeldingen/….jpg" }
 ```
 
-`img`, `imgAntwoord` en `uitleg` zijn optioneel. De `.structuur` onderaan elk bestand bepaalt het overzicht rechts.
+`img`, `imgAntwoord` en `uitleg` zijn optioneel. Met `wit: true` wordt het een witte uitlegkaart, met `extra: true` een kaart met extra info die niet uit de cursus komt. De `.structuur` onderaan elk bestand bepaalt het overzicht rechts.
 
 Weggegooide kaarten kan je als lijst kopiëren (*Lijst kopiëren*) om ze daarna uit de js-bestanden te halen.
 
