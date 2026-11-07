@@ -161,6 +161,13 @@ button.klein:hover { background: var(--vlak-hover); }
   margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--rand);
 }
 .uitleg:empty { display: none; }
+/* Witte kaarten: stellen de cursus voor (VS Code light-kleuren, geen puur wit) */
+.kaart.wit .voorkant  { background: #f3f3f3; color: #1f1f1f; }
+.kaart.wit .achterkant { background: #e8e8e8; color: #1f1f1f; }
+.kaart.wit .kant { border-color: #c8c8c8; }
+.kaart.wit .onderwerp, .kaart.wit .uitleg { color: #555555; }
+.kaart.wit .uitleg { border-top-color: #c8c8c8; }
+.kaart.wit .herhaal-label { color: #008a2e; }
 .hint {
   text-align: center; color: var(--tekst-zacht); font-size: 0.78rem;
   letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;

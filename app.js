@@ -67,11 +67,8 @@ const vakken = {
     "I.1 – Linux: werkcollege 1": (typeof kaarten_DOS_linux_wc1 !== "undefined" ? kaarten_DOS_linux_wc1 : ontbreekt("flashcards_DesktopOS_linux_wc1.js")),
     "I.2 – Linux: werkcollege 2": (typeof kaarten_DOS_linux_wc2 !== "undefined" ? kaarten_DOS_linux_wc2 : ontbreekt("flashcards_DesktopOS_linux_wc2.js")),
     "I.3 – Linux: werkcollege 3": (typeof kaarten_DOS_linux_wc3 !== "undefined" ? kaarten_DOS_linux_wc3 : ontbreekt("flashcards_DesktopOS_linux_wc3.js")),
-    // ===== Deel II: Windows (nog aan te vullen) =====
-    "II – Windows": [
-      { v: "Welk commando toont je IP-configuratie in Windows?", a: "ipconfig", o: "1.1 Command Prompt" },
-      { v: "Wat is het verschil tussen een standaard- en een administratoraccount?", a: "Een administrator mag systeeminstellingen wijzigen en software installeren, een standaardgebruiker niet", o: "1.2 Gebruikers" },
-    ],
+    // ===== Deel II: Windows =====
+    "II.1 – Windows: werkcollege 1": (typeof kaarten_DOS_windows_wc1 !== "undefined" ? kaarten_DOS_windows_wc1 : ontbreekt("flashcards_DesktopOS_windows_wc1.js")),
   },
 };
 
@@ -602,6 +599,7 @@ function toonKaart() {
     bewaar("posities", posities);
   }
   document.getElementById("kaart").classList.remove("omgedraaid");
+  document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
