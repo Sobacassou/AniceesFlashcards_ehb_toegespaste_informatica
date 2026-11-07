@@ -888,7 +888,9 @@ function volgende(wistHet) {
   // een foute kaart gaat pas van de teller als ook de controle (na 10) juist is: de herhaling na 5 telt nog niet
   s.laatst = wistHet && !(kaart.herhaling === 1 && document.getElementById("herhalen").checked);
   // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
+  const wasMoeilijk = s.moeilijk === true;
   if (!wistHet && kaart.herhaling) s.moeilijk = true;
+  const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
   // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
   if (wistHet && !kaart.herhaling) delete s.moeilijk;
   stats[id] = s;
@@ -901,8 +903,8 @@ function volgende(wistHet) {
   reeks = wistHet ? reeks + 1 : 0;
   if (wistHet && reeks % 3 === 0 && !onderdeelKlaar) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
   foutReeks = wistHet ? 0 : foutReeks + 1;
-  if (foutReeks === 3) toonDuiveltje();            // 3 op rij fout: duiveltje (1 keer per foute reeks)
-  if (foutReeks === 10) toonGrootDuiveltje();      // 10 op rij fout: groot duiveltje dat in 5 kleintjes ontploft
+  if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
+  else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
