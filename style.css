@@ -582,6 +582,17 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 #draakje.vuur .dr-happy { opacity: 1; }
 
 /* de mond komt rond 25% van de schermhoogte (= ¾ hoogte) terwijl hij vuur spuwt */
+/* roos konijntje: hopt over de onderste rand van de kaart */
+#konijn { position: fixed; inset: 0; z-index: 62; pointer-events: none; overflow: hidden; }
+#konijn .ko-loper { position: absolute; left: 0; top: 0; width: 96px; opacity: 0; transform-origin: 50% 100%; }
+#konijn svg { display: block; width: 100%; height: auto; overflow: visible; }
+#konijn .ko-p { transform-origin: 0 0; }
+#konijn .ko-oorA, #konijn .ko-oorB { animation: ko-oor .35s ease-in-out infinite alternate; }
+#konijn .ko-oorA { animation-delay: -.12s; }
+#konijn .ko-poot { animation: ko-poot .35s ease-in-out infinite alternate; }
+@keyframes ko-oor { from { transform: rotate(-10deg); } to { transform: rotate(12deg); } }
+@keyframes ko-poot { from { transform: rotate(-12deg); } to { transform: rotate(16deg); } }
+@media (prefers-reduced-motion: reduce) { #konijn .ko-p { animation: none !important; } }
 @keyframes dr-vlieg {
   0%   { transform: translateY(100vh); opacity: 1; }
   55%  { transform: translateY(calc(25vh - 30px)); }

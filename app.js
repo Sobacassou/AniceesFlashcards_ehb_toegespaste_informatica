@@ -581,6 +581,7 @@ function startOefenen(kaarten) {
   reeks = 0;
   foutReeks = 0;
   kansMoeilijk = new Set();
+  aantalBeantwoord = 0;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -908,7 +909,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id) };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), aantal: aantalBeantwoord };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -939,10 +940,15 @@ function volgende(wistHet) {
   // de gele eenhoorn krijgt voorrang: dan die keer geen groene eenhoorn en geen draakje
   if (overwonnen && !onderdeelKlaar) toonEenhoorn();
   reeks = wistHet ? reeks + 1 : 0;
-  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
+  // om de 25 beantwoorde kaarten (juist of fout, herhalingen tellen mee): roos konijntje,
+  // tenzij er op hetzelfde moment een eenhoorn of een duiveltje komt; het konijntje gaat voor het draakje
+  aantalBeantwoord++;
+  const konijnNu = aantalBeantwoord % 25 === 0 && !onderdeelKlaar && !overwonnen;
+  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen && !konijnNu) toonDraak();   // komt het konijntje, dan geen draakje   // 3, 6, 9 ... op rij juist: draakje
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
+  if (konijnNu && !werdMoeilijk && foutReeks !== 3) toonKonijn();
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -986,6 +992,7 @@ function maakOngedaan() {
     for (const [i, k] of actie.kopies || []) stapel.splice(i, 0, k);   // ook de ingeplande herhalingen terug
   }
   reeks = actie.reeks;
+  if (actie.aantal !== undefined) aantalBeantwoord = actie.aantal;
   foutReeks = actie.foutReeks;
   index = actie.index;
   toonScherm("schermOefenen");
@@ -1270,6 +1277,57 @@ function toonDraak() {
   setTimeout(() => laag.classList.add("vuur"), duur * 0.56);
   setTimeout(() => laag.classList.remove("vuur"), duur * 0.72);
   setTimeout(() => laag.remove(), duur + 300);
+}
+
+/* ===== Roos konijntje: om de 25 beantwoorde kaarten in een ronde =====
+   Hopt over de hele breedte van het scherm, ter hoogte van de onderste rand van het kaartje. */
+let aantalBeantwoord = 0;
+const KONIJN_SVG = `
+<svg viewBox="0 0 120 120" aria-hidden="true">
+<g class="ko-lijf">
+<ellipse cx="22" cy="86" rx="11" ry="10" fill="#FDE7F1"/>
+<g transform="translate(70,30)"><g class="ko-oorA ko-p"><path d="M-6 0 Q-14 -34 -4 -40 Q4 -36 2 0Z" fill="#E879B4"/><path d="M-4 -4 Q-9 -28 -3 -33 Q1 -30 0 -4Z" fill="#FBC4DF"/></g></g>
+<ellipse cx="60" cy="80" rx="34" ry="24" fill="#F28CC4"/>
+<ellipse cx="56" cy="86" rx="18" ry="13" fill="#FBC4DF"/>
+<text x="45" y="90" font-size="11" font-family="monospace" fill="#8E2F64">&lt;/&gt;</text>
+<g transform="translate(40,98)"><g class="ko-poot ko-p"><ellipse cx="0" cy="4" rx="13" ry="6" fill="#E879B4"/></g></g>
+<g transform="translate(78,100)"><ellipse cx="0" cy="3" rx="7" ry="5" fill="#E879B4"/></g>
+<circle cx="86" cy="52" r="22" fill="#F28CC4"/>
+<g transform="translate(82,32)"><g class="ko-oorB ko-p"><path d="M-6 0 Q-12 -38 0 -44 Q10 -40 6 0Z" fill="#F28CC4"/><path d="M-3 -4 Q-7 -32 1 -37 Q6 -33 3 -4Z" fill="#FBC4DF"/></g></g>
+<rect x="78" y="44" width="28" height="10" rx="4" fill="#1E1E1E"/>
+<rect x="80" y="46" width="10" height="6" rx="2" fill="#50FA7B"/>
+<rect x="94" y="46" width="10" height="6" rx="2" fill="#50FA7B"/>
+<path d="M90 49 h4" stroke="#1E1E1E" stroke-width="2"/>
+<ellipse cx="106" cy="60" rx="3" ry="2.4" fill="#C586C0"/>
+<path d="M101 66 q4 3 8 0" stroke="#8E2F64" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<ellipse cx="94" cy="64" rx="4" ry="2.4" fill="#FFB3D9"/>
+</g>
+</svg>`;
+function toonKonijn() {
+  const oud = document.getElementById("konijn");
+  if (oud) oud.remove();
+  const laag = document.createElement("div");
+  laag.id = "konijn";
+  laag.innerHTML = `<div class="ko-loper">${KONIJN_SVG}</div>`;
+  document.body.appendChild(laag);
+  const loper = laag.querySelector(".ko-loper");
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DUUR = 6500, HOPS = 11, begin = performance.now();
+  function beeld(nu) {
+    if (!laag.isConnected) return;
+    const t = (nu - begin) / DUUR;
+    if (t >= 1) { laag.remove(); return; }
+    const k = document.getElementById("kaart"), r = k ? k.getBoundingClientRect() : null;
+    const onder = r && r.height ? r.bottom : window.innerHeight;
+    const w = loper.offsetWidth, h = loper.offsetHeight;
+    const x = -w + (window.innerWidth + w) * t;                         // van links buiten tot rechts buiten het scherm
+    const ph = (t * HOPS) % 1, hop = rustig ? 0 : -46 * Math.sin(Math.PI * ph);
+    const sq = ph < 0.08 || ph > 0.94 ? 0.86 : 1;                       // inveren bij afzet en landing
+    loper.style.transform = `translate(${x}px, ${onder - h * 0.93 + hop}px) scale(${2 - sq}, ${sq})`;
+    loper.style.opacity = t < 0.06 ? t / 0.06 : t > 0.92 ? (1 - t) / 0.08 : 1;
+    requestAnimationFrame(beeld);
+  }
+  requestAnimationFrame(beeld);
 }
 
 /* ===== Duiveltje: 3 kaarten op rij fout =====
