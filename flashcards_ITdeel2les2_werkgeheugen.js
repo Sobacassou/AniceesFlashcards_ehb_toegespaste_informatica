@@ -249,6 +249,8 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "Snelheid hangt samen met de afstand tot de kern: registers zitten in de kern zelf (minder dan 1 ns), dan de caches, dan het werkgeheugen (50–100 ns), dan opslag: SSD (ca. 0,1 ms) en harde schijf (5–10 ms). Van snel naar traag wordt het ook groter en goedkoper." },
 
   // ===== De geheugenhiërarchie › Hiërarchie in cijfers (slide 19) =====
+  { v: "Hiërarchie in cijfers: overzicht (slide 19)", a: "Van snel naar traag (toegangstijd · grootte · technologie):\nRegisters: < 1 ns · enkele KB · CMOS\nL1-cache: ± 1 ns · tientallen KB per kern · SRAM\nL2-cache: enkele ns · 1 tot 3 MB per kern · SRAM\nL3-cache: 10 tot 20 ns · tientallen MB · SRAM\nWerkgeheugen: 50 tot 100 ns · 8 tot 64 GB · DRAM\nSSD: ± 0,1 ms · 0,5 tot 4 TB · flash\nHarde schijf: 5 tot 10 ms · tot meer dan 20 TB · magnetisch", o: "Hiërarchie in cijfers", wit: true,
+    img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s19_hierarchie_tabel.jpg", uitleg: "Hoe trager het geheugen, hoe groter. Caches = SRAM, werkgeheugen = DRAM. 1 ms = 1 000 000 ns." },
   { v: "Wat zijn de toegangstijd, typische grootte en technologie van de registers?", a: "Minder dan 1 ns – enkele KB – CMOS", o: "Hiërarchie in cijfers",
     uitleg: "ns = nanoseconde = een miljardste van een seconde. CMOS is de chiptechnologie van de registers in de processor." },
   { v: "Wat zijn de toegangstijd, typische grootte en technologie van de L1-cache?", a: "Ongeveer 1 ns – tientallen KB per kern – SRAM", o: "Hiërarchie in cijfers",
@@ -286,7 +288,7 @@ const kaarten_IT_deel2_les2 = [
   { v: "Wat bepaalt de breedte van de adresbus?", a: "Hoeveel geheugen er mogelijk is (zie Chipsets en bussen).", o: "Werkgeheugen",
     uitleg: "Meer adreslijnen = meer adressen (2^n) = meer bruikbaar geheugen." },
   { v: "Hoeveel adressen geeft een adresbus van n lijnen?", a: "2^n.", o: "Werkgeheugen",
-    uitleg: "Elke lijn draagt één bit van het adres. Dezelfde formule als bij adresseerbaarheid (slide 4)." },
+    uitleg: "Elke lijn draagt één bit van het adres. Dezelfde formule als bij adresseerbaarheid (slide 4).\n\nElke lijn van de adresbus is een draad die op elk moment maar twee toestanden kan hebben: 0 (geen spanning) of 1 (wel spanning). Eén lijn is dus precies één bit van het adres.\n\nWaarom 2ⁿ? Elke lijn die je toevoegt, verdubbelt het aantal mogelijke combinaties:\n• 1 lijn: 0 of 1 → 2 adressen\n• 2 lijnen: 00, 01, 10, 11 → 4 adressen\n• 3 lijnen: 000, 001, 010, 011, 100, 101, 110, 111 → 8 adressen\n• n lijnen: 2 × 2 × … × 2 (n keer) → 2ⁿ adressen\n\nHet is hetzelfde principe als bij een cijferslot. Met 3 wieltjes van 0 tot 9 heb je 10³ = 1000 combinaties. Bij een adresbus heeft elk “wieltje” maar 2 standen, dus krijg je 2ⁿ.\n\nVoorbeelden:\n• 8 lijnen → 2⁸ = 256 adressen\n• 16 lijnen → 2¹⁶ = 65.536 adressen (64 K)\n• 32 lijnen → 2³² ≈ 4,3 miljard adressen. Daarom kon een 32-bit systeem maar ongeveer 4 GB geheugen aanspreken." },
   { v: "Wat bepaalt de databus en hoe breed is hij tegenwoordig?", a: "Hoeveel data op 1 moment kan worden verplaatst: tegenwoordig 64 bits, dus 8 bytes in 1 keer.", o: "Werkgeheugen",
     uitleg: "Zie de databus als een weg met 64 rijstroken: er rijden 64 bits tegelijk. 64 / 8 = 8 bytes. Die 8 bytes komen terug in de bandbreedteberekening." },
   { v: "Hoeveel bytes verplaatst de databus in één keer, en hoe reken je dat uit?", a: "8 bytes: 64 bits / 8.", o: "Werkgeheugen",
@@ -307,6 +309,10 @@ const kaarten_IT_deel2_les2 = [
   // ===== SRAM en DRAM (slide 23) =====
   { v: "Welke twee belangrijke soorten vluchtige geheugens zijn er?", a: "Statisch RAM-geheugen (SRAM) en dynamisch RAM-geheugen (DRAM).", o: "SRAM en DRAM",
     uitleg: "Statisch = de waarde blijft vanzelf staan zolang er stroom is. Dynamisch = de waarde moet voortdurend ververst worden.\n\nAchtergrond (wordt niet gevraagd): Geef twee voorbeelden van niet-vluchtig geheugen. ROM en flashgeheugen (bv. een SSD of USB-stick). Die houden hun inhoud ook zonder stroom. Het tegenovergestelde van SRAM en DRAM." },
+  { v: "Waar staat DRAM voor?", a: "Dynamisch RAM (Dynamic Random Access Memory).", o: "SRAM en DRAM",
+    uitleg: "" },
+  { v: "Waar staat SRAM voor?", a: "Statisch RAM (Static Random Access Memory).", o: "SRAM en DRAM",
+    uitleg: "" },
   { v: "Wat betekent 'random access'?", a: "Je kan elk adres rechtstreeks aanspreken, in willekeurige volgorde.", o: "SRAM en DRAM",
     uitleg: "Zonder eerst alle vorige adressen te moeten doorlopen, zoals bij sequentiële toegang." },
   { v: "Zijn SRAM en DRAM vluchtig?", a: "Ja, allebei.", o: "SRAM en DRAM",
