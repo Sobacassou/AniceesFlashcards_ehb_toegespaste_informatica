@@ -922,6 +922,8 @@ function volgende(wistHet) {
   const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
   // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
   if (wistHet && !kaart.herhaling) delete s.moeilijk;
+  // of in dezelfde sessie: herhaling én controle juist (de controle komt enkel na een juiste herhaling)
+  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked) delete s.moeilijk;
   const overwonnen = wasMoeilijk && s.moeilijk !== true;   // moeilijke kaart overwonnen? dan groene eenhoorn
   stats[id] = s;
   bewaar("stats", stats);
