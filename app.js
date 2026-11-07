@@ -967,14 +967,17 @@ function volgende(wistHet) {
   const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
   // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
   if (wistHet && !kaart.herhaling) delete s.moeilijk;
+  let viaKans = false;
   // één kans: net moeilijk geworden, of een moeilijke kaart de eerste keer in deze sessie weer fout
   if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling))) kansMoeilijk.add(id);
   else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
   // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
   if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && kansMoeilijk.has(id)) {
-    delete s.moeilijk; kansMoeilijk.delete(id);
+    delete s.moeilijk; kansMoeilijk.delete(id); viaKans = true;
   }
-  const overwonnen = wasMoeilijk && s.moeilijk !== true;   // moeilijke kaart overwonnen? dan groene eenhoorn
+  // groen paardje enkel als de kaart via haar "één kans" in deze sessie van de stapel moeilijk gaat
+  // (een moeilijke kaart uit een vorige sessie die je meteen juist hebt, gaat wel van de stapel, maar zonder paardje)
+  const overwonnen = viaKans;
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
@@ -987,7 +990,7 @@ function volgende(wistHet) {
   // tenzij er op hetzelfde moment een eenhoorn of een duiveltje komt; het konijntje gaat voor het draakje
   aantalBeantwoord++;
   const konijnNu = aantalBeantwoord % 25 === 0 && !onderdeelKlaar && !overwonnen;
-  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen && !konijnNu) toonDraak();   // komt het konijntje, dan geen draakje   // 3, 6, 9 ... op rij juist: draakje
+  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen && !konijnNu) toonDraak();   // 3, 6, 9 ... op rij juist: draakje (groen paardje en konijntje gaan voor)
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
