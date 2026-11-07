@@ -194,7 +194,6 @@ function herstelSessie() {
   index = Math.min(Math.max(s.index || 0, 0), stapel.length - 1);
   acties = [];
   hervatbaar = !!s.hervatbaar;
-  zetEenhoornStand();
   reeks = 0;
   foutReeks = 0;
   toonScherm("schermOefenen");
@@ -549,7 +548,6 @@ function startOefenen(kaarten) {
   index = 0;
   fouten = [];
   acties = [];
-  zetEenhoornStand();   // al boven 50% of 70%? dan pas opnieuw na eerst onder die grens te zakken
   reeks = 0;
   foutReeks = 0;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
@@ -878,7 +876,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, boven: { ...eenhoornBoven }, reeks, foutReeks };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -893,15 +891,16 @@ function volgende(wistHet) {
   const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
   // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
   if (wistHet && !kaart.herhaling) delete s.moeilijk;
+  const overwonnen = wasMoeilijk && s.moeilijk !== true;   // moeilijke kaart overwonnen? dan groene eenhoorn
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
   const onderdeelKlaar = wistHet && openVoor > 0 && standVan(kaart.hfst, onderdeel).open === 0;
   if (onderdeelKlaar) toonGeleEenhoorn();
   // de gele eenhoorn krijgt voorrang: dan die keer geen groene eenhoorn en geen draakje
-  controleerEenhoorn(!onderdeelKlaar);   // over de 50% of 70% juist gegaan? dan galoppeert de eenhoorn
+  if (overwonnen && !onderdeelKlaar) toonEenhoorn();
   reeks = wistHet ? reeks + 1 : 0;
-  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
+  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen) toonDraak();   // 3, 6, 9 ... op rij juist: draakje
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
@@ -946,7 +945,6 @@ function maakOngedaan() {
     stapel.splice(actie.index, 0, actie.kaart);
     for (const [i, k] of actie.kopies || []) stapel.splice(i, 0, k);   // ook de ingeplande herhalingen terug
   }
-  eenhoornBoven = { ...actie.boven };   // beloningen terug zoals vóór die actie (niets tonen)
   reeks = actie.reeks;
   foutReeks = actie.foutReeks;
   index = actie.index;
@@ -962,10 +960,9 @@ function zetOngedaanKnoppen() {
 function gooiWeg() {
   if (bezig) return;
   const kaart = stapel[index];
-  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), boven: { ...eenhoornBoven }, reeks, foutReeks });
+  acties.push({ soort: "weg", index, kaart, id: kaartId(huidigVak, kaart.hfst, kaart), reeks, foutReeks });
   verborgen.add(kaartId(huidigVak, kaart.hfst, kaart));
   bewaarVerborgen();
-  zetEenhoornStand();
   stapel.splice(index, 1);
   // ingeplande herhalingen van dezelfde kaart ook weghalen (en onthouden voor ongedaan maken)
   const weg = acties[acties.length - 1];
@@ -1048,41 +1045,9 @@ function zetHerhaalLabel(kaart) {
   }
 }
 
-/* ===== Beloning: eenhoorn =====
-   Kijkt naar de totaalstand links (juist / (juist + fout), over al je sessies).
-   Ga je over de 50% of over de 70%, dan galoppeert er een eenhoorn over het scherm.
-   Per grens: daarna niet meer, tot je eerst weer onder die grens zakt.
-   Precies op de grens verandert niets. */
-const EENHOORN_GRENZEN = [0.5, 0.7];
-let eenhoornBoven = { 0.5: false, 0.7: false };
-
-function procentJuist() {
-  const t = telJuistFout(gekozenHoofdstukken);
-  const beantwoord = t.juist + t.fout;
-  return beantwoord ? t.juist / beantwoord : null;
-}
-
-// stand bepalen zonder eenhoorn te tonen (bij start, refresh, ongedaan maken, weggooien)
-function zetEenhoornStand() {
-  const p = procentJuist();
-  for (const g of EENHOORN_GRENZEN) {
-    if (p === null || p < g) eenhoornBoven[g] = false;
-    else if (p > g) eenhoornBoven[g] = true;
-  }
-}
-
-// na een antwoord: over de grens gegaan? dan eenhoorn tonen
-function controleerEenhoorn(magTonen = true) {
-  const p = procentJuist();
-  if (p === null) return;
-  let tonen = false;
-  for (const g of EENHOORN_GRENZEN) {
-    if (p > g && !eenhoornBoven[g]) { eenhoornBoven[g] = true; tonen = true; }
-    else if (p < g) eenhoornBoven[g] = false;
-  }
-  if (tonen && magTonen) toonEenhoorn();   // twee grenzen tegelijk? toch maar één eenhoorn
-}
-
+/* ===== Beloning: groene eenhoorn =====
+   Een moeilijke kaart die je in een latere sessie de eerste keer meteen juist hebt, gaat van de stapel
+   moeilijke kaarten: dan galoppeert de groene eenhoorn over het scherm (het omgekeerde van het grote duiveltje). */
 const EENHOORN_SVG = `
 <svg viewBox="-30 -30 180 160" aria-hidden="true">
 <path class="eh-tw" d="M-22 60 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#DCDCAA"/>
@@ -1093,6 +1058,11 @@ const EENHOORN_SVG = `
 <path d="M40 60 Q22 58 18 76 Q16 88 22 96 Q22 82 30 76 Q28 88 34 94 Q34 78 42 68Z" fill="#6A9955"/>
 <path d="M30 64 Q22 74 24 88" stroke="#97C459" stroke-width="1.4" fill="none" stroke-linecap="round"/>
 </g></g></g>
+<g transform="translate(82,55)"><g class="eh-vl2 eh-p">
+<path d="M0 4 Q-4 -26 -30 -48 Q-34 -50 -36 -46 Q-28 -40 -32 -32 Q-40 -34 -42 -30 Q-32 -22 -34 -16 Q-42 -16 -42 -12 Q-30 -6 -26 -2 Q-30 2 -28 6 Q-14 10 0 10Z" fill="#2E8B6E"/>
+<path d="M-2 6 Q-6 -18 -24 -36 Q-20 -22 -24 -12 Q-14 -8 -14 2Z" fill="#3FB68E"/>
+<path d="M-4 2 Q-14 -14 -30 -30 M-6 4 Q-18 -6 -34 -14 M-8 6 Q-18 2 -26 2" stroke="#5DCAA5" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+</g></g>
 <g transform="translate(45,70)"><g class="eh-hu2 eh-p"><path d="M-8 -8 L6 -8 L3.5 22 L-3 22Z" fill="#2E8B6E"/><g transform="translate(0,21)"><g class="eh-hk2 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#2E8B6E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#5DCAA5"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#173404"/></g></g></g></g>
 <g transform="translate(88,70)"><g class="eh-fu2 eh-p"><path d="M-5 -6 L5 -6 L3 22 L-3 22Z" fill="#2E8B6E"/><g transform="translate(0,21)"><g class="eh-fk2 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#2E8B6E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#5DCAA5"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#173404"/></g></g></g></g>
 <circle cx="50" cy="62" r="17" fill="#3FB68E"/>
@@ -1102,6 +1072,11 @@ const EENHOORN_SVG = `
 <g transform="translate(52,72)"><g class="eh-hu1 eh-p"><path d="M-9 -8 L7 -8 L4 22 L-3 22Z" fill="#3FB68E"/><g transform="translate(0,21)"><g class="eh-hk1 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#3FB68E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#9FE1CB"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#27500A"/></g></g></g></g>
 <g transform="translate(94,72)"><g class="eh-fu1 eh-p"><path d="M-6 -6 L6 -6 L3.5 22 L-3.5 22Z" fill="#3FB68E"/><g transform="translate(0,21)"><g class="eh-fk1 eh-p"><rect x="-2.5" y="-1" width="5" height="18" rx="2.5" fill="#3FB68E"/><path d="M-4 13 L4 13 L5 16 L-5 16Z" fill="#9FE1CB"/><path d="M-4 15 L4 15 L6 22 L-6 22Z" fill="#27500A"/></g></g></g></g>
 <text x="40" y="66" font-size="11" font-family="monospace" fill="#085041">&lt;/&gt;</text>
+<g transform="translate(82,55)"><g class="eh-vl1 eh-p">
+<path d="M0 4 Q-4 -26 -30 -48 Q-34 -50 -36 -46 Q-28 -40 -32 -32 Q-40 -34 -42 -30 Q-32 -22 -34 -16 Q-42 -16 -42 -12 Q-30 -6 -26 -2 Q-30 2 -28 6 Q-14 10 0 10Z" fill="#9FE1CB"/>
+<path d="M-2 6 Q-6 -18 -24 -36 Q-20 -22 -24 -12 Q-14 -8 -14 2Z" fill="#DDF5EC"/>
+<path d="M-4 2 Q-14 -14 -30 -30 M-6 4 Q-18 -6 -34 -14 M-8 6 Q-18 2 -26 2" stroke="#5DCAA5" stroke-width="1.3" fill="none" stroke-linecap="round"/>
+</g></g>
 <g transform="translate(92,58)"><g class="eh-nod eh-p"><g transform="translate(-92,-58)">
 <path d="M82 60 Q84 36 104 20 L126 30 Q108 44 104 70Z" fill="#3FB68E"/>
 <path d="M110 0 Q92 -6 86 12 Q76 20 80 36 Q72 46 78 60 Q82 52 88 54 Q84 42 94 38 Q90 28 100 26 Q98 16 110 14Z" fill="#3B6D11"/>
@@ -1128,16 +1103,51 @@ const EENHOORN_SVG = `
 </g></g></g>
 </svg>`;
 
+/* De groene eenhoorn galoppeert zigzaggend van linksonder naar rechtsboven, via het midden van de kaart.
+   In het midden van de kaart steigert hij even, daarna galoppeert hij verder. */
+const EH_LOOP = 2900, EH_STEIGER = 1500;           // ms: elk stuk lopen, en het steigeren
 function toonEenhoorn() {
   const oud = document.getElementById("eenhoorn");
   if (oud) oud.remove();                 // nooit twee tegelijk
   const laag = document.createElement("div");
   laag.id = "eenhoorn";
-  laag.innerHTML = `<div class="eh-loper">${EENHOORN_SVG}</div>`;
+  laag.innerHTML = `<div class="eh-loper"><div class="eh-steiger">${EENHOORN_SVG}</div></div>`;
   document.body.appendChild(laag);
   const loper = laag.querySelector(".eh-loper");
-  loper.addEventListener("animationend", e => { if (e.target === loper) laag.remove(); });
-  setTimeout(() => laag.remove(), 9000); // vangnet als animationend niet komt
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const begin = performance.now();
+  function punten() {
+    const W = window.innerWidth, H = window.innerHeight;
+    const k = document.getElementById("kaart"), r = k ? k.getBoundingClientRect() : null;
+    const midden = r && r.width > 0 && r.bottom > 0 && r.top < H
+      ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : { x: W / 2, y: H / 2 };
+    return { van: { x: -110, y: H + 70 }, midden, naar: { x: W + 110, y: -110 } };
+  }
+  // stuk van a naar b, met een zigzag (golf) dwars op de looprichting
+  function zigzag(a, b, u) {
+    const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
+    const golf = (rustig ? 0 : 38) * Math.sin(u * Math.PI * 4);     // 2 keer heen en weer per stuk
+    return { x: a.x + dx * u - dy / len * golf, y: a.y + dy * u + dx / len * golf };
+  }
+  function beeld(nu) {
+    if (!laag.isConnected) return;
+    const t = nu - begin, P = punten();
+    let plek, steigert = false, zicht = 1;
+    if (t < EH_LOOP) plek = zigzag(P.van, P.midden, t / EH_LOOP);
+    else if (t < EH_LOOP + EH_STEIGER) { plek = P.midden; steigert = true; }
+    else if (t < 2 * EH_LOOP + EH_STEIGER) {
+      const u = (t - EH_LOOP - EH_STEIGER) / EH_LOOP;
+      plek = zigzag(P.midden, P.naar, u);
+      zicht = u > 0.9 ? (1 - u) / 0.1 : 1;
+    } else { laag.remove(); return; }
+    laag.classList.toggle("steigert", steigert);
+    const w = loper.offsetWidth, h = loper.offsetHeight;
+    loper.style.transform = `translate(${plek.x - w / 2}px, ${plek.y - h / 2}px)`;
+    loper.style.opacity = zicht;
+    requestAnimationFrame(beeld);
+  }
+  requestAnimationFrame(beeld);
+  setTimeout(() => laag.remove(), 2 * EH_LOOP + EH_STEIGER + 1500); // vangnet
 }
 
 /* ===== Beloning: draakje =====

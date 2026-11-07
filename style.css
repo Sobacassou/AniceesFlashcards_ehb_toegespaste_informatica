@@ -491,14 +491,30 @@ button.ongedaan:disabled:hover { background: var(--vlak); }
 /* ===== Beloning: eenhoorn die schuin over het scherm galoppeert =====
    Halve snelheid: één tocht duurt 7,6 s, één galopsprong 1 s. */
 #eenhoorn { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
-#eenhoorn .eh-loper { position: absolute; left: 0; top: 0; width: 150px; opacity: 0;
-  animation: eh-pad 7.6s linear forwards; }
+#eenhoorn .eh-loper { position: absolute; left: 0; top: 0; width: 150px; opacity: 0; }   /* plaats: gezet in app.js */
+/* steigeren in het midden van de kaart: achteroverhellen op de achterbenen, voorbenen trappelen */
+#eenhoorn .eh-steiger { transform-origin: 32% 92%; transition: transform .35s ease-out; }
+#eenhoorn.steigert .eh-steiger { transform: rotate(-32deg); }
+#eenhoorn.steigert .eh-rock { animation: none; }
+#eenhoorn.steigert .eh-hu1, #eenhoorn.steigert .eh-hu2 { animation: none; transform: rotate(12deg); }
+#eenhoorn.steigert .eh-hk1, #eenhoorn.steigert .eh-hk2 { animation: none; transform: rotate(-6deg); }
+#eenhoorn.steigert .eh-fu1, #eenhoorn.steigert .eh-fu2 { animation: eh-trap-u .42s ease-in-out infinite alternate; }
+#eenhoorn.steigert .eh-fk1, #eenhoorn.steigert .eh-fk2 { animation: eh-trap-k .42s ease-in-out infinite alternate; }
+#eenhoorn.steigert .eh-fu2, #eenhoorn.steigert .eh-fk2 { animation-delay: -.21s; }
+@keyframes eh-trap-u { from { transform: rotate(-70deg); } to { transform: rotate(-35deg); } }
+@keyframes eh-trap-k { from { transform: rotate(95deg); } to { transform: rotate(40deg); } }
 #eenhoorn svg { display: block; width: 100%; height: auto; overflow: visible; }
 #eenhoorn .eh-p { transform-origin: 0 0; }
 #eenhoorn .eh-tw { transform-box: fill-box; transform-origin: center; animation: eh-tw 1.1s ease-in-out infinite alternate; }
 #eenhoorn .eh-rock { animation: eh-rock 1s linear infinite; }
 #eenhoorn .eh-nod  { animation: eh-nod 1s linear infinite; }
 #eenhoorn .eh-hair { animation: eh-wave 1s ease-in-out infinite; }
+/* vleugels: klapperen tijdens het galopperen, wijd open bij het steigeren */
+#eenhoorn .eh-vl1, #eenhoorn .eh-vl2 { animation: eh-vlap .5s ease-in-out infinite alternate; }
+#eenhoorn .eh-vl2 { animation-delay: -.12s; }
+@keyframes eh-vlap { from { transform: rotate(-14deg); } to { transform: rotate(22deg); } }
+#eenhoorn.steigert .eh-vl1, #eenhoorn.steigert .eh-vl2 { animation: eh-vlap-open .28s ease-in-out infinite alternate; }
+@keyframes eh-vlap-open { from { transform: rotate(8deg); } to { transform: rotate(48deg); } }
 #eenhoorn .eh-hu1, #eenhoorn .eh-hu2 { animation: eh-hu 1s linear infinite; }
 #eenhoorn .eh-hk1, #eenhoorn .eh-hk2 { animation: eh-hk 1s linear infinite; }
 #eenhoorn .eh-fu1, #eenhoorn .eh-fu2 { animation: eh-fu 1s linear infinite; }
