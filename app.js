@@ -242,7 +242,9 @@ function bevestig(tekst, ja = "OK") {
 /* ===== Vaknamen op het scherm =====
    De vaknamen (met emoji) blijven ongewijzigd in de code: je scores en voortgang zijn daaraan gekoppeld.
    Op het scherm tonen we enkel de naam, zonder emoji of icoontje. */
-function vakZonderEmoji(vak) { return vak.replace(/^\S+\s/, ""); }
+const ACADEMIEJAAR = "2026-27";   // getoond achter elke vaknaam
+// vaknaam om te tonen: een eventueel icoontje vooraan weg (enkel als het geen letter of cijfer is), plus het academiejaar
+function vakZonderEmoji(vak) { return vak.replace(/^[^\p{L}\p{N}]+\s/u, "") + ` (${ACADEMIEJAAR})`; }
 
 // knop- of titeltekst: enkel de naam, zonder emoji
 function vakLabelHTML(vak) {
@@ -542,6 +544,7 @@ function startOefenen(kaarten) {
   }
   stapel = [...kaarten];
   const geschud = document.getElementById("schudden").checked;
+  document.getElementById("schudden").checked = false;   // schudden geldt enkel voor deze ronde
   if (geschud) schud(stapel);
   index = 0;
   fouten = [];
@@ -999,7 +1002,7 @@ function toonEinde() {
     eindeInfo.scoreBewaard = true;
   }
   // titel: "Klaar met IT Essentials – II.2 Werkgeheugen" (meerdere hoofdstukken: enkel hun nummers)
-  const vakTitel = huidigVak.replace(/^\S+\s/, "");   // emoji vooraan weglaten
+  const vakTitel = vakZonderEmoji(huidigVak);
   const namen = gekozenHoofdstukken || [];
   const deel = namen.length === 1 ? namen[0].replace(" – ", " ") : namen.map(h => h.split(" – ")[0]).join(", ");
   document.getElementById("eindeTitel").textContent = deel ? `Klaar met ${vakTitel} – ${deel}` : `Klaar met ${vakTitel}`;
@@ -1640,13 +1643,13 @@ document.addEventListener("keydown", e => {
 toonVakken();
 herstelSessie();
 
-/* aangevinkte hoofdstukken bewaren; je keuze voor schudden wordt ook onthouden */
+/* aangevinkte hoofdstukken bewaren; schudden staat altijd uit als je de app opent (geldt enkel voor één ronde) */
 document.getElementById("hoofdstukLijst").addEventListener("change", () => bewaarSessie());
 document.getElementById("alles").addEventListener("change", () => setTimeout(() => bewaarSessie()));
 (() => {
   const schudden = document.getElementById("schudden");
-  schudden.checked = laad("schudden", "nee") === "ja";
-  schudden.addEventListener("change", () => { bewaar("schudden", schudden.checked ? "ja" : "nee"); });
+  schudden.checked = false;
+  try { localStorage.removeItem("schudden"); } catch (e) {}   // oude, onthouden keuze opruimen
   const herhalen = document.getElementById("herhalen");
   herhalen.checked = laad("herhalen", "ja") === "ja";   // standaard aan
   herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));
