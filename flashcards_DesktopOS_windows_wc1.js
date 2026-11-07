@@ -283,6 +283,16 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "" },
   { v: "Van welke vijf commando's moest je de help bekijken?", a: "move, find, findstr, copy en robocopy.", o: "Navigeren",
     uitleg: "Met move /?, find /?, findstr /?, copy /? en robocopy /?." },
+  { v: "Wat is move?", a: "Bestanden verplaatsen, of een bestand of map hernoemen.", o: "Navigeren",
+    uitleg: "De cursus vraagt om de help te bekijken met move /?. Daar staat wat het commando doet." },
+  { v: "Wat is find?", a: "Tekst zoeken in een bestand of in de uitvoer van een commando.", o: "Navigeren",
+    uitleg: "De cursus vraagt om de help te bekijken met find /?. Daar staat wat het commando doet." },
+  { v: "Wat is findstr?", a: "Uitgebreider tekst zoeken, ook met reguliere expressies.", o: "Navigeren",
+    uitleg: "De cursus vraagt om de help te bekijken met findstr /?. Daar staat wat het commando doet." },
+  { v: "Wat is copy?", a: "Bestanden kopiëren.", o: "Navigeren",
+    uitleg: "De cursus vraagt om de help te bekijken met copy /?. Daar staat wat het commando doet." },
+  { v: "Wat is robocopy?", a: "\"Robust copy\": mappen en grote hoeveelheden bestanden kopiëren.", o: "Navigeren",
+    uitleg: "De cursus vraagt om de help te bekijken met robocopy /?. Daar staat wat het commando doet." },
   // ===== Netwerkinstellingen =====
   // -- witte kaarten: uitleg --
   { v: "ipconfig", a: "Toont snel de netwerkinstellingen van je netwerkadapters, bv. het IP-adres en het MAC-adres.", o: "Netwerkinstellingen", wit: true,
