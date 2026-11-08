@@ -13,6 +13,10 @@ const kaarten_IT_deel2_les2 = [
   // ===== Geheugenkarakteristieken › Capaciteit (slide 3) =====
   { v: "Wat is geheugencapaciteit?", a: "Het aantal bits dat men kan bewaren.", o: "Capaciteit",
     uitleg: "Een geheugen bestaat uit een groot aantal cellen, en elke cel bewaart één bit. Meer cellen betekent meer capaciteit. Een bit is de kleinste eenheid van informatie: een 0 of een 1." },
+  { v: "Wat is geheugencapaciteit?\na) De tijd die nodig is om een woord op te halen\nb) Het aantal bits dat men kan bewaren\nc) Het aantal adressen dat de processor per seconde kan aanspreken\nd) De snelheid van de geheugenbus", a: "b) Het aantal bits dat men kan bewaren.", o: "Capaciteit",
+    uitleg: "Een geheugen bestaat uit een groot aantal cellen, en elke cel bewaart één bit. Meer cellen betekent meer capaciteit. (a = toegangstijd, d = bandbreedte: dat zijn andere geheugenkarakteristieken.)" },
+  { v: "In welke eenheden kan je geheugencapaciteit uitdrukken?\na) In hertz (Hz) en megahertz (MHz)\nb) In nanoseconden (ns)\nc) In bits, nibbles (4 bits) en bytes\nd) In volt (V)", a: "c) In bits, nibbles (4 bits) en bytes.", o: "Capaciteit",
+    uitleg: "Capaciteit gaat over hoeveel je kan bewaren. Hertz is een frequentie (klok), nanoseconden zijn een tijd (toegangstijd), volt is een spanning." },
   { v: "In welke eenheden kan je geheugencapaciteit uitdrukken?", a: "Aantal bits\nAantal symbolen van 4 (nibble) of 6 bits\nAantal bytes\n…", o: "Capaciteit",
     uitleg: "In de praktijk drukt men capaciteit bijna altijd uit in bytes: KB, MB, GB, TB. Een symbool van 6 bits kwam vooral in oudere systemen voor." },
   { v: "Hoeveel bits zitten er in een nibble?", a: "4 bits.", o: "Capaciteit",
@@ -213,6 +217,8 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "L2 vangt op wat niet in L1 past, zodat de processor minder vaak naar het trage werkgeheugen moet." },
   { v: "Hoe verhoudt L2 zich tot L1 en uit welk geheugen bestaat hij?", a: "Groter en iets trager dan L1. SRAM.", o: "Level 2 cache",
     uitleg: "Algemene regel in de hiërarchie: elk volgend niveau is groter en trager. Alle cacheniveaus zijn van SRAM." },
+  { v: "Vergelijking van de cacheniveaus (tabel slide 19)", a: "L1-cache: ± 1 ns · tientallen KB per kern (32 tot 64 KB) · SRAM\nL2-cache: enkele ns · 1 tot 3 MB per kern · SRAM\nL3-cache: 10 tot 20 ns · tientallen MB (gedeeld) · SRAM\nWerkgeheugen: 50 tot 100 ns · 8 tot 64 GB · DRAM", o: "Level 2 cache", wit: true,
+    img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s19_hierarchie_tabel.jpg", uitleg: "Elk volgend niveau is groter en trager. Alle caches zijn SRAM, het werkgeheugen is DRAM." },
   // -- extra info, niet uit de cursus --
   { v: "Hoeveel keer groter is L2 (1 tot 3 MB) ongeveer dan L1 (32 tot 64 KB)?", a: "Ongeveer 16 tot 100 keer. 1 MB / 64 KB = 16 en 3 MB / 32 KB ≈ 100. Groter, maar ook trager: enkele ns in plaats van ongeveer 1 ns.", o: "Level 2 cache", extra: true,
     uitleg: "" },
@@ -244,7 +250,7 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "Grote serverprocessoren met veel kernen hebben de grootste L3." },
   { v: "Geef de L3-voorbeelden van de slide.", a: "AMD Phenom X4 9650: 2 MB\nIntel Core i7-4790 (4 kernen): 8 MB\nIntel Xeon E5-2699 v3 (18 kernen): 45 MB", o: "Level 3 cache",
     uitleg: "Hoe meer kernen, hoe meer gedeelde L3 er nodig is. Xeon is Intels serverreeks." },
-  { v: "Welke processor op de slide heeft de grootste L3, en waarom?", a: "De Intel Xeon E5-2699 v3 (45 MB), omdat hij 18 kernen heeft.", o: "Level 3 cache",
+  { v: "Welke processor op de slide heeft de grootste L3, en waarom?", a: "De Intel Xeon E5-2699 v3 (45 MB), omdat hij 18 kernen heeft.", o: "Level 3 cache", wit: true,
     uitleg: "Dat is 2,5 MB L3 per kern. De Core i7-4790 heeft met 4 kernen en 8 MB ongeveer 2 MB per kern." },
   { v: "Hoe zien de verschillende cache levels er schematisch uit (slide 16)?", a: "Per core: L1 Instruction + L1 Data, daaronder een eigen L2. Onder alle cores: één gedeelde L3 (Last-Level) Cache, en daaronder Memory.", o: "Level 3 cache", img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels.jpg",
     uitleg: "Lees van boven naar onder: core → L1 (gesplitst) → L2 (per core) → L3 (gedeeld) → werkgeheugen. Het schema toont twee Processor Cores." },
@@ -531,7 +537,7 @@ const kaarten_IT_deel2_les2 = [
   { v: "Werkt een PC66-module goed in een systeem met een bus van 133 MHz?", a: "Meestal niet: ze kan dat tempo niet volgen. Een snellere module in een trager systeem werkt wel (maar trager); een tragere module in een sneller systeem meestal niet.", o: "SDRAM", extra: true,
     uitleg: "" },
   { v: "Welke soort geheugentoegang is zeer snel bij SDRAM, en waarom is dat belangrijk?", a: "Sequentiële geheugentoegang. Ze komt vaak voor in realiteit.", o: "SDRAM",
-    uitleg: "Bv. instructies van een programma staan meestal na elkaar in het geheugen." },
+    uitleg: "Sequentiële toegang (opeenvolgende adressen) is zeer snel bij SDRAM.\n\nWaarom snel?\nSDRAM werkt met het geheugen in rijen en kolommen. De eerste toegang kost tijd: de juiste rij moet “geopend” worden, en dat geeft latency. Daarna kan SDRAM in burst mode de volgende adressen uit diezelfde rij razendsnel na elkaar leveren, één per klokcyclus, zonder telkens opnieuw een adres en rij te moeten kiezen. Omdat SDRAM synchroon met de klok werkt, kan dat netjes in een vast ritme.\n\nWaarom belangrijk?\nOmdat sequentiële toegang in de praktijk heel vaak voorkomt:\n• Instructies van een programma staan meestal na elkaar in het geheugen.\n• Arrays en andere data worden vaak element per element doorlopen.\n• Caches halen telkens een hele blok (cache line) van opeenvolgende bytes op.\n\nHet gevolg is dat SDRAM in de meeste echte situaties veel sneller presteert dan je op basis van de toegangstijd van één losse geheugenlocatie zou verwachten." },
   // -- extra info, niet uit de cursus --
   { v: "Waarom is SDRAM zeer snel bij sequentiële toegang?", a: "Het eerste adres opzoeken kost tijd, maar daarna geeft het de volgende adressen bij elke kloktik meteen door. Het hoeft niet telkens opnieuw te zoeken. Dat sluit mooi aan bij de cache line van 64 bytes.", o: "SDRAM", extra: true,
     uitleg: "" },
