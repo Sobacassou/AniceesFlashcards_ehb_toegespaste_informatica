@@ -959,7 +959,7 @@ function volgende(wistHet) {
   const openVoor = standVan(kaart.hfst, onderdeel).open;   // nog open kaarten van dit onderdeel, vóór dit antwoord
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
-  // een foute kaart gaat pas van de teller als ook de controle (na 10) juist is: de herhaling na 5 telt nog niet
+  // een foute kaart gaat pas van de teller als ook de controle (na 12) juist is: de herhaling na 6 telt nog niet
   s.laatst = wistHet && !(kaart.herhaling === 1 && document.getElementById("herhalen").checked);
   // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
   const wasMoeilijk = s.moeilijk === true;
@@ -1110,16 +1110,16 @@ function herhaalFouten() {
 }
 
 /* ===== Foute kaarten herhalen tijdens het oefenen (vinkje op het hoofdstukkenscherm) =====
-   Gespreide herhaling: een foute kaart komt terug na 5 kaarten. Juist bij die herhaling?
-   Dan nog één controle na 10 kaarten. Weer fout? Dan opnieuw na 5. Wat op het einde van de
+   Gespreide herhaling: een foute kaart komt terug na 6 kaarten. Juist bij die herhaling?
+   Dan nog één controle na 12 kaarten. Weer fout? Dan opnieuw na 6. Wat op het einde van de
    ronde nog openstaat, komt vóór het eindscherm. */
-const HERHAAL_NA = { 1: 5, 2: 10 };
+const HERHAAL_NA = { 1: 6, 2: 12 };
 function planHerhaling(kaart, wistHet) {
   if (!document.getElementById("herhalen").checked) return -1;
   let niveau = 0;
-  if (!wistHet) niveau = 1;                                // fout: na 5 kaarten terug
-  else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 10
-  if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 10 juist: klaar
+  if (!wistHet) niveau = 1;                                // fout: na 6 kaarten terug
+  else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 12
+  if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 12 juist: klaar
   const kopie = { ...kaart, herhaling: niveau };
   const plek = Math.min(index + 1 + HERHAAL_NA[niveau], stapel.length);
   stapel.splice(plek, 0, kopie);
@@ -1203,9 +1203,8 @@ const EENHOORN_SVG = `
 </g></g></g>
 </svg>`;
 
-/* De groene eenhoorn galoppeert zigzaggend van linksonder naar rechtsboven, via het midden van de kaart.
-   In het midden van de kaart steigert hij even, daarna galoppeert hij verder. */
-const EH_LOOP = 2900, EH_STEIGER = 1500;           // ms: elk stuk lopen, en het steigeren
+/* Groene eenhoorn (nu): galoppeert horizontaal over het hele scherm, ter hoogte van het midden van de kaart. */
+const EH_GALOP = 4000, EH_HOEK = 0, EH_BREEDTE = 180;   // ms over het hele scherm, stijghoek in graden (0 = horizontaal), breedte in px
 function toonEenhoorn() {
   const oud = document.getElementById("eenhoorn");
   if (oud) oud.remove();                 // nooit twee tegelijk
@@ -1213,41 +1212,55 @@ function toonEenhoorn() {
   laag.id = "eenhoorn";
   laag.innerHTML = `<div class="eh-loper"><div class="eh-steiger">${EENHOORN_SVG}</div></div>`;
   document.body.appendChild(laag);
+  laag.querySelectorAll(".eh-tw").forEach(e => e.remove());   // vaste fonkelsterretjes weg: de sterretjes stuiven nu op met de stofwolk
   const loper = laag.querySelector(".eh-loper");
-  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  loper.style.width = EH_BREEDTE + "px";        // iets groter dan de gewone 150px
+  const helling = Math.tan(EH_HOEK * Math.PI / 180);
   const begin = performance.now();
-  function punten() {
-    const W = window.innerWidth, H = window.innerHeight;
-    const k = document.getElementById("kaart"), r = k ? k.getBoundingClientRect() : null;
-    const midden = r && r.width > 0 && r.bottom > 0 && r.top < H
-      ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : { x: W / 2, y: H / 2 };
-    return { van: { x: -110, y: H + 70 }, midden, naar: { x: W + 110, y: -110 } };
-  }
-  // stuk van a naar b, met een zigzag (golf) dwars op de looprichting
-  function zigzag(a, b, u) {
-    const dx = b.x - a.x, dy = b.y - a.y, len = Math.hypot(dx, dy) || 1;
-    const golf = (rustig ? 0 : 38) * Math.sin(u * Math.PI * 4);     // 2 keer heen en weer per stuk
-    return { x: a.x + dx * u - dy / len * golf, y: a.y + dy * u + dx / len * golf };
-  }
   function beeld(nu) {
     if (!laag.isConnected) return;
-    const t = nu - begin, P = punten();
-    let plek, steigert = false, zicht = 1;
-    if (t < EH_LOOP) plek = zigzag(P.van, P.midden, t / EH_LOOP);
-    else if (t < EH_LOOP + EH_STEIGER) { plek = P.midden; steigert = true; }
-    else if (t < 2 * EH_LOOP + EH_STEIGER) {
-      const u = (t - EH_LOOP - EH_STEIGER) / EH_LOOP;
-      plek = zigzag(P.midden, P.naar, u);
-      zicht = u > 0.9 ? (1 - u) / 0.1 : 1;
-    } else { laag.remove(); return; }
-    laag.classList.toggle("steigert", steigert);
+    const u = (nu - begin) / EH_GALOP;
+    if (u >= 1) { laag.remove(); return; }
+    const k = document.getElementById("kaart"), r = k ? k.getBoundingClientRect() : null;
+    const midden = r && r.height && r.bottom > 0 && r.top < window.innerHeight ? r.top + r.height / 2 : window.innerHeight / 2;
     const w = loper.offsetWidth, h = loper.offsetHeight;
-    loper.style.transform = `translate(${plek.x - w / 2}px, ${plek.y - h / 2}px)`;
-    loper.style.opacity = zicht;
+    const x = -w + (window.innerWidth + w) * u;
+    const y = midden - h / 2 - (x + w / 2 - window.innerWidth / 2) * helling;   // licht stijgend, midden van het scherm = midden van de kaart
+    loper.style.transform = `translate(${x}px, ${y}px) rotate(${-EH_HOEK}deg)`;
+    loper.style.opacity = u < 0.04 ? u / 0.04 : u > 0.96 ? (1 - u) / 0.04 : 1;
+    if (nu - laatsteStof > 55 && u < 0.97) { laatsteStof = nu; stofwolkje(laag, x + w * 0.22, y + h * 0.86); }
     requestAnimationFrame(beeld);
   }
+  let laatsteStof = 0;
   requestAnimationFrame(beeld);
-  setTimeout(() => laag.remove(), 2 * EH_LOOP + EH_STEIGER + 1500); // vangnet
+  setTimeout(() => laag.remove(), EH_GALOP + 1500); // vangnet
+}
+
+/* Stofwolkje (en soms een sterretje) dat achter de galopperende eenhoorn opstuift. */
+function stofwolkje(laag, x, y) {
+  const ster = Math.random() < 0.4;
+  x -= Math.random() * 50;                      // wolkjes en sterretjes door elkaar langs het spoor
+  const d = document.createElement("div");
+  const g = ster ? 10 + Math.random() * 8 : 14 + Math.random() * 16;
+  d.style.cssText = `position:absolute;left:${x - g / 2}px;top:${y - g / 2 + (Math.random() - 0.5) * 30}px;width:${g}px;height:${g}px;pointer-events:none;`;
+  if (ster) {
+    const kleur = Math.random() < 0.5 ? "#FFD866" : "#4EC9B0";
+    d.innerHTML = `<svg viewBox="0 0 20 20" width="100%" height="100%"><path d="M10 0 L12.5 7.5 L20 10 L12.5 12.5 L10 20 L7.5 12.5 L0 10 L7.5 7.5 Z" fill="${kleur}"/></svg>`;
+  } else {
+    d.style.borderRadius = "50%";
+    d.style.background = "radial-gradient(circle, rgba(210,200,180,0.75) 0%, rgba(190,180,160,0.45) 55%, rgba(190,180,160,0) 72%)";
+  }
+  laag.insertBefore(d, laag.firstChild);   // achter de eenhoorn
+  const dx = -(20 + Math.random() * 50), dy = -(10 + Math.random() * 35), duur = 800 + Math.random() * 600;
+  const a = d.animate(ster ? [                    // sterretjes blijven even lang zichtbaar als de wolkjes
+    { transform: "translate(0,0) scale(0.6) rotate(0deg)", opacity: 1 },
+    { transform: `translate(${dx * 0.75}px,${dy * 0.75}px) scale(1) rotate(140deg)`, opacity: 0.9, offset: 0.7 },
+    { transform: `translate(${dx}px,${dy}px) scale(0.8) rotate(200deg)`, opacity: 0 }
+  ] : [
+    { transform: "translate(0,0) scale(0.5)", opacity: 0.9 },
+    { transform: `translate(${dx}px,${dy}px) scale(2.2)`, opacity: 0 }
+  ], { duration: ster ? duur * 1.4 : duur, easing: "ease-out", fill: "forwards" });
+  a.onfinish = () => d.remove();
 }
 
 /* ===== Beloning: draakje =====

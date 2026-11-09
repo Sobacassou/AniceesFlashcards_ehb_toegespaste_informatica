@@ -27,7 +27,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 - **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt
 - **Overzicht met teller** per onderdeel (nog open / totaal), en klikken om naar een onderwerp te springen
 - **Kaarten schudden** voor een willekeurige volgorde (geldt voor één ronde)
-- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 5 kaarten terug en daarna nog eens na 10, en gaat pas van de teller als je ook die controle juist hebt
+- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 6 kaarten terug en daarna nog eens na 12, en gaat pas van de teller als je ook die controle juist hebt
 - **Ongedaan maken** als je per ongeluk verkeerd klikt
 - **Kaarten weggooien** die je uit de code wilt verwijderen (je kan ze terugzetten als je per ongeluk verkeerd klikt)
 - **Je voortgang wordt onthouden** in je browser (elk toestel heeft zijn eigen voortgang)
