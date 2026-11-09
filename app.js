@@ -980,21 +980,24 @@ function volgende(wistHet) {
   const overwonnen = viaKans;
   stats[id] = s;
   bewaar("stats", stats);
-  // laatste open kaart van dit onderdeel juist? dan springt het op ✓ en komt de gele eenhoorn
+  // laatste open kaart van dit onderdeel juist? dan springt het op ✓ (en komt de gele eenhoorn)
   const onderdeelKlaar = wistHet && openVoor > 0 && standVan(kaart.hfst, onderdeel).open === 0;
-  if (onderdeelKlaar) toonGeleEenhoorn();
-  // de gele eenhoorn krijgt voorrang: dan die keer geen groene eenhoorn en geen draakje
-  if (overwonnen && !onderdeelKlaar) toonEenhoorn();
   reeks = wistHet ? reeks + 1 : 0;
-  // om de 25 juiste antwoorden in een ronde (niet op rij; herhalingen tellen mee): roos konijntje,
-  // tenzij er op hetzelfde moment een eenhoorn of een duiveltje komt; het konijntje gaat voor het draakje
   if (wistHet) aantalBeantwoord++;   // enkel juiste antwoorden tellen (ook herhalingen en controles)
-  const konijnNu = wistHet && aantalBeantwoord % 25 === 0 && !onderdeelKlaar && !overwonnen;
-  if (wistHet && reeks % 3 === 0 && !onderdeelKlaar && !overwonnen && !konijnNu) toonDraak();   // 3, 6, 9 ... op rij juist: draakje (groen paardje en konijntje gaan voor)
+  // beloningen, telkens maar één tegelijk. Voorrang: konijntje > groen paardje > gele eenhoorn > draakje
+  const konijnNu = wistHet && aantalBeantwoord % 25 === 0;                 // om de 25 juiste antwoorden in een ronde (niet op rij)
+  const paardjeNu = overwonnen && !konijnNu;                                // moeilijke kaart via haar "één kans" van de stapel
+  const geelNu = onderdeelKlaar && !konijnNu && !paardjeNu;                 // laatste open kaart van het onderdeel juist
+  const draakNu = wistHet && reeks % 3 === 0 && !konijnNu && !paardjeNu && !geelNu;   // 3, 6, 9 ... op rij juist
+  if (konijnNu) toonKonijn();
+  if (paardjeNu) toonEenhoorn();
+  if (geelNu) toonGeleEenhoorn();
+  if (draakNu) toonDraak();
+  // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
+  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && s.moeilijk === true) toonGroeneSter();
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
-  if (konijnNu && !werdMoeilijk && foutReeks !== 3) toonKonijn();
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -1845,3 +1848,33 @@ window.addEventListener("resize", () => {
   const el = document.getElementById("titelDieren");
   if (el) el.innerHTML = `<span class="titel-dier">${EENHOORN_SVG}</span>`;
 })();
+
+/* ===== Groene ster =====
+   Controle juist, maar de kaart blijft moeilijk: links op de kaart, iets onder het midden,
+   verschijnt een groene ster (zelfde groen als de eenhoorn), die zachtjes wiegt en weer verdwijnt. */
+function toonGroeneSter() {
+  const kaart = document.getElementById("kaart");
+  const r = kaart ? kaart.getBoundingClientRect() : null;
+  const zichtbaar = r && r.height && r.bottom > 0 && r.top < window.innerHeight;
+  const cx = zichtbaar ? r.left + 127 : 140, cy = (zichtbaar ? r.top + r.height / 2 : window.innerHeight / 2) + 45;
+  const G = 56;
+  const ster = document.createElement("div");
+  ster.style.cssText = `position:fixed;z-index:60;pointer-events:none;left:${cx - G / 2}px;top:${cy - G / 2}px;width:${G}px;height:${G}px;` +
+    "filter:drop-shadow(0 0 3px rgba(63,182,142,0.7));";
+  ster.innerHTML = `<svg viewBox="0 0 100 100" width="100%" height="100%" aria-hidden="true">
+    <path d="M50 4 L61.8 37.6 L97.5 38.2 L69 59.9 L79.4 94 L50 73.6 L20.6 94 L31 59.9 L2.5 38.2 L38.2 37.6 Z"
+          fill="#3FB68E" stroke="#2E8B6E" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M50 20 L57 40 L50 36 L43 40 Z" fill="#9FE1CB" opacity="0.8"/></svg>`;
+  document.body.appendChild(ster);
+  ster.animate([
+    { transform: "scale(0) rotate(-90deg)", opacity: 0 },
+    { transform: "scale(1.2) rotate(8deg)", opacity: 1, offset: 0.08 },
+    { transform: "scale(0.95) rotate(-4deg)", opacity: 1, offset: 0.13 },
+    { transform: "scale(1) rotate(0deg)", opacity: 1, offset: 0.18 },
+    { transform: "scale(1.06) rotate(-6deg)", opacity: 1, offset: 0.38 },
+    { transform: "scale(1) rotate(6deg)", opacity: 1, offset: 0.58 },
+    { transform: "scale(1.04) rotate(0deg)", opacity: 1, offset: 0.82 },
+    { transform: "scale(0.5) rotate(30deg)", opacity: 0 }
+  ], { duration: 5850, easing: "ease-in-out", fill: "forwards" });
+  setTimeout(() => ster.remove(), 5950);
+}
