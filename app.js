@@ -975,9 +975,9 @@ function volgende(wistHet) {
   if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && kansMoeilijk.has(id)) {
     delete s.moeilijk; kansMoeilijk.delete(id); viaKans = true;
   }
-  // groen paardje enkel als de kaart via haar "één kans" in deze sessie van de stapel moeilijk gaat
-  // (een moeilijke kaart uit een vorige sessie die je meteen juist hebt, gaat wel van de stapel, maar zonder paardje)
-  const overwonnen = viaKans;
+  // groen paardje telkens als de kaart van de stapel moeilijk gaat: via haar "één kans" in deze sessie,
+  // of een moeilijke kaart uit een vorige sessie die je meteen juist hebt
+  const overwonnen = viaKans || (wasMoeilijk && !s.moeilijk);
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ (en komt de gele eenhoorn)
