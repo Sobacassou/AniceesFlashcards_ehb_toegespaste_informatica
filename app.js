@@ -712,6 +712,7 @@ function toonKaart() {
       // ingesprongen regels (bv. een .yaml-bestand): in een vaste letterbreedte, spaties blijven staan
       antwoordEl.classList.toggle("code", /\n {2,}/.test(kaart.a));
     }
+    if (kaart.tabel) antwoordEl.insertAdjacentHTML("beforeend", miniTabel(kaart.tabel));
     document.getElementById("uitleg").textContent = kaart.uitleg || "";
     // achterkant: de volledige tekening (met namen), anders dezelfde als voorkant
     zetFiguur("figAchter", kaart.imgAntwoord || kaart.img);
@@ -1877,4 +1878,12 @@ function toonGroeneSter() {
     { transform: "scale(0.5) rotate(30deg)", opacity: 0 }
   ], { duration: 5850, easing: "ease-in-out", fill: "forwards" });
   setTimeout(() => ster.remove(), 5950);
+}
+
+/* Kleine overzichtstabel op een kaart (bv. afbeeldingsformaten): eerste rij = kolomkoppen. */
+function miniTabel(rijen) {
+  const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const [kop, ...rest] = rijen;
+  return `<table class="mini-tabel"><thead><tr>${kop.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
+    `<tbody>${rest.map(r => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }

@@ -33,6 +33,14 @@ const kaarten_WEB_les1 = [
   { v: "Geef de evolutie van websites volgens de cursus, met voorbeelden.", a: "Statische tekstpagina's in de jaren '90 (Amazon 1994, Yahoo 1996, Apple 1996)\n→ rijke sociale netwerken (Facebook 2004, YouTube 2005)\n→ moderne responsive webapps (Buienradar, NMBS Webapp).", o: "2.1 Ontstaan van het web, HTML & W3C" },
 
   // ===== 2.2 Drie pijlers van het web (2.2) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "De drie pijlers van het web (overzicht 2.2)", a: "Elke moderne webpagina bestaat uit drie gescheiden lagen.", o: "2.2 Drie pijlers van het web", wit: true,
+    tabel: [
+      ["Technologie", "Rol / functie", "Wat definieert het?"],
+      ["HTML", "Structuur & inhoud", "Elementen, titels, paragrafen, lijsten, hyperlinks en semantiek."],
+      ["CSS", "Vormgeving & layout", "Kleuren, typografie, margins, padding, Flexbox, Grid en animaties."],
+      ["JavaScript", "Gedrag & dynamiek", "Interactiviteit, DOM-manipulatie, event-listeners, API fetch en berekeningen."]
+    ] },
   { v: "Geef de 3 pijlers (lagen) van elke moderne webpagina.", a: "HTML5: structuur & inhoud\nCSS3: vormgeving, layout & design\nJavaScript: interactiviteit, dynamiek & logica\n\n<h1>Titel</h1>  <!-- HTML -->\nh1 { color: #0056b3; }  /* CSS */", o: "2.2 Drie pijlers van het web",
     uitleg: "De drie lagen zijn gescheiden: HTML zegt wát er op de pagina staat, CSS hoe het eruitziet, JavaScript wat er gebeurt als je ermee werkt." },
   { v: "Welke technologie hoort bij elk nummer?", a: "1 = HTML5 (structuur & inhoud)\n2 = CSS3 (vormgeving, layout & design)\n3 = JavaScript (interactiviteit, dynamiek & logica)", o: "2.2 Drie pijlers van het web", img: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers_vraag.png", imgAntwoord: "afbeeldingen/WEBles1_htmlbasis/we1_pijlers.png" },
@@ -165,6 +173,23 @@ const kaarten_WEB_les1 = [
     uitleg: "<br> mag wel voor tekst die op een nieuwe lijn moet binnen een paragraaf." },
 
   // ===== 5.3 Visuele vs. semantische opmaak (5.3) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "Visuele vs. semantische opmaak (overzicht 5.3)", a: "Gebruik tags voor hun betekenis, niet alleen voor hun uitzicht.", o: "5.3 Visuele vs. semantische opmaak", wit: true,
+    tabel: [
+      ["Tag", "Type", "Betekenis & toepassing"],
+      ["<strong>", "Semantisch", "Sterke nadruk / belangrijk (vet). Screenreaders benadrukken dit."],
+      ["<b>", "Visueel", "Vetgedrukte tekst zonder extra inhoudelijke betekenis."],
+      ["<em>", "Semantisch", "Emphasis / klemtoon (cursief)."],
+      ["<i>", "Visueel", "Cursieve tekst (bv. een vreemd woord of vakterm)."],
+      ["<sup>", "Typografisch", "Superscript (E = MC²)."],
+      ["<sub>", "Typografisch", "Subscript (CO₂)."],
+      ["<del> / <ins>", "Semantisch", "Schrappen / invoegen (bv. een prijswijziging)."],
+      ["<blockquote>", "Semantisch", "Lang citaat op een eigen regel (mag cite=\"...\" hebben)."],
+      ["<q>", "Semantisch", "Kort citaat binnen een lopende zin."],
+      ["<abbr>", "Semantisch", "Afkorting (title=\"...\" = de volledige term)."],
+      ["<dfn>", "Semantisch", "Definitie van een nieuw begrip."],
+      ["<cite>", "Semantisch", "Titel van een werk (boek, film, onderzoek)."]
+    ] },
   { v: "Wat is het verschil tussen <strong> en <b>?", a: "<strong> is semantisch: sterke nadruk / belangrijk (vetgedrukt); screenreaders benadrukken het.\n<b> is visueel: vetgedrukte tekst zonder extra inhoudelijke betekenis.", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "Wat is het verschil tussen <em> en <i>?", a: "<em> is semantisch: emphasis / klemtoon (cursief).\n<i> is visueel: cursieve tekst (bv. een vreemd woord of vakterm), zonder extra nadruk.", o: "5.3 Visuele vs. semantische opmaak" },
   { v: "<strong> is … en wordt …", a: "Semantisch; vetgedrukt weergegeven (sterke nadruk / belangrijk). Screenreaders benadrukken dit.\n\n<p>Let op: <strong>de deadline is vrijdag</strong>.</p>", o: "5.3 Visuele vs. semantische opmaak" },
@@ -260,6 +285,17 @@ const kaarten_WEB_les1 = [
   { v: "Hoe heet de startpagina van een website vrijwel altijd?", a: "index.html\n\n<a href=\"index.html\">Home</a>", o: "8.3 Mappenstructuur & relatieve URL's" },
 
   // ===== 9. Character entities (9) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "HTML character entities (overzicht 9)", a: "Tekens met een speciale betekenis in HTML schrijf je als entity.", o: "9. Character entities", wit: true,
+    tabel: [
+      ["Teken", "Omschrijving", "Code"],
+      ["<", "Less than (kleiner dan)", "&lt;"],
+      [">", "Greater than (groter dan)", "&gt;"],
+      ["&", "Ampersand", "&amp;"],
+      ["\"", "Dubbel aanhalingsteken", "&quot;"],
+      ["©", "Copyright-symbool", "&copy;"],
+      ["𝄞", "Muzieksleutel (numerieke code)", "&#x1D11E;"]
+    ] },
   { v: "Waarom heb je character entities nodig?", a: "Tekens zoals < en > worden gebruikt voor HTML-tags. Om ze als tekst te tonen, gebruik je entities.\n\n<p>Gebruik &lt;p&gt; voor een paragraaf.</p>\n<!-- de browser toont: Gebruik <p> voor een paragraaf. -->", o: "9. Character entities" },
   { v: "Welke entity gebruik je voor < ?", a: "&lt; (less than)\n\n<p>3 &lt; 5</p>", o: "9. Character entities" },
   { v: "Welke entity gebruik je voor > ?", a: "&gt; (greater than)\n\n<p>5 &gt; 3</p>", o: "9. Character entities" },
@@ -276,6 +312,19 @@ const kaarten_WEB_les1 = [
     uitleg: "Andere voorbeelden uit de cursus: &#x10000; (Lineair B-teken), &#x12000; (spijkerschrift), &#x13000; (Egyptische hiëroglief)." },
 
   // ===== 10.1 Semantische layout-elementen (10.1) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "HTML5 semantische layout-elementen (overzicht 10.1)", a: "Betekenisvolle layout-elementen in plaats van div-soep.", o: "10.1 Semantische layout-elementen", wit: true,
+    tabel: [
+      ["Element", "Omschrijving & gebruik"],
+      ["<header>", "Introductie van een pagina of sectie (titels, logo, navigatie). Niet in een andere header of footer."],
+      ["<nav>", "De belangrijkste navigatielinks van de website."],
+      ["<main>", "De unieke hoofdinhoud. Slechts 1 keer per pagina."],
+      ["<section>", "Thematische groepering van inhoud, typisch met een eigen kop (h2)."],
+      ["<article>", "Zelfstandige, herbruikbare inhoud (blogpost, nieuwsbericht, productkaart, tweet)."],
+      ["<aside>", "Zijbalk of gerelateerde info, los van de hoofdinhoud."],
+      ["<footer>", "Voettekst van een pagina of sectie (copyright, sitemap, contactlinks)."],
+      ["<div>", "Generieke container zonder betekenis: enkel als er geen semantisch alternatief is."]
+    ] },
   { v: "Wat is \"div-soep\"?", a: "Een pagina waarbij alle indelingen met <div class=\"...\"> gemaakt worden, in plaats van met betekenisvolle HTML5-layout-elementen.", o: "10.1 Semantische layout-elementen" },
   { v: "Waarom gebruik je semantische layout-elementen in plaats van div's?", a: "Ze helpen zoekmachines en toegankelijkheidstools de opbouw van je pagina te begrijpen.\n\n<header>...</header>\n<nav>...</nav>\n<main>...</main>\n<footer>...</footer>", o: "10.1 Semantische layout-elementen" },
   { v: "Geef de 7 semantische layout-elementen van HTML5 uit de cursus.", a: "<header>, <nav>, <main>, <section>, <article>, <aside>, <footer>.", o: "10.1 Semantische layout-elementen" },

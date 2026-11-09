@@ -26,6 +26,14 @@ const kaarten_WEB_les3 = [
   { v: "Waarvoor wordt inline CSS wel gebruikt?", a: "In combinatie met JavaScript, voor dynamische stijlaanpassingen.\n\n<p style=\"color: red;\">Tekst</p>", o: "1.2 Drie methoden om CSS toe te passen" },
 
   // ===== 1.3 Vergelijkingstabel (1.3) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "Drie manieren om CSS toe te passen (vergelijkingstabel 1.3)", a: "Extern is de best practice (99% van de gevallen).", o: "1.3 Vergelijkingstabel", wit: true,
+    tabel: [
+      ["Methode", "Locatie", "Voordelen", "Nadelen"],
+      ["Extern", "Los .css-bestand via <link>", "Schone HTML, herbruikbaar, beter onderhoudbaar, caching", "Extra HTTP-request (minimaal)"],
+      ["Intern", "In <head> via <style>", "Handig voor testen of unieke stijlen voor één pagina", "Niet herbruikbaar op andere pagina's"],
+      ["Inline", "Op het element via style=\"...\"", "Hoge prioriteit, snel voor vluchtige tests", "Vervuilt HTML, moeilijk te onderhouden"]
+    ] },
   { v: "Geef de voor- en nadelen van externe CSS.", a: "Voordelen: schone HTML, herbruikbaar, beter onderhoudbaar, caching.\nNadeel: een extra HTTP-request (minimaal).\n\n<link rel=\"stylesheet\" href=\"css/stijl.css\">", o: "1.3 Vergelijkingstabel" },
   { v: "Geef de voor- en nadelen van interne CSS (<style>).", a: "Voordeel: handig voor testen of unieke stijlen voor één pagina.\nNadeel: niet herbruikbaar op andere pagina's.\n\n<style>\n  h1 { color: #0056b3; }\n</style>", o: "1.3 Vergelijkingstabel" },
   { v: "Geef de voor- en nadelen van inline CSS.", a: "Voordelen: hoge prioriteit, snel voor vluchtige tests.\nNadelen: vervuilt de HTML, moeilijk te onderhouden.\n\n<p style=\"color: red;\">Tekst</p>", o: "1.3 Vergelijkingstabel" },
@@ -82,6 +90,16 @@ const kaarten_WEB_les3 = [
   { v: "Waar staat embedded CSS (<style>) meestal, en wat betekent dat?", a: "Na de externe stylesheets. Daardoor wint ze bij gelijke specificiteit.\n\n<link rel=\"stylesheet\" href=\"css/stijl.css\">\n<style>\n  p { color: red; }\n</style>", o: "3.1 De cascade" },
 
   // ===== 3.2 Specificiteit (3.2) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "Specificiteit (overzicht 3.2)", a: "Een verschil in een kolom weegt zwaarder dan alle kolommen erna samen.", o: "3.2 Specificiteit", wit: true,
+    tabel: [
+      ["Selectortype", "Voorbeeld", "Score (Inline, ID, Class, Type)"],
+      ["Universele selector", "*", "(0, 0, 0, 0)"],
+      ["Type-/elementselector", "p, h1, ::before", "(0, 0, 0, 1)"],
+      ["Class / attribuut / pseudo-class", ".btn, [type=\"text\"], :hover", "(0, 0, 1, 0)"],
+      ["ID-selector", "#hoofd-header", "(0, 1, 0, 0)"],
+      ["Inline style", "style=\"...\"", "(1, 0, 0, 0)"]
+    ] },
   { v: "In welke 4 kolommen berekent de browser specificiteit?", a: "(Inline, ID, Class, Type).\n\n<p style=\"...\">   <!-- (1, 0, 0, 0) -->\n#hoofd-header      /* (0, 1, 0, 0) */\n.btn               /* (0, 0, 1, 0) */\np                  /* (0, 0, 0, 1) */", o: "3.2 Specificiteit",
     uitleg: "Eerst vergelijkt de browser de kolom Inline, dan ID, dan Class, dan Type. Een verschil in een kolom weegt zwaarder dan alle kolommen erna samen." },
   { v: "Wat is de specificiteit van de universele selector *?", a: "(0, 0, 0, 0)\n\n* { margin: 0; }   /* (0, 0, 0, 0) */", o: "3.2 Specificiteit" },
@@ -139,6 +157,16 @@ const kaarten_WEB_les3 = [
   { v: "Waarom staat \"Helvetica Neue\" tussen aanhalingstekens in een font stack?", a: "Lettertypenamen met spaties zet je tussen aanhalingstekens.\n\nbody {\n  font-family: \"Helvetica Neue\", Arial, sans-serif;\n}", o: "5.1 Lettertypefamilies" },
 
   // ===== 5.2 Lettergrootte & maateenheden (5.2) =====
+  // -- overzichtstabel uit de cursus --
+  { v: "Maateenheden (overzicht 5.2)", a: "De standaardlettergrootte van browsers is 16px.", o: "5.2 Lettergrootte & maateenheden", wit: true,
+    tabel: [
+      ["Eenheid", "Type", "Omschrijving", "Gebruik"],
+      ["px", "Absoluut", "Vaste schermpixels; schaalt niet mee met gebruikersinstellingen", "Borders, kleine vaste details"],
+      ["%", "Relatief", "Ten opzichte van het ouder-element (hangt af van de eigenschap)", "Breedtes, hoogtes, afmetingen"],
+      ["em", "Relatief", "Font-size van het ouder-element (stapelt bij nesting)", "Margins/padding relatief aan tekst"],
+      ["rem", "Relatief", "Font-size van <html> (1rem = 16px)", "Typografie (font-size), layout"],
+      ["vw / vh", "Viewport", "1% van de viewportbreedte / -hoogte", "Fullscreen hero-secties"]
+    ] },
   { v: "Wat is de standaardlettergrootte van browsers?", a: "16px.\n\nhtml { font-size: 16px; }   /* standaard */", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Wat is px, en waarvoor gebruik je het?", a: "Absoluut: vaste schermpixels die niet meeschalen met de gebruikersinstellingen. Voor borders en kleine vaste details.\n\n.kaart { border: 1px solid #cccccc; }", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Wat is %, en waarvoor gebruik je het?", a: "Relatief ten opzichte van een eigenschap van het ouder-element (de exacte betekenis hangt af van de eigenschap). Voor breedtes, hoogtes en afmetingen van elementen.\n\n.kolom { width: 50%; }", o: "5.2 Lettergrootte & maateenheden" },

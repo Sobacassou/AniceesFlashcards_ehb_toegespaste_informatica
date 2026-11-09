@@ -764,3 +764,12 @@ html, body { overflow-x: clip; }
 #antwoord .c-punt { color: #808080; } #antwoord .c-tag { color: #569cd6; } #antwoord .c-attr { color: #9cdcfe; }
 #antwoord .c-str { color: #ce9178; } #antwoord .c-sel { color: #d7ba7d; } #antwoord .c-num { color: #b5cea8; }
 #antwoord .c-com { color: #6a9955; }
+
+/* Kleine overzichtstabel op een kaart */
+.mini-tabel { border-collapse: collapse; margin: 12px auto 0; font-size: 13px; font-weight: 400; letter-spacing: normal; line-height: 1.35; text-align: left; max-width: 100%; }
+.mini-tabel th, .mini-tabel td { border: 1px solid #3c3c3c; padding: 4px 8px; vertical-align: top; }
+.mini-tabel thead th { background: #2d2d30; color: #4EC9B0; font-weight: 600; }
+.mini-tabel tbody th { color: #DCDCAA; font-weight: 600; white-space: nowrap; }
+.kaart.wit .mini-tabel th, .kaart.wit .mini-tabel td { border-color: #c8c8c8; }
+.kaart.wit .mini-tabel thead th { background: #e1e1e1; color: #00796b; }
+.kaart.wit .mini-tabel tbody th { color: #795e26; }
