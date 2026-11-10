@@ -679,15 +679,15 @@ function kleurCSS(s) {
 function isCodeRegel(r) {
   return /^\s*&lt;/.test(r) || /^\s*[^{}]+\{\s*$/.test(r) || /^\s*[^{}&]+\{[^}]*\}/.test(r) || /^\s*\.\.\.\s*$/.test(r) || /^[\w-]+\.html\b/.test(r) || /\/\*.*\*\/\s*$/.test(r) || /^\s*\/[*/]/.test(r) || /^\s*[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s*@[\w-]+/.test(r) || /^\s*[^\s{}<>]+,\s*$/.test(r) || /^\s*\}\s*$/.test(r) || /^\s+[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s{2,}\S/.test(r);
 }
-/* Linux-oefenkaarten: regels met "$ " zijn commando's, regels die met 2 spaties beginnen zijn toetsen of uitvoer.
+/* Linux- en Windows-oefenkaarten: regels met "$ " of "C:\\> " zijn commando's, regels die met 2 spaties beginnen zijn toetsen of uitvoer.
    Beide komen in een donker terminalvak; de andere regels zijn gewone tekst. */
 function terminalVisueel(tekst) {
   const regels = maakVeilig(tekst).split("\n");
   let html = "", blok = [];
   const sluit = () => { if (blok.length) { html += `<pre class="codeblok term">${blok.join("\n")}</pre>`; blok = []; } };
   for (const r of regels) {
-    const m = r.match(/^\$ (.*)$/);
-    if (m) blok.push(`<span class="t-prompt">$</span> ${m[1]}`);
+    const m = r.match(/^(\$|[A-Za-z]:\\[^&]*&gt;) (.*)$/);   // Linux: "$ ", Windows CMD: "C:\> " of "C:\map> "
+    if (m) blok.push(`<span class="t-prompt">${m[1]}</span> ${m[2]}`);
     else if (/^\s{2,}\S/.test(r)) blok.push(`<span class="t-toets">${r.trim()}</span>`);
     else { sluit(); html += `<div>${r}</div>`; }
   }
