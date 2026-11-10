@@ -28,8 +28,11 @@ const kaarten_DOS_linux_wc2 = [
   { v: "Welke twee termen geeft de tip om naar te zoeken in de manpage?", a: "delimiter en fields", o: "Piping",
     uitleg: "delimiter = scheidingsteken, fields = velden." },
   // ===== more, less en cat =====
-  { v: "more, less en cat (8)", a: "• more: een filter om tekst scherm per scherm te bekijken, of de inhoud van een bestand per scherm te tonen (more /etc/passwd).\n• less: een uitgebreide versie van more ('less is more'):\n– ook terugbladeren, niet enkel vooruit\n– leest niet eerst het hele bestand in: sneller bij grote bestanden\n– zoeken naar patronen in de tekst\n• cat: toont de inhoud in één keer, zonder pager. Verwacht een bestandsnaam; vooral voor korte bestanden.\n• more en less zijn interactief: lijn per lijn of scherm per scherm.", o: "more, less en cat", wit: true,
-    uitleg: "In de introductie (slide 14): more scrollt enkel naar beneden (spatiebalk), less naar boven en beneden, per pagina en per regel." },
+  { v: "more (8)", a: "Een filter om tekst scherm per scherm te bekijken, of de inhoud van een bestand per scherm te tonen (more /etc/passwd). Interactief: lijn per lijn of scherm per scherm.", o: "more, less en cat", wit: true,
+    uitleg: "In de introductie (slide 14): more scrollt enkel naar beneden (spatiebalk)." },
+  { v: "less (8)", a: "Een uitgebreide versie van more ('less is more'):\n• ook terugbladeren, niet enkel vooruit\n• leest niet eerst het hele bestand in: sneller bij grote bestanden\n• zoeken naar patronen in de tekst\nInteractief: lijn per lijn of scherm per scherm.", o: "more, less en cat", wit: true,
+    uitleg: "In de introductie (slide 14): less scrollt naar boven en beneden, per pagina en per regel." },
+  { v: "cat (8)", a: "Toont de inhoud in één keer, zonder pager. Verwacht een bestandsnaam; vooral voor korte bestanden.", o: "more, less en cat", wit: true },
   { v: "Waarvoor dient more?", a: "Als filter om tekst scherm per scherm te bekijken (doorgaan met de spatiebalk), of om de inhoud van een tekstbestand per scherm te tonen.", o: "more, less en cat",
     uitleg: "Voorbeeld: more /etc/passwd. Met more kan je enkel naar beneden scrollen." },
   { v: "Wat is less, en wat zijn de voordelen tegenover more?", a: "Een uitgebreide versie van more ('less is more'). Je kan niet enkel vooruit, maar ook terug bladeren; less leest niet eerst het hele bestand in (sneller bij grote bestanden); en je kan zoeken naar patronen in de tekst.", o: "more, less en cat",
@@ -113,7 +116,8 @@ const kaarten_DOS_linux_wc2 = [
   { v: "Welke commando’s heb je tot nu toe gezien om data op je scherm te lezen?", a: "less, more, cat, cut en grep", o: "cut",
     uitleg: "less, more en cat tonen; grep en cut filteren." },
   // ===== head en tail =====
-  { v: "head en tail (8, opdracht 3)", a: "• Met less, more, cat, cut en grep kan je data op je scherm lezen.\n• Nog 2 handige commando's, vooral voor logfiles: head (de x eerste lijnen) en tail (de y laatste lijnen).\n• De syntax vind je met --help of in de manpages.\n\nOpdracht 3: toon de eerste 5 en de laatste 10 lijnen van /var/log/syslog.", o: "head en tail", wit: true },
+  { v: "head (8, opdracht 3)", a: "Toont de x eerste lijnen van een bestand. Handig voor logfiles. De syntax vind je met --help of in de manpages.\n\nOpdracht 3: toon de eerste 5 lijnen van /var/log/syslog.", o: "head en tail", wit: true },
+  { v: "tail (8, opdracht 3)", a: "Toont de y laatste lijnen van een bestand. Handig voor logfiles. De syntax vind je met --help of in de manpages.\n\nOpdracht 3: toon de laatste 10 lijnen van /var/log/syslog.", o: "head en tail", wit: true },
   { v: "Wat doen head en tail, en waarvoor zijn ze vooral handig?", a: "head toont de eerste x regels van een bestand, tail de laatste y regels. Vooral handig voor het lezen van logfiles.", o: "head en tail",
     uitleg: "Standaard tonen ze 10 regels. Met -n kies je het aantal." },
   { v: "Hoe toon je de eerste 5 en de laatste 10 regels van /var/log/syslog (opdracht 3)?", a: "$ head -n 5 /var/log/syslog\n$ tail -n 10 /var/log/syslog", o: "head en tail", oefening: true,
@@ -243,7 +247,8 @@ const kaarten_DOS_linux_wc2 = [
   { v: "Toon alle processen van alle gebruikers, om te zien welke gebruikers naast root nog processen hebben.", a: "$ ps auxfw", o: "ps", oefening: true,
     uitleg: "In de eerste kolom (USER) zie je van welke gebruiker elk proces is." },
   // ===== kill en killall =====
-  { v: "Processen beëindigen: kill en killall (11)", a: "• kill bezorgt een proces een vroege dood: het stuurt een exit system call. Argument: het PID.\n• Enkel de eigenaar van een proces kan het killen; uitzondering: root.\n• killall beëindigt een hele verzameling processen in 1 commando. Argument: de naam van het bevel, bv. killall vi.\n\nOpdracht: start vi in de achtergrond (vi &), zoek het proces met ps aux (eenvoudiger met piping en grep) en kill het.", o: "kill en killall", wit: true },
+  { v: "Processen beëindigen: kill (11)", a: "• kill bezorgt een proces een vroege dood: het stuurt een exit system call. Argument: het PID.\n• Enkel de eigenaar van een proces kan het killen; uitzondering: root.\n\nOpdracht: start vi in de achtergrond (vi &), zoek het proces met ps aux (eenvoudiger met piping en grep) en kill het.", o: "kill en killall", wit: true },
+  { v: "Processen beëindigen: killall (11)", a: "killall beëindigt een hele verzameling processen in 1 commando. Argument: de naam van het bevel, bv. killall vi.", o: "kill en killall", wit: true },
   { v: "Wat doet kill, en welk argument verwacht het?", a: "kill beëindigt een proces vroegtijdig. Het verwacht als argument het PID van het proces.", o: "kill en killall",
     uitleg: "Volgens de cursus stuurt kill een exit system call naar het proces. (Technisch stuurt het een signaal; kill -9 is het signaal dat het proces meteen afbreekt.)" },
   { v: "Wie mag een proces killen?", a: "Enkel de eigenaar van het proces. Uitzondering: root mag alles.", o: "kill en killall",
@@ -263,7 +268,8 @@ const kaarten_DOS_linux_wc2 = [
   { v: "Start vi in de achtergrond, zoek het proces met piping en kill het.", a: "$ vi &\n$ ps aux | grep vi\n$ kill -9 PID", o: "kill en killall", oefening: true,
     uitleg: "Vervang PID door het procesnummer dat ps aux | grep vi toont. Of in één keer: killall vi." },
   // ===== top en htop =====
-  { v: "top en htop (11)", a: "• top toont de huidige taken van het systeem.\n• Afsluiten met q, alle opties met h.\n• htop is een uitgebreidere versie; die moet vaak nog apart geïnstalleerd worden.", o: "top en htop", wit: true },
+  { v: "top (11)", a: "Toont de huidige taken van het systeem. Afsluiten met q, alle opties met h.", o: "top en htop", wit: true },
+  { v: "htop (11)", a: "Een uitgebreidere versie van top; die moet vaak nog apart geïnstalleerd worden.", o: "top en htop", wit: true },
   { v: "Wat doet top, hoe sluit je het af en hoe zie je de opties?", a: "top laat de huidige taken (processen) van het systeem live zien. Afsluiten met q, alle opties met h.", o: "top en htop",
     uitleg: "Zoals Taakbeheer in Windows, maar in de terminal." },
   { v: "Wat is htop?", a: "Een uitgebreidere en overzichtelijkere versie van top. Je kan er ook makkelijk een proces in killen. Vaak moet htop nog apart geïnstalleerd worden.", o: "top en htop",

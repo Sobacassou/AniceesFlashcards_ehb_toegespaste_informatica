@@ -227,8 +227,9 @@ const kaarten_IT_deel2_les6 = [
   // ===== Flash: de doorbraak (slide 19) =====
   { v: "Flash: de doorbraak (slide 19)", a: "Flash werd zeer populair. Doorbraak door:\n• Meer mogelijke herbeschrijvingen, hogere informatiedichtheid, lagere kost\n• Laag energieverbruik: ideaal voor draagbare toestellen\n• Zeer vlug tov. andere bestendige geheugens (vooral random lezen of schrijven)\n• Betrouwbaar: geen mechanische onderdelen, compact tov. HDD", o: "Flash: de doorbraak", wit: true,
     uitleg: "Random lezen of schrijven = kleine stukjes data op willekeurige plaatsen. Een harde schijf moet daarvoor telkens zijn kop verplaatsen en wachten tot de plaat draait. Flash heeft geen bewegende delen en is daar dus veel sneller in." },
-  { v: "Flash: wat blijft, en waar zit het (slide 19)", a: "• Wat blijft: elke cel kan maar een beperkt aantal keer gewist worden\n• Flash zit overal: camera's, smartphones, printers, usb-sticks, SSD's\n– Kaartjes: vandaag vooral SD en microSD", o: "Flash: de doorbraak", wit: true,
+  { v: "Flash: wat blijft (slide 19)", a: "Elke cel kan maar een beperkt aantal keer gewist worden.", o: "Flash: de doorbraak", wit: true,
     uitleg: "Elke keer dat je een cel wist, slijt ze een klein beetje. Na veel wisbeurten werkt ze niet meer. Bij gewoon gebruik duurt dat jaren." },
+  { v: "Flash: waar zit het (slide 19)", a: "• Flash zit overal: camera's, smartphones, printers, usb-sticks, SSD's\n• Kaartjes: vandaag vooral SD en microSD", o: "Flash: de doorbraak", wit: true },
   { v: "Geef de 4 redenen voor de doorbraak van flash.", a: "1. Meer mogelijke herbeschrijvingen, hogere informatiedichtheid, lagere kost.\n2. Laag energieverbruik: ideaal voor draagbare toestellen.\n3. Zeer vlug tov. andere bestendige geheugens (vooral random lezen of schrijven).\n4. Betrouwbaar: geen mechanische onderdelen, compact tov. een HDD.", o: "Flash: de doorbraak" },
   { v: "Waarom is flash ideaal voor draagbare toestellen?", a: "Door het lage energieverbruik.", o: "Flash: de doorbraak" },
   { v: "Waarin is flash vooral sneller dan andere bestendige geheugens?", a: "In random lezen of schrijven.", o: "Flash: de doorbraak" },

@@ -15,8 +15,8 @@
   --tekst:       #cccccc;
   --tekst-licht: #e0e0e0;
   --tekst-zacht: #b0b0b0;   /* iets lichter: beter leesbaar */
-  --accent:      #0078d4;   /* blauwe knop van VS Code */
-  --accent-hover:#026ec1;
+  --accent:      #3794ff;   /* blauw van de oefeningen (VS Code) */
+  --accent-hover:#5aa7ff;
   --groen:       #73c991;   /* VS Code: geslaagd / toegevoegd */
   --rood:        #f14c4c;   /* VS Code: fout / error */
 }
@@ -48,7 +48,7 @@ h2 { font-size: 1.15rem; font-weight: 600; margin: 0 0 12px; color: var(--tekst-
 button, .knoplink {
   font: inherit; border: 1px solid transparent; border-radius: 6px; cursor: pointer;
   padding: 12px 16px; width: 100%; margin-bottom: 10px; display: block;
-  background: var(--accent); color: #ffffff; font-weight: 600; text-align: center;
+  background: var(--accent); color: #1f1f1f; font-weight: 600; text-align: center;   /* donkere tekst: leesbaar op het lichtere blauw */
   text-decoration: none; transition: background 0.15s, border-color 0.15s;
 }
 button:hover { background: var(--accent-hover); }
@@ -785,7 +785,6 @@ html, body { overflow-x: clip; }
 
 /* ===== Oefeningen: zien eruit als een gewone zwarte kaart, met bovenaan het label "Oefening" in VS Code-blauw ===== */
 .oef-label { color: #3794ff; font-weight: 700; font-size: 1.2em; }
-.kaart.oefening .onderwerp { color: #9cdcfe; }
 .kaart.oefening .kant { outline: 2px solid #3794ff; outline-offset: -7px; }   /* blauwe binnenrand */
 .kaart.oefening #vraag { text-align: left; align-self: stretch; }
 .kaart.oefening #vraag .codeblok { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
@@ -795,7 +794,7 @@ html, body { overflow-x: clip; }
 .kaart.oefening #vraag .c-punt { color: #808080; } .kaart.oefening #vraag .c-tag { color: #569cd6; } .kaart.oefening #vraag .c-attr { color: #9cdcfe; }
 .kaart.oefening #vraag .c-str { color: #ce9178; } .kaart.oefening #vraag .c-sel { color: #d7ba7d; } .kaart.oefening #vraag .c-num { color: #b5cea8; }
 .kaart.oefening #vraag .code-in, .kaart.oefening #antwoord .code-in { font-family: Consolas, monospace; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 4px; padding: 0 4px; }
-.oef-woord { color: #8fb8e0; }
+.oef-woord { color: #3794ff; }
 
 /* Linux-oefenkaarten: commando's in een donker terminalvak */
 .kaart.oefening .codeblok.term { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;

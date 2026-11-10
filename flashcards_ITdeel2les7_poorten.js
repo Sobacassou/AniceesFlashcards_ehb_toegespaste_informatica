@@ -182,9 +182,14 @@ const kaarten_IT_deel2_les7 = [
   { v: "Waarom duurt het kopiëren in de praktijk langer dan de tijden in de tabel?", a: "Het is de theoretische minimumtijd: in de praktijk kosten het protocol en de schijf ook tijd.", o: "Een HD-film van 25 GB kopiëren" },
 
   // ===== USB: apparaatklassen (slide 18–19) =====
-  { v: "USB: apparaatklassen, deel 1 (slide 18)", a: "• HID (Human Interface Device): muis, toetsenbord\n• Mass storage: harde schijf, kaartlezer, digitale camera, mp3-speler, ...\n– Verschijnt als bestandssysteem\n• Communications device: modem, netwerkkaart, fax, ...", o: "USB: apparaatklassen", wit: true,
-    uitleg: "Een apparaatklasse is een groep toestellen die op dezelfde manier met de computer praten. Daardoor heeft het besturingssysteem één standaarddriver per klasse, en werkt een nieuwe muis meteen zonder dat je iets moet installeren (plug and play).\n\n'Verschijnt als bestandssysteem': een usb-stick verschijnt als een gewone schijf (bv. E:), waarop je mappen en bestanden ziet." },
-  { v: "USB: apparaatklassen, deel 2 (slide 19)", a: "• Printer device: printers\n• Audio device class: geluidskaarten\n• Video device class: webcams, capturekaarten", o: "USB: apparaatklassen", wit: true,
+  { v: "USB-apparaatklasse: HID (slide 18)", a: "HID (Human Interface Device): muis, toetsenbord.", o: "USB: apparaatklassen", wit: true,
+    uitleg: "Een apparaatklasse is een groep toestellen die op dezelfde manier met de computer praten. Daardoor heeft het besturingssysteem één standaarddriver per klasse, en werkt een nieuwe muis meteen zonder dat je iets moet installeren (plug and play)." },
+  { v: "USB-apparaatklasse: Mass storage (slide 18)", a: "Mass storage: harde schijf, kaartlezer, digitale camera, mp3-speler, ...\n• Verschijnt als bestandssysteem", o: "USB: apparaatklassen", wit: true,
+    uitleg: "'Verschijnt als bestandssysteem': een usb-stick verschijnt als een gewone schijf (bv. E:), waarop je mappen en bestanden ziet." },
+  { v: "USB-apparaatklasse: Communications device (slide 18)", a: "Communications device: modem, netwerkkaart, fax, ...", o: "USB: apparaatklassen", wit: true },
+  { v: "USB-apparaatklasse: Printer device (slide 19)", a: "Printer device: printers.", o: "USB: apparaatklassen", wit: true },
+  { v: "USB-apparaatklasse: Audio device class (slide 19)", a: "Audio device class: geluidskaarten.", o: "USB: apparaatklassen", wit: true },
+  { v: "USB-apparaatklasse: Video device class (slide 19)", a: "Video device class: webcams, capturekaarten.", o: "USB: apparaatklassen", wit: true,
     uitleg: "Een capturekaart neemt beeld op van een ander toestel, bijvoorbeeld van een spelconsole of camera." },
   { v: "Geef de 6 USB-apparaatklassen uit de cursus.", a: "HID, mass storage, communications device, printer device, audio device class en video device class.", o: "USB: apparaatklassen" },
   { v: "Waarvoor staat HID? Geef voorbeelden.", a: "Human Interface Device: muis, toetsenbord.", o: "USB: apparaatklassen" },

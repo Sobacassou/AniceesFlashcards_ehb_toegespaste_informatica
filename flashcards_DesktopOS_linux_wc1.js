@@ -74,7 +74,9 @@ const kaarten_DOS_linux_wc1 = [
   { v: "Wat is het verschil tussen een optie en een argument?", a: "Een optie zegt HOE het commando werkt (vast ingeprogrammeerd, begint meestal met -). Een argument is een variabele waarde, meestal WAAROP het commando werkt.", o: "Structuur van commando's" },
   { v: "Kan je zelf opties aan een commando toevoegen? Waarom (niet)?", a: "Nee: opties zijn vast in het programma geprogrammeerd (een commando is een programma).", o: "Structuur van commando's" },
   // ===== Eerste commando's en tips =====
-  { v: "Eerste commando's en tips (2.1)", a: "Probeer meteen een aantal commando's uit:\n• who toont de ingelogde gebruikers\n• whoami toont je eigen loginnaam\n• date toont de ingestelde datum en tijd\n\nTips:\n• Pijltjestoetsen ↑ en ↓: vorige commando's herhalen.\n• TAB: tab-completion vult commando, directory of bestand aan. Typ bv. vi + Tab: je ziet alle commando's die met vi beginnen. Is er maar 1 mogelijkheid, dan vult bash volledig aan.", o: "Eerste commando's en tips", wit: true },
+  { v: "Eerste commando's (2.1)", a: "Probeer meteen een aantal commando's uit:\n• who toont de ingelogde gebruikers\n• whoami toont je eigen loginnaam\n• date toont de ingestelde datum en tijd", o: "Eerste commando's en tips", wit: true },
+  { v: "Tip: vorige commando's herhalen (2.1)", a: "Met de pijltjestoetsen ↑ en ↓ herhaal je vorige commando's.", o: "Eerste commando's en tips", wit: true },
+  { v: "Tip: tab-completion (2.1)", a: "TAB vult een commando, directory of bestand aan. Typ bv. vi + Tab: je ziet alle commando's die met vi beginnen. Is er maar 1 mogelijkheid, dan vult bash volledig aan.", o: "Eerste commando's en tips", wit: true },
   { v: "Wat doen who, whoami en date?", a: "who: toont de ingelogde gebruikers.\nwhoami: toont je eigen loginnaam.\ndate: toont de ingestelde datum en tijd.", o: "Eerste commando's en tips",
     uitleg: "whoami is handig als je met su van gebruiker gewisseld bent (werkcollege 3)." },
   { v: "Wat doen de pijltjestoetsen ↑ en ↓ in bash?", a: "Je vorige commando's terug oproepen (herhalen).", o: "Eerste commando's en tips",
@@ -92,7 +94,8 @@ const kaarten_DOS_linux_wc1 = [
   { v: "Hoe haal je een vorig commando terug zonder het opnieuw te typen?", a: "Met de pijltjestoetsen ↑ en ↓.", o: "Eerste commando's en tips" },
   { v: "Toon je eigen loginnaam.", a: "$ whoami", o: "Eerste commando's en tips", oefening: true },
   // ===== man en --help =====
-  { v: "Hulp in Linux: man en --help (3)", a: "• Linux heeft veel bronnen met informatie ingebakken, ook in de CLI.\n• man commando toont de manual page (handleiding), bv. man ls.\n• Navigeren met de pijltjestoetsen, page up en page down; verlaten met q.\n• Gebruik de man pages zo veel mogelijk: het zijn de help-files van het Linux-systeem.\n• Andere hulp: info, whatis en de optie --help.\n• --help geeft snel een overzicht van de meest gebruikte parameters en opties.", o: "man en --help", wit: true,
+  { v: "Hulp in Linux: man (3)", a: "• Linux heeft veel bronnen met informatie ingebakken, ook in de CLI.\n• man commando toont de manual page (handleiding), bv. man ls.\n• Navigeren met de pijltjestoetsen, page up en page down; verlaten met q.\n• Gebruik de man pages zo veel mogelijk: het zijn de help-files van het Linux-systeem.\n• Andere hulp: info, whatis en de optie --help.", o: "man en --help", wit: true },
+  { v: "Hulp in Linux: --help (3)", a: "--help geeft snel een overzicht van de meest gebruikte parameters en opties.", o: "man en --help", wit: true,
     uitleg: "In de cursus staat '–help'; de juiste schrijfwijze is met twee streepjes: --help." },
   { v: "Hoe roep je de handleiding van een commando op, bv. van ls?", a: "$ man ls", o: "man en --help", oefening: true,
     uitleg: "man = manual (handleiding). Het zijn de help-files van het Linux-systeem: je vindt er zowat alle informatie in die je nodig hebt." },
@@ -244,8 +247,11 @@ const kaarten_DOS_linux_wc1 = [
     uitleg: "De optie is -a (--all)." },
   { v: "Open vi zonder bestandsnaam en sla het bestand op als .onzichtbaar.", a: "$ vi\n  i\n  (typ je tekst)\n  ESC\n  :w .onzichtbaar\n  :q", o: "ls, wildcards en verborgen bestanden", oefening: true },
   // ===== Mappen en bestanden beheren =====
-  { v: "Mappen en bestanden beheren (4.2 en 7)", a: "• mkdir naam: directory aanmaken\n• rmdir naam: lege directory verwijderen\n• rm bestand: bestand verwijderen\n• cp bronbestand doelbestand: kopiëren, het bronbestand blijft bestaan\n• mv bronbestand doelbestand: verplaatsen (of hernoemen), het bronbestand verdwijnt\n• Bron en doel mogen ook een directory zijn: cp file1 /home/guest/\n• Een directory met inhoud verwijderen vraagt een extra optie: zoek ze met de help-commando's.", o: "Mappen en bestanden beheren", wit: true,
+  { v: "mkdir en rmdir (4.2 en 7)", a: "• mkdir naam: directory aanmaken\n• rmdir naam: lege directory verwijderen\n• Een directory met inhoud verwijderen vraagt een extra optie: zoek ze met de help-commando's.", o: "Mappen en bestanden beheren", wit: true },
+  { v: "rm (4.2 en 7)", a: "rm bestand: bestand verwijderen.", o: "Mappen en bestanden beheren", wit: true,
     uitleg: "Er is geen prullenbak: wat je met rm verwijdert, is weg." },
+  { v: "cp (4.2 en 7)", a: "cp bronbestand doelbestand: kopiëren, het bronbestand blijft bestaan. Bron en doel mogen ook een directory zijn: cp file1 /home/guest/", o: "Mappen en bestanden beheren", wit: true },
+  { v: "mv (4.2 en 7)", a: "mv bronbestand doelbestand: verplaatsen (of hernoemen), het bronbestand verdwijnt.", o: "Mappen en bestanden beheren", wit: true },
   { v: "Met welke commando's maak je een directory, verwijder je een lege directory en verwijder je een bestand?", a: "mkdir naam: directory maken\nrmdir naam: lege directory verwijderen\nrm bestand: bestand verwijderen", o: "Mappen en bestanden beheren",
     uitleg: "Let op: rm verwijdert definitief, er is geen prullenbak!" },
   { v: "Hoe verwijder je een directory waar nog bestanden of mappen in zitten?", a: "$ rm -r map", o: "Mappen en bestanden beheren", oefening: true,

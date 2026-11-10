@@ -92,7 +92,9 @@ const kaarten_WEB_les5 = [
   { v: "Wat doet flex-basis?", a: "Het bepaalt de basisgrootte van een item vóór de verdeling van de ruimte.", o: "2.3 Overzicht parent vs. child properties" },
   { v: "Is align-self een parent- of een child-property? Wat doet het?", a: "Een child-property: het overschrijft align-items voor 1 item.", o: "2.3 Overzicht parent vs. child properties" },
   { v: "flex is een shorthand voor welke 3 eigenschappen?", a: "flex-grow, flex-shrink en flex-basis (grow shrink basis).", o: "2.3 Overzicht parent vs. child properties" },
-  { v: "Meer over flex-flow, align-content en order", a: "flex-flow: row wrap; is hetzelfde als flex-direction: row; en flex-wrap: wrap; samen.\n\nalign-content heeft pas effect als de items over meerdere rijen staan (dus met flex-wrap: wrap).\n\norder is een getal (standaard 0). Een item met een lager getal komt eerder, zonder dat je de HTML verandert.", o: "2.3 Overzicht parent vs. child properties", extra: true },
+  { v: "Meer over flex-flow", a: "flex-flow: row wrap; is hetzelfde als flex-direction: row; en flex-wrap: wrap; samen.", o: "2.3 Overzicht parent vs. child properties", extra: true },
+  { v: "Meer over align-content", a: "align-content heeft pas effect als de items over meerdere rijen staan (dus met flex-wrap: wrap).", o: "2.3 Overzicht parent vs. child properties", extra: true },
+  { v: "Meer over order", a: "order is een getal (standaard 0). Een item met een lager getal komt eerder, zonder dat je de HTML verandert.", o: "2.3 Overzicht parent vs. child properties", extra: true },
 
   // ===== 2.4 display & flex-direction =====
   { v: "display: flex / display: inline-flex (2.4)", a: "Transformeert het element naar een flex container. Alle directe kinderen worden automatisch flex items.\n\n.container {\n  display: flex;\n}", o: "2.4 display & flex-direction", wit: true },
@@ -159,9 +161,12 @@ const kaarten_WEB_les5 = [
   // ===== 2.5 De flex-shorthand =====
   { v: "De flex-shorthand (2.5, aanbevolen)", a: "Syntax: flex: <flex-grow> <flex-shrink> <flex-basis>\n\n.item {\n  flex: 1 1 0%;\n}", o: "2.5 De flex-shorthand", wit: true,
     uitleg: "De cursus raadt de shorthand aan in plaats van de drie losse eigenschappen. Er zijn 4 veelgebruikte patronen." },
-  { v: "flex-shorthand: patroon 1 en 2 (2.5)", a: "/* Patroon 1: flex: 1 (shorthand voor flex: 1 1 0%) */\n/* Item neemt alle beschikbare ruimte in en verdeelt kolommen exact even groot */\n.kolom-gelijk {\n  flex: 1;\n}\n\n/* Patroon 2: flex: auto (shorthand voor flex: 1 1 auto) */\n/* Item groeit/krimpt op basis van zijn inhoudsbreedte */\n.kolom-inhoud {\n  flex: auto;\n}", o: "2.5 De flex-shorthand", wit: true,
-    uitleg: "Het verschil tussen flex: 1 en flex: auto zit in de basis. Bij flex: 1 is de basis 0%: alle ruimte wordt gelijk verdeeld en de kolommen worden exact even breed. Bij flex: auto is de basis de inhoud: een item met meer tekst wordt breder." },
-  { v: "flex-shorthand: patroon 3 en 4 (2.5)", a: "/* Patroon 3: flex: initial (shorthand voor flex: 0 1 auto) */\n/* Standaardgedrag: groeit niet, krimpt wel, basis is inhoud */\n.kolom-standaard {\n  flex: initial;\n}\n\n/* Patroon 4: flex: 0 0 250px (vaste breedte!) */\n/* Krimpt nooit, groeit nooit, heeft ALTIJD een vaste breedte van 250px (bv. een zijbalk) */\n.sidebar {\n  flex: 0 0 250px;\n}", o: "2.5 De flex-shorthand", wit: true },
+  { v: "flex-shorthand: patroon 1, flex: 1 (2.5)", a: "/* Patroon 1: flex: 1 (shorthand voor flex: 1 1 0%) */\n/* Item neemt alle beschikbare ruimte in en verdeelt kolommen exact even groot */\n.kolom-gelijk {\n  flex: 1;\n}", o: "2.5 De flex-shorthand", wit: true,
+    uitleg: "Bij flex: 1 is de basis 0%: alle ruimte wordt gelijk verdeeld en de kolommen worden exact even breed." },
+  { v: "flex-shorthand: patroon 2, flex: auto (2.5)", a: "/* Patroon 2: flex: auto (shorthand voor flex: 1 1 auto) */\n/* Item groeit/krimpt op basis van zijn inhoudsbreedte */\n.kolom-inhoud {\n  flex: auto;\n}", o: "2.5 De flex-shorthand", wit: true,
+    uitleg: "Bij flex: auto is de basis de inhoud: een item met meer tekst wordt breder. Dat is het verschil met flex: 1." },
+  { v: "flex-shorthand: patroon 3, flex: initial (2.5)", a: "/* Patroon 3: flex: initial (shorthand voor flex: 0 1 auto) */\n/* Standaardgedrag: groeit niet, krimpt wel, basis is inhoud */\n.kolom-standaard {\n  flex: initial;\n}", o: "2.5 De flex-shorthand", wit: true },
+  { v: "flex-shorthand: patroon 4, vaste breedte (2.5)", a: "/* Patroon 4: flex: 0 0 250px (vaste breedte!) */\n/* Krimpt nooit, groeit nooit, heeft ALTIJD een vaste breedte van 250px (bv. een zijbalk) */\n.sidebar {\n  flex: 0 0 250px;\n}", o: "2.5 De flex-shorthand", wit: true },
   { v: "Wat is de syntax van de flex-shorthand?", a: "flex: <flex-grow> <flex-shrink> <flex-basis>", o: "2.5 De flex-shorthand" },
   { v: "Is de flex-shorthand of zijn de losse eigenschappen aanbevolen?", a: "De flex-shorthand.", o: "2.5 De flex-shorthand" },
   { v: "Waarvoor staat flex: 1, en wat doet het?", a: "flex: 1 1 0%: het item neemt alle beschikbare ruimte in en kolommen worden exact even groot.\n\n.kolom-gelijk {\n  flex: 1;\n}", o: "2.5 De flex-shorthand" },
