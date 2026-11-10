@@ -36,11 +36,11 @@ const kaarten_WEB_les2 = [
   { v: "Afbeeldingsformaten op het web (overzicht 1.3)", a: "Vijf formaten: vier raster, één vector.", o: "1.3 Afbeeldingsformaten op het web", wit: true,
     tabel: [
       ["Formaat", "Type", "Kenmerken"],
-      ["WebP / AVIF", "Raster", "Huidige webstandaard. 30% tot 50% kleiner dan JPG/PNG. Transparantie."],
-      ["JPEG / JPG", "Raster", "Foto's met veel kleurverlopen. Geen transparantie."],
-      ["PNG", "Raster", "Transparantie (alpha-kanaal). Logo's en illustraties."],
-      ["SVG", "Vector", "Schaalbaar zonder kwaliteitsverlies (XML). Zeer klein."],
-      ["GIF", "Raster", "Verouderd. Eenvoudige animaties (256 kleuren)."]
+      ["WebP / AVIF", "Raster", "Huidige Webstandaard. 30% tot 50% kleiner dan JPG/PNG bij gelijke kwaliteit. Ondersteunen transparantie."],
+      ["JPEG / JPG", "Raster", "Ideaal voor foto's met veel kleurverlopen. Geen transparantie."],
+      ["PNG", "Raster", "Ondersteunt transparantie (alpha-kanaal). Ideaal voor logo's en illustraties."],
+      ["SVG", "Vector", "Schaalbaar zonder kwaliteitsverlies (XML-gebaseerd). Zeer klein in bestandsgrootte."],
+      ["GIF", "Raster", "Verouderd. Ondersteunt eenvoudige animaties (slechts 256 kleuren)."]
     ] },
   { v: "Wat zijn WebP en AVIF?", a: "De huidige webstandaard (raster): 30% tot 50% kleiner dan JPG/PNG bij gelijke kwaliteit, en ze ondersteunen transparantie.", o: "1.3 Afbeeldingsformaten op het web" },
   { v: "Hoeveel kleiner zijn WebP/AVIF dan JPG/PNG bij gelijke kwaliteit?", a: "30% tot 50%.", o: "1.3 Afbeeldingsformaten op het web" },
