@@ -960,7 +960,7 @@ function volgende(wistHet) {
   reeks = wistHet ? reeks + 1 : 0;
   if (wistHet) aantalBeantwoord++;   // enkel juiste antwoorden tellen (ook herhalingen en controles)
   // beloningen, telkens maar één tegelijk. Voorrang: konijntje > groen paardje > gele eenhoorn > draakje
-  const konijnNu = wistHet && aantalBeantwoord % 25 === 0;                 // om de 25 juiste antwoorden in een ronde (niet op rij)
+  const konijnNu = wistHet && aantalBeantwoord % 15 === 0;                 // om de 15 juiste antwoorden in een ronde (niet op rij)
   const paardjeNu = overwonnen && !konijnNu;                                // moeilijke kaart via haar "één kans" van de stapel
   const geelNu = onderdeelKlaar && !konijnNu && !paardjeNu;                 // laatste open kaart van het onderdeel juist
   const draakNu = wistHet && reeks % 3 === 0 && !konijnNu && !paardjeNu && !geelNu;   // 3, 6, 9 ... op rij juist
@@ -1316,7 +1316,7 @@ function toonDraak() {
   setTimeout(() => laag.remove(), duur + 300);
 }
 
-/* ===== Roos konijntje: om de 25 juiste antwoorden in een ronde =====
+/* ===== Roos konijntje: om de 15 juiste antwoorden in een ronde =====
    Hopt over de hele breedte van het scherm, ter hoogte van de onderste rand van het kaartje. */
 let aantalBeantwoord = 0;
 const KONIJN_SVG = `
