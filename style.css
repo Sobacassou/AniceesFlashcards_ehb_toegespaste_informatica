@@ -786,7 +786,6 @@ html, body { overflow-x: clip; }
 /* ===== Oefeningen: zien eruit als een gewone zwarte kaart, met bovenaan het label "Oefening" in VS Code-blauw ===== */
 .oef-label { color: #3794ff; font-weight: 700; font-size: 1.2em; }
 .kaart.oefening .onderwerp { color: #9cdcfe; }
-.kaart.oefening #vraag, .kaart.oefening #antwoord { color: #cde3f7; }
 .kaart.oefening #vraag { text-align: left; align-self: stretch; }
 .kaart.oefening #vraag .codeblok { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
   font-family: Consolas, "Cascadia Code", monospace; font-size: 0.85rem; font-weight: 400; line-height: 1.5;
