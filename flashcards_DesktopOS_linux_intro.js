@@ -1,9 +1,15 @@
-// Desktop OS – Deel I: Linux – Introductie (slides)
+// Desktop OS – Deel I: Linux – Introductie
 // v = vraag, a = antwoord, o = onderwerp, uitleg = extra uitleg, img/imgAntwoord = afbeelding (map afbeeldingen/)
+// wit: true = witte kaart die de cursus voorstelt · extra: true = extra info, niet uit de cursus (turquoise rand)
+// oefening: true = blauwe oefenkaart: typ het commando. In a staan commando's na "$ "; regels die met 2 spaties beginnen zijn toetsen of uitvoer.
 // De structuur onderaan bepaalt het overzicht rechts.
 
 const kaarten_DOS_linux_intro = [
+  // ===== Inleiding =====
+  { v: "Inleiding: wat te verwachten? (2–4)", a: "• 21 lesuren werkcollege (7 x 3); aanwezigheid in de les is verplicht.\n• Werkwijze: bij de start van de les een korte toelichting van de opdracht; in de werkcolleges oefen je de concepten en commando's; thuis oefen je om de leerstof te beheersen.\n• Materiaal: de handleidingen op linux-training.be (Linux fundamentals.pdf en System administration.pdf) en de opdrachten voor de werkcolleges op Canvas.", o: "Inleiding", wit: true },
   // ===== POSIX en de Linux-familie =====
+  { v: "POSIX en de Linux-familie (5–6)", a: "• POSIX: gebaseerd op Unix, met verschillende aftakkingen, waaronder Linux.\n• Linux is zeer populair in veel contexten, maar niet in de gekendste, de desktopomgevingen (Windows):\n– mobile: Android\n– netwerkdevices: routers, switches, ...\n– servers: webservers (LAMP), ...\n• Slide 6 toont de stamboom van de Unix-like systemen (bron: Wikipedia).", o: "POSIX en de Linux-familie", wit: true, img: "afbeeldingen/DesktopOS_linux_intro/lx_unixlike.png" },
+  { v: "Linux en distributies (7)", a: "• Linux is enkel de kernel.\n• Een distributie: een versie van de Linux-kernel met een keuze van extra pakketten, afhankelijk van het doel en de voorkeur van de maker:\n– services of desktopapplicaties\n– GUI: X(Windows)\n– CLI: Bash\n– ...", o: "POSIX en de Linux-familie", wit: true },
   { v: "Wat is POSIX?", a: "Een standaard gebaseerd op Unix, met verschillende aftakkingen, waaronder Linux.", o: "POSIX en de Linux-familie",
     uitleg: "Besturingssystemen die op Unix lijken heten 'Unix-like': Linux, macOS, de BSD's, … Daarom werken de meeste Linux-commando's ook in de terminal van een Mac." },
   { v: "Wat toont deze figuur?", a: "De stamboom van de Unix-like besturingssystemen (Unix en zijn aftakkingen) door de jaren heen: de BSD-familie (FreeBSD, NetBSD, OpenBSD, …), macOS (via NextStep en Darwin), GNU/Linux, Minix, en de commerciële System III & V-familie (Solaris, HP-UX, AIX, …).", o: "POSIX en de Linux-familie", img: "afbeeldingen/DesktopOS_linux_intro/lx_unixlike.png",
@@ -21,6 +27,7 @@ const kaarten_DOS_linux_intro = [
   { v: "Welke soorten extra pakketten kan een distributie bevatten (voorbeelden van de slide)?", a: "– Services of desktopapplicaties\n– GUI: X(Windows)\n– CLI: Bash\n– …", o: "POSIX en de Linux-familie",
     uitleg: "Services = programma's die op de achtergrond draaien (bv. een webserver). X (X Window System) is de basis van de grafische omgeving in Linux, niet te verwarren met Microsoft Windows. Bash is de commandoshell." },
   // ===== Bash en CLI =====
+  { v: "Bash (8)", a: "• CLI-only is populair in een serveromgeving:\n– stabieler\n– minder resources\n– minder updates, dus minder downtime\n– makkelijker te scripten\n– veiliger\n• Bash-commando's: [commando -optie parameter]", o: "Bash en CLI", wit: true },
   { v: "Waarom is CLI-only populair in serveromgevingen? Geef 5 redenen.", a: "Stabieler, minder resources, minder updates (dus minder downtime), makkelijker te scripten, veiliger.", o: "Bash en CLI",
     uitleg: "Zonder grafische omgeving draait er minder software: dat verbruikt minder geheugen, er zijn minder updates nodig (en dus minder herstarts) en er is een kleinere 'attack surface' (minder plaatsen waar een aanvaller binnen kan)." },
   { v: "Wat is de algemene vorm van een Bash-commando?", a: "commando -optie parameter (bv. ls -l /home/student)", o: "Bash en CLI",
@@ -34,16 +41,70 @@ const kaarten_DOS_linux_intro = [
   { v: "Waarom is een CLI makkelijker te scripten?", a: "Commando's zijn tekst die je in een script kan zetten en automatisch laten uitvoeren.", o: "Bash en CLI",
     uitleg: "Een script is een tekstbestand met commando's die na elkaar worden uitgevoerd, bv. om 100 gebruikers aan te maken." },
   // ===== Hulp in Linux =====
+  { v: "Hulp in Linux (9)", a: "• man: manual pages voor commando's en concepten\n• info: ook algemene concepten\n• whatis: iets beknoptere uitleg\n• --help: optie bij veel commando's voor een overzicht van de syntax en de voornaamste opties", o: "Hulp in Linux", wit: true,
+    uitleg: "Op de slide staat '-help'; de juiste schrijfwijze is --help." },
   { v: "Welke 4 manieren om hulp te krijgen in Linux noemt de cursus?", a: "man (manual pages), info, whatis en de optie --help.", o: "Hulp in Linux",
     uitleg: "man = uitgebreide handleiding van commando's en concepten; info = ook algemene concepten; whatis = een beknopte uitleg (1 regel); --help = snel overzicht van de syntax en de voornaamste opties." },
   { v: "Wat is het verschil tussen man en whatis?", a: "man toont de volledige handleiding (manual page) van een commando of concept. whatis geeft een veel beknoptere uitleg, meestal in 1 regel.", o: "Hulp in Linux",
     uitleg: "Bv. whatis ls geeft: 'ls (1) - list directory contents'. Handig om snel te weten wat een commando doet; voor de opties heb je man nodig." },
   { v: "Waarvoor dient info?", a: "Ook een hulpbron in Linux, die naast commando's ook algemene concepten uitlegt.", o: "Hulp in Linux",
     uitleg: "info ls toont de documentatie van ls, vaak met meer uitleg en voorbeelden dan de man-page." },
+  { v: "Zoek op 4 manieren hulp over ls.", a: "$ man ls\n$ info ls\n$ whatis ls\n$ ls --help", o: "Hulp in Linux", oefening: true },
+  // ===== Linux-bestandssysteem =====
+  { v: "Linux-bestandssysteem (10)", a: "• 1 boomstructuur (VFS), met / als root.\n• Geen driveletters.\n• Absoluut en relatief pad, met de commando's:\n– pwd\n– ls\n– cd .\n– cd ..\n– ./\n– mkdir / rmdir / rm", o: "Linux-bestandssysteem", wit: true,
+    uitleg: "Uitgebreid in werkcollege 1 (hoofdstuk 4)." },
+  { v: "Hoeveel boomstructuren heeft het Linux-bestandssysteem, en hoe heet ze?", a: "1 boomstructuur: het VFS.", o: "Linux-bestandssysteem",
+    uitleg: "VFS = Virtual File System: alle schijven en partities hangen onder dezelfde /." },
+  { v: "Heeft Linux driveletters zoals C: in Windows?", a: "Nee, Linux heeft geen driveletters.", o: "Linux-bestandssysteem" },
+  { v: "Welke commando's horen volgens slide 10 bij absolute en relatieve paden?", a: "pwd, ls, cd ., cd .., ./ en mkdir / rmdir / rm.", o: "Linux-bestandssysteem" },
+  { v: "Toon in welke directory je zit.", a: "$ pwd", o: "Linux-bestandssysteem", oefening: true },
+  { v: "Ga één directory terug.", a: "$ cd ..", o: "Linux-bestandssysteem", oefening: true },
+  { v: "Maak de map test, verwijder ze weer (ze is leeg), en verwijder daarna het bestand oud.txt.", a: "$ mkdir test\n$ rmdir test\n$ rm oud.txt", o: "Linux-bestandssysteem", oefening: true },
+  // ===== Toegangsrechten =====
+  { v: "Toegangsrechten: owner en rechten (11)", a: "• Elk bestand heeft een owner en een group owner.\n• Voorbeeld: ls -l /usr/project1/ geeft\n-rwxrwxr-x 1 piet project 1735 Mar 13 20:36 main.c\n– rights: -rwxrwxr-x\n– owner: piet\n– group owner: project\n• Het eerste teken is het file type: - = regular file, d = directory, l = link.\n• De laatste 3 rechten zijn die van de other users.", o: "Toegangsrechten", wit: true },
+  { v: "Rechten wijzigen met chmod (12)", a: "• r = read, w = write, x = execute\n• chmod met + of -: u = user, g = group, o = other. Bv. chmod u-w,g+w,o+w bestandsnaam\n• Numerieke methode: 4 staat voor r, 2 voor w, 1 voor x. Bv. chmod 755 bestandsnaam", o: "Toegangsrechten", wit: true,
+    tabel: [
+      ["", "r", "w", "x"],
+      ["4", "1", "0", "0"],
+      ["2", "0", "1", "0"],
+      ["1", "0", "0", "1"]
+    ] },
+  { v: "Welke twee eigenaars heeft een bestand?", a: "Een owner en een group owner.", o: "Toegangsrechten" },
+  { v: "Lees -rwxrwxr-x 1 piet project 1735 Mar 13 20:36 main.c: wat zijn de rights, de owner en de group owner?", a: "Rights: -rwxrwxr-x\nOwner: piet\nGroup owner: project", o: "Toegangsrechten" },
+  { v: "Wat betekent het eerste teken bij de rechten: -, d en l?", a: "- = regular file\nd = directory\nl = link", o: "Toegangsrechten" },
+  { v: "Bekijk de owner, de group owner en de rechten van de bestanden in /usr/project1/.", a: "$ ls -l /usr/project1/", o: "Toegangsrechten", oefening: true },
+  { v: "Waarvoor staan r, w en x, en u, g en o bij chmod?", a: "r = read, w = write, x = execute\nu = user, g = group, o = other", o: "Toegangsrechten" },
+  { v: "Waarvoor staan 4, 2 en 1 in de numerieke methode van chmod?", a: "4 staat voor r, 2 voor w, 1 voor x.", o: "Toegangsrechten" },
+  { v: "Neem het schrijfrecht af van de user en geef het aan de group en de others, voor bestandsnaam.", a: "$ chmod u-w,g+w,o+w bestandsnaam", o: "Toegangsrechten", oefening: true },
+  { v: "Geef bestandsnaam de rechten rwxr-xr-x met de numerieke methode.", a: "$ chmod 755 bestandsnaam", o: "Toegangsrechten", oefening: true,
+    uitleg: "7 = 4+2+1 (rwx), 5 = 4+1 (r-x)." },
+  // ===== Piping en redirection =====
+  { v: "Piping en redirection (13)", a: "• Piping: de output van het eerste commando doorsturen als input naar een tweede commando. Bv. ls -l /usr/bin/ | more\n• Redirection: de output van een commando 'redirecten' naar een ander device.\n– standaard is dat het scherm (console)\n– het kan bv. naar een tekstfile\n– bv. ls -l > lstekst.txt", o: "Piping en redirection", wit: true,
+    uitleg: "Uitgebreid in werkcollege 2 (hoofdstuk 8 en 9)." },
+  { v: "Wat is piping?", a: "De output van het eerste commando doorsturen als input naar een tweede commando.", o: "Piping en redirection" },
+  { v: "Wat is redirection, en waar gaat de output standaard naartoe?", a: "De output van een commando 'redirecten' naar een ander device, bv. een tekstfile. Standaard gaat ze naar het scherm (console).", o: "Piping en redirection" },
+  { v: "Toon de inhoud van /usr/bin met details, pagina per pagina met more.", a: "$ ls -l /usr/bin/ | more", o: "Piping en redirection", oefening: true },
+  { v: "Schrijf de output van ls -l weg naar het bestand lstekst.txt.", a: "$ ls -l > lstekst.txt", o: "Piping en redirection", oefening: true },
+  // ===== Tekst lezen =====
+  { v: "Tekst lezen: more en less (14)", a: "• more en less presenteren de output van een commando in een toegankelijker formaat.\n• Meestal in het 2de deel van een pipe: ls -l /usr/bin/ | more\n• more: enkel naar beneden scrollen, per pagina, met de spatiebalk.\n• less: naar boven en naar beneden, per pagina (page up en page down) en per regel (pijltjestoetsen).", o: "Tekst lezen", wit: true },
+  { v: "Tekst lezen: cat, cut en grep (15)", a: "• cat en cut tonen de inhoud van een bestand rechtstreeks op het scherm:\n– cat: de inhoud zoals ze is, zonder er structuur in te zoeken\n– cut: de inhoud wordt geparsed alsof het een spreadsheet (.csv) is, met een delimiter die de kolommen scheidt\n• grep: zoeken naar een term in 1 of meerdere bestanden.", o: "Tekst lezen", wit: true },
+  { v: "Wat doen more en less, en waar gebruik je ze meestal?", a: "Ze presenteren de output van een commando in een toegankelijker formaat. Meestal in het 2de deel van een pipe.", o: "Tekst lezen" },
+  { v: "Hoe scroll je met more, en hoe met less?", a: "more: enkel naar beneden, per pagina, via de spatiebalk.\nless: naar boven en naar beneden, per pagina (page up en page down) en per regel (pijltjestoetsen).", o: "Tekst lezen" },
+  { v: "Bekijk de inhoud van /usr/bin met details in less.", a: "$ ls -l /usr/bin/ | less", o: "Tekst lezen", oefening: true },
+  { v: "Wat is het verschil tussen cat en cut?", a: "cat toont de inhoud zoals ze is, zonder er structuur in te zoeken. cut parset de inhoud alsof het een spreadsheet (.csv) is, met een delimiter tussen de kolommen.", o: "Tekst lezen" },
+  { v: "Wat is een delimiter bij cut?", a: "Het teken dat het onderscheid maakt tussen de verschillende kolommen.", o: "Tekst lezen" },
+  { v: "Waarvoor dient grep?", a: "Om te zoeken naar een term in 1 of meerdere bestanden.", o: "Tekst lezen" },
+  { v: "Toon de inhoud van /etc/hostname zoals ze is.", a: "$ cat /etc/hostname", o: "Tekst lezen", oefening: true },
+  { v: "Zoek de term root in /etc/passwd.", a: "$ grep root /etc/passwd", o: "Tekst lezen", oefening: true },
 ];
 
 kaarten_DOS_linux_intro.structuur = [
+  { o: "Inleiding", slide: "2–4" },
   { o: "POSIX en de Linux-familie", slide: "5–7" },
   { o: "Bash en CLI", slide: "8" },
   { o: "Hulp in Linux", slide: "9" },
+  { o: "Linux-bestandssysteem", slide: "10" },
+  { o: "Toegangsrechten", slide: "11–12" },
+  { o: "Piping en redirection", slide: "13" },
+  { o: "Tekst lezen", slide: "14–15" },
 ];

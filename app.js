@@ -679,6 +679,21 @@ function kleurCSS(s) {
 function isCodeRegel(r) {
   return /^\s*&lt;/.test(r) || /^\s*[^{}]+\{\s*$/.test(r) || /^\s*[^{}&]+\{[^}]*\}/.test(r) || /^\s*\.\.\.\s*$/.test(r) || /^[\w-]+\.html\b/.test(r) || /\/\*.*\*\/\s*$/.test(r) || /^\s*\/[*/]/.test(r) || /^\s*[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s*@[\w-]+/.test(r) || /^\s*[^\s{}<>]+,\s*$/.test(r) || /^\s*\}\s*$/.test(r) || /^\s+[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s{2,}\S/.test(r);
 }
+/* Linux-oefenkaarten: regels met "$ " zijn commando's, regels die met 2 spaties beginnen zijn toetsen of uitvoer.
+   Beide komen in een donker terminalvak; de andere regels zijn gewone tekst. */
+function terminalVisueel(tekst) {
+  const regels = maakVeilig(tekst).split("\n");
+  let html = "", blok = [];
+  const sluit = () => { if (blok.length) { html += `<pre class="codeblok term">${blok.join("\n")}</pre>`; blok = []; } };
+  for (const r of regels) {
+    const m = r.match(/^\$ (.*)$/);
+    if (m) blok.push(`<span class="t-prompt">$</span> ${m[1]}`);
+    else if (/^\s{2,}\S/.test(r)) blok.push(`<span class="t-toets">${r.trim()}</span>`);
+    else { sluit(); html += `<div>${r}</div>`; }
+  }
+  sluit();
+  return html;
+}
 function codeVisueel(tekst) {
   const regels = maakVeilig(tekst).split("\n");
   let html = "", blok = [];
@@ -718,7 +733,7 @@ function toonKaart() {
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
-  if (kaart.oefening) vraagEl.innerHTML = codeVisueel(kaart.v);
+  if (kaart.oefening) vraagEl.innerHTML = huidigVak === "Web Essentials" ? codeVisueel(kaart.v) : terminalVisueel(kaart.v);
   // meerkeuze/juist-fout (vraag over meerdere regels): links uitlijnen, leest makkelijker
   vraagEl.classList.toggle("meerkeuze", kaart.v.includes("\n"));
   vraagEl.classList.toggle("code", /\n {2,}/.test(kaart.v));
@@ -737,6 +752,7 @@ function toonKaart() {
     zetHerhaalLabel(kaart);
     const antwoordEl = document.getElementById("antwoord");
     if (huidigVak === "Web Essentials") { antwoordEl.innerHTML = codeVisueel(kaart.a); antwoordEl.classList.remove("code"); }
+    else if (kaart.oefening) { antwoordEl.innerHTML = terminalVisueel(kaart.a); antwoordEl.classList.remove("code"); }   // Linux-oefenkaart: terminalvak
     else {
       antwoordEl.textContent = kaart.a;
       // ingesprongen regels (bv. een .yaml-bestand): in een vaste letterbreedte, spaties blijven staan
