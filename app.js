@@ -19,6 +19,7 @@ const vakken = {
     "2 – HTML media, tabellen & formulieren": (typeof kaarten_WEB_les2 !== "undefined" ? kaarten_WEB_les2 : ontbreekt("flashcards_WEBles2_htmlmedia.js")),
     "3 – CSS-basis, kleuren & typografie": (typeof kaarten_WEB_les3 !== "undefined" ? kaarten_WEB_les3 : ontbreekt("flashcards_WEBles3_cssbasis.js")),
     "4 – CSS media, tabellen, formulieren & box model": (typeof kaarten_WEB_les4 !== "undefined" ? kaarten_WEB_les4 : ontbreekt("flashcards_WEBles4_boxmodel.js")),
+    "5 – CSS layout: float, flexbox & positioning": (typeof kaarten_WEB_les5 !== "undefined" ? kaarten_WEB_les5 : ontbreekt("flashcards_WEBles5_layout.js")),
   },
   "IT Essentials": {
     // ===== Deel I: Getalrepresentaties en schakelingen =====
