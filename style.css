@@ -233,6 +233,7 @@ em, i { font-style: normal; }
 /* waar je je nu bevindt */
 .ov-onderwerpen li.hier { font-weight: 600; }
 .ov-onderwerpen li.hier > .ov-titel { color: #00ff41; }   /* waar je nu bent: hackersgroen */
+.ov-onderwerpen li.hier { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }   /* de regel waar je nu bent licht een beetje op */
 
 /* klikbare onderwerpen in het overzicht */
 .ov-onderwerpen li.klikbaar { cursor: pointer; }
@@ -774,18 +775,20 @@ html, body { overflow-x: clip; }
 .kaart.wit .mini-tabel thead th { background: #e1e1e1; color: #00796b; }
 .kaart.wit .mini-tabel tbody th { color: #795e26; }
 
-/* Scrollbalk binnen de kaart (VS Code-stijl), altijd zichtbaar als er meer inhoud is */
-.kant { scrollbar-width: thin; scrollbar-color: #5a5a5a transparent; }
+/* Scrollbalk binnen de kaart, altijd zichtbaar als er meer inhoud is.
+   Rood (zelfde rood als "Wist ik niet") op een donker spoor, zodat je meteen ziet dat er meer is. */
+.kant { scrollbar-width: auto; scrollbar-color: var(--rood) #2e2e2e; }
 .kant::-webkit-scrollbar { width: 10px; }
-.kant::-webkit-scrollbar-thumb { background: #5a5a5a; border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
+.kant::-webkit-scrollbar-thumb { background: var(--rood); border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
 .kant::-webkit-scrollbar-track { background: transparent; }
-.kaart.wit .kant { scrollbar-color: #b0b0b0 transparent; }
-.kaart.wit .kant::-webkit-scrollbar-thumb { background-color: #b0b0b0; }
+.kaart.wit .kant { scrollbar-color: var(--rood) #d8d8d8; }
+.kaart.wit .kant::-webkit-scrollbar-thumb { background-color: var(--rood); }
 .kaart .kant > * { flex-shrink: 0; }   /* niets laten krimpen: wat niet past, scrolt */
 
 /* ===== Oefeningen: zien eruit als een gewone zwarte kaart, met bovenaan het label "Oefening" in VS Code-blauw ===== */
 .oef-label { color: #3794ff; font-weight: 700; font-size: 1.2em; }
 .kaart.oefening .kant { outline: 2px solid #3794ff; outline-offset: -7px; }   /* blauwe binnenrand */
+.kaart.oefening .kant { border-right: 9px solid transparent; }   /* scrollbalk binnen de blauwe rand, niet eronder */
 .kaart.oefening #vraag { text-align: left; align-self: stretch; }
 .kaart.oefening #vraag .codeblok { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
   font-family: Consolas, "Cascadia Code", monospace; font-size: 0.85rem; font-weight: 400; line-height: 1.5;

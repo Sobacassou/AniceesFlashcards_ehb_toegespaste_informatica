@@ -685,8 +685,9 @@ function kleurCSS(s) {
   if (m) return `${m[1]}<span class="c-attr">${m[2]}</span>${m[3]}<span class="c-str">${m[4].replace(/(?<![#\w.-])(-?\d*\.?\d+)(px|rem|em|%|vh|vw|s)?(?![\w])/g, '<span class="c-num">$1$2</span>')}</span>${m[5]}${m[6]}`;
   return s;
 }
+// ook CSS-regels met een child-combinator (ul > li) of een attribuut met quotes (input[type="text"]) zijn code
 function isCodeRegel(r) {
-  return /^\s*&lt;/.test(r) || /^\s*[^{}]+\{\s*$/.test(r) || /^\s*[^{}&]+\{[^}]*\}/.test(r) || /^\s*\.\.\.\s*$/.test(r) || /^[\w-]+\.html\b/.test(r) || /\/\*.*\*\/\s*$/.test(r) || /^\s*\/[*/]/.test(r) || /^\s*[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s*@[\w-]+/.test(r) || /^\s*[^\s{}<>]+,\s*$/.test(r) || /^\s*\}\s*$/.test(r) || /^\s+[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s{2,}\S/.test(r);
+  return /^\s*&lt;/.test(r) || /^\s*[^{}]+\{\s*$/.test(r) || /^\s*[^{}&]+\{[^}]*\}/.test(r) || /^(?![^{]*:\s)\s*(?:[\w.#*:()\[\]=-]|&quot;)+(?:\s*(?:&gt;|[+~,]|\s)\s*(?:[\w.#*:()\[\]=-]|&quot;)+)*\s*\{[^}]*:[^}]*\}/.test(r) || /^\s*\.\.\.\s*$/.test(r) || /^[\w-]+\.html\b/.test(r) || /\/\*.*\*\/\s*$/.test(r) || /^\s*\/[*/]/.test(r) || /^\s*[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s*@[\w-]+/.test(r) || /^\s*[^\s{}<>]+,\s*$/.test(r) || /^\s*\}\s*$/.test(r) || /^\s+[\w-]+\s*:\s*[^;]+;\s*$/.test(r) || /^\s{2,}\S/.test(r);
 }
 /* Linux- en Windows-oefenkaarten: regels met "$ " of "C:\\> " zijn commando's, regels die met 2 spaties beginnen zijn toetsen of uitvoer.
    Beide komen in een donker terminalvak; de andere regels zijn gewone tekst. */
@@ -807,7 +808,15 @@ function toonOverzicht(kaart) {
   vak.innerHTML =
     `<h3><span>${kaart.hfst}</span><button type="button" class="licht ov-inklap">⌃ Inklappen</button></h3>` +
     `<ol class="ov-onderwerpen${metNrs ? " met-nrs" : ""}">` +
-    structuur.map(r => {
+    structuur.map((r, ri) => {
+      // een moduletitel (kop): de onderwerpen eronder, tot aan de volgende kop
+      let modOnderwerpen = [];
+      if (r.kop && !r.o) {
+        for (let j = ri + 1; j < structuur.length && !(structuur[j].kop && !structuur[j].o); j++)
+          if (structuur[j].o && structuur[j].o !== huidig) modOnderwerpen.push(structuur[j].o);
+        modOnderwerpen = modOnderwerpen.filter(o => eersteKaartVan(kaart.hfst, o) >= 0);
+      }
+      const springMod = modOnderwerpen.length > 0;
       // kan je naar dit onderwerp springen? enkel als er in deze ronde nog kaarten van zijn
       const spring = r.o && r.o !== huidig && eersteKaartVan(kaart.hfst, r.o) >= 0;
       const leeg = r.o && r.o !== huidig && !spring;
@@ -815,9 +824,10 @@ function toonOverzicht(kaart) {
       const st = r.o ? standVan(kaart.hfst, r.o) : { open: 0, totaal: 0 };
       const alleJuist = st.totaal > 0 && st.open === 0;
       const klassen = [r.sub ? "sub" : "", r.kop ? "kop" : "", r.o && r.o === huidig ? "hier" : "",
-                       spring ? "klikbaar" : "", leeg ? "leeg" : "", leeg && alleJuist ? "juist" : "",
+                       spring || springMod ? "klikbaar" : "", leeg ? "leeg" : "", leeg && alleJuist ? "juist" : "",
                        st.open > 0 ? "tedoen" : ""].join(" ");
       const data = spring ? ` data-o="${encodeURIComponent(r.o)}" title="Ga naar de kaarten van dit onderwerp"` :
+                   springMod ? ` data-o="${encodeURIComponent(modOnderwerpen[0])}" title="Ga naar de eerste kaarten van deze module"` :
                    leeg && alleJuist ? ` title="Alle kaarten van dit onderwerp juist"` :
                    leeg ? ` title="Geen kaarten van dit onderwerp in deze ronde"` : "";
       const teken = st.totaal === 0 ? "" :

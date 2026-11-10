@@ -51,9 +51,6 @@ const kaarten_WEB_les2 = [
   { v: "Welk afbeeldingsformaat is vector, de andere zijn raster?", a: "SVG.", o: "1.3 Afbeeldingsformaten op het web" },
   { v: "Welke formaten ondersteunen transparantie?", a: "WebP/AVIF, PNG en SVG. (JPG niet.)", o: "1.3 Afbeeldingsformaten op het web" },
   { v: "Welk formaat kies je voor: 1. een foto, 2. een logo met transparantie, 3. een icoon dat scherp moet blijven op elke grootte?", a: "1. JPG (of WebP/AVIF)\n2. PNG (of SVG)\n3. SVG", o: "1.3 Afbeeldingsformaten op het web" },
-  { v: "Met welke apps kan je afbeeldingen comprimeren en converteren?", a: "Squoosh (squoosh.app) of TinyPNG.", o: "1.3 Afbeeldingsformaten op het web",
-    uitleg: "Controleer na optimalisatie altijd de visuele kwaliteit, en behoud geschikte afmetingen, een passend formaat en een correcte alt-tekst." },
-  { v: "Waarom werk je in de oefeningen vooral met JPG en PNG, en niet met WebP/AVIF?", a: "In de praktijk maken serveromgevingen, CDN's en moderne CMS'en de WebP- of AVIF-bestanden automatisch aan uit de geüploade JPG- of PNG-bestanden.", o: "1.3 Afbeeldingsformaten op het web" },
 
   // ===== 1.4 figure en figcaption (1.4) =====
   { v: "Wanneer gebruik je <figure> met <figcaption>?", a: "Wanneer een afbeelding (of illustratie, diagram, code-snippet) een zelfstandige eenheid vormt met een bijschrift.\n\n<figure>\n  <img src=\"images/diagram.png\" alt=\"Diagram\">\n  <figcaption>Figuur 1: Diagram</figcaption>\n</figure>", o: "1.4 figure en figcaption" },
@@ -61,14 +58,7 @@ const kaarten_WEB_les2 = [
   { v: "Schrijf een figuur met een afbeelding en het bijschrift \"Figuur 1: Zonsondergang aan de Belgische kust\".", a: "<figure>\n  <img src=\"images/zonsondergang.jpg\" alt=\"Zonsondergang boven de Noordzee te Oostende\" width=\"800\" height=\"500\">\n  <figcaption>Figuur 1: Zonsondergang aan de Belgische kust</figcaption>\n</figure>", o: "1.4 figure en figcaption" },
 
   // ===== 1.5 Afbeeldingen vinden & copyright (1.5) =====
-  { v: "Waar vind je gratis foto's voor een website (volgens de cursus)?", a: "Unsplash en Pexels.", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Mag je elke gratis foto van Unsplash of Pexels zomaar gebruiken?", a: "Niet automatisch. Controleer altijd de licentie: naamsvermelding kan gewenst of verplicht zijn, en bewerken of commercieel gebruik is niet altijd toegestaan. Bewaar de bron en licentie-info.", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Welke websites geeft de cursus voor dummy-afbeeldingen tijdens het ontwerpen?", a: "Lorem Picsum (zeer betrouwbaar), Placekittens (leuk, maar soms niet beschikbaar) en placehold.co.", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Wat moet je doen met dummy-afbeeldingen vóór publicatie?", a: "Vervangen door afbeeldingen waarvoor je de gebruiksrechten hebt gecontroleerd.", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Wat geeft dit?\n<img src=\"https://placehold.co/600x400\" alt=\"Dummy afbeelding\">", a: "Een tijdelijke afbeelding van 600 × 400 pixels.\n\n<img src=\"https://placehold.co/600x400\" alt=\"Dummy afbeelding\">", o: "1.5 Afbeeldingen vinden & copyright" },
   { v: "Wat geeft dit?\n<img src=\"https://placehold.co/300x200/orange/white\" alt=\"Dummy\">", a: "Een dummy-afbeelding van 300 × 200 pixels, oranje met witte tekst.\n\n<img src=\"https://placehold.co/300x200/orange/white\" alt=\"Dummy\">", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Hoe zet je met placehold.co tekst op de afbeelding?", a: "Met ?text=..., bv. https://placehold.co/600x400?text=Voorbeeld\n\n<img src=\"https://placehold.co/600x400?text=Voorbeeld\" alt=\"Dummy\">", o: "1.5 Afbeeldingen vinden & copyright" },
-  { v: "Welk bestandsformaat geeft placehold.co standaard, en hoe kies je een ander?", a: "Standaard SVG. Een ander formaat voeg je toe aan de url, bv. https://placehold.co/200x200/png (ook JPEG, GIF, WebP en AVIF).\n\n<img src=\"https://placehold.co/200x200/png\" alt=\"Dummy\">", o: "1.5 Afbeeldingen vinden & copyright" },
 
   // ===== 1.7 SVG insluiten (1.7) =====
   { v: "Geef de 2 manieren om een SVG in HTML te gebruiken.", a: "1. Gekoppeld via de <img>-tag: <img src=\"icon.svg\" alt=\"...\">\n2. Inline embedded: de <svg>-code rechtstreeks in de HTML plakken.", o: "1.7 SVG insluiten" },
@@ -137,7 +127,6 @@ const kaarten_WEB_les2 = [
 
   // ===== 3.4 Tabel-toegankelijkheid (scope) (3.4) =====
   { v: "Waarvoor dient het scope-attribuut op <th>?", a: "Om aan te geven of de kop geldt voor de hele kolom (scope=\"col\") of de hele rij (scope=\"row\"). Zo lezen screenreaders de juiste context voor.\n\n<th scope=\"col\">Inkomsten</th>\n<th scope=\"row\">Q1</th>", o: "3.4 Tabel-toegankelijkheid (scope)" },
-  { v: "Welke scope geef je aan de kopcel \"Inkomsten\" bovenaan een kolom, en welke aan \"Q1\" vooraan een rij?", a: "\"Inkomsten\": scope=\"col\"\n\"Q1\": scope=\"row\"\n\n<tr>\n  <th></th>\n  <th scope=\"col\">Inkomsten</th>\n</tr>\n<tr>\n  <th scope=\"row\">Q1</th>\n  <td>5000</td>\n</tr>", o: "3.4 Tabel-toegankelijkheid (scope)" },
 
   // ===== 3.5 colgroup en col (3.5) =====
   { v: "Waarvoor gebruik je <colgroup> en <col>?", a: "Om een specifieke kolom te stylen (bv. een grijze achtergrond voor de eerste kolom), zonder op elke <td> een class te zetten.", o: "3.5 colgroup en col" },

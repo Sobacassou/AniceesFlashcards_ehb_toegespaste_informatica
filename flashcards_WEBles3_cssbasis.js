@@ -18,7 +18,6 @@ const kaarten_WEB_les3 = [
   { v: "Geef de 3 manieren om CSS toe te passen.", a: "1. Extern: een apart .css-bestand, gekoppeld met <link>\n2. Intern / embedded: in een <style>-tag in de <head>\n3. Inline: met het style-attribuut op het element", o: "1.2 Drie methoden om CSS toe te passen" },
   { v: "Welke manier om CSS toe te passen is de best practice?", a: "Externe CSS (een apart .css-bestand), in 99% van de gevallen.\n\n<head>\n  <link rel=\"stylesheet\" href=\"css/stijl.css\">\n</head>", o: "1.2 Drie methoden om CSS toe te passen" },
   { v: "Hoe koppel je het externe stylesheet css/stijl.css, en waar staat dat?", a: "<link rel=\"stylesheet\" href=\"css/stijl.css\"> in de <head>.", o: "1.2 Drie methoden om CSS toe te passen" },
-  { v: "Hoe koppel je een apart stylesheet dat alleen gebruikt wordt bij het afdrukken?", a: "Met media=\"print\": <link rel=\"stylesheet\" href=\"css/print.css\" media=\"print\">", o: "1.2 Drie methoden om CSS toe te passen" },
   { v: "Wanneer gebruik je interne (embedded) CSS?", a: "Soms voor pagina-specifieke stijlen of snelle prototypes.\n\n<head>\n  <style>\n    h1 { color: #0056b3; }\n  </style>\n</head>", o: "1.2 Drie methoden om CSS toe te passen" },
   { v: "Waar staat interne CSS?", a: "In de <head> van het HTML-document, binnen een <style>-tag.", o: "1.2 Drie methoden om CSS toe te passen" },
   { v: "Hoe ziet inline CSS eruit?", a: "<p style=\"color: red; font-weight: bold;\">Dringende mededeling</p>", o: "1.2 Drie methoden om CSS toe te passen" },
@@ -258,6 +257,29 @@ const kaarten_WEB_les3 = [
     ] },
   { v: "Zo reken je rem en em om naar pixels", a: "Stap 1: kijk naar de eenheid.\n• rem: neem de font-size van html.\n• em (of %): neem de font-size van de ouder.\nStap 2: vermenigvuldig het getal met die grootte.\n  2.5rem met html 16px → 2,5 × 16 = 40px\n  0.8em in een p van 16px → 0,8 × 16 = 12,8px", o: "5.2 Lettergrootte & maateenheden", wit: true,
     uitleg: "Bij % werkt het voor font-size net zoals em: 80% = 0,8 × de grootte van de ouder." },
+  { v: "em en %, eenvoudig uitgelegd", a: "% betekent: een stukje van iets. De vraag is altijd: een stukje van wát?\n\nVergelijk met 'de helft': de helft van je pizza of de helft van je zakgeld. Hetzelfde woord, maar over iets anders.\n\nBij font-size kijken em en % allebei naar de lettergrootte van de ouder. Dan zijn ze hetzelfde, alleen anders geschreven:\n  1.5em = 150%\n  0.8em = 80%", o: "5.2 Lettergrootte & maateenheden", wit: true,
+    uitleg: "Ezelsbruggetje: em × 100 = %. Zoals 'anderhalf' en '150 procent' hetzelfde zijn.",
+    tabel: [
+      ["em", "%", "Grootte (ouder: tekst 20px)"],
+      ["0.5em", "50%", "10px"],
+      ["1em", "100%", "20px"],
+      ["1.5em", "150%", "30px"],
+      ["2em", "200%", "40px"]
+    ] },
+  { v: "% hangt af van de eigenschap", a: "% kijkt altijd naar de ouder, maar de eigenschap zegt naar wát van de ouder.\n\nDe ouder is 600px breed en heeft tekst van 20px:\n  .vak { font-size: 50%; }   /* de helft van de TEKST: 10px */\n  .vak { width: 50%; }       /* de helft van de BREEDTE: 300px */", o: "5.2 Lettergrootte & maateenheden", wit: true,
+    uitleg: "em gaat altijd over de tekstgrootte, nooit over de breedte. Daarom zijn em en % alleen bij font-size hetzelfde.",
+    tabel: [
+      ["CSS", "Kijkt naar", "Ouder: 600px breed, tekst 20px"],
+      ["font-size: 50%", "de lettergrootte van de ouder", "10px"],
+      ["width: 50%", "de breedte van de ouder", "300px"]
+    ] },
+  { v: "Wat is het verschil tussen em en % bij padding?", a: "Padding is de lege ruimte binnen een vak, tussen de rand en de tekst.\n\nEen knop met tekst van 20px staat in een vak van 600px breed:\n  .knop { padding: 1em; }   /* 1 × 20px (de tekst) = 20px */\n  .knop { padding: 10%; }   /* 10% van 600px (de breedte) = 60px */\n\n• em groeit mee met de letters.\n• % groeit mee met de breedte van de ouder.", o: "5.2 Lettergrootte & maateenheden", extra: true,
+    uitleg: "Daarom raadt de cursus em aan voor padding: de ruimte rond de tekst past dan altijd bij de grootte van de letters.",
+    tabel: [
+      ["Je verandert...", "padding: 1em", "padding: 10%"],
+      ["de tekst naar 30px", "wordt 30px (groeit mee)", "blijft 60px"],
+      ["het vak naar 300px breed", "blijft 20px", "wordt 30px (krimpt mee)"]
+    ] },
   { v: "Wat is de standaardlettergrootte van browsers?", a: "16px.\n\nhtml { font-size: 16px; }   /* standaard */", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Wat is px, en waarvoor gebruik je het?", a: "Absoluut: vaste schermpixels die niet meeschalen met de gebruikersinstellingen. Voor borders en kleine vaste details.\n\n.kaart { border: 1px solid #cccccc; }", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Wat is %, en waarvoor gebruik je het?", a: "Relatief ten opzichte van een eigenschap van het ouder-element (de exacte betekenis hangt af van de eigenschap). Voor breedtes, hoogtes en afmetingen van elementen.\n\n.kolom { width: 50%; }", o: "5.2 Lettergrootte & maateenheden" },
@@ -281,6 +303,11 @@ const kaarten_WEB_les3 = [
   { v: "Welke eenheid raadt de cursus aan voor font-size?", a: "rem.", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Welke eenheid raadt de cursus aan voor margins en padding relatief aan de tekst?", a: "em.", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Hoeveel pixels is 0.5rem als html 16px is?", a: "8px (0,5 × 16).", o: "5.2 Lettergrootte & maateenheden" },
+  { v: "Wat is het verschil tussen em en % bij font-size?", a: "Geen verschil in uitkomst: allebei kijken ze naar de font-size van de ouder. Alleen de schrijfwijze verschilt (1.5em = 150%).", o: "5.2 Lettergrootte & maateenheden" },
+  { v: "Reken 1.5em om naar %.", a: "150% (1,5 × 100).", o: "5.2 Lettergrootte & maateenheden" },
+  { v: "Reken 80% om naar em.", a: "0.8em (80 ÷ 100).", o: "5.2 Lettergrootte & maateenheden" },
+  { v: "Waar kijkt % naar bij width?", a: "Naar de breedte van het ouder-element.", o: "5.2 Lettergrootte & maateenheden" },
+  { v: "Waarom gebruik je em voor padding?", a: "Omdat de ruimte dan meegroeit met de tekst: grotere letters krijgen vanzelf meer padding.\n\n.knop {\n  font-size: 1rem;      /* 16px */\n  padding: 0.5em 1em;   /* 8px boven/onder, 16px links/rechts */\n}", o: "5.2 Lettergrootte & maateenheden" },
 
   // ===== 5.3 Tekststijlen & opmaak (5.3) =====
   { v: "Welke waarden kan font-weight hebben?", a: "normal, bold of een getal van 100 tot 900.\n\nh1 { font-weight: bold; }\np { font-weight: 300; }", o: "5.3 Tekststijlen & opmaak" },
@@ -288,6 +315,18 @@ const kaarten_WEB_les3 = [
   { v: "Welke waarden kan text-transform hebben?", a: "none, uppercase, lowercase of capitalize.\n\n.badge { text-transform: uppercase; }", o: "5.3 Tekststijlen & opmaak" },
   { v: "Welke waarden kan text-decoration hebben, en welke gebruik je vaak voor hyperlinks?", a: "none, underline of line-through. none haalt de onderlijning van links weg.\n\na { text-decoration: none; }\n.oud { text-decoration: line-through; }", o: "5.3 Tekststijlen & opmaak" },
   { v: "Welke waarde voor line-height is ideaal voor leesbaarheid, en in welke eenheid?", a: "1.5 tot 1.6, een verhouding zonder eenheid.\n\np { line-height: 1.6; }", o: "5.3 Tekststijlen & opmaak" },
+  { v: "Waarom schrijf je line-height zonder eenheid?", a: "line-height = de hoogte van één regel tekst: de ruimte tussen de regels.\n\nMet eenheid (1.6em) rekent de browser één keer een vaste afstand uit en geeft díe door aan alle kinderen:\n  p {\n    font-size: 16px;\n    line-height: 1.6em;   /* 25,6px voor iedereen */\n  }\n\nZonder eenheid (1.6) wordt het getal 1.6 zelf doorgegeven, en elk element rekent opnieuw met zijn eigen letters:\n  p {\n    font-size: 16px;\n    line-height: 1.6;   /* 1,6 × de eigen tekst */\n  }", o: "5.3 Tekststijlen & opmaak", extra: true,
+    uitleg: "Ezelsbruggetje: zonder eenheid = '1,6 keer míjn letters', voor elk element opnieuw. Met eenheid krijgt kleine tekst te veel ruimte en grote tekst te weinig: de regels lopen over elkaar.",
+    tabel: [
+      ["Element", "Tekst", "line-height: 1.6em", "line-height: 1.6"],
+      ["p", "16px", "25,6px", "25,6px"],
+      ["small in de p", "12px", "25,6px (te ruim)", "19,2px"],
+      [".groot in de p", "32px", "25,6px (regels op elkaar)", "51,2px"]
+    ] },
+  { v: "Wat is line-height?", a: "De regelafstand: de hoogte van één regel tekst, dus de ruimte tussen de regels.\n\np { line-height: 1.6; }", o: "5.3 Tekststijlen & opmaak" },
+  { v: "Wat krijgt een kind-element door als je line-height mét eenheid schrijft (bv. 1.6em)?", a: "Een vaste afstand in pixels, één keer uitgerekend bij de ouder (bv. 1,6 × 16 = 25,6px). Het kind rekent niet opnieuw.", o: "5.3 Tekststijlen & opmaak", extra: true },
+  { v: "Wat krijgt een kind-element door als je line-height zonder eenheid schrijft (bv. 1.6)?", a: "Het getal 1.6 zelf. Elk element rekent opnieuw: 1,6 × zijn eigen lettergrootte.", o: "5.3 Tekststijlen & opmaak", extra: true },
+  { v: "Waarom is line-height zonder eenheid beter als er kleine of grote tekst in een p staat?", a: "Omdat de regelafstand dan meegroeit met de letters van elk element. Met een eenheid krijgt kleine tekst te veel ruimte en lopen de regels van grote tekst over elkaar.", o: "5.3 Tekststijlen & opmaak", extra: true },
   { v: "Welke waarden kan text-align hebben?", a: "left, center, right of justify.\n\nh1 { text-align: center; }", o: "5.3 Tekststijlen & opmaak" },
   { v: "Met welke eigenschappen stel je de spatiëring tussen letters en tussen woorden in?", a: "letter-spacing (tussen letters) en word-spacing (tussen woorden).\n\nh1 {\n  letter-spacing: 2px;\n  word-spacing: 5px;\n}", o: "5.3 Tekststijlen & opmaak" },
   { v: "Met welke eigenschap zet je tekst in hoofdletters?", a: "text-transform: uppercase;", o: "5.3 Tekststijlen & opmaak" },
@@ -327,7 +366,6 @@ const kaarten_WEB_les3 = [
   { v: "Welke bestandsformaten voor fonts noemt de cursus?", a: ".woff2 en .woff.\n\n@font-face {\n  font-family: \"MijnFont\";\n  src: url(\"../fonts/mijnfont.woff2\") format(\"woff2\"),\n       url(\"../fonts/mijnfont.woff\") format(\"woff\");\n}", o: "6.4 Webfonts" },
 
   // ===== 7.2 Veelgemaakte fouten bij CSS (7.2) =====
-  { v: "Geef de 4 veelgemaakte fouten bij CSS.", a: "1. Puntkomma vergeten na een declaratie.\n2. Foute relatieve paden naar afbeeldingen/fonts.\n3. Geen punt bij een class of geen hekje bij een ID.\n4. Te veel !important gebruiken.\n\np { color: red }              /* puntkomma vergeten */\nintro { color: green; }       /* punt vergeten bij class */\nmenu { color: blue; }         /* hekje vergeten bij ID */", o: "7.2 Veelgemaakte fouten bij CSS" },
   { v: "Waartegenover zijn paden in stijl.css relatief: het CSS-bestand of het HTML-bestand?", a: "Ten opzichte van de locatie van het CSS-bestand, bv. ../images/logo.png.\n\n/* css/stijl.css */\nheader {\n  background-image: url(\"../images/logo.png\");\n}", o: "7.2 Veelgemaakte fouten bij CSS" },
   { v: "Je CSS staat in css/stijl.css en je logo in images/logo.png. Welk pad gebruik je in de CSS?", a: "url(\"../images/logo.png\")\n\nheader {\n  background-image: url(\"../images/logo.png\");\n}", o: "7.2 Veelgemaakte fouten bij CSS" },
 

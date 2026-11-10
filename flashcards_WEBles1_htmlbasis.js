@@ -13,12 +13,8 @@ const kaarten_WEB_les1 = [
   { v: "Wie ontwikkelde HTML, waar en in welk jaar?", a: "Sir Tim Berners-Lee, bij CERN in Genève, in 1991.", o: "2.1 Ontstaan van het web, HTML & W3C",
     uitleg: "Hij wilde wetenschappelijke documenten eenvoudig kunnen delen. Zo ontstond het World Wide Web." },
   { v: "Waarom ontwikkelde Tim Berners-Lee HTML?", a: "Om wetenschappelijke documenten eenvoudig te delen.", o: "2.1 Ontstaan van het web, HTML & W3C" },
-  { v: "Wat gebeurde er in 1993?", a: "De officiële release van HTML 1.0. Browsers zoals NCSA Mosaic maakten het web toegankelijk voor het grote publiek.", o: "2.1 Ontstaan van het web, HTML & W3C" },
-  { v: "Welke browser maakte het web in 1993 toegankelijk voor het grote publiek?", a: "NCSA Mosaic.", o: "2.1 Ontstaan van het web, HTML & W3C" },
-  { v: "Wat werd er opgericht in 1994, en waarom?", a: "Het W3C (World Wide Web Consortium), om standaarden te waarborgen. In 1994 werd ook CSS geïntroduceerd.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Waar staat W3C voor?", a: "World Wide Web Consortium.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "In welk jaar werd CSS geïntroduceerd?", a: "In 1994 (samen met de oprichting van het W3C).", o: "2.1 Ontstaan van het web, HTML & W3C" },
-  { v: "Welke HTML-versies werden de norm tussen 1997 en 1999?", a: "HTML 3.2 en HTML 4.01.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Wat is XHTML en wanneer ontstond het?", a: "Een variant van HTML met zeer strenge syntaxregels, ontstaan rond 2000.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Wanneer werd HTML5 de officiële W3C-standaard, en wat bracht het?", a: "In 2014. Het bracht semantische elementen, ingebouwde audio/video en krachtige API's.", o: "2.1 Ontstaan van het web, HTML & W3C",
     uitleg: "Vóór HTML5 had je plugins (zoals Flash) nodig voor video. Semantische elementen zijn bijvoorbeeld header, nav, main, article en footer." },
@@ -29,7 +25,6 @@ const kaarten_WEB_les1 = [
   { v: "Waar staat WHATWG voor?", a: "Web Hypertext Application Technology Working Group.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Wat was belangrijk in 2022–2023?", a: "De invoering van Interop en de focus op modern CSS.", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Welke nieuwigheden komen er vanaf 2024?", a: "Web Components, de Popover API en native modals.", o: "2.1 Ontstaan van het web, HTML & W3C" },
-  { v: "Zet in de juiste volgorde: HTML5 officiële standaard – oprichting W3C – HTML 1.0 – overdracht naar WHATWG – Tim Berners-Lee ontwikkelt HTML.", a: "1991 Tim Berners-Lee ontwikkelt HTML\n1993 HTML 1.0\n1994 oprichting W3C\n2014 HTML5 officiële standaard\n2019 overdracht naar WHATWG", o: "2.1 Ontstaan van het web, HTML & W3C" },
   { v: "Geef de evolutie van websites volgens de cursus, met voorbeelden.", a: "Statische tekstpagina's in de jaren '90 (Amazon 1994, Yahoo 1996, Apple 1996)\n→ rijke sociale netwerken (Facebook 2004, YouTube 2005)\n→ moderne responsive webapps (Buienradar, NMBS Webapp).", o: "2.1 Ontstaan van het web, HTML & W3C" },
 
   // ===== 2.2 Drie pijlers van het web (2.2) =====
@@ -55,7 +50,6 @@ const kaarten_WEB_les1 = [
   { v: "Welke technologie definieert DOM-manipulatie, event-listeners, API fetch en berekeningen?", a: "JavaScript.", o: "2.2 Drie pijlers van het web" },
 
   // ===== 2.3 De ontwikkelomgeving (2.3) =====
-  { v: "Wat is de standaard code-editor voor webontwikkeling in deze cursus, en hoe breid je hem uit?", a: "Visual Studio Code (VS Code), uitbreidbaar met extensies zoals Live Server.", o: "2.3 De ontwikkelomgeving" },
   { v: "Welke browsers hebben krachtige Developer Tools, en met welke toets open je ze?", a: "Google Chrome, Microsoft Edge en Mozilla Firefox; je opent ze met F12.", o: "2.3 De ontwikkelomgeving" },
   { v: "Waarvoor gebruik je de Developer Tools (F12) van de browser?", a: "Om de HTML-structuur (DOM) en CSS live te inspecteren en te debuggen.", o: "2.3 De ontwikkelomgeving",
     uitleg: "Je gebruikt de browser dus niet alleen om websites te bezoeken en het resultaat van je code te bekijken, maar ook om fouten te zoeken." },
@@ -341,8 +335,6 @@ const kaarten_WEB_les1 = [
   // ===== 10.1 Voorbeelden semantische layout (10.1) =====
   { v: "Zet deze pagina om naar semantische HTML5: welk element komt rond elk deel?\n1. Titel \"TechNews Magazine\" + navigatielijst\n2. Het hoofdgedeelte van de pagina\n3. Het blok \"Laatste nieuws\"\n4. Eén nieuwsbericht \"HTML & CSS\"\n5. \"Aanbevolen links\" (gerelateerde info)\n6. \"Erasmushogeschool Brussel\" onderaan", a: "1. <header> (met de lijst in een <nav>)\n2. <main>\n3. <section>\n4. <article>\n5. <aside>\n6. <footer>", o: "10.1 Voorbeelden semantische layout" },
   { v: "Een product in een webshop: welk semantisch element gebruik je voor de hele productkaart?", a: "<article>, met daarin een <header> (titel), een <div> (beschrijving) en een <footer> (prijs + knop).", o: "10.1 Voorbeelden semantische layout" },
-  { v: "Welke elementen staan in de productkaart (article) uit de cursus, en wat staat erin?", a: "<header>: de titel van het product (<h2>).\n<div>: de beschrijving.\n<footer>: de prijs en de actieknop (\"In winkelwagen\").", o: "10.1 Voorbeelden semantische layout",
-    uitleg: "Een <header> en <footer> kunnen dus ook binnen een article gebruikt worden, niet alleen voor de hele pagina." },
 
   // ===== Oefening: HTML debugging (Oef. 1) =====
   { v: "Zoek de fouten in deze code (minstens 5):\n<DOCTYPE HTML>\n<html>\n<head>\n  <title>Mijn Eerste Pagina\n</head>\n<body>\n  <h1>Welkom op mijn website<h1>\n  <p>Dit is een <b>belangrijke mededeling.</p></b>\n  <p>Bekijk de <a href=contact.html>contactpagina</a>!\n</body>", a: "1. <DOCTYPE HTML> moet <!DOCTYPE html> zijn (uitroepteken).\n2. <html> mist lang=\"nl\".\n3. <meta charset=\"UTF-8\"> (en viewport) ontbreekt in de head.\n4. <title> wordt niet afgesloten (</title>).\n5. <h1> wordt afgesloten met <h1> in plaats van </h1>.\n6. </p></b> staat in de verkeerde volgorde (FILO): </b></p>.\n7. href=contact.html mist dubbele aanhalingstekens.\n8. De laatste <p> wordt niet afgesloten.\n9. </html> ontbreekt.", o: "Oefening: HTML debugging",
@@ -351,27 +343,12 @@ const kaarten_WEB_les1 = [
   // ===== Oefening: semantische tekststructuur (Oef. 2–3) =====
   { v: "Je maakt een \"Top 5 Movies\"-pagina waarin elke filmnaam begint met een nummer (\"1. The Shawshank Redemption\"). Gebruik je een <ol> of koppen?", a: "Koppen (bv. <h2>), met het nummer zelf in de tekst. Genummerde titels bestaan niet in HTML, en het is geen geordende lijst.", o: "Oefening: semantische tekststructuur",
     uitleg: "De filmnamen zijn titels met elk een eigen beschrijving (paragraaf) eronder. Een lijst zou de structuur verkeerd weergeven." },
-  { v: "Welke tag gebruik je voor elk stukje? (oefening 3)\n1. De boektitel \"A Brief History of Time\"\n2. De definitie van een zwart gat\n3. De afkorting NASA\n4. Het citaat van Hawking in de zin\n5. De 2 in E = mc²\n6. De 2 in CO₂\n7. Het copyrightsymbool", a: "1. <cite>\n2. <dfn>\n3. <abbr title=\"National Aeronautics and Space Administration\">\n4. <q> (kort citaat in de zin) of <blockquote> (op een eigen regel)\n5. <sup>\n6. <sub>\n7. &copy;", o: "Oefening: semantische tekststructuur" },
 
   // ===== Oefening: lijsten (Oef. 4 & 6) =====
-  { v: "Hoe structureer je de filmgegevens van The Shawshank Redemption (oefening 4)?", a: "<h1> voor de filmtitel, <h2> \"General info\", de gegevens (Director, Release date, Duration, IMDB rating) in een <ul>, met geneste lijsten voor Genres en Writers, en een <hr> eronder.", o: "Oefening: lijsten" },
-  { v: "In de receptenpagina (oefening 6) staat bij één bereidingsstap een lijst met ingrediënten. Welke lijsten gebruik je?", a: "Een <ol> voor de bereidingsstappen, met binnen één <li> een geneste <ul> met de ingrediënten.", o: "Oefening: lijsten" },
-  { v: "Hoe maak je in oefening 6 de inhoudsopgave die naar de sectie \"begrippen\" springt?", a: "Je geeft de sectie een id: <section id=\"begrippen\">, en linkt ernaar met <a href=\"#begrippen\">. Onderaan elke sectie komt <a href=\"#top\">Terug naar boven</a>.", o: "Oefening: lijsten" },
-  { v: "Welke lijst gebruik je voor culinaire begrippen met hun uitleg (Al dente, Mise-en-place)?", a: "Een definitielijst: <dl> met <dt> voor het begrip en <dd> voor de uitleg.", o: "Oefening: lijsten" },
 
   // ===== Oefening: relatieve paden (Oef. 5) =====
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: link naar about.html?", a: "href=\"pages/about.html\"\n\n<a href=\"pages/about.html\">Over ons</a>", o: "Oefening: relatieve paden" },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn index.html: afbeelding logo.png?", a: "src=\"assets/images/logo.png\"\n\n<img src=\"assets/images/logo.png\" alt=\"Logo\">", o: "Oefening: relatieve paden" },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn about.html: link terug naar index.html?", a: "href=\"../index.html\"\n\n<a href=\"../index.html\">Home</a>", o: "Oefening: relatieve paden",
-    uitleg: "about.html zit in pages/, dus één map hoger (PARENT) ligt index.html." },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: link naar about.html?", a: "href=\"../about.html\"\n\n<a href=\"../about.html\">Over ons</a>", o: "Oefening: relatieve paden",
-    uitleg: "article1.html zit in pages/blog/; één map hoger is pages/, waar about.html staat." },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: afbeelding logo.png?", a: "src=\"../../assets/images/logo.png\"\n\n<img src=\"../../assets/images/logo.png\" alt=\"Logo\">", o: "Oefening: relatieve paden",
-    uitleg: "Twee mappen hoger (GRANDPARENT) kom je in my-website/, daarna ga je naar assets/images/." },
-  { v: "Mappenstructuur:\nmy-website/\n  index.html\n  assets/images/logo.png\n  assets/css/style.css\n  pages/about.html\n  pages/blog/article1.html\nIn article1.html: link naar style.css?", a: "<link rel=\"stylesheet\" href=\"../../assets/css/style.css\">", o: "Oefening: relatieve paden" },
 
   // ===== Oefening: semantische layout (Oef. 7) =====
-  { v: "Oefening 7 (nieuwsartikel-pagina): waar komen deze onderdelen?\n1. Sitenaam (h1) en hoofdnavigatie\n2. Lijst met Home, Nieuws, Reviews, Contact\n3. Het nieuwsartikel\n4. Titel, auteur en datum van het artikel\n5. Tags/categorieën van het artikel\n6. \"Over de auteur\"\n7. Copyright en contactlink", a: "1. <header>\n2. <nav> met een <ul>\n3. <article> in de <main>\n4. Een <header> in het article\n5. Een <footer> in het article\n6. <aside>\n7. De algemene <footer> (met &copy; 2026 en een mailto:-link)", o: "Oefening: semantische layout" },
 
 ];
 
