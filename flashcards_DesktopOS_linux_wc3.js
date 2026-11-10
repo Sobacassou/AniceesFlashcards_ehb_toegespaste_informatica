@@ -55,7 +55,7 @@ const kaarten_DOS_linux_wc3 = [
     uitleg: "Iedereen mag /etc/passwd lezen (cat /etc/passwd)." },
   { v: "Welk commando is handig om informatie uit /etc/passwd te halen?", a: "Het commando cut.", o: "/etc/passwd en /etc/group",
     uitleg: "cut -d: -f1 /etc/passwd toont de loginnamen (zie werkcollege 2)." },
-  { v: "Good to know: Probeer eens enkel een lijst te tonen van alle gebruikte shells door de gebruikers, en dit dan in een ander bestand weg te schrijven.", a: "$ cut -d: -f7 /etc/passwd > shells.txt", o: "/etc/passwd en /etc/group", oefening: true,
+  { v: "Good to know: Probeer eens enkel een lijst te tonen van alle gebruikte shells door de gebruikers, en dit dan in een ander bestand weg te schrijven.", a: "$ cut -d: -f7 /etc/passwd > shells.txt", o: "/etc/passwd en /etc/group", extra: true, nietTeKennen: true,
     uitleg: "De shell is het 7de (laatste) veld in /etc/passwd; > schrijft de uitvoer naar een bestand. Met sort -u zie je elke shell maar één keer: cut -d: -f7 /etc/passwd | sort -u > shells.txt" },
   { v: "Zoek uit welke gebruikers er allemaal in de groep zitten waar je zelf ook lid van bent.", a: "$ id\n$ grep student /etc/group", o: "/etc/passwd en /etc/group", oefening: true,
     uitleg: "Met id zie je je groepen; in /etc/group staan de leden achteraan elke regel, bv. sudo:x:27:student (groepsnaam, x, group-ID, leden)." },
@@ -156,7 +156,7 @@ const kaarten_DOS_linux_wc3 = [
   { v: "Voer de ownership-opdracht uit: maak als test een bestand, controleer de eigenaar, ga terug naar student en maak student eigenaar.", a: "$ su test\n$ touch bestand.txt\n$ ls -l bestand.txt\n$ exit\n$ sudo chown student /home/test/bestand.txt\n$ ls -l /home/test/bestand.txt", o: "Ownership", oefening: true,
     uitleg: "Na su test sta je nog in de map waar je was; maak het bestand dus op een plaats waar test mag schrijven, bv. zijn eigen home (cd eerst). Een bestand maken kan ook met vi, nano of echo." },
   // ===== Compressie =====
-  { v: "Compressie met tar (6)", a: "• Ook Linux gebruikt veel compressie, maar vaak met andere algoritmes: vooral gzip (.tar.gz), ook bzip2 (.tar.bz2). Zulke bestanden heten 'tarballs'.\n• Comprimeren: tar -cvzf [naam_archief] [folder_of_bestand]\n• Decomprimeren: tar -xzvf [naam_archief] (c wordt x)\n• Linux kan ook met zip, rar en 7zip. rar en 7zip zijn doorgaans sneller en efficiënter, maar niet overal standaard ondersteund; zip is prima voor een Windows-computer.", o: "Compressie", wit: true,
+  { v: "Compressie met tar (6)", a: "• Ook Linux gebruikt veel compressie, maar vaak met andere algoritmes: vooral gzip (.tar.gz), ook bzip2 (.tar.bz2). Zulke bestanden heten 'tarballs'.\n• Comprimeren: tar -cvzf [naam_archief] [folder_of_bestand]\n• Decomprimeren: tar -xzvf [naam_archief] (c wordt x)\n• Linux kan ook met zip, rar en 7zip. rar en 7zip zijn doorgaans sneller en efficiënter, maar niet overal standaard ondersteund; zip is prima voor een Windows-computer.", o: "Compressie", extra: true, nietTeKennen: true,
     uitleg: "Dit deel is 'good to know'.",
     tabel: [
       ["Optie", "Betekenis"],
@@ -167,7 +167,7 @@ const kaarten_DOS_linux_wc3 = [
       ["j", "bzip2-compressie"],
       ["f", "file: naam van het archief"]
     ] },
-  { v: "Welke compressie-algoritmes zijn populair in Linux, en welke extensies horen erbij?", a: "gzip (.tar.gz) en bzip2 (.tar.bz2). Zulke bestanden heten ook 'tarballs'.", o: "Compressie",
+  { v: "Welke compressie-algoritmes zijn populair in Linux, en welke extensies horen erbij?", a: "gzip (.tar.gz) en bzip2 (.tar.bz2). Zulke bestanden heten ook 'tarballs'.", o: "Compressie", extra: true, nietTeKennen: true,
     uitleg: "Je werkt ermee via het commando tar. Dit deel is 'good to know'." },
   { v: "Hoe comprimeer je een map met gzip, en wat betekenen de opties?", a: "$ tar -cvzf archief.tar.gz map", o: "Compressie", oefening: true,
     uitleg: "c = create (nieuw archief), v = verbose (vooruitgang tonen), z = gzip-compressie, f = file (de naam van het archief volgt). Na f komt eerst de naam van het archief, dan wat je wil comprimeren." },

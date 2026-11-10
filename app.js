@@ -1178,7 +1178,7 @@ function zetHerhaalLabel(kaart) {
     if (kaart.extra) {
       const lab = document.createElement("span");
       lab.className = "extra-label";
-      lab.textContent = "Extra info, niet uit de cursus · ";
+      lab.textContent = kaart.nietTeKennen ? "Extra, niet te kennen leerstof · " : "Extra info, niet uit de cursus · ";
       el.prepend(lab);
     }
     if (kaart.herhaling) {
