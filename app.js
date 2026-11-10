@@ -724,7 +724,7 @@ function toonKaart() {
   document.getElementById("kaart").classList.remove("omgedraaid");
   document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
   document.getElementById("kaart").classList.toggle("extra", kaart.extra === true);   // lichtgroene kaart = extra info, niet uit de cursus
-  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefenkaart (zacht pastelblauw)
+  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefening (nachtblauw, blauwe rand)
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
@@ -1167,6 +1167,13 @@ function zetHerhaalLabel(kaart) {
     const el = document.getElementById(id);
     el.querySelector(".herhaal-label")?.remove();
     el.querySelector(".extra-label")?.remove();
+    el.querySelector(".oef-label")?.remove();
+    if (kaart.oefening) {
+      const lab = document.createElement("span");
+      lab.className = "oef-label";
+      lab.textContent = "Oefening · ";
+      el.prepend(lab);
+    }
     if (kaart.extra) {
       const lab = document.createElement("span");
       lab.className = "extra-label";
