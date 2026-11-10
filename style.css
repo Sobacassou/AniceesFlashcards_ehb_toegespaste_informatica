@@ -783,27 +783,22 @@ html, body { overflow-x: clip; }
 .kaart.wit .kant::-webkit-scrollbar-thumb { background-color: #b0b0b0; }
 .kaart .kant > * { flex-shrink: 0; }   /* niets laten krimpen: wat niet past, scrolt */
 
-/* ===== Oefeningen: nachtblauw met VS Code-blauwe rand (#3794ff) en label "Oefening", zacht lichtgrijze tekst ===== */
-.kaart.oefening .voorkant  { background: #323e52; color: #d4d4d4; }
-.kaart.oefening .achterkant { background: #1b222c; color: #d4d4d4; }
-.kaart.oefening .kant { border: 3px solid #3794ff; }
-.kaart.oefening .onderwerp, .kaart.oefening .uitleg { color: #9cdcfe; }
-.kaart.oefening .uitleg { border-top-color: #3794ff; }
-.kaart.oefening.flits-goed .kant { border-color: var(--groen); }
-.kaart.oefening.flits-fout .kant { border-color: var(--rood); }
-.oef-label { color: #3794ff; font-weight: 600; }
+/* ===== Oefeningen: zien eruit als een gewone zwarte kaart, met bovenaan het label "Oefening" in VS Code-blauw ===== */
+.oef-label { color: #3794ff; font-weight: 700; font-size: 1.2em; }
+.kaart.oefening .onderwerp { color: #9cdcfe; }
+.kaart.oefening #vraag, .kaart.oefening #antwoord { color: #cde3f7; }
 .kaart.oefening #vraag { text-align: left; align-self: stretch; }
-.kaart.oefening #vraag .codeblok { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #2c4f70; border-radius: 6px;
+.kaart.oefening #vraag .codeblok { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
   font-family: Consolas, "Cascadia Code", monospace; font-size: 0.85rem; font-weight: 400; line-height: 1.5;
   letter-spacing: 0; word-spacing: 0; white-space: pre-wrap; color: #d4d4d4; }
-.kaart.oefening #antwoord .codeblok { border-color: #2c4f70; }
+.kaart.oefening #antwoord .codeblok { border-color: #3c3c3c; }
 .kaart.oefening #vraag .c-punt { color: #808080; } .kaart.oefening #vraag .c-tag { color: #569cd6; } .kaart.oefening #vraag .c-attr { color: #9cdcfe; }
 .kaart.oefening #vraag .c-str { color: #ce9178; } .kaart.oefening #vraag .c-sel { color: #d7ba7d; } .kaart.oefening #vraag .c-num { color: #b5cea8; }
-.kaart.oefening #vraag .code-in, .kaart.oefening #antwoord .code-in { font-family: Consolas, monospace; background: #1e1e1e; border: 1px solid #2c4f70; border-radius: 4px; padding: 0 4px; }
+.kaart.oefening #vraag .code-in, .kaart.oefening #antwoord .code-in { font-family: Consolas, monospace; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 4px; padding: 0 4px; }
 .oef-woord { color: #8fb8e0; }
 
 /* Linux-oefenkaarten: commando's in een donker terminalvak */
-.kaart.oefening .codeblok.term { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #2c4f70; border-radius: 6px;
+.kaart.oefening .codeblok.term { margin: 8px 0; padding: 10px 12px; background: #1e1e1e; border: 1px solid #3c3c3c; border-radius: 6px;
   font-family: Consolas, "Cascadia Mono", "DejaVu Sans Mono", monospace; font-size: 0.9rem; font-weight: 400; line-height: 1.55;
   letter-spacing: 0; word-spacing: 0; white-space: pre-wrap; color: #d4d4d4; text-align: left; }
 .kaart.oefening .t-prompt { color: #4ec9b0; font-weight: 600; }

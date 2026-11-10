@@ -724,7 +724,7 @@ function toonKaart() {
   document.getElementById("kaart").classList.remove("omgedraaid");
   document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
   document.getElementById("kaart").classList.toggle("extra", kaart.extra === true);   // lichtgroene kaart = extra info, niet uit de cursus
-  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefening (nachtblauw, blauwe rand)
+  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefening (zoals een zwarte kaart, met blauw label "Oefening")
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
