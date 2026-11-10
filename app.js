@@ -574,6 +574,8 @@ document.querySelectorAll('input[name="oefKeuze"]').forEach(c => c.addEventListe
   document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x === c); });
 }));
 if (typeof kaarten_WEB_les2_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["2 – HTML media, tabellen & formulieren"], kaarten_WEB_les2_oef);
+// zelftesten van Canvas (meerkeuze): ook achter de laatste kaart van hetzelfde onderwerp
+if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
 
 function startOefenen(kaarten) {
   const gewoneStart = !kaarten;
@@ -734,10 +736,12 @@ function toonKaart() {
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
-  if (kaart.oefening) vraagEl.innerHTML = huidigVak === "Web Essentials" ? codeVisueel(kaart.v) : terminalVisueel(kaart.v);
+  // Web: een vraag met ingesprongen code toont die code in een codevak (zoals op de achterkant)
+  const webCode = huidigVak === "Web Essentials" && /\n {2,}/.test(kaart.v);
+  if (kaart.oefening || webCode) vraagEl.innerHTML = huidigVak === "Web Essentials" ? codeVisueel(kaart.v) : terminalVisueel(kaart.v);
   // meerkeuze/juist-fout (vraag over meerdere regels): links uitlijnen, leest makkelijker
   vraagEl.classList.toggle("meerkeuze", kaart.v.includes("\n"));
-  vraagEl.classList.toggle("code", /\n {2,}/.test(kaart.v));
+  vraagEl.classList.toggle("code", !webCode && /\n {2,}/.test(kaart.v));
   // tekening op de voorkant (bv. met nummers i.p.v. de namen)
   zetFiguur("figVoor", kaart.img);
   document.getElementById("figAchter").innerHTML = "";
