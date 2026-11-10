@@ -582,6 +582,7 @@ function startOefenen(kaarten) {
   foutReeks = 0;
   kansMoeilijk = new Set();
   aantalBeantwoord = 0;
+  konijnTegoed = false;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
   hervatbaar = gewoneStart && !geschud;
   if (hervatbaar) index = hervatIndex();
@@ -927,7 +928,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), aantal: aantalBeantwoord };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), aantal: aantalBeantwoord, konijnTegoed };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -959,14 +960,17 @@ function volgende(wistHet) {
   const onderdeelKlaar = wistHet && openVoor > 0 && standVan(kaart.hfst, onderdeel).open === 0;
   reeks = wistHet ? reeks + 1 : 0;
   if (wistHet) aantalBeantwoord++;   // enkel juiste antwoorden tellen (ook herhalingen en controles)
-  // beloningen, telkens maar één tegelijk. Voorrang: konijntje > groen paardje > gele eenhoorn > draakje
-  const konijnNu = wistHet && aantalBeantwoord % 15 === 0;                 // om de 15 juiste antwoorden in een ronde (niet op rij)
-  const paardjeNu = overwonnen && !konijnNu;                                // moeilijke kaart via haar "één kans" van de stapel
-  const geelNu = onderdeelKlaar && !konijnNu && !paardjeNu;                 // laatste open kaart van het onderdeel juist
-  const draakNu = wistHet && reeks % 3 === 0 && !konijnNu && !paardjeNu && !geelNu;   // 3, 6, 9 ... op rij juist
-  if (konijnNu) toonKonijn();
-  if (paardjeNu) toonEenhoorn();
+  // beloningen, telkens maar één tegelijk. Voorrang: gele eenhoorn > groen paardje > konijntje > draakje
+  // (zeldzaam en betekenisvol gaat voor op vaak en voorspelbaar)
+  const geelNu = onderdeelKlaar;                                            // laatste open kaart van het onderdeel juist
+  const paardjeNu = overwonnen && !geelNu;                                  // kaart van de stapel moeilijk
+  if (wistHet && aantalBeantwoord % 15 === 0) konijnTegoed = true;          // om de 15 juiste antwoorden in een ronde (niet op rij)
+  const konijnNu = wistHet && konijnTegoed && !geelNu && !paardjeNu;        // valt het samen met eenhoorn of paardje: bij het volgende juiste antwoord
+  if (konijnNu) konijnTegoed = false;
+  const draakNu = wistHet && reeks % 3 === 0 && !geelNu && !paardjeNu && !konijnNu;   // 3, 6, 9 ... op rij juist
   if (geelNu) toonGeleEenhoorn();
+  if (paardjeNu) toonEenhoorn();
+  if (konijnNu) toonKonijn();
   if (draakNu) toonDraak();
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
   if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && s.moeilijk === true) toonGroeneSter();
@@ -1017,6 +1021,7 @@ function maakOngedaan() {
   }
   reeks = actie.reeks;
   if (actie.aantal !== undefined) aantalBeantwoord = actie.aantal;
+  if (actie.konijnTegoed !== undefined) konijnTegoed = actie.konijnTegoed;
   foutReeks = actie.foutReeks;
   index = actie.index;
   toonScherm("schermOefenen");
@@ -1319,6 +1324,7 @@ function toonDraak() {
 /* ===== Roos konijntje: om de 15 juiste antwoorden in een ronde =====
    Hopt over de hele breedte van het scherm, ter hoogte van de onderste rand van het kaartje. */
 let aantalBeantwoord = 0;
+let konijnTegoed = false;   // konijntje uitgesteld omdat de gele eenhoorn of het groene paardje voorging
 const KONIJN_SVG = `
 <svg viewBox="0 0 120 120" aria-hidden="true">
 <g class="ko-lijf">

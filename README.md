@@ -12,8 +12,6 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 
 ## Welke vakken zitten erin?
 
-| Vak | Hoofdstukken |
-|-|-|
 | **IT Essentials** | I.1 Talstelsels · I.2 Logische poorten · I.3 Rekenschakelingen · II.1 Computerarchitectuur · II.2 Werkgeheugen · II.3 Processoren · II.4 Chipsets en bussen · II.5 Magnetische opslag |
 | **Desktop OS** | I.0 Linux: introductie · I.1–I.3 Linux: werkcolleges 1–3 · II.1 Windows: werkcollege 1 |
 | **Web Essentials** | 1 Introductie & HTML-basis · 2 HTML media, tabellen & formulieren · 3 CSS-basis, kleuren & typografie · 4 CSS media, tabellen, formulieren & box model |
@@ -65,14 +63,12 @@ Vond je het handig? Geef het project een ⭐ zodat andere studenten het ook vind
 * `flashcards_*.js`: de kaarten, één bestand per hoofdstuk
 * `afbeeldingen/`: figuren voor de kaarten (`_vraag` = versie met genummerde vakjes voor de voorkant)
 
-Een kaart ziet er zo uit:
+### De kaarten
 
-```js
-{ v: "Vraag", a: "Antwoord", o: "Onderwerp", uitleg: "Extra uitleg",
-  img: "afbeeldingen/…_vraag.jpg", imgAntwoord: "afbeeldingen/….jpg" }
-```
-
-`img`, `imgAntwoord` en `uitleg` zijn optioneel. Met `wit: true` wordt het een witte uitlegkaart, met `extra: true` een kaart met extra info die niet uit de cursus komt. De `.structuur` onderaan elk bestand bepaalt het overzicht rechts.
+Er zijn drie zoorten kaarten:
+- witte kaarten: uitlegkaarten
+- kaarten met extra info die niet uit de cursus komt: turkaao omrand
+- gewone zwarte flashcards
 
 Weggegooide kaarten kan je als lijst kopiëren (*Lijst kopiëren*) om ze daarna uit de js-bestanden te halen.
 
