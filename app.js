@@ -1893,7 +1893,7 @@ window.addEventListener("resize", () => {
 
 /* ===== Groene ster =====
    Controle juist, maar de kaart blijft moeilijk: links op de kaart, iets onder het midden,
-   verschijnt een groene ster (zelfde groen als de eenhoorn), die zachtjes wiegt en weer verdwijnt. */
+   verschijnt een groene ster (zelfde groen als de eenhoorn), die één keer wiegt en snel weer verdwijnt (2,5 s). */
 function toonGroeneSter() {
   const kaart = document.getElementById("kaart");
   const r = kaart ? kaart.getBoundingClientRect() : null;
@@ -1910,15 +1910,14 @@ function toonGroeneSter() {
   document.body.appendChild(ster);
   ster.animate([
     { transform: "scale(0) rotate(-90deg)", opacity: 0 },
-    { transform: "scale(1.2) rotate(8deg)", opacity: 1, offset: 0.08 },
-    { transform: "scale(0.95) rotate(-4deg)", opacity: 1, offset: 0.13 },
-    { transform: "scale(1) rotate(0deg)", opacity: 1, offset: 0.18 },
-    { transform: "scale(1.06) rotate(-6deg)", opacity: 1, offset: 0.38 },
-    { transform: "scale(1) rotate(6deg)", opacity: 1, offset: 0.58 },
+    { transform: "scale(1.2) rotate(8deg)", opacity: 1, offset: 0.19 },
+    { transform: "scale(0.95) rotate(-4deg)", opacity: 1, offset: 0.3 },
+    { transform: "scale(1) rotate(0deg)", opacity: 1, offset: 0.42 },
+    { transform: "scale(1.06) rotate(-6deg)", opacity: 1, offset: 0.6 },
     { transform: "scale(1.04) rotate(0deg)", opacity: 1, offset: 0.82 },
     { transform: "scale(0.5) rotate(30deg)", opacity: 0 }
-  ], { duration: 5850, easing: "ease-in-out", fill: "forwards" });
-  setTimeout(() => ster.remove(), 5950);
+  ], { duration: 2500, easing: "ease-in-out", fill: "forwards" });   // binnenkomen even snel als vroeger, daarna sneller weg
+  setTimeout(() => ster.remove(), 2600);
 }
 
 /* Kleine overzichtstabel op een kaart (bv. afbeeldingsformaten): eerste rij = kolomkoppen. */
