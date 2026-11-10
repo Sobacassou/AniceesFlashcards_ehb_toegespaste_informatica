@@ -37,6 +37,8 @@ const vakken = {
     "II.4 – Chipsets en bussen": (typeof kaarten_IT_deel2_les4 !== "undefined" ? kaarten_IT_deel2_les4 : ontbreekt("flashcards_ITdeel2les4_chipsets.js")),
     // kaarten staan in flashcards_ITdeel2les5_magnetisch.js
     "II.5 – Magnetische opslag": (typeof kaarten_IT_deel2_les5 !== "undefined" ? kaarten_IT_deel2_les5 : ontbreekt("flashcards_ITdeel2les5_magnetisch.js")),
+    // kaarten staan in flashcards_ITdeel2les6_optisch.js
+    "II.6 – Optische geheugens en leesgeheugens": (typeof kaarten_IT_deel2_les6 !== "undefined" ? kaarten_IT_deel2_les6 : ontbreekt("flashcards_ITdeel2les6_optisch.js")),
   },
   "Data Essentials": {
     // voorlopig 5 dummykaarten, worden later vervangen door echte kaarten uit de cursus
