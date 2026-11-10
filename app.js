@@ -573,6 +573,10 @@ function voegOefeningenToe(lijst, oef) {
 document.querySelectorAll('input[name="oefKeuze"]').forEach(c => c.addEventListener("change", () => {
   document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x === c); });
 }));
+// bij het openen staat "Alle kaarten" altijd aan (ook als de browser bij herladen oude vinkjes terugzet)
+const zetOefAlles = () => document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x.value === "alles"); });
+zetOefAlles();
+window.addEventListener("pageshow", zetOefAlles);
 if (typeof kaarten_WEB_les2_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["2 – HTML media, tabellen & formulieren"], kaarten_WEB_les2_oef);
 // zelftesten van Canvas (meerkeuze): ook achter de laatste kaart van hetzelfde onderwerp
 if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
@@ -599,7 +603,7 @@ function startOefenen(kaarten) {
     const oefKeuze = (document.querySelector('input[name="oefKeuze"]:checked') || {}).value || "alles";
     if (oefKeuze === "enkel") kaarten = kaarten.filter(k => k.oefening === true);
     if (oefKeuze === "zonder") kaarten = kaarten.filter(k => k.oefening !== true);
-    if (kaarten.length === 0) { melding(oefKeuze === "enkel" ? "Er zijn geen oefenkaarten in deze hoofdstukken." : "Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
+    if (kaarten.length === 0) { melding(oefKeuze === "enkel" ? "Er zijn geen oefeningen in deze hoofdstukken." : "Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
   }
   stapel = [...kaarten];
   const geschud = document.getElementById("schudden").checked;
