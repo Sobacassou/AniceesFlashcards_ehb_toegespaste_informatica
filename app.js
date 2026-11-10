@@ -578,6 +578,7 @@ const zetOefAlles = () => document.querySelectorAll('input[name="oefKeuze"]').fo
 zetOefAlles();
 window.addEventListener("pageshow", zetOefAlles);
 if (typeof kaarten_WEB_les2_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["2 – HTML media, tabellen & formulieren"], kaarten_WEB_les2_oef);
+if (typeof kaarten_WEB_les3_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["3 – CSS-basis, kleuren & typografie"], kaarten_WEB_les3_oef);
 // zelftesten van Canvas (meerkeuze): ook achter de laatste kaart van hetzelfde onderwerp
 if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
 
