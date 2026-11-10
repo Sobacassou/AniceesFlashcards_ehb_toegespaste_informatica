@@ -558,6 +558,22 @@ function schud(lijst) {
   return lijst;
 }
 
+/* Oefenkaarten (oefening: true) staan in een apart bestand, maar horen bij een hoofdstuk:
+   ze komen achter de laatste kaart van hetzelfde onderwerp, zodat je weet waar in de cursus je zit. */
+function voegOefeningenToe(lijst, oef) {
+  if (!Array.isArray(lijst) || !Array.isArray(oef)) return;
+  for (const k of oef) {
+    let i = -1;
+    lijst.forEach((x, j) => { if (x.o === k.o) i = j; });
+    if (i === -1) lijst.push(k); else lijst.splice(i + 1, 0, k);
+  }
+}
+// keuze oefenkaarten: vierkantjes, maar er staat er altijd precies één aan
+document.querySelectorAll('input[name="oefKeuze"]').forEach(c => c.addEventListener("change", () => {
+  document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x === c); });
+}));
+if (typeof kaarten_WEB_les2_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["2 – HTML media, tabellen & formulieren"], kaarten_WEB_les2_oef);
+
 function startOefenen(kaarten) {
   const gewoneStart = !kaarten;
   if (!kaarten) {
@@ -576,6 +592,11 @@ function startOefenen(kaarten) {
       return wil.moeilijk && statusVan(id) === "juist" && stats[id].moeilijk === true;   // juist, maar was moeilijk
     });
     if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
+    // oefenkaarten: alles, enkel oefenkaarten of zonder oefenkaarten
+    const oefKeuze = (document.querySelector('input[name="oefKeuze"]:checked') || {}).value || "alles";
+    if (oefKeuze === "enkel") kaarten = kaarten.filter(k => k.oefening === true);
+    if (oefKeuze === "zonder") kaarten = kaarten.filter(k => k.oefening !== true);
+    if (kaarten.length === 0) { melding(oefKeuze === "enkel" ? "Er zijn geen oefenkaarten in deze hoofdstukken." : "Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
   }
   stapel = [...kaarten];
   const geschud = document.getElementById("schudden").checked;
@@ -681,6 +702,7 @@ function toonKaart() {
   document.getElementById("kaart").classList.remove("omgedraaid");
   document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
   document.getElementById("kaart").classList.toggle("extra", kaart.extra === true);   // lichtgroene kaart = extra info, niet uit de cursus
+  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefenkaart (zacht pastelblauw)
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
@@ -696,6 +718,7 @@ function toonKaart() {
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
+  if (kaart.oefening) vraagEl.innerHTML = codeVisueel(kaart.v);
   // meerkeuze/juist-fout (vraag over meerdere regels): links uitlijnen, leest makkelijker
   vraagEl.classList.toggle("meerkeuze", kaart.v.includes("\n"));
   vraagEl.classList.toggle("code", /\n {2,}/.test(kaart.v));
