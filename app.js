@@ -404,7 +404,6 @@ function gekozenFilters() {
     nieuw: document.getElementById("fNieuw").checked,
     fout:  document.getElementById("fFout").checked,
     juist: document.getElementById("fJuist").checked,
-    moeilijk: document.getElementById("fMoeilijk").checked,
   };
 }
 
@@ -593,11 +592,12 @@ function startOefenen(kaarten) {
     if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
     // filter: nog niet beantwoord / fout / juist
     const wil = gekozenFilters();
-    if (!wil.nieuw && !wil.fout && !wil.juist && !wil.moeilijk) { melding("Vink minstens één soort kaarten aan."); return; }
+    if (!wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
     kaarten = kaarten.filter(k => {
       const id = kaartId(huidigVak, k.hfst, k);
-      if (wil[statusVan(id)]) return true;
-      return wil.moeilijk && statusVan(id) === "juist" && stats[id].moeilijk === true;   // juist, maar was moeilijk
+      // moeilijke kaarten die nog niet van de stapel zijn, horen bij "Had ik eerder fout" (ook als je ze laatst juist had)
+      if (stats[id] && stats[id].moeilijk === true) return wil.fout;
+      return wil[statusVan(id)];
     });
     if (kaarten.length === 0) { melding("Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
     // oefenkaarten: alles, enkel oefenkaarten of zonder oefenkaarten
