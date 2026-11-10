@@ -12,7 +12,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 
 ## Welke vakken zitten erin?
 
-| **IT Essentials** | I.1 Talstelsels · I.2 Logische poorten · I.3 Rekenschakelingen · II.1 Computerarchitectuur · II.2 Werkgeheugen · II.3 Processoren · II.4 Chipsets en bussen · II.5 Magnetische opslag · II.6 Optische geheugens en leesgeheugens · II.7 Poorten |
+| **IT Essentials** | I.1 Talstelsels · I.2 Logische poorten · I.3 Rekenschakelingen · II.1 Computerarchitectuur · II.2 Werkgeheugen · II.3 Processoren · II.4 Chipsets en bussen · II.5 Magnetische opslag · II.6 Optische geheugens en leesgeheugens · II.7 Poorten · II.8 Randapparatuur |
 | **Desktop OS** | I.0 Linux: introductie · I.1–I.3 Linux: werkcolleges 1–3 · II.1 Windows: werkcollege 1 |
 | **Web Essentials** | 1 Introductie & HTML-basis · 2 HTML media, tabellen & formulieren · 3 CSS-basis, kleuren & typografie · 4 CSS media, tabellen, formulieren & box model · 5 CSS layout: float, flexbox & positioning |
 

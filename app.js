@@ -41,6 +41,7 @@ const vakken = {
     "II.6 – Optische geheugens en leesgeheugens": (typeof kaarten_IT_deel2_les6 !== "undefined" ? kaarten_IT_deel2_les6 : ontbreekt("flashcards_ITdeel2les6_optisch.js")),
     // kaarten staan in flashcards_ITdeel2les7_poorten.js
     "II.7 – Poorten": (typeof kaarten_IT_deel2_les7 !== "undefined" ? kaarten_IT_deel2_les7 : ontbreekt("flashcards_ITdeel2les7_poorten.js")),
+    "II.8 – Randapparatuur": (typeof kaarten_IT_deel2_les8 !== "undefined" ? kaarten_IT_deel2_les8 : ontbreekt("flashcards_ITdeel2les8_randapparatuur.js")),
   },
   "Data Essentials": {
     // voorlopig 5 dummykaarten, worden later vervangen door echte kaarten uit de cursus
