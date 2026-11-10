@@ -76,6 +76,7 @@ const vakken = {
     // ===== Deel II: Windows =====
     "II.1 – Windows: werkcollege 1": (typeof kaarten_DOS_windows_wc1 !== "undefined" ? kaarten_DOS_windows_wc1 : ontbreekt("flashcards_DesktopOS_windows_wc1.js")),
     "II.2 – Windows: werkcollege 2": (typeof kaarten_DOS_windows_wc2 !== "undefined" ? kaarten_DOS_windows_wc2 : ontbreekt("flashcards_DesktopOS_windows_wc2.js")),
+    "II.3 – Windows: werkcollege 3": (typeof kaarten_DOS_windows_wc3 !== "undefined" ? kaarten_DOS_windows_wc3 : ontbreekt("flashcards_DesktopOS_windows_wc3.js")),
   },
 };
 
