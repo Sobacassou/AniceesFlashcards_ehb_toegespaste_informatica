@@ -75,6 +75,7 @@ const vakken = {
     "I.3 – Linux: werkcollege 3": (typeof kaarten_DOS_linux_wc3 !== "undefined" ? kaarten_DOS_linux_wc3 : ontbreekt("flashcards_DesktopOS_linux_wc3.js")),
     // ===== Deel II: Windows =====
     "II.1 – Windows: werkcollege 1": (typeof kaarten_DOS_windows_wc1 !== "undefined" ? kaarten_DOS_windows_wc1 : ontbreekt("flashcards_DesktopOS_windows_wc1.js")),
+    "II.2 – Windows: werkcollege 2": (typeof kaarten_DOS_windows_wc2 !== "undefined" ? kaarten_DOS_windows_wc2 : ontbreekt("flashcards_DesktopOS_windows_wc2.js")),
   },
 };
 
@@ -686,7 +687,7 @@ function terminalVisueel(tekst) {
   let html = "", blok = [];
   const sluit = () => { if (blok.length) { html += `<pre class="codeblok term">${blok.join("\n")}</pre>`; blok = []; } };
   for (const r of regels) {
-    const m = r.match(/^(\$|[A-Za-z]:\\[^&]*&gt;) (.*)$/);   // Linux: "$ ", Windows CMD: "C:\> " of "C:\map> "
+    const m = r.match(/^(\$|[A-Za-z]:\\[^&]*&gt;|DISKPART&gt;) (.*)$/);   // Linux: "$ ", Windows CMD: "C:\> " of "C:\map> ", diskpart: "DISKPART> "
     if (m) blok.push(`<span class="t-prompt">${m[1]}</span> ${m[2]}`);
     else if (/^\s{2,}\S/.test(r)) blok.push(`<span class="t-toets">${r.trim()}</span>`);
     else { sluit(); html += `<div>${r}</div>`; }
