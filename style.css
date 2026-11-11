@@ -820,3 +820,16 @@ html, body { overflow-x: clip; }
   letter-spacing: 0; word-spacing: 0; white-space: pre-wrap; color: #d4d4d4; text-align: left; }
 .kaart.oefening .t-prompt { color: #4ec9b0; font-weight: 600; }
 .kaart.oefening .t-toets { color: #d4d4d4; }
+
+/* Favoriet: ster rechtsboven op de kaart (S op de pc) */
+:root { --fav: #b5cea8; }   /* VS Code: lichtgroen (getallen), anders dan het groen van juist */
+.fav-woord { color: var(--fav); font-weight: 600; }
+.kant .ster {
+  position: absolute; top: 2px; right: 14px; z-index: 5;
+  width: auto; margin: 0; padding: 2px 6px; border: none; border-radius: 6px;
+  background: none; color: var(--fav); font-size: 2.1rem; line-height: 1; font-weight: 400;
+}
+@media (hover: hover) { .kant .ster:hover { background: rgba(255, 255, 255, 0.08); } }
+.kaart.wit .kant .ster { color: #098658; }   /* VS Code Light+: donkerder groen, goed zichtbaar op een witte kaart */
+@media (hover: hover) { .kaart.wit .kant .ster:hover { background: rgba(0, 0, 0, 0.06); } }
+.kant .onderwerp { right: 64px; }   /* plaats laten voor de ster */

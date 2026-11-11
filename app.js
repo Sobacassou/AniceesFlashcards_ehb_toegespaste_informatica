@@ -101,6 +101,7 @@ function bewaar(sleutel, waarde) {
 let verborgen = new Set(laad("verborgen", []));   // weggegooide kaarten
 let stats = laad("stats", {});                      // per kaart: hoe vaak goed/fout + laatste antwoord
 let scores = laad("scores", {});                    // per vak: je laatste scores
+let favorieten = new Set(laad("favorieten", []));   // kaarten met een ster
 let posities = laad("posities", {});                // waar je gebleven was (enkel zonder schudden)
 let hervatbaar = false;                             // huidige ronde onthoudt zijn plaats?
 
@@ -343,6 +344,7 @@ function kiesVak(vak) {
   const terug = document.getElementById("terugzetten");
   terug.style.display = aantalWeg ? "block" : "none";
   terug.textContent = `${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
+  telFavorieten();
 
   toonScherm("schermHoofdstuk");
 }
@@ -393,6 +395,41 @@ async function wisVoortgang() {
 
 function vinkAlles(aan) {
   document.querySelectorAll("#hoofdstukLijst input").forEach(c => c.checked = aan);
+  telFavorieten();
+}
+
+/* ===== Favorieten: een ster rechtsboven op de kaart ===== */
+// hoeveel favorieten er zijn in de aangevinkte hoofdstukken (weggegooide kaarten niet meegeteld)
+function telFavorieten() {
+  const el = document.getElementById("favAantal");
+  if (!el || !huidigVak) return;
+  let n = 0;
+  for (const h of aangevinkteHoofdstukken())
+    for (const k of vakken[huidigVak][h] || []) {
+      const id = kaartId(huidigVak, h, k);
+      if (favorieten.has(id) && !verborgen.has(id)) n++;
+    }
+  el.textContent = `(${n})`;
+}
+// de ster op beide kanten van de kaart: leeg = geen favoriet, vol = favoriet
+function zetSter() {
+  const kaart = stapel[index];
+  if (!kaart) return;
+  const aan = favorieten.has(kaartId(huidigVak, kaart.hfst, kaart));
+  document.querySelectorAll("#kaart .ster").forEach(s => {
+    s.textContent = aan ? "★" : "☆";
+    s.classList.toggle("aan", aan);
+    s.setAttribute("aria-pressed", aan ? "true" : "false");
+  });
+}
+function wisselFavoriet(e) {
+  if (e) { e.stopPropagation(); if (e.currentTarget && e.currentTarget.blur) e.currentTarget.blur(); }   // de kaart niet omdraaien
+  const kaart = stapel[index];
+  if (!kaart) return;
+  const id = kaartId(huidigVak, kaart.hfst, kaart);
+  if (favorieten.has(id)) favorieten.delete(id); else favorieten.add(id);
+  bewaar("favorieten", [...favorieten]);
+  zetSter();
 }
 
 /* ===== Filter: nog niet beantwoord / fout / juist ===== */
@@ -594,10 +631,16 @@ function startOefenen(kaarten) {
       .flatMap(h => vakken[huidigVak][h].map(k => ({ ...k, hfst: h })))
       .filter(k => !verborgen.has(kaartId(huidigVak, k.hfst, k)));
     if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
-    // filter: nog niet beantwoord / fout / juist
+    // enkel favorieten: alle kaarten met een ster, of je ze nu juist, fout of nog niet beantwoord had
+    const enkelFav = ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) === "fav";
+    if (enkelFav) {
+      kaarten = kaarten.filter(k => favorieten.has(kaartId(huidigVak, k.hfst, k)));
+      if (kaarten.length === 0) { melding("Je hebt nog geen favorieten in deze hoofdstukken. Tik op de ster rechtsboven op een kaart."); return; }
+    }
+    // filter: nog niet beantwoord / fout / juist (niet bij enkel favorieten)
     const wil = gekozenFilters();
-    if (!wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
-    kaarten = kaarten.filter(k => {
+    if (!enkelFav && !wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
+    if (!enkelFav) kaarten = kaarten.filter(k => {
       const id = kaartId(huidigVak, k.hfst, k);
       // moeilijke kaarten die nog niet van de stapel zijn, horen bij "Had ik eerder fout" (ook als je ze laatst juist had)
       if (stats[id] && stats[id].moeilijk === true) return wil.fout;
@@ -622,7 +665,7 @@ function startOefenen(kaarten) {
   aantalBeantwoord = 0;
   konijnTegoed = false;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
-  hervatbaar = gewoneStart && !geschud;
+  hervatbaar = gewoneStart && !geschud && ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) !== "fav";   // favorieten: altijd van het begin
   if (hervatbaar) index = hervatIndex();
   toonScherm("schermOefenen");
   toonKaart();
@@ -759,6 +802,7 @@ function toonKaart() {
   const titel = kaart.o ? `${kaart.hfst} › ${kaart.o}` : kaart.hfst;
   document.getElementById("onderwerpVoor").textContent = titel;
   zetHerhaalLabel(kaart);
+  zetSter();
 
   // achterkant pas invullen na de draai, zodat je het antwoord niet ziet flitsen
   setTimeout(() => {
@@ -1891,6 +1935,9 @@ document.addEventListener("keydown", e => {
   } else if (e.key === "w" || e.key === "W") {              // w = kaart weggooien
     e.preventDefault();
     gooiWeg();
+  } else if (e.key === "s" || e.key === "S") {              // s = ster: favoriet aan of uit
+    e.preventDefault();
+    wisselFavoriet();
   }
 });
 
@@ -1898,7 +1945,7 @@ toonVakken();
 herstelSessie();
 
 /* aangevinkte hoofdstukken bewaren; schudden staat altijd uit als je de app opent (geldt enkel voor één ronde) */
-document.getElementById("hoofdstukLijst").addEventListener("change", () => bewaarSessie());
+document.getElementById("hoofdstukLijst").addEventListener("change", () => { bewaarSessie(); telFavorieten(); });
 document.getElementById("alles").addEventListener("change", () => setTimeout(() => bewaarSessie()));
 (() => {
   const schudden = document.getElementById("schudden");
