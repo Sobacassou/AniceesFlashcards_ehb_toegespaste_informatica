@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anicée's Flashcards !</title>
-<link rel="stylesheet" href="style.css?v=136">
+<link rel="stylesheet" href="style.css?v=137">
 </head>
 <body>
 
@@ -38,10 +38,10 @@
           <div class="filter-titel">Soort kaarten</div>
           <label class="opties"><input type="checkbox" name="oefKeuze" value="alles" checked> Alle kaarten</label>
           <label class="opties"><input type="checkbox" name="oefKeuze" value="enkel"> Enkel <span class="oef-woord">oefeningen</span></label>
-          <label class="opties"><input type="checkbox" name="oefKeuze" value="fav"> <span>Enkel <span class="fav-woord">★ favorieten</span> <span id="favAantal"></span></span></label>
+          <label class="opties"><input type="checkbox" name="oefKeuze" value="fav"> <span>Enkel <span class="fav-woord"><svg class="mini-ster" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6L12 17l-5.38 2.85 1.03-6L3.3 9.6l6-.9z"/></svg> favorieten</span> <span id="favAantal"></span></span></label>
         </div>
         <label class="opties"><input type="checkbox" id="schudden"> Kaarten schudden</label>
-        <label class="opties lang" title="Een kaart die je fout hebt, komt na 6 kaarten terug. Heb je ze dan juist, dan nog één keer na 12 kaarten."><input type="checkbox" id="herhalen"> <span>Foute kaarten herhalen tijdens het oefenen</span></label>
+        <label class="opties lang" title="Een kaart die je fout hebt, komt na 6 kaarten terug. Heb je ze dan juist, dan nog één keer na 12 kaarten."><input type="checkbox" id="herhalen"> <span><span class="rood">Foute</span> kaarten herhalen tijdens het oefenen</span></label>
         <button onclick="startOefenen()">Start</button>
         <button class="licht" id="terugzetten" onclick="toonWeggegooid()"></button>
       </div>
@@ -67,14 +67,14 @@
       <div class="binnen">
         <div class="kant voorkant">
           <div class="onderwerp" id="onderwerpVoor"></div>
-          <button class="ster" type="button" onclick="wisselFavoriet(event)" title="Favoriet aan of uit (S)" aria-label="Favoriet">☆</button>
+          <button class="ster" type="button" onclick="wisselFavoriet(event)" title="Favoriet aan of uit (S)" aria-label="Favoriet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6L12 17l-5.38 2.85 1.03-6L3.3 9.6l6-.9z"/></svg></button>
           <div id="vraag"></div>
           <div class="kaart-fig" id="figVoor"></div>
           <div class="scroll-duim" aria-hidden="true"></div>
         </div>
         <div class="kant achterkant">
           <div class="onderwerp" id="onderwerpAchter"></div>
-          <button class="ster" type="button" onclick="wisselFavoriet(event)" title="Favoriet aan of uit (S)" aria-label="Favoriet">☆</button>
+          <button class="ster" type="button" onclick="wisselFavoriet(event)" title="Favoriet aan of uit (S)" aria-label="Favoriet"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6L12 17l-5.38 2.85 1.03-6L3.3 9.6l6-.9z"/></svg></button>
           <div id="antwoord"></div>
           <div class="kaart-fig" id="figAchter"></div>
           <div class="uitleg" id="uitleg"></div>
@@ -120,33 +120,33 @@
 <!-- vergrote tekening (klik of Esc om te sluiten) -->
   <div class="groot-fig" id="grootFig" onclick="sluitGroot()"><img id="grootImg" alt=""></div>
 
-  <script src="flashcards_WEBles1_htmlbasis.js?v=136"></script>
-  <script src="flashcards_WEBles2_htmlmedia.js?v=136"></script>
-<script src="flashcards_WEBles2_oefeningen.js?v=136"></script>
-<script src="flashcards_WEB_zelftesten.js?v=136"></script>
-  <script src="flashcards_WEBles3_cssbasis.js?v=136"></script>
-  <script src="flashcards_WEBles3_oefeningen.js?v=136"></script>
-  <script src="flashcards_WEBles4_boxmodel.js?v=136"></script>
-  <script src="flashcards_WEBles5_layout.js?v=136"></script>
-  <script src="flashcards_ITdeel1les1_talstelsels.js?v=136"></script>
-<script src="flashcards_ITdeel1les2_logischepoorten.js?v=136"></script>
-<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=136"></script>
-<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=136"></script>
-<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=136"></script>
-<script src="flashcards_ITdeel2les3_processoren.js?v=136"></script>
-<script src="flashcards_ITdeel2les4_chipsets.js?v=136"></script>
-<script src="flashcards_ITdeel2les5_magnetisch.js?v=136"></script>
-<script src="flashcards_ITdeel2les6_optisch.js?v=136"></script>
-<script src="flashcards_ITdeel2les7_poorten.js?v=136"></script>
-<script src="flashcards_ITdeel2les8_randapparatuur.js?v=136"></script>
-<script src="flashcards_DesktopOS_linux_intro.js?v=136"></script>
-<script src="flashcards_DesktopOS_linux_wc1.js?v=136"></script>
-<script src="flashcards_DesktopOS_linux_wc2.js?v=136"></script>
-<script src="flashcards_DesktopOS_linux_wc3.js?v=136"></script>
-<script src="flashcards_DesktopOS_windows_wc1.js?v=136"></script>
-<script src="flashcards_DesktopOS_windows_wc2.js?v=136"></script>
-<script src="flashcards_DesktopOS_windows_wc3.js?v=136"></script>
-<script src="flashcards_NET_h1_networkingtoday.js?v=136"></script>
-<script src="app.js?v=136"></script>
+  <script src="flashcards_WEBles1_htmlbasis.js?v=137"></script>
+  <script src="flashcards_WEBles2_htmlmedia.js?v=137"></script>
+<script src="flashcards_WEBles2_oefeningen.js?v=137"></script>
+<script src="flashcards_WEB_zelftesten.js?v=137"></script>
+  <script src="flashcards_WEBles3_cssbasis.js?v=137"></script>
+  <script src="flashcards_WEBles3_oefeningen.js?v=137"></script>
+  <script src="flashcards_WEBles4_boxmodel.js?v=137"></script>
+  <script src="flashcards_WEBles5_layout.js?v=137"></script>
+  <script src="flashcards_ITdeel1les1_talstelsels.js?v=137"></script>
+<script src="flashcards_ITdeel1les2_logischepoorten.js?v=137"></script>
+<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=137"></script>
+<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=137"></script>
+<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=137"></script>
+<script src="flashcards_ITdeel2les3_processoren.js?v=137"></script>
+<script src="flashcards_ITdeel2les4_chipsets.js?v=137"></script>
+<script src="flashcards_ITdeel2les5_magnetisch.js?v=137"></script>
+<script src="flashcards_ITdeel2les6_optisch.js?v=137"></script>
+<script src="flashcards_ITdeel2les7_poorten.js?v=137"></script>
+<script src="flashcards_ITdeel2les8_randapparatuur.js?v=137"></script>
+<script src="flashcards_DesktopOS_linux_intro.js?v=137"></script>
+<script src="flashcards_DesktopOS_linux_wc1.js?v=137"></script>
+<script src="flashcards_DesktopOS_linux_wc2.js?v=137"></script>
+<script src="flashcards_DesktopOS_linux_wc3.js?v=137"></script>
+<script src="flashcards_DesktopOS_windows_wc1.js?v=137"></script>
+<script src="flashcards_DesktopOS_windows_wc2.js?v=137"></script>
+<script src="flashcards_DesktopOS_windows_wc3.js?v=137"></script>
+<script src="flashcards_NET_h1_networkingtoday.js?v=137"></script>
+<script src="app.js?v=137"></script>
 </body>
 </html>

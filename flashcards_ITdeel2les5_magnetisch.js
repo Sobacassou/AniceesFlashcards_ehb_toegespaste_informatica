@@ -120,6 +120,15 @@ const kaarten_IT_deel2_les5 = [
   { v: "Door welk medium werd de floppy vervangen voor het verspreiden van software?", a: "Door de cd-rom.", o: "Floppy disks: geschiedenis" },
 
   // ===== De 5,25 en 3,5 inch floppy (slide 12–13) =====
+  { v: "Overzicht: de floppy's", a: "Uit de cursus (slide 12–13).\n* = niet uit de cursus, ter info (wordt niet gevraagd).", o: "De 5,25 en 3,5 inch floppy", wit: true,
+    tabel: [
+      ["Floppy", "Jaar", "Opslag", "Bijzonder"],
+      ["8 inch", "1971", "± 80 KB *", "de eerste form factor"],
+      ["5,25 inch", "1976", "360 KB (bekendste versie)", "echt 'floppy': buigzaam"],
+      ["5,25 inch HD *", "1982 *", "1,2 MB *", "High Density-versie van de 5,25 inch *"],
+      ["3,5 inch DD", "begin jaren '80 *", "720 KB", "DD = Double Density; harde cover, binnenin nog 'floppy'"],
+      ["3,5 inch HD", "1987 *", "1440 KB (1,4 MB)", "HD = High Density; herken je aan het extra gaatje in de hoek"]
+    ] },
   { v: "Wat was de eerste form factor van de floppy en wanneer?", a: "8 inch (1971).", o: "De 5,25 en 3,5 inch floppy",
     uitleg: "Een 8 inch-floppy is ongeveer 20 cm breed." },
   { v: "Wanneer kwam de 5,25 inch floppy en wat was de bekendste versie?", a: "In 1976; bekendste versie: 360 KB.", o: "De 5,25 en 3,5 inch floppy",
@@ -181,6 +190,8 @@ const kaarten_IT_deel2_les5 = [
   { v: "Wat is de actuator?", a: "Het mechanisme dat de arm met de koppen beweegt.", o: "Opbouw van een moderne harde schijf" },
   { v: "Welke aansluiting heeft een huidige harde schijf?", a: "Een SATA-aansluiting.", o: "Opbouw van een moderne harde schijf" },
   { v: "Wat waren jumpers?", a: "Kleine brugjes om de schijf in te stellen (bv. master/slave).", o: "Opbouw van een moderne harde schijf" },
+  { v: "Jumpers: wat waren dat?", a: "• Achteraan op een oudere schijf zit een rijtje metalen pinnetjes: de jumper pins (zie de tekening).\n• Een jumper (zie de tekening) is een klein plastic kapje met metaal binnenin. Je duwt het over 2 pinnetjes: zo maak je een brugje tussen die 2.\n• Welk paar pinnetjes je verbindt, bepaalt een instelling. Voorbeeld: vroeger hingen 2 schijven aan dezelfde platte kabel. Met de jumper zei je welke schijf de eerste was (master) en welke de tweede (slave).\n• Bij SATA heeft elke schijf een eigen kabel. De computer weet zelf welke schijf welke is, dus jumpers zijn niet meer nodig.", o: "Opbouw van een moderne harde schijf", extra: true,
+    imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s17_hdd_onderdelen.jpg" },
   { v: "Waarom zorgt helium voor een stabielere kop?", a: "Helium geeft minder weerstand en turbulentie dan lucht, dus de kop trilt minder.", o: "Opbouw van een moderne harde schijf" },
   { v: "Waarom geeft helium meer capaciteit?", a: "De platters mogen dichter op elkaar, dus passen er meer platters in de behuizing.", o: "Opbouw van een moderne harde schijf" },
   { v: "Waarom moet een HDD met helium gesloten zijn?", a: "Anders ontsnapt het helium.", o: "Opbouw van een moderne harde schijf" },

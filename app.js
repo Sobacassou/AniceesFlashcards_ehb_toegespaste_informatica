@@ -417,7 +417,6 @@ function zetSter() {
   if (!kaart) return;
   const aan = favorieten.has(kaartId(huidigVak, kaart.hfst, kaart));
   document.querySelectorAll("#kaart .ster").forEach(s => {
-    s.textContent = aan ? "★" : "☆";
     s.classList.toggle("aan", aan);
     s.setAttribute("aria-pressed", aan ? "true" : "false");
   });
@@ -1004,6 +1003,7 @@ function zetFiguur(id, src) {
   const img = document.createElement("img");
   img.src = src;
   img.alt = "tekening";
+  img.draggable = false;                            // tablet: vegen over de foto = scrollen, niet de foto verslepen
   img.onload = pasHoogteAan;                        // kaart groter maken als de tekening geladen is
   img.onerror = () => { vak.innerHTML = `<div class="fig-fout">Tekening niet gevonden: ${src}</div>`; };
   const knop = document.createElement("button");
@@ -1952,8 +1952,9 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
   schudden.checked = false;
   try { localStorage.removeItem("schudden"); } catch (e) {}   // oude, onthouden keuze opruimen
   const herhalen = document.getElementById("herhalen");
-  herhalen.checked = laad("herhalen", "ja") === "ja";   // standaard aan
-  herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));
+  herhalen.checked = true;   // staat altijd aan als je de app opent; je keuze geldt tot je de app opnieuw start
+  try { localStorage.removeItem("herhalen"); } catch (e) {}   // oude, onthouden keuze opruimen
+  window.addEventListener("pageshow", () => { herhalen.checked = true; });   // ook als de browser bij herladen oude vinkjes terugzet
 })();
 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen
