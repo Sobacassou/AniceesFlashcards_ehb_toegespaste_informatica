@@ -1036,6 +1036,7 @@ function pasHoogteAan() {
 }
 
 function draaiOm() {
+  if (Date.now() - laatstGeveegd < 350) return;   // je veegde om te scrollen: niet omdraaien
   const kaart = document.getElementById("kaart");
   kaart.classList.toggle("omgedraaid");
   if (kaart.classList.contains("omgedraaid")) {
@@ -2035,4 +2036,61 @@ function zetScrollDuim(kant) {
   });
   window.addEventListener("resize", werkBij);
   document.getElementById("kaart").addEventListener("transitionend", werkBij);
+})();
+
+
+/* ===== Scrollen met je vinger op tablet en gsm =====
+   Sommige tablets (vooral iPad/Safari) scrollen niet binnen een kaart die gedraaid wordt (3D),
+   zeker niet als je vinger op een foto of een codevak begint. Daarom scrollt de app zelf:
+   op en neer vegen = de kaart scrollt; opzij vegen op een breed codevak = het codevak scrollt. */
+let laatstGeveegd = 0;
+(function vingerScroll() {
+  const kaartEl = document.getElementById("kaart");
+  // altijd de kant die je ziet (sommige tablets geven de aanraking aan de verkeerde kant van een gedraaide kaart)
+  const zichtbareKant = () => kaartEl.querySelector(kaartEl.classList.contains("omgedraaid") ? ".achterkant" : ".voorkant");
+  let kant = null, x0 = 0, y0 = 0, vorigX = 0, vorigY = 0, vorigT = 0, snelheid = 0, richting = null, codevak = null, anim = 0;
+  kaartEl.addEventListener("touchstart", e => {
+    if (e.touches.length !== 1) return;
+    cancelAnimationFrame(anim);
+    kant = zichtbareKant();
+    const t = e.touches[0];
+    x0 = vorigX = t.clientX; y0 = vorigY = t.clientY; vorigT = performance.now();
+    snelheid = 0; richting = null;
+    codevak = e.target.closest ? e.target.closest(".codeblok") : null;
+    if (codevak && !kant.contains(codevak)) codevak = null;
+  }, { passive: true });
+  kaartEl.addEventListener("touchmove", e => {
+    if (e.touches.length !== 1 || !kant) return;
+    const t = e.touches[0];
+    if (kant.scrollHeight <= kant.clientHeight + 2) return;         // past alles op de kaart: de pagina scrollt gewoon
+    e.preventDefault();                                              // de browser niet zelf laten scrollen (dat lukt niet overal)
+    if (!richting) {
+      const dx = t.clientX - x0, dy = t.clientY - y0;
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;             // nog een tik, geen veeg
+      richting = Math.abs(dy) >= Math.abs(dx) ? "op-neer" : "opzij";
+    }
+    const nu = performance.now();
+    if (richting === "op-neer") {
+      const d = t.clientY - vorigY;
+      kant.scrollTop -= d;
+      snelheid = d / Math.max(nu - vorigT, 1);                        // px per ms
+    } else if (codevak && codevak.scrollWidth > codevak.clientWidth + 2) {
+      codevak.scrollLeft -= t.clientX - vorigX;
+    }
+    laatstGeveegd = Date.now();
+    vorigX = t.clientX; vorigY = t.clientY; vorigT = nu;
+  }, { passive: false });
+  kaartEl.addEventListener("touchend", () => {
+    if (richting) laatstGeveegd = Date.now();
+    if (richting !== "op-neer" || !kant) return;
+    // nog even uitglijden na het loslaten, zoals gewoon scrollen
+    const k = kant;
+    let v = snelheid * 16;                                            // px per beeldje
+    const glij = () => {
+      if (Math.abs(v) < 0.5) return;
+      k.scrollTop -= v; v *= 0.94;
+      anim = requestAnimationFrame(glij);
+    };
+    anim = requestAnimationFrame(glij);
+  }, { passive: true });
 })();
