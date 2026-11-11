@@ -135,12 +135,8 @@ const kaarten_IT_deel2_les3 = [
     uitleg: "Bij latere Zen-generaties (Zen 4, socket AM5) is dat DDR5 geworden (zie hoofdstuk Werkgeheugen)." },
 
   // ===== Geschiedenis › Zen: chipletontwerp (slide 22) =====
-  { v: "Sinds wanneer bestaat een AMD-processor uit meerdere chiplets?", a: "Sinds Zen 2 (2019): meerdere chiplets in een behuizing.", o: "Zen: chipletontwerp",
-    uitleg: "Bij Zen 1 zat alles nog op één die (twee CCX'en en alle I/O, zie Bouw van een processor)." },
   { v: "Wat is een chiplet?", a: "Een van de kleinere chips waaruit een processor bestaat, samen in één behuizing.", o: "Zen: chipletontwerp",
     uitleg: "Intel noemt dit een tile.\n\nAchtergrond (wordt niet gevraagd): Wat is een wafer? De siliciumschijf waarop de chips gemaakt worden. Op één wafer worden honderden chips tegelijk gemaakt en daarna uitgezaagd." },
-  { v: "Wat zit er op de core-chiplets en op welk proces?", a: "De cores en hun cache, op het nieuwste proces.", o: "Zen: chipletontwerp",
-    uitleg: "Cores profiteren het meest van het nieuwste, kleinste proces: sneller en zuiniger." },
   { v: "Wat zit er op de I/O-chiplet en op welk proces?", a: "Geheugen, PCIe en USB, op een ouder, goedkoper proces.", o: "Zen: chipletontwerp",
     uitleg: "I/O = input/output: de verbindingen met de rest van de computer. PCIe is de aansluiting voor uitbreidingskaarten zoals de grafische kaart." },
   { v: "Waarom gebruikt AMD chiplets (2 redenen)?", a: "1. Een kleine chip mislukt minder vaak in de fabriek: minder afval.\n2. Meer cores? Extra core-chiplet erbij. Dezelfde bouwstenen voor Ryzen, Threadripper en Epyc.", o: "Zen: chipletontwerp",

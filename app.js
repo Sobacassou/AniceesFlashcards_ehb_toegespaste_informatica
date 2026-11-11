@@ -1953,9 +1953,9 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
   schudden.checked = false;
   try { localStorage.removeItem("schudden"); } catch (e) {}   // oude, onthouden keuze opruimen
   const herhalen = document.getElementById("herhalen");
-  herhalen.checked = true;   // staat altijd aan als je de app opent; je keuze geldt tot je de app opnieuw start
-  try { localStorage.removeItem("herhalen"); } catch (e) {}   // oude, onthouden keuze opruimen
-  window.addEventListener("pageshow", () => { herhalen.checked = true; });   // ook als de browser bij herladen oude vinkjes terugzet
+  herhalen.checked = laad("herhalen", "ja") === "ja";   // je vorige keuze wordt onthouden (de eerste keer: aan)
+  herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));
+  window.addEventListener("pageshow", () => { herhalen.checked = laad("herhalen", "ja") === "ja"; });   // ook als de browser bij herladen oude vinkjes terugzet
 })();
 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen

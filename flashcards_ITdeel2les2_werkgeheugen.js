@@ -166,8 +166,6 @@ const kaarten_IT_deel2_les2 = [
   { v: "Wat is een page fault?", a: "De gegevens staan niet in het werkgeheugen en moeten van de schijf gehaald worden.", o: "Cache levels en zoekpad",
     uitleg: "Ondanks de naam is het geen echte 'fout' maar een normale gebeurtenis die het besturingssysteem afhandelt. Te veel page faults maken de computer wel merkbaar traag." },
   // -- extra info, niet uit de cursus --
-  { v: "In welk deel van de cursus komt de page fault aan bod?", a: "In deel III (virtueel geheugen). Virtueel geheugen = een stuk van de schijf dat gebruikt wordt als extra werkgeheugen als het RAM vol is.", o: "Cache levels en zoekpad", extra: true,
-    uitleg: "" },
   { v: "Benoem 1 tot 4 in dit schema van het zoekpad.", a: "1. Registers\n2. Level 1 cache\n3. Level 2 cache\n4. Werkgeheugen", o: "Cache levels en zoekpad", img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s12_zoekpad_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s12_zoekpad.jpg",
     uitleg: "De cirkel is de processor tijdens het uitvoeren van een instructie (bv. X=Y). Registers, L1 en L2 zitten in de processor, het werkgeheugen erbuiten. De processor zoekt altijd eerst dichtbij en gaat pas verder als hij het niet vindt." },
   { v: "Volg het zoekpad in dit schema: waar zoekt de processor gegeven Y, en in welke volgorde?", a: "1. In de registers. Gevonden → meteen gebruiken.\n2. Niet in de registers → zit Y in de Level 1 cache? Ja → OK, nee → verder.\n3. Zit Y in de Level 2 cache? Ja → OK, nee → verder.\n4. Zit Y in het werkgeheugen? Ja → OK, nee → Page Fault.", o: "Cache levels en zoekpad", img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s12_zoekpad.jpg",
@@ -193,10 +191,6 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "" },
   { v: "Hoe groot is de L1-cache?", a: "Lange tijd 16 KB, nu typisch 32 tot 64 KB per soort (instructies/data), per kern.", o: "Level 1 cache",
     uitleg: "Per soort = apart voor instructies en voor data. Bv. 32 KB + 32 KB = 64 KB L1 per kern." },
-  { v: "Geef de L1-voorbeelden van de slide.", a: "Intel Core 2 Duo: 32 KB + 32 KB per kern\nIntel Core i7 (3de gen.): 32 KB + 32 KB per kern\nAMD Phenom X4 9650: 64 KB + 64 KB per kern", o: "Level 1 cache",
-    uitleg: "Telkens instructies + data. Merk op: AMD koos bij de Phenom voor een dubbel zo grote L1 als Intel." },
-  { v: "Hoeveel L1-cache heeft een Intel Core 2 Duo in totaal per kern?", a: "64 KB (32 KB instructies + 32 KB data).", o: "Level 1 cache",
-    uitleg: "Een Core 2 Duo heeft 2 kernen, dus in totaal 2 × 64 KB = 128 KB L1 op de hele processor." },
   { v: "Juist of fout? L1-cache is vaak gesplitst in een deel voor instructies en een deel voor data.", a: "JUIST", o: "Level 1 cache",
     uitleg: "Een L1 voor instructies en een L1 voor data, per core. Bv. Intel Core 2 Duo: 32 KB instructies + 32 KB data." },
   { v: "Juist of fout? L3-cache is sneller dan L1-cache.", a: "FOUT", o: "Level 1 cache",
@@ -220,15 +214,9 @@ const kaarten_IT_deel2_les2 = [
   { v: "Vergelijking van de cacheniveaus (tabel slide 19)", a: "L1-cache: ± 1 ns · tientallen KB per kern (32 tot 64 KB) · SRAM\nL2-cache: enkele ns · 1 tot 3 MB per kern · SRAM\nL3-cache: 10 tot 20 ns · tientallen MB (gedeeld) · SRAM\nWerkgeheugen: 50 tot 100 ns · 8 tot 64 GB · DRAM", o: "Level 2 cache", wit: true,
     img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s19_hierarchie_tabel.jpg", uitleg: "Elk volgend niveau is groter en trager. Alle caches zijn SRAM, het werkgeheugen is DRAM." },
   // -- extra info, niet uit de cursus --
-  { v: "Hoeveel keer groter is L2 (1 tot 3 MB) ongeveer dan L1 (32 tot 64 KB)?", a: "Ongeveer 16 tot 100 keer. 1 MB / 64 KB = 16 en 3 MB / 32 KB ≈ 100. Groter, maar ook trager: enkele ns in plaats van ongeveer 1 ns.", o: "Level 2 cache", extra: true,
-    uitleg: "" },
   { v: "Hoe groot is de L2-cache nu typisch?", a: "1 tot 3 MB per kern.", o: "Level 2 cache",
     uitleg: "Dat is ongeveer 16 tot 100 keer zo groot als de L1 (32 tot 64 KB)." },
-  { v: "Geef de L2-voorbeelden van de slide.", a: "Intel Core i7-970: 256 KB per kern\nAMD Phenom X4 9650: 512 KB per kern", o: "Level 2 cache",
-    uitleg: "Dit zijn oudere processoren, daarom kleiner dan de 1 tot 3 MB van nu." },
   // -- extra info, niet uit de cursus --
-  { v: "Waarom zijn de L2-voorbeelden op de slide kleiner dan 1 tot 3 MB?", a: "Het zijn oudere processoren. De Core i7-970 en de Phenom X4 dateren van rond 2008–2010. Sindsdien is de cache flink gegroeid.", o: "Level 2 cache", extra: true,
-    uitleg: "" },
 
   // ===== Cachegeheugens › Level 3 cache (slide 15–17) =====
   { v: "Waar zit de L3-cache en door wie wordt hij gebruikt?", a: "Op de processor, maar verder van de kernen, en gedeeld door alle kernen.", o: "Level 3 cache",
@@ -248,10 +236,6 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "In het schema op slide 16 staat er letterlijk 'L3 (Last-Level) Cache'." },
   { v: "Hoe groot is de L3-cache?", a: "Van enkele MB tot meer dan 100 MB.", o: "Level 3 cache",
     uitleg: "Grote serverprocessoren met veel kernen hebben de grootste L3." },
-  { v: "Geef de L3-voorbeelden van de slide.", a: "AMD Phenom X4 9650: 2 MB\nIntel Core i7-4790 (4 kernen): 8 MB\nIntel Xeon E5-2699 v3 (18 kernen): 45 MB", o: "Level 3 cache",
-    uitleg: "Hoe meer kernen, hoe meer gedeelde L3 er nodig is. Xeon is Intels serverreeks." },
-  { v: "Welke processor op de slide heeft de grootste L3, en waarom?", a: "De Intel Xeon E5-2699 v3 (45 MB), omdat hij 18 kernen heeft.", o: "Level 3 cache", wit: true,
-    uitleg: "Dat is 2,5 MB L3 per kern. De Core i7-4790 heeft met 4 kernen en 8 MB ongeveer 2 MB per kern." },
   { v: "Hoe zien de verschillende cache levels er schematisch uit (slide 16)?", a: "Per core: L1 Instruction + L1 Data, daaronder een eigen L2. Onder alle cores: één gedeelde L3 (Last-Level) Cache, en daaronder Memory.", o: "Level 3 cache", img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels.jpg",
     uitleg: "Lees van boven naar onder: core → L1 (gesplitst) → L2 (per core) → L3 (gedeeld) → werkgeheugen. Het schema toont twee Processor Cores." },
   { v: "Welke caches zijn per kern en welke wordt gedeeld in het schema?", a: "L1 en L2 zijn per kern; de L3 wordt gedeeld.", o: "Level 3 cache", img: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les2_werkgeheugen/l2_s16_cachelevels.jpg",
@@ -459,18 +443,12 @@ const kaarten_IT_deel2_les2 = [
   { v: "Welke waarde heeft een DRAM-cel als de condensator geladen is? En niet geladen?", a: "Geladen = 1.\nNiet geladen = 0.", o: "DRAM",
     uitleg: "In de emmer-vergelijking: volle emmer = 1, lege emmer = 0." },
   // -- extra info, niet uit de cursus --
-  { v: "Hoe schrijf je een waarde in een DRAM-cel?", a: "Via de bit line wordt de condensator geladen (1) of ontladen (0). Eerst moet de word line de transistor openen, anders bereikt de bit line de condensator niet.", o: "DRAM", extra: true,
-    uitleg: "" },
   { v: "Uit welke onderdelen bestaat een DRAM-cel?", a: "1 transistor (FET) en 1 condensator (C).", o: "DRAM",
     uitleg: "Men noemt dat een 1T1C-cel. Veel eenvoudiger dan een SRAM-cel met 6 transistoren." },
   // -- extra info, niet uit de cursus --
-  { v: "Wat gebeurt er als de Word Line van een DRAM-cel actief wordt?", a: "De transistor gaat open en de condensator wordt verbonden met de bit line. De transistor werkt als een schakelaar tussen de condensator en de bit line.", o: "DRAM", extra: true,
-    uitleg: "" },
   { v: "Waarom moeten de gegevens in DRAM constant ververst worden?", a: "Omdat de lading van de condensator weglekt.", o: "DRAM",
     uitleg: "Daarom heet het 'dynamisch'. Zonder verversen zou een 1 na enige tijd een 0 worden." },
   // -- extra info, niet uit de cursus --
-  { v: "Wat is GND in het DRAM-schema?", a: "De massa (aarding), de andere kant van de condensator. GND = ground. Het is het nulpunt waartegenover de lading van de condensator gemeten wordt.", o: "DRAM", extra: true,
-    uitleg: "" },
   { v: "Hoe vaak herschrijft het refresh-circuit elke DRAM-cel?", a: "Om de 32 à 64 ms.", o: "DRAM",
     uitleg: "Dat is ongeveer 15 tot 30 keer per seconde voor elke cel, de hele tijd dat de computer aanstaat." },
   // -- extra info, niet uit de cursus --
@@ -479,10 +457,6 @@ const kaarten_IT_deel2_les2 = [
   { v: "Wat doet het refresh-circuit?", a: "Het herschrijft elke DRAM-cel om de 32 à 64 ms, voor de lading te zwak wordt.", o: "DRAM",
     uitleg: "Het overloopt voortdurend alle cellen, leest de waarde en schrijft ze opnieuw met volle lading." },
   // -- extra info, niet uit de cursus --
-  { v: "Hoe lees je een DRAM-cel?", a: "De lading van de condensator stroomt naar de bit line en wordt gemeten. Omdat de lading zo zwak is, is er een gevoelige versterker (sense amplifier) nodig om ze te detecteren.", o: "DRAM", extra: true,
-    uitleg: "" },
-  { v: "Wat doet een sense amplifier bij DRAM?", a: "Een gevoelige versterker die detecteert of de condensator lading had of niet. De condensator is piepklein en zijn lading heel zwak, dus zonder versterker zou het verschil tussen 0 en 1 niet te meten zijn.", o: "DRAM", extra: true,
-    uitleg: "" },
   { v: "Wat is destructief lezen?", a: "Bij het lezen van een DRAM-cel stroomt (een deel van) de lading weg, waardoor de waarde beschadigd raakt. Het lezen 'vernietigt' dus (deels) de waarde. Bij SRAM is dat niet zo.", o: "DRAM", extra: true,
     uitleg: "" },
   { v: "Wat gebeurt er met een DRAM-cel na het lezen?", a: "Ze wordt meteen opnieuw geschreven. Omdat de lading bij het lezen deels verloren ging. Ook dat kost tijd, wat DRAM trager maakt.", o: "DRAM", extra: true,
@@ -519,8 +493,6 @@ const kaarten_IT_deel2_les2 = [
   { v: "Wat betekent 'synchroon' bij SDRAM?", a: "Het werkt aan de snelheid van de bus: op dezelfde klok als de bus.", o: "SDRAM",
     uitleg: "De bus is de verbinding tussen processor/chipset en geheugen. Geheugen en bus tikken op hetzelfde ritme." },
   // -- extra info, niet uit de cursus --
-  { v: "Geef een vergelijking voor het verschil tussen synchroon en asynchroon.", a: "Twee mensen die samen een kast dragen: tellen ze samen '1, 2, 3, til!', dan verloopt het vlot (synchroon). Anders moeten ze steeds op elkaar wachten (asynchroon). Synchroon = op hetzelfde ritme. Asynchroon = elk op zijn eigen tempo.", o: "SDRAM", extra: true,
-    uitleg: "" },
   { v: "Wat zijn PC66, PC100 en PC133?", a: "SDRAM-types voor een bus van 66 MHz, 100 MHz en 133 MHz.", o: "SDRAM",
     uitleg: "Het getal is de busfrequentie in MHz waarvoor de module gemaakt is." },
   { v: "Bij welke bussnelheid hoort PC100?", a: "100 MHz.", o: "SDRAM",

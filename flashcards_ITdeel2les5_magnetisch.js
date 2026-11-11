@@ -6,8 +6,6 @@
 const kaarten_IT_deel2_les5 = [
 
   // ===== Inhoud (slide 2) =====
-  { v: "Welke 5 onderwerpen komen aan bod in het hoofdstuk Magnetische gegevensopslag?", a: "1. Algemene principes\n2. Magnetische tapes\n3. Floppy disks\n4. Harde schijven\n5. RAID", o: "Inhoud",
-    uitleg: "Tapes, floppy's en harde schijven werken allemaal met magnetisme; RAID combineert harde schijven." },
   { v: "Wat is magnetische gegevensopslag?", a: "Data bewaren door heel kleine stukjes materiaal te magnetiseren.", o: "Inhoud" },
   { v: "Welke drie soorten magnetische opslagmedia komen in dit hoofdstuk aan bod?", a: "Magnetische tapes, floppy disks en harde schijven.", o: "Inhoud" },
   { v: "Is RAID een apart soort opslagmedium?", a: "Nee, RAID is een manier om meerdere harde schijven samen te gebruiken (sneller en/of veiliger).", o: "Inhoud" },
@@ -32,14 +30,10 @@ const kaarten_IT_deel2_les5 = [
   // ===== Algemene principes: oppervlakte-dichtheid (slide 4–6) =====
   { v: "Wat is oppervlakte-dichtheid?", a: "Informatie-dichtheid: het aantal bits per oppervlakte-eenheid, uitgedrukt in bits/inch² (BPSI, Bits Per Square Inch).", o: "Algemene principes: oppervlakte-dichtheid",
     uitleg: "BPSI = bits per vierkante inch." },
-  { v: "Hoeveel cm is 1 inch?", a: "2,54 cm.", o: "Algemene principes: oppervlakte-dichtheid",
-    uitleg: "Een vierkante inch is dus ongeveer 6,45 cm²." },
   { v: "Van welke twee grootheden is de oppervlakte-dichtheid het product?", a: "Track density (TPI, tracks per inch) × linear density of recording density (BPI, bits per inch per track).", o: "Algemene principes: oppervlakte-dichtheid",
     imgAntwoord: "afbeeldingen/ITdeel2les5_magnetisch/l5_s05_dichtheid_termen.jpg",
     uitleg: "Een schijf heeft sporen (tracks): cirkels naast elkaar, zoals de groeven van een plaat. Op elk spoor staan de bits na elkaar.\n\n• Track density (TPI) = hoeveel sporen er naast elkaar liggen op 1 inch, gemeten dwars over de sporen (van binnen naar buiten).\n• Linear density (BPI) = hoeveel bits er na elkaar staan op 1 inch langs één spoor.\n\nWaarom vermenigvuldigen? Neem een vierkantje van 1 inch op 1 inch. Daarin liggen TPI sporen naast elkaar, en op elk van die sporen staan BPI bits. Samen zijn dat TPI × BPI bits in dat ene vierkantje: de oppervlakte-dichtheid in bits per vierkante inch (BPSI).\n\nVergelijk het met een blad tekst: aantal regels × aantal letters per regel = aantal letters op het blad.\n\nHoe hoger de dichtheid, hoe meer data er op dezelfde schijf past. Je verhoogt ze met meer sporen (hogere TPI) of meer bits per spoor (hogere BPI). Zie de vier schijfjes: naar rechts meer sporen, naar onder meer bits per spoor." },
   // -- extra info, niet uit de cursus --
-  { v: "Rekenvoorbeeld: hoeveel bits per vierkante inch bij 100 000 TPI en 1 000 000 BPI?", a: "100 000 × 1 000 000 = 10^11 bits per vierkante inch (100 miljard bits).", o: "Algemene principes: oppervlakte-dichtheid", extra: true,
-    uitleg: "1 inch = 2,54 cm, dus 1 vierkante inch ≈ 6,45 cm²." },
   { v: "Wat is TPI?", a: "Tracks per inch: de track density.", o: "Algemene principes: oppervlakte-dichtheid",
     uitleg: "Hoeveel sporen er naast elkaar liggen op één inch." },
   { v: "Wat is BPI?", a: "Bits per inch per track: de linear density (recording density).", o: "Algemene principes: oppervlakte-dichtheid",
