@@ -609,13 +609,28 @@ function voegOefeningenToe(lijst, oef) {
   }
 }
 // keuze oefenkaarten: vierkantjes, maar er staat er altijd precies één aan
+// Kies je "Enkel favorieten", dan springen de andere vinkjes naar een standaard om favorieten te bekijken
+// (je kan ze daarna nog zelf veranderen). Kies je daarna iets anders, dan springen ze terug zoals ze stonden.
+// Wat je bij favorieten aan "Foute kaarten herhalen" verandert, wordt niet onthouden.
+const favVinkjes = ["fNieuw", "fFout", "fJuist", "schudden", "herhalen"];
+const favStandaard = { fNieuw: true, fFout: true, fJuist: true, schudden: false, herhalen: false };
+let vinkjesVoorFav = null;   // niet null = "Enkel favorieten" is gekozen
 document.querySelectorAll('input[name="oefKeuze"]').forEach(c => c.addEventListener("change", () => {
+  const wasFav = vinkjesVoorFav !== null;
   document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x === c); });
+  const isFav = c.value === "fav";
+  if (isFav && !wasFav) {
+    vinkjesVoorFav = {};
+    favVinkjes.forEach(id => { const el = document.getElementById(id); vinkjesVoorFav[id] = el.checked; el.checked = favStandaard[id]; });
+  } else if (!isFav && wasFav) {
+    favVinkjes.forEach(id => { document.getElementById(id).checked = vinkjesVoorFav[id]; });   // terug zoals het stond
+    vinkjesVoorFav = null;
+  }
 }));
 // bij het openen staat "Alle kaarten" altijd aan (ook als de browser bij herladen oude vinkjes terugzet)
 const zetOefAlles = () => document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x.value === "alles"); });
 zetOefAlles();
-window.addEventListener("pageshow", zetOefAlles);
+window.addEventListener("pageshow", () => { zetOefAlles(); vinkjesVoorFav = null; });
 if (typeof kaarten_WEB_les2_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["2 – HTML media, tabellen & formulieren"], kaarten_WEB_les2_oef);
 if (typeof kaarten_WEB_les3_oef !== "undefined") voegOefeningenToe(vakken["Web Essentials"]["3 – CSS-basis, kleuren & typografie"], kaarten_WEB_les3_oef);
 // zelftesten van Canvas (meerkeuze): ook achter de laatste kaart van hetzelfde onderwerp
@@ -630,16 +645,16 @@ function startOefenen(kaarten) {
       .flatMap(h => vakken[huidigVak][h].map(k => ({ ...k, hfst: h })))
       .filter(k => !verborgen.has(kaartId(huidigVak, k.hfst, k)));
     if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
-    // enkel favorieten: alle kaarten met een ster, of je ze nu juist, fout of nog niet beantwoord had
+    // enkel favorieten: de kaarten met een ster (de vinkjes nog niet beantwoord / fout / juist tellen ook mee)
     const enkelFav = ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) === "fav";
     if (enkelFav) {
       kaarten = kaarten.filter(k => favorieten.has(kaartId(huidigVak, k.hfst, k)));
       if (kaarten.length === 0) { melding("Je hebt nog geen favorieten in deze hoofdstukken. Tik op de ster rechtsboven op een kaart."); return; }
     }
-    // filter: nog niet beantwoord / fout / juist (niet bij enkel favorieten)
+    // filter: nog niet beantwoord / fout / juist
     const wil = gekozenFilters();
-    if (!enkelFav && !wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
-    if (!enkelFav) kaarten = kaarten.filter(k => {
+    if (!wil.nieuw && !wil.fout && !wil.juist) { melding("Vink minstens één soort kaarten aan."); return; }
+    kaarten = kaarten.filter(k => {
       const id = kaartId(huidigVak, k.hfst, k);
       // moeilijke kaarten die nog niet van de stapel zijn, horen bij "Had ik eerder fout" (ook als je ze laatst juist had)
       if (stats[id] && stats[id].moeilijk === true) return wil.fout;
@@ -1954,7 +1969,9 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
   try { localStorage.removeItem("schudden"); } catch (e) {}   // oude, onthouden keuze opruimen
   const herhalen = document.getElementById("herhalen");
   herhalen.checked = laad("herhalen", "ja") === "ja";   // je vorige keuze wordt onthouden (de eerste keer: aan)
-  herhalen.addEventListener("change", () => bewaar("herhalen", herhalen.checked ? "ja" : "nee"));
+  herhalen.addEventListener("change", () => {
+    if (vinkjesVoorFav === null) bewaar("herhalen", herhalen.checked ? "ja" : "nee");   // bij favorieten: enkel voor die ronde
+  });
   window.addEventListener("pageshow", () => { herhalen.checked = laad("herhalen", "ja") === "ja"; });   // ook als de browser bij herladen oude vinkjes terugzet
 })();
 
