@@ -2,7 +2,7 @@
 
 **Gratis flashcards om te studeren voor Toegepaste Informatica aan de Erasmushogeschool Brussel (EhB).**
 
-Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kies een vak en de hoofdstukken die je wil oefenen, en ga meteen aan de slag. Je hoeft niets te installeren en geen account te maken. Het werkt op je laptop, tablet en gsm.
+Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Network Essentials. Kies een vak en de hoofdstukken die je wil oefenen, en ga meteen aan de slag. Je hoeft niets te installeren en geen account te maken. Het werkt op je laptop, tablet en gsm.
 
 ### [Start met oefenen](https://sobacassou.github.io/AniceesFlashcards_ehb_toegespaste_informatica/)
 
@@ -15,6 +15,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS en Web Essentials. Kie
 | **IT Essentials** | I.1 Talstelsels · I.2 Logische poorten · I.3 Rekenschakelingen · II.1 Computerarchitectuur · II.2 Werkgeheugen · II.3 Processoren · II.4 Chipsets en bussen · II.5 Magnetische opslag · II.6 Optische geheugens en leesgeheugens · II.7 Poorten · II.8 Randapparatuur |
 | **Desktop OS** | I.0 Linux: introductie · I.1–I.3 Linux: werkcolleges 1–3 · II.1–II.3 Windows: werkcolleges 1–3 |
 | **Web Essentials** | 1 Introductie & HTML-basis · 2 HTML media, tabellen & formulieren · 3 CSS-basis, kleuren & typografie · 4 CSS media, tabellen, formulieren & box model · 5 CSS layout: float, flexbox & positioning |
+| **Network Essentials** | 1 Networking Today |
 
 ## Wat kan je ermee?
 

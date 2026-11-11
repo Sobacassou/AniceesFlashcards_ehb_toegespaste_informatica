@@ -78,6 +78,9 @@ const vakken = {
     "II.2 – Windows: werkcollege 2": (typeof kaarten_DOS_windows_wc2 !== "undefined" ? kaarten_DOS_windows_wc2 : ontbreekt("flashcards_DesktopOS_windows_wc2.js")),
     "II.3 – Windows: werkcollege 3": (typeof kaarten_DOS_windows_wc3 !== "undefined" ? kaarten_DOS_windows_wc3 : ontbreekt("flashcards_DesktopOS_windows_wc3.js")),
   },
+  "Network Essentials": {
+    "1 – Networking Today": (typeof kaarten_NET_h1 !== "undefined" ? kaarten_NET_h1 : ontbreekt("flashcards_NET_h1_networkingtoday.js")),
+  },
 };
 
 /* ===== Vanaf hier hoef je niets aan te passen ===== */
