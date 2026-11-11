@@ -263,6 +263,11 @@ em, i { font-style: normal; }
 /* alles juist: "✓ 0/18" in datzelfde zachte groen (de rij zelf is ook gedimd, daarom iets feller) */
 .ov-aantal.klaar { font-weight: 400; }
 .ov-aantal.klaar, .ov-aantal.klaar .ov-totaal { color: rgba(115, 201, 145, 0.45); }
+/* eerst de blauwe teller (oefeningen), dan de groene (andere kaarten) */
+.ov-aantal.ov-blauw { color: var(--accent); margin-right: 10px; }
+.ov-aantal.ov-blauw .ov-totaal { color: rgba(55, 148, 255, 0.35); }
+.ov-aantal.ov-blauw.klaar, .ov-aantal.ov-blauw.klaar .ov-totaal { color: rgba(55, 148, 255, 0.5); }
+.ov-aantal.ov-leeg { visibility: hidden; }
 /* hoofdtitels vet, ondertitels niet; wat al gedaan is: dun */
 .ov-onderwerpen li:not(.sub) > .ov-titel { font-weight: 600; }
 .ov-onderwerpen li.sub > .ov-titel { font-weight: 400; }
@@ -784,6 +789,16 @@ html, body { overflow-x: clip; }
 .kaart.wit .kant { scrollbar-color: var(--rood) #d8d8d8; }
 .kaart.wit .kant::-webkit-scrollbar-thumb { background-color: var(--rood); }
 .kaart .kant > * { flex-shrink: 0; }   /* niets laten krimpen: wat niet past, scrolt */
+/* eigen rode scrollbalk (tablet en gsm), zie zetScrollDuim in app.js */
+.scroll-duim { display: none; }
+@media (pointer: coarse) {
+  .kant { scrollbar-width: none; }
+  .kant::-webkit-scrollbar { display: none; }
+  .scroll-duim.zichtbaar {
+    display: block; position: absolute; right: 4px; width: 6px; border-radius: 3px;
+    background: var(--rood); pointer-events: none; flex-shrink: 0;
+  }
+}
 
 /* ===== Oefeningen: zien eruit als een gewone zwarte kaart, met bovenaan het label "Oefening" in VS Code-blauw ===== */
 .oef-label { color: #3794ff; font-weight: 700; font-size: 1.2em; }

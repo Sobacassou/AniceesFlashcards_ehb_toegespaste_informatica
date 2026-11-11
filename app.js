@@ -604,7 +604,6 @@ function startOefenen(kaarten) {
     // oefenkaarten: alles, enkel oefenkaarten of zonder oefenkaarten
     const oefKeuze = (document.querySelector('input[name="oefKeuze"]:checked') || {}).value || "alles";
     if (oefKeuze === "enkel") kaarten = kaarten.filter(k => k.oefening === true);
-    if (oefKeuze === "zonder") kaarten = kaarten.filter(k => k.oefening !== true);
     if (kaarten.length === 0) { melding(oefKeuze === "enkel" ? "Er zijn geen oefeningen in deze hoofdstukken." : "Er zijn geen kaarten van die soort in deze hoofdstukken."); return; }
   }
   stapel = [...kaarten];
@@ -830,17 +829,27 @@ function toonOverzicht(kaart) {
                    springMod ? ` data-o="${encodeURIComponent(modOnderwerpen[0])}" title="Ga naar de eerste kaarten van deze module"` :
                    leeg && alleJuist ? ` title="Alle kaarten van dit onderwerp juist"` :
                    leeg ? ` title="Geen kaarten van dit onderwerp in deze ronde"` : "";
+      // geen vinkje meer: een onderwerp waar alles juist is, is al gedimd.
+      // teller: onbeantwoord of fout / totaal. Totaal 0 = lege teller van dezelfde breedte, zodat alles onder elkaar blijft.
+      const teller = (soort, open, totaal, uitleg) => {
+        if (totaal === 0) return `<b class="ov-aantal ${soort} ov-leeg" aria-hidden="true"><span class="ov-open">0</span><span class="ov-totaal">/00</span></b>`;
+        const klaar = open === 0;
+        return `<b class="ov-aantal ${soort}${klaar ? " klaar" : ""}" title="${uitleg}: onbeantwoord of fout / totaal">` +
+               `<span class="ov-open">${open}</span><span class="ov-totaal">/${totaal}</span></b>`;
+      };
+      // altijd beide tellers: blauw = oefeningen, groen = de andere kaarten (zonder oefeningen)
       const teken = st.totaal === 0 ? "" :
-        `<b class="ov-aantal${alleJuist ? " klaar" : ""}" title="onbeantwoord of fout / totaal">` +
-        `<span class="ov-vink">${alleJuist ? "✓" : "&nbsp;"}</span><span class="ov-open">${st.open}</span>` +
-        `<span class="ov-totaal">/${st.totaal}</span></b>`;
+        teller("ov-blauw", st.oefOpen, st.oefTotaal, "Oefeningen") +
+        teller("ov-groen", st.open - st.oefOpen, st.totaal - st.oefTotaal, "Kaarten zonder oefeningen");
       return `<li class="${klassen}"${data}>` + (metNrs ? `<i class="ov-nr">${nrVan(r)}</i>` : "") +
              `<span class="ov-titel">${r.o || r.kop}</span><small>${teken}</small></li>`;
     }).join("") +
     `</ol>`;
 
-  // nieuwe kaart terwijl het overzicht opengeklapt is (bv. op een onderwerp getikt): terug naar boven, compact
-  if (ovOpen) { ovOpen = false; vak.classList.remove("open"); document.body.classList.remove("overzicht-open"); window.scrollTo(0, 0); }
+  // op een onderwerp of module getikt terwijl het overzicht opengeklapt is: terug naar boven, compact.
+  // Gewoon naar de volgende kaart: het overzicht blijft open en de pagina blijft staan waar ze is.
+  if (ovOpen && ovGesprongen) { ovOpen = false; vak.classList.remove("open"); document.body.classList.remove("overzicht-open"); window.scrollTo(0, 0); }
+  ovGesprongen = false;
   pasOverzichtAan();
 }
 
@@ -855,8 +864,11 @@ function nrInTitel(titel, nr) {
 // stand van een onderwerp: hoeveel kaarten nog onbeantwoord of fout zijn, op het totaal (zonder weggegooide)
 function standVan(hfst, o) {
   const ks = (vakken[huidigVak][hfst] || []).filter(k => (k.o || hfst) === o && !verborgen.has(kaartId(huidigVak, hfst, k)));
-  const open = ks.filter(k => { const s = stats[kaartId(huidigVak, hfst, k)]; return !s || s.laatst !== true; }).length;
-  return { open, totaal: ks.length };
+  const nogOpen = k => { const s = stats[kaartId(huidigVak, hfst, k)]; return !s || s.laatst !== true; };
+  const oef = ks.filter(k => k.oefening);
+  // open/totaal = alles samen; oefOpen/oefTotaal = enkel de oefeningen
+  return { open: ks.filter(nogOpen).length, totaal: ks.length,
+           oefOpen: oef.filter(nogOpen).length, oefTotaal: oef.length };
 }
 
 // huidig onderwerp in beeld houden binnen het paneel
@@ -872,6 +884,7 @@ function houdHierInBeeld(vak) {
    overzicht helemaal open (geen eigen scrollbalk, je scrolt gewoon de pagina). Met "Inklappen"
    bovenaan, of bij een nieuwe kaart, wordt het weer compact. */
 let ovOpen = false;
+let ovGesprongen = false;   // true als je in het overzicht op een onderwerp of module tikte
 function zetOverzichtOpen(open) {
   const vak = document.getElementById("overzicht");
   if (!vak || open === ovOpen) return;
@@ -931,6 +944,7 @@ document.addEventListener("click", e => {
   const i = eersteKaartVan(kaart.hfst, decodeURIComponent(li.dataset.o));
   if (i < 0) return;
   index = i;
+  ovGesprongen = true;
   toonKaart();
 });
 
@@ -1939,3 +1953,35 @@ function miniTabel(rijen) {
   return `<table class="mini-tabel"><thead><tr>${kop.map(c => `<th>${esc(c)}</th>`).join("")}</tr></thead>` +
     `<tbody>${rest.map(r => `<tr>${r.map((c, i) => i === 0 ? `<th scope="row">${esc(c)}</th>` : `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
 }
+
+/* Eigen scrollbalk op tablet en gsm: daar toont de browser (vooral iPad/iPhone) zijn scrollbalk enkel
+   heel even tijdens het scrollen. Daarom tekenen we zelf een rode balk die blijft staan zolang er
+   meer tekst is dan op de kaart past. Op een computer blijft de gewone (rode) scrollbalk. */
+function zetScrollDuim(kant) {
+  const duim = kant.querySelector(".scroll-duim");
+  if (!duim) return;
+  const sh = kant.scrollHeight, ch = kant.clientHeight;
+  if (sh <= ch + 2) { duim.classList.remove("zichtbaar"); return; }
+  const rand = 10;                                   // afstand boven en onder
+  const baan = ch - 2 * rand;
+  const h = Math.max(36, baan * ch / sh);
+  const deel = kant.scrollTop / (sh - ch);
+  duim.style.height = h + "px";
+  duim.style.top = (kant.scrollTop + rand + (baan - h) * deel) + "px";   // + scrollTop: de balk scrolt niet mee met de tekst
+  duim.classList.add("zichtbaar");
+}
+(function maakScrollDuimen() {
+  const kanten = document.querySelectorAll("#kaart .kant");
+  const werkBij = () => kanten.forEach(zetScrollDuim);
+  kanten.forEach(kant => {
+    kant.addEventListener("scroll", () => zetScrollDuim(kant), { passive: true });
+    // nieuwe tekst, een tekening die laadt of een andere schermgrootte: opnieuw meten
+    if (window.ResizeObserver) {
+      const ro = new ResizeObserver(() => zetScrollDuim(kant));
+      ro.observe(kant);
+      for (const kind of kant.children) if (!kind.classList.contains("scroll-duim")) ro.observe(kind);
+    }
+  });
+  window.addEventListener("resize", werkBij);
+  document.getElementById("kaart").addEventListener("transitionend", werkBij);
+})();

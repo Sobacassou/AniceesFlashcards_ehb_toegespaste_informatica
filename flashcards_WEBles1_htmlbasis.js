@@ -250,7 +250,8 @@ const kaarten_WEB_les1 = [
   // ===== 7.3 Definitielijst (dl) (7.3) =====
   { v: "Waaruit bestaat een definitielijst <dl>?", a: "Uit termen <dt> en hun bijbehorende definities of beschrijvingen <dd>.", o: "7.3 Definitielijst (dl)" },
   { v: "Waar staan dl, dt en dd voor?", a: "dl = definition list, dt = definition term (de term), dd = definition description (de beschrijving).\n\n<dl>\n  <dt>HTML</dt>\n  <dd>De opmaaktaal van het web.</dd>\n</dl>", o: "7.3 Definitielijst (dl)" },
-  { v: "Schrijf een definitielijst met de term HTML en de beschrijving \"HyperText Markup Language\".", a: "<dl>\n  <dt>HTML</dt>\n  <dd>HyperText Markup Language.</dd>\n</dl>", o: "7.3 Definitielijst (dl)" },
+  { v: "Schrijf een definitielijst met de term HTML en de beschrijving \"HyperText Markup Language\".", a: "<dl>\n  <dt>HTML</dt>\n  <dd>HyperText Markup Language.</dd>\n</dl>", o: "7.3 Definitielijst (dl)", oefening: true,
+    uitleg: "<dl> = definitielijst (de hele lijst). <dt> = de term. <dd> = de beschrijving van die term." },
 
   // ===== 7.4 Geneste lijsten (7.4) =====
   { v: "Waar plaats je een geneste lijst?", a: "Binnen een <li> van de bovenliggende lijst (denk aan FILO).", o: "7.4 Geneste lijsten",
@@ -333,16 +334,17 @@ const kaarten_WEB_les1 = [
   { v: "Mag <nav> in de <header> staan?", a: "Ja, de nav kan in de header, maar ook als losstaand blok.\n\n<header>\n  <nav>...</nav>\n</header>", o: "10.1 Semantische layout-elementen" },
 
   // ===== 10.1 Voorbeelden semantische layout (10.1) =====
-  { v: "Zet deze pagina om naar semantische HTML5: welk element komt rond elk deel?\n1. Titel \"TechNews Magazine\" + navigatielijst\n2. Het hoofdgedeelte van de pagina\n3. Het blok \"Laatste nieuws\"\n4. Eén nieuwsbericht \"HTML & CSS\"\n5. \"Aanbevolen links\" (gerelateerde info)\n6. \"Erasmushogeschool Brussel\" onderaan", a: "1. <header> (met de lijst in een <nav>)\n2. <main>\n3. <section>\n4. <article>\n5. <aside>\n6. <footer>", o: "10.1 Voorbeelden semantische layout" },
+  { v: "Zet deze pagina om naar semantische HTML5: welk element komt rond elk deel?\n1. Titel \"TechNews Magazine\" + navigatielijst\n2. Het hoofdgedeelte van de pagina\n3. Het blok \"Laatste nieuws\"\n4. Eén nieuwsbericht \"HTML & CSS\"\n5. \"Aanbevolen links\" (gerelateerde info)\n6. \"Erasmushogeschool Brussel\" onderaan", a: "1. <header> (met de lijst in een <nav>)\n2. <main>\n3. <section>\n4. <article>\n5. <aside>\n6. <footer>", o: "10.1 Voorbeelden semantische layout", oefening: true,
+    uitleg: "<header> = kop van de pagina (titel en navigatie), <nav> = het menu. <main> = de hoofdinhoud (één keer per pagina). <section> = een thematisch blok. <article> = een stuk dat op zichzelf kan staan, zoals een nieuwsbericht. <aside> = bijkomende info naast de hoofdinhoud. <footer> = voet van de pagina." },
   { v: "Een product in een webshop: welk semantisch element gebruik je voor de hele productkaart?", a: "<article>, met daarin een <header> (titel), een <div> (beschrijving) en een <footer> (prijs + knop).", o: "10.1 Voorbeelden semantische layout" },
 
   // ===== Oefening: HTML debugging (Oef. 1) =====
-  { v: "Zoek de fouten in deze code (minstens 5):\n<DOCTYPE HTML>\n<html>\n<head>\n  <title>Mijn Eerste Pagina\n</head>\n<body>\n  <h1>Welkom op mijn website<h1>\n  <p>Dit is een <b>belangrijke mededeling.</p></b>\n  <p>Bekijk de <a href=contact.html>contactpagina</a>!\n</body>", a: "1. <DOCTYPE HTML> moet <!DOCTYPE html> zijn (uitroepteken).\n2. <html> mist lang=\"nl\".\n3. <meta charset=\"UTF-8\"> (en viewport) ontbreekt in de head.\n4. <title> wordt niet afgesloten (</title>).\n5. <h1> wordt afgesloten met <h1> in plaats van </h1>.\n6. </p></b> staat in de verkeerde volgorde (FILO): </b></p>.\n7. href=contact.html mist dubbele aanhalingstekens.\n8. De laatste <p> wordt niet afgesloten.\n9. </html> ontbreekt.", o: "Oefening: HTML debugging",
-    uitleg: "In de oefening staat ook <img src=\"foto.jpg\" alt=\"foto 1\">: een alt als \"foto 1\" beschrijft niets; geef een echte beschrijving. Gebruik voor belangrijke tekst ook liever <strong> dan <b>." },
+  { v: "Zoek de fouten in deze code (minstens 5):\n<DOCTYPE HTML>\n<html>\n<head>\n  <title>Mijn Eerste Pagina\n</head>\n<body>\n  <h1>Welkom op mijn website<h1>\n  <p>Dit is een <b>belangrijke mededeling.</p></b>\n  <p>Bekijk de <a href=contact.html>contactpagina</a>!\n</body>", a: "1. <DOCTYPE HTML> moet <!DOCTYPE html> zijn (uitroepteken).\n2. <html> mist lang=\"nl\".\n3. <meta charset=\"UTF-8\"> (en viewport) ontbreekt in de head.\n4. <title> wordt niet afgesloten (</title>).\n5. <h1> wordt afgesloten met <h1> in plaats van </h1>.\n6. </p></b> staat in de verkeerde volgorde (FILO): </b></p>.\n7. href=contact.html mist dubbele aanhalingstekens.\n8. De laatste <p> wordt niet afgesloten.\n9. </html> ontbreekt.", o: "Oefening: HTML debugging", oefening: true,
+    uitleg: "Waarom fout: zonder ! herkent de browser het doctype niet. lang zegt in welke taal de pagina is (voor screenreaders). charset zorgt dat é en ë juist tonen. Elke tag die je opent, sluit je met een schuine streep (</title>, </h1>, </p>, </html>). Tags sluit je in omgekeerde volgorde: wat laatst open ging, gaat eerst dicht (FILO). Waarden van attributen zet je tussen dubbele aanhalingstekens. Ook: een alt als \"foto 1\" beschrijft niets, en gebruik <strong> in plaats van <b> voor belangrijke tekst." },
 
   // ===== Oefening: semantische tekststructuur (Oef. 2–3) =====
-  { v: "Je maakt een \"Top 5 Movies\"-pagina waarin elke filmnaam begint met een nummer (\"1. The Shawshank Redemption\"). Gebruik je een <ol> of koppen?", a: "Koppen (bv. <h2>), met het nummer zelf in de tekst. Genummerde titels bestaan niet in HTML, en het is geen geordende lijst.", o: "Oefening: semantische tekststructuur",
-    uitleg: "De filmnamen zijn titels met elk een eigen beschrijving (paragraaf) eronder. Een lijst zou de structuur verkeerd weergeven." },
+  { v: "Je maakt een \"Top 5 Movies\"-pagina waarin elke filmnaam begint met een nummer (\"1. The Shawshank Redemption\"). Gebruik je een <ol> of koppen?", a: "Koppen (bv. <h2>), met het nummer zelf in de tekst. Genummerde titels bestaan niet in HTML, en het is geen geordende lijst.", o: "Oefening: semantische tekststructuur", oefening: true,
+    uitleg: "De filmnamen zijn titels met elk een eigen beschrijving (paragraaf) eronder. Een lijst zou de structuur verkeerd weergeven. <h2> = een titel van een onderdeel; het nummer typ je gewoon mee in de tekst." },
 
   // ===== Oefening: lijsten (Oef. 4 & 6) =====
 
