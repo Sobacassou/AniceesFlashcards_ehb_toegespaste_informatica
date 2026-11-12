@@ -209,6 +209,8 @@ function bewaarSessie() {
       s.fouten = fouten.map(k => [k.hfst, k.v, k.herhaling || 0]);
       s.index = index;
       s.hervatbaar = hervatbaar;
+      s.kans = [...kansMoeilijk];      // ook na herladen blijft het dezelfde sessie
+      s.gezien = [...sessieGezien];
     }
     sessionStorage.setItem("sessie", JSON.stringify(s));
   } catch (e) {}
@@ -236,6 +238,8 @@ function herstelSessie() {
   index = Math.min(Math.max(s.index || 0, 0), stapel.length - 1);
   acties = [];
   hervatbaar = !!s.hervatbaar;
+  kansMoeilijk = new Set(s.kans || []);
+  sessieGezien = new Set(s.gezien || []);
   reeks = 0;
   foutReeks = 0;
   toonScherm("schermOefenen");
@@ -676,6 +680,7 @@ function startOefenen(kaarten) {
   reeks = 0;
   foutReeks = 0;
   kansMoeilijk = new Set();
+  sessieGezien = new Set();   // nieuwe sessie: nog geen enkele kaart beantwoord
   aantalBeantwoord = 0;
   konijnTegoed = false;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
@@ -1071,7 +1076,7 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), aantal: aantalBeantwoord, konijnTegoed };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -1084,11 +1089,15 @@ function volgende(wistHet) {
   const wasMoeilijk = s.moeilijk === true;
   if (!wistHet && kaart.herhaling) s.moeilijk = true;
   const werdMoeilijk = !wasMoeilijk && s.moeilijk === true;   // net een moeilijke kaart geworden? dan groot duiveltje
-  // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk
-  if (wistHet && !kaart.herhaling) delete s.moeilijk;
+  // in een latere sessie de eerste keer meteen juist? dan is ze niet meer moeilijk.
+  // Al eens beantwoord in deze sessie (bv. via het overzicht teruggesprongen)? Dan telt dat niet:
+  // dan kan ze enkel nog via haar "één kans" (herhaling én controle juist) van de stapel.
+  const alGezien = sessieGezien.has(id);
+  sessieGezien.add(id);
+  if (wistHet && !kaart.herhaling && !alGezien) delete s.moeilijk;
   let viaKans = false;
   // één kans: net moeilijk geworden, of een moeilijke kaart de eerste keer in deze sessie weer fout
-  if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling))) kansMoeilijk.add(id);
+  if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling && !alGezien))) kansMoeilijk.add(id);
   else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
   // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
   if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && kansMoeilijk.has(id)) {
@@ -1153,6 +1162,7 @@ function maakOngedaan() {
   if (actie.soort === "antwoord") {
     if (actie.vorig) stats[actie.id] = actie.vorig; else delete stats[actie.id];
     if (actie.kans) kansMoeilijk.add(actie.id); else kansMoeilijk.delete(actie.id);   // kans terug zoals vóór dit antwoord
+    if (!actie.gezien) sessieGezien.delete(actie.id);                                  // en "al gezien in deze sessie" ook
     bewaar("stats", stats);
     if (actie.fout) fouten.pop();
     if (actie.ingepland >= 0) stapel.splice(actie.ingepland, 1);
@@ -1532,6 +1542,7 @@ let foutReeks = 0;
    de eerste keer weer fout), dan gaat ze enkel van de stapel moeilijk als de eerstvolgende herhaling én de
    controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
 let kansMoeilijk = new Set();
+let sessieGezien = new Set();   // kaarten die je in deze sessie al beantwoord hebt (van Start tot je de les verlaat)
 
 const DUIVEL_SVG = `
 <svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">
