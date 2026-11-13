@@ -870,6 +870,7 @@ function toonOverzicht(kaart) {
   const nrVan = r => nrInTitel(r.o || r.kop, r.slide) ? "" : (r.slide || "");
   const metNrs = structuur.filter(r => nrVan(r)).length > structuur.length / 2;
 
+  const vorigeScroll = vak.scrollTop;   // waar je zelf naartoe gescrold had in het overzicht
   vak.innerHTML =
     `<h3><span>${kaart.hfst}</span><button type="button" class="licht ov-inklap">⌃ Inklappen</button></h3>` +
     `<ol class="ov-onderwerpen${metNrs ? " met-nrs" : ""}">` +
@@ -915,6 +916,7 @@ function toonOverzicht(kaart) {
   // op een onderwerp of module getikt terwijl het overzicht opengeklapt is: terug naar boven, compact.
   // Gewoon naar de volgende kaart: het overzicht blijft open en de pagina blijft staan waar ze is.
   if (ovOpen && ovGesprongen) { ovOpen = false; vak.classList.remove("open"); document.body.classList.remove("overzicht-open"); window.scrollTo(0, 0); }
+  else vak.scrollTop = vorigeScroll;    // nieuwe inhoud: het overzicht niet terug naar boven laten springen
   ovGesprongen = false;
   pasOverzichtAan();
 }
@@ -941,8 +943,9 @@ function standVan(hfst, o) {
 function houdHierInBeeld(vak) {
   const hier = vak.querySelector("li.hier");
   if (hier && vak.scrollHeight > vak.clientHeight) {
-    const boven = hier.offsetTop - vak.scrollTop;
-    if (boven < 0 || boven > vak.clientHeight - hier.offsetHeight) vak.scrollTop = hier.offsetTop - vak.clientHeight / 3;
+    // enkel scrollen als het huidige onderwerp niet (helemaal) zichtbaar is; anders blijft het overzicht staan
+    const v = vak.getBoundingClientRect(), h = hier.getBoundingClientRect();
+    if (h.top < v.top || h.bottom > v.bottom) vak.scrollTop += (h.top - v.top) - vak.clientHeight / 3;
   }
 }
 

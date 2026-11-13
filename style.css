@@ -830,7 +830,7 @@ html, body { overflow-x: clip; }
   background: none; color: var(--fav); font-size: 2.1rem; line-height: 1; font-weight: 400;
 }
 @media (hover: hover) { .kant .ster:hover { background: rgba(255, 255, 255, 0.08); } }
-.kaart.wit .kant .ster { color: #098658; }   /* VS Code Light+: donkerder groen, goed zichtbaar op een witte kaart */
+.kaart.wit .kant .ster { color: var(--fav); }   /* Anicée: overal hetzelfde lichtgroen, ook op een witte kaart */
 @media (hover: hover) { .kaart.wit .kant .ster:hover { background: rgba(0, 0, 0, 0.06); } }
 .kant .onderwerp { right: 64px; }   /* plaats laten voor de ster */
 

@@ -2,6 +2,20 @@
 // o = onderwerp uit de cursus: de kaart komt in het overzicht na de kaarten van dat onderwerp.
 
 const kaarten_WEB_les3_oef = [
+  { v: "<a class=\"link\">Lees meer</a>\n\n.link::after {\n  content: \" (extern)\";\n}\n\nWat toont de browser?", a: "Lees meer (extern)", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "::after voegt de content toe na de bestaande inhoud van de link, als laatste kind in het element. Je hoeft niets in de HTML te schrijven." },
+  { v: "<p class=\"tip\">Sla je werk regelmatig op.</p>\n\n.tip::before {\n  content: \"Tip: \";\n  font-weight: bold;\n}\n\nWat toont de browser?", a: "Tip: Sla je werk regelmatig op. (met \"Tip:\" in het vet)", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "::before zet de content vóór de bestaande inhoud, in het element. De font-weight: bold geldt enkel voor het pseudo-element, dus enkel \"Tip:\" is vet." },
+  { v: "Zoek de fout.\n<h2 class=\"titel\">Nieuws</h2>\n\nIemand wil een blauw blokje van 10 bij 10 voor de titel en schrijft:\n.titel::before {\n  display: inline-block;\n  width: 10px;\n  height: 10px;\n  background: #3794ff;\n}\n\nEr verschijnt niets. Waarom niet?", a: "content ontbreekt. Voeg content: \"\"; toe.", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "Zonder content verschijnt een pseudo-element nooit. Voor een vorm zonder tekst schrijf je een lege content: content: \"\";." },
+  { v: "<img src=\"kat.jpg\" alt=\"Kat\">\n\nimg::after {\n  content: \" (foto)\";\n}\n\nVerschijnt de tekst \" (foto)\"? Waarom (niet)?", a: "Nee.", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "img is een leeg (void) element: het heeft geen inhoud en geen sluittag. ::after komt in het element, na de inhoud, maar daar is geen plaats. Dat geldt ook voor input en br." },
+  { v: "<span class=\"nieuw\">Webfonts</span>\n\nSchrijf de CSS die na elk element met class \"nieuw\" de tekst \" (nieuw)\" in het groen toont.", a: ".nieuw::after {\n  content: \" (nieuw)\";\n  color: green;\n}", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "::after voegt inhoud toe na de bestaande inhoud. content is verplicht; color: green geldt enkel voor de toegevoegde tekst." },
+  { v: "<p class=\"noot\">Tekst</p>\n\n.noot::before {\n  content: \"Noot\";\n  width: 100px;\n}\n\nIs het woord \"Noot\" nu 100px breed? Waarom (niet)?", a: "Nee: een pseudo-element is standaard inline, en dan werkt width niet.", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "Inline-elementen negeren width en height (zie 5.3 Display types in les 4). Geef het pseudo-element display: inline-block of display: block, dan werkt width wel." },
+  { v: "<p>Hallo</p>\n\np::before {\n  content: \"A \";\n}\np::after {\n  content: \" B\";\n}\n\nWat toont de browser, en in welke volgorde staan de delen in de p?", a: "A Hallo B", o: "6.3 Pseudo-elements", oefening: true,
+    uitleg: "::before is het eerste kind van de p, dan komt de bestaande inhoud, en ::after is het laatste kind. Alles staat in de p, niet erbuiten." },
   { v: "Gegeven:\n<form>\n  <input type=\"text\" name=\"naam\">\n  <input type=\"email\" name=\"mail\">\n  <input type=\"password\" name=\"wachtwoord\">\n  <input type=\"checkbox\" name=\"nieuwsbrief\">\n  <button type=\"submit\">Verstuur</button>\n</form>\n\nWelke elementen treft input[type=\"text\"]?", a: "Enkel het veld met name=\"naam\".", o: "2.2 Basisselectors", oefening: true,
     uitleg: "Het moet een input zijn, en het attribuut type moet precies \"text\" zijn. De andere inputs hebben een ander type (email, password, checkbox)." },
   { v: "Gegeven:\n<form>\n  <input type=\"text\" name=\"naam\">\n  <input type=\"email\" name=\"mail\">\n  <input type=\"password\" name=\"wachtwoord\">\n  <input type=\"checkbox\" name=\"nieuwsbrief\">\n  <button type=\"submit\">Verstuur</button>\n</form>\n\nSchrijf een attribuutselector die enkel het wachtwoordveld treft.", a: "input[type=\"password\"]", o: "2.2 Basisselectors", oefening: true,
