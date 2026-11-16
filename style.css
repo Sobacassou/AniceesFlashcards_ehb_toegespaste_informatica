@@ -855,3 +855,18 @@ html, body { overflow-x: clip; }
 .lb-tot { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8px; }
 .lb-tot .opties { margin: 4px 0; }
 .opties.grijs { opacity: 0.4; cursor: default; }
+
+/* Leitnerbak klaar voor vandaag: roze titel en de roze rups */
+#eindeTitel.lb-klaar { color: #c586c0; }
+.lb-einde { color: #d7a3d3; white-space: pre-line; margin: -6px 0 6px; line-height: 1.6; }
+#rups { position: fixed; inset: 0; z-index: 62; pointer-events: none; overflow: hidden; }
+#rups .ru-loper { position: absolute; left: 0; top: 0; width: 170px; opacity: 0; transform-origin: 50% 100%; }
+#rups svg { display: block; width: 100%; height: auto; overflow: visible; }
+#rups .ru-seg { animation: ru-golf .6s ease-in-out infinite alternate; animation-delay: var(--d); }
+@keyframes ru-golf { from { transform: translateY(0); } to { transform: translateY(-7px); } }
+@media (prefers-reduced-motion: reduce) { #rups .ru-seg { animation: none !important; } }
+
+.teller .lb-teller { color: #c586c0; }   /* Leitnerbak: "Kaart x van y" roze */
+
+/* moeilijke kaart: titel bovenaan in het rood van "fout" (ook op witte en groene kaarten) */
+.onderwerp.moeilijk-titel, .kaart.wit .onderwerp.moeilijk-titel, .kaart.extra .onderwerp.moeilijk-titel { color: var(--rood); }

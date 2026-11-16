@@ -113,6 +113,10 @@ let favorieten = new Set(laad("favorieten", []));   // kaarten met een ster
 const LB_DAGEN = { 1: 1, 2: 2, 3: 4, 4: 8, 5: 16 };
 let leitner = laad("leitner", null);
 let lbSessie = false;   // true = deze ronde is een ronde van de Leitnerbak
+// foute kaarten herhalen? Nooit in een ronde van de Leitnerbak, ook niet als het vinkje na herladen weer aan staat
+function herhalenAan() {
+  return !lbSessie && document.getElementById("herhalen").checked;
+}
 function vandaagStr() {
   const d = new Date();
   return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
@@ -470,7 +474,7 @@ function wisselFavoriet(e) {
   const kaart = stapel[index];
   if (!kaart) return;
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, null); }
+  if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, vandaagStr()); }   // ster: in bak 1, aan de beurt vanaf morgen
   bewaar("favorieten", [...favorieten]);
   zetSter();
 }
@@ -900,10 +904,11 @@ function toonKaart() {
   const gewoon = stapel.filter(k => !k.herhaling).length;
   const hierGewoon = stapel.slice(0, index + 1).filter(k => !k.herhaling).length;
   document.getElementById("teller").innerHTML =
-    `<span title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +
+    `<span${lbSessie ? ' class="lb-teller"' : ""} title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +   // Leitnerbak: roze
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
+    (lbSessie ? "" :                                      // Leitnerbak: enkel "Kaart x van y"
     `<span class="groen kort">Juist ${t.juist}</span>` +
-    `<span class="rood kort">Fout ${t.fout}</span>`;
+    `<span class="rood kort">Fout ${t.fout}</span>`);
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
@@ -1187,8 +1192,8 @@ function volgende(wistHet) {
   const openVoor = standVan(kaart.hfst, onderdeel).open;   // nog open kaarten van dit onderdeel, vóór dit antwoord
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
-  // een foute kaart gaat pas van de teller als ook de controle (na 12) juist is: de herhaling na 6 telt nog niet
-  s.laatst = wistHet && !(kaart.herhaling === 1 && document.getElementById("herhalen").checked);
+  // een foute kaart gaat pas van de teller als ook de controle (na 16) juist is: de herhaling na 8 telt nog niet
+  s.laatst = wistHet && !(kaart.herhaling === 1 && herhalenAan());
   // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
   const wasMoeilijk = s.moeilijk === true;
   if (!wistHet && kaart.herhaling) s.moeilijk = true;
@@ -1211,7 +1216,7 @@ function volgende(wistHet) {
   if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling && !alGezien))) kansMoeilijk.add(id);
   else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
   // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
-  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && kansMoeilijk.has(id)) {
+  if (wistHet && kaart.herhaling === 2 && herhalenAan() && kansMoeilijk.has(id)) {
     delete s.moeilijk; kansMoeilijk.delete(id); viaKans = true;
   }
   // groen paardje telkens als de kaart van de stapel moeilijk gaat: via haar "één kans" in deze sessie,
@@ -1236,7 +1241,7 @@ function volgende(wistHet) {
   if (konijnNu) toonKonijn();
   if (draakNu) toonDraak();
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
-  if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && s.moeilijk === true) toonGroeneSter();
+  if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk === true) toonGroeneSter();
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
@@ -1350,8 +1355,25 @@ function toonEinde() {
   const namen = gekozenHoofdstukken || [];
   const deel = namen.length === 1 ? namen[0].replace(" – ", " ") : namen.map(h => h.split(" – ")[0]).join(", ");
   document.getElementById("eindeTitel").textContent = deel ? `Klaar met ${vakTitel} – ${deel}` : `Klaar met ${vakTitel}`;
+  // Leitnerbak: roze titel "Leitnerbak klaar voor vandaag", eronder het vak en hoeveel kaarten morgen aan de beurt zijn,
+  // en de roze rups springt over het scherm
+  const titel = document.getElementById("eindeTitel"), lbEinde = document.getElementById("lbEinde");
+  titel.classList.toggle("lb-klaar", lbSessie);
+  lbEinde.hidden = !lbSessie;
+  if (lbSessie) {
+    titel.textContent = "Leitnerbak klaar voor vandaag";
+    let morgen = 0;
+    for (const h of namen)
+      for (const k of vakken[huidigVak][h] || []) {
+        const id = kaartId(huidigVak, h, k), e = leitner[id];
+        if (e && !verborgen.has(id) && lbTeHerhalen(e, 1)) morgen++;
+      }
+    lbEinde.textContent = (deel ? `${vakTitel} – ${deel}` : vakTitel) + "\n" +
+      (morgen === 0 ? "Morgen is er niets aan de beurt." : `Morgen ${morgen === 1 ? "is 1 kaart" : "zijn " + morgen + " kaarten"} aan de beurt.`);
+    toonRups();
+  }
   // knop met de naam van het vak, bv. "Terug naar de hoofdstukken van IT Essentials"
-  const vakNaam = huidigVak.replace(/^\S+\s/, "");   // emoji vooraan weglaten
+  const vakNaam = huidigVak.replace(/^[^\p{L}\p{N}]+\s/u, "");   // enkel een emoji vooraan weglaten, nooit een woord
   document.getElementById("terugHoofdstukken").textContent = `Terug naar de hoofdstukken van ${vakNaam}`;
   toonScherm("schermEinde");
   zetOngedaanKnoppen();
@@ -1362,24 +1384,28 @@ function herhaalFouten() {
 }
 
 /* ===== Foute kaarten herhalen tijdens het oefenen (vinkje op het hoofdstukkenscherm) =====
-   Gespreide herhaling: een foute kaart komt terug na 6 kaarten. Juist bij die herhaling?
-   Dan nog één controle na 12 kaarten. Weer fout? Dan opnieuw na 6. Wat op het einde van de
+   Gespreide herhaling: een foute kaart komt terug na 8 kaarten. Juist bij die herhaling?
+   Dan nog één controle na 16 kaarten. Weer fout? Dan opnieuw na 8. Wat op het einde van de
    ronde nog openstaat, komt vóór het eindscherm. */
-const HERHAAL_NA = { 1: 6, 2: 12 };
+const HERHAAL_NA = { 1: 8, 2: 16 };
 function planHerhaling(kaart, wistHet) {
-  if (!document.getElementById("herhalen").checked) return -1;
+  if (!herhalenAan()) return -1;
   let niveau = 0;
-  if (!wistHet) niveau = 1;                                // fout: na 6 kaarten terug
-  else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 12
-  if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 12 juist: klaar
+  if (!wistHet) niveau = 1;                                // fout: na 8 kaarten terug
+  else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 16
+  if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 16 juist: klaar
   const kopie = { ...kaart, herhaling: niveau };
   const plek = Math.min(index + 1 + HERHAAL_NA[niveau], stapel.length);
   stapel.splice(plek, 0, kopie);
   return plek;
 }
 function zetHerhaalLabel(kaart) {
+  // moeilijke kaart: de titel bovenaan (hoofdstuk › onderwerp) in het rood van "fout"
+  const st = stats[kaartId(huidigVak, kaart.hfst, kaart)];
+  const moeilijk = !!(st && st.moeilijk === true);
   for (const id of ["onderwerpVoor", "onderwerpAchter"]) {
     const el = document.getElementById(id);
+    el.classList.toggle("moeilijk-titel", moeilijk);
     el.querySelector(".herhaal-label")?.remove();
     el.querySelector(".extra-label")?.remove();
     el.querySelector(".oef-label")?.remove();
@@ -1630,6 +1656,54 @@ const KONIJN_SVG = `
 <ellipse cx="94" cy="64" rx="4" ry="2.4" fill="#FFB3D9"/>
 </g>
 </svg>`;
+/* ===== Roze rups: de Leitnerbak is klaar voor vandaag =====
+   Een rups met 5 bolletjes (de 5 bakken) springt in 5 sprongen van links naar rechts over het eindscherm. */
+const RUPS_SVG = `
+<svg viewBox="0 0 210 90" aria-hidden="true">
+<g class="ru-seg" style="--d:0s"><ellipse cx="22" cy="80" rx="5" ry="3" fill="#8E5A8A"/><circle cx="22" cy="62" r="15" fill="#B06AAB"/><circle cx="18" cy="57" r="5" fill="#D7A3D3"/></g>
+<g class="ru-seg" style="--d:.07s"><ellipse cx="50" cy="80" rx="5" ry="3" fill="#8E5A8A"/><circle cx="50" cy="60" r="17" fill="#C586C0"/><circle cx="45" cy="54" r="5.5" fill="#E2BDDF"/></g>
+<g class="ru-seg" style="--d:.14s"><ellipse cx="81" cy="80" rx="5" ry="3" fill="#8E5A8A"/><circle cx="81" cy="59" r="18" fill="#B06AAB"/><circle cx="76" cy="52" r="6" fill="#D7A3D3"/></g>
+<g class="ru-seg" style="--d:.21s"><ellipse cx="113" cy="80" rx="5" ry="3" fill="#8E5A8A"/><circle cx="113" cy="58" r="19" fill="#C586C0"/><circle cx="107" cy="51" r="6" fill="#E2BDDF"/></g>
+<g class="ru-seg" style="--d:.28s"><ellipse cx="146" cy="80" rx="5" ry="3" fill="#8E5A8A"/><circle cx="146" cy="57" r="20" fill="#B06AAB"/><circle cx="140" cy="49" r="6.5" fill="#D7A3D3"/></g>
+<g class="ru-seg" style="--d:.35s">
+<path d="M170 26 Q166 10 158 6" stroke="#8E5A8A" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="157" cy="5" r="4" fill="#DCDCAA"/>
+<path d="M186 26 Q192 10 200 6" stroke="#8E5A8A" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="201" cy="5" r="4" fill="#DCDCAA"/>
+<circle cx="179" cy="46" r="25" fill="#D7A3D3"/>
+<ellipse cx="171" cy="42" rx="5.5" ry="6.5" fill="#2A0E2A"/><ellipse cx="189" cy="42" rx="5.5" ry="6.5" fill="#2A0E2A"/>
+<circle cx="169" cy="39" r="2.2" fill="#fff"/><circle cx="187" cy="39" r="2.2" fill="#fff"/>
+<path d="M170 55 Q179 63 189 55" stroke="#5A1A4A" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+<ellipse cx="163" cy="53" rx="4.5" ry="2.8" fill="#F7B0D8"/><ellipse cx="196" cy="53" rx="4.5" ry="2.8" fill="#F7B0D8"/>
+</g>
+</svg>`;
+
+function toonRups() {
+  const oud = document.getElementById("rups");
+  if (oud) oud.remove();
+  const laag = document.createElement("div");
+  laag.id = "rups";
+  laag.innerHTML = `<div class="ru-loper">${RUPS_SVG}</div>`;
+  document.body.appendChild(laag);
+  const loper = laag.querySelector(".ru-loper");
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const DUUR = 6000, SPRONGEN = 5, begin = performance.now();
+  function beeld(nu) {
+    if (!laag.isConnected) return;
+    if (!document.getElementById("schermEinde").classList.contains("actief")) { laag.remove(); return; }
+    const t = (nu - begin) / DUUR;
+    if (t >= 1) { laag.remove(); return; }
+    const sc = document.getElementById("schermEinde").getBoundingClientRect();
+    const onder = sc.height ? Math.min(sc.bottom + 20, window.innerHeight - 8) : window.innerHeight - 8;
+    const w = loper.offsetWidth, h = loper.offsetHeight;
+    const x = -w + (window.innerWidth + w) * t;                         // van links buiten tot rechts buiten het scherm
+    const ph = (t * SPRONGEN) % 1, hop = rustig ? 0 : -70 * Math.sin(Math.PI * ph);
+    const sq = ph < 0.08 || ph > 0.94 ? 0.85 : 1;                       // inveren bij afzet en landing
+    loper.style.transform = `translate(${x}px, ${onder - h + hop}px) scale(${2 - sq}, ${sq})`;
+    loper.style.opacity = t < 0.05 ? t / 0.05 : t > 0.93 ? (1 - t) / 0.07 : 1;
+    requestAnimationFrame(beeld);
+  }
+  requestAnimationFrame(beeld);
+}
+
 function toonKonijn() {
   const oud = document.getElementById("konijn");
   if (oud) oud.remove();
