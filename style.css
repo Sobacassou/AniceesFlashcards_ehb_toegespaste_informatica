@@ -774,6 +774,7 @@ html, body { overflow-x: clip; }
 /* Kleine overzichtstabel op een kaart */
 .mini-tabel { border-collapse: collapse; margin: 12px auto 0; font-size: 13px; font-weight: 400; letter-spacing: normal; line-height: 1.35; text-align: left; max-width: 100%; }
 .mini-tabel th, .mini-tabel td { border: 1px solid #3c3c3c; padding: 4px 8px; vertical-align: top; }
+.mini-tabel td { white-space: pre-line; }   /* een enter in een cel = nieuwe regel (bv. bullets) */
 .mini-tabel thead th { background: #2d2d30; color: #4EC9B0; font-weight: 600; }
 .mini-tabel tbody th { color: #DCDCAA; font-weight: 600; white-space: nowrap; }
 .kaart.wit .mini-tabel th, .kaart.wit .mini-tabel td { border-color: #c8c8c8; }
