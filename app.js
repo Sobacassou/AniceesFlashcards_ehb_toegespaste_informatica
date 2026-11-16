@@ -102,6 +102,42 @@ let verborgen = new Set(laad("verborgen", []));   // weggegooide kaarten
 let stats = laad("stats", {});                      // per kaart: hoe vaak goed/fout + laatste antwoord
 let scores = laad("scores", {});                    // per vak: je laatste scores
 let favorieten = new Set(laad("favorieten", []));   // kaarten met een ster
+
+/* ===== Leitnerbak =====
+   Een kaart komt in bak 1 zodra ze moeilijk wordt of een ster krijgt, en blijft erin
+   (ook als ze niet meer moeilijk is of de ster weg is). Per kaart: de bak (1 tot 5) en de dag
+   van het laatste antwoord in de Leitnerbak. Een kaart is aan de beurt na 1, 2, 4, 8 of 16 dagen.
+   Enkel antwoorden in de Leitner-modus verplaatsen een kaart:
+   - aan de beurt: juist = één bak hoger (max. 5), fout = terug naar bak 1;
+   - vooruit geoefend (nog niet aan de beurt): fout = terug naar bak 1, juist = niets verandert. */
+const LB_DAGEN = { 1: 1, 2: 2, 3: 4, 4: 8, 5: 16 };
+let leitner = laad("leitner", null);
+let lbSessie = false;   // true = deze ronde is een ronde van de Leitnerbak
+function vandaagStr() {
+  const d = new Date();
+  return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
+}
+function dagenTussen(a, b) {
+  const [y1, m1, d1] = a.split("-").map(Number), [y2, m2, d2] = b.split("-").map(Number);
+  return Math.round((Date.UTC(y2, m2 - 1, d2) - Date.UTC(y1, m1 - 1, d1)) / 86400000);
+}
+// te herhalen binnen "extra" dagen (0 = vandaag, 1 = t.e.m. morgen …)? Nog nooit in de Leitnerbak beantwoord = meteen aan de beurt.
+function lbTeHerhalen(e, extra = 0) {
+  if (!e.dag) return true;
+  return dagenTussen(e.dag, vandaagStr()) + extra >= LB_DAGEN[e.bak];
+}
+function lbVoegToe(id, dag) {
+  if (leitner[id]) return;
+  leitner[id] = { bak: 1, dag: dag || null };
+  bewaar("leitner", leitner);
+}
+// de eerste keer: alle kaarten die al moeilijk zijn of een ster hebben, gaan in bak 1
+if (leitner === null) {
+  leitner = {};
+  for (const id in stats) if (stats[id] && stats[id].moeilijk === true) leitner[id] = { bak: 1, dag: null };
+  for (const id of favorieten) if (!leitner[id]) leitner[id] = { bak: 1, dag: null };
+  bewaar("leitner", leitner);
+}
 let posities = laad("posities", {});                // waar je gebleven was (enkel zonder schudden)
 let hervatbaar = false;                             // huidige ronde onthoudt zijn plaats?
 
@@ -211,6 +247,7 @@ function bewaarSessie() {
       s.hervatbaar = hervatbaar;
       s.kans = [...kansMoeilijk];      // ook na herladen blijft het dezelfde sessie
       s.gezien = [...sessieGezien];
+      s.lb = lbSessie;
     }
     sessionStorage.setItem("sessie", JSON.stringify(s));
   } catch (e) {}
@@ -240,6 +277,7 @@ function herstelSessie() {
   hervatbaar = !!s.hervatbaar;
   kansMoeilijk = new Set(s.kans || []);
   sessieGezien = new Set(s.gezien || []);
+  lbSessie = !!s.lb;
   reeks = 0;
   foutReeks = 0;
   toonScherm("schermOefenen");
@@ -349,6 +387,7 @@ function kiesVak(vak) {
   terug.style.display = aantalWeg ? "block" : "none";
   terug.textContent = `${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
   telFavorieten();
+  telLeitner();
 
   toonScherm("schermHoofdstuk");
 }
@@ -400,6 +439,7 @@ async function wisVoortgang() {
 function vinkAlles(aan) {
   document.querySelectorAll("#hoofdstukLijst input").forEach(c => c.checked = aan);
   telFavorieten();
+  telLeitner();
 }
 
 /* ===== Favorieten: een ster rechtsboven op de kaart ===== */
@@ -430,10 +470,54 @@ function wisselFavoriet(e) {
   const kaart = stapel[index];
   if (!kaart) return;
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  if (favorieten.has(id)) favorieten.delete(id); else favorieten.add(id);
+  if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, null); }
   bewaar("favorieten", [...favorieten]);
   zetSter();
 }
+
+/* ===== Leitnerbak in het menu: per bak hoeveel te herhalen en hoeveel in totaal,
+   voor de aangevinkte hoofdstukken (weggegooide kaarten niet meegeteld) ===== */
+function telLeitner() {
+  const el = document.getElementById("lbInfo");
+  if (!huidigVak || !el) return;
+  let nu = 0, totaal = 0;
+  for (const h of aangevinkteHoofdstukken())
+    for (const k of vakken[huidigVak][h] || []) {
+      const id = kaartId(huidigVak, h, k);
+      const e = leitner[id];
+      if (!e || verborgen.has(id)) continue;
+      totaal++;
+      if (lbTeHerhalen(e)) nu++;
+    }
+  el.textContent = totaal === 0 ? "Nog geen kaarten in de Leitnerbak"
+    : `${nu} ${nu === 1 ? "kaart" : "kaarten"} vandaag aan de beurt · ${totaal} in de bak`;
+}
+// Leitnerbak aan: de andere keuzes worden grijs (ze tellen niet mee) en schudden / herhalen gaan uit.
+// Leitnerbak weer uit: alles terug zoals het stond.
+const lbVinkjes = ["fNieuw", "fFout", "fJuist", "schudden", "herhalen"];
+let vinkjesVoorLb = null;
+function zetLeitnerModus(aan) {
+  const grijs = [...lbVinkjes.map(id => document.getElementById(id)), ...document.querySelectorAll('input[name="oefKeuze"]')];
+  if (aan && vinkjesVoorLb === null) {
+    vinkjesVoorLb = {};
+    lbVinkjes.forEach(id => { vinkjesVoorLb[id] = document.getElementById(id).checked; });
+    document.getElementById("schudden").checked = false;
+    document.getElementById("herhalen").checked = false;
+  } else if (!aan && vinkjesVoorLb !== null) {
+    lbVinkjes.forEach(id => { document.getElementById(id).checked = vinkjesVoorLb[id]; });
+    vinkjesVoorLb = null;
+  }
+  grijs.forEach(el => { el.disabled = aan; el.closest("label").classList.toggle("grijs", aan); });
+}
+document.getElementById("leitnerAan").addEventListener("change", e => zetLeitnerModus(e.target.checked));
+// bij het openen staat de Leitnerbak uit (ook als de browser bij herladen oude vinkjes terugzet)
+const lbStart = () => {
+  vinkjesVoorLb = null;
+  document.getElementById("leitnerAan").checked = false;
+  zetLeitnerModus(false);
+};
+lbStart();
+window.addEventListener("pageshow", lbStart);
 
 /* ===== Filter: nog niet beantwoord / fout / juist ===== */
 function statusVan(id) {
@@ -649,6 +733,22 @@ function startOefenen(kaarten) {
       .flatMap(h => vakken[huidigVak][h].map(k => ({ ...k, hfst: h })))
       .filter(k => !verborgen.has(kaartId(huidigVak, k.hfst, k)));
     if (kaarten.length === 0) { melding("Er zijn geen kaarten meer over in deze hoofdstukken."); return; }
+    lbSessie = document.getElementById("leitnerAan").checked;
+  }
+  if (gewoneStart && lbSessie) {
+    // Leitnerbak: alle kaarten die vandaag aan de beurt zijn, in de volgorde van de cursus
+    // (de andere keuzes tellen dan niet mee)
+    kaarten = kaarten.filter(k => leitner[kaartId(huidigVak, k.hfst, k)]);
+    if (kaarten.length === 0) { melding("Er zitten nog geen kaarten van deze hoofdstukken in de Leitnerbak. Een kaart komt erin zodra ze moeilijk wordt of je ze een ster geeft."); return; }
+    const later = kaarten.map(k => leitner[kaartId(huidigVak, k.hfst, k)]);
+    kaarten = kaarten.filter(k => lbTeHerhalen(leitner[kaartId(huidigVak, k.hfst, k)]));
+    if (kaarten.length === 0) {
+      // wanneer is de volgende kaart aan de beurt?
+      const dagen = Math.min(...later.map(e => LB_DAGEN[e.bak] - dagenTussen(e.dag, vandaagStr())));
+      melding(`Vandaag zijn er geen kaarten van de Leitnerbak aan de beurt. De volgende kaart ${dagen <= 1 ? "is morgen" : dagen === 2 ? "is overmorgen" : "is over " + dagen + " dagen"} aan de beurt.`);
+      return;
+    }
+  } else if (gewoneStart) {
     // enkel favorieten: de kaarten met een ster (de vinkjes nog niet beantwoord / fout / juist tellen ook mee)
     const enkelFav = ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) === "fav";
     if (enkelFav) {
@@ -684,7 +784,7 @@ function startOefenen(kaarten) {
   aantalBeantwoord = 0;
   konijnTegoed = false;
   // niet geschud? dan ga je verder waar je de vorige keer gebleven was
-  hervatbaar = gewoneStart && !geschud && ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) !== "fav";   // favorieten: altijd van het begin
+  hervatbaar = gewoneStart && !geschud && !lbSessie && ((document.querySelector('input[name="oefKeuze"]:checked') || {}).value) !== "fav";   // favorieten en Leitnerbak: altijd van het begin
   if (hervatbaar) index = hervatIndex();
   toonScherm("schermOefenen");
   toonKaart();
@@ -1079,7 +1179,8 @@ function volgende(wistHet) {
 
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed };
+  const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed,
+    lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined } };
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -1098,6 +1199,13 @@ function volgende(wistHet) {
   const alGezien = sessieGezien.has(id);
   sessieGezien.add(id);
   if (wistHet && !kaart.herhaling && !alGezien) delete s.moeilijk;
+  // Leitnerbak: enkel in een Leitner-ronde, en enkel het eerste antwoord op deze kaart in de ronde
+  if (lbSessie && leitner[id] && !kaart.herhaling && !alGezien) {
+    const e = leitner[id];
+    if (!wistHet) { e.bak = 1; e.dag = vandaagStr(); }
+    else if (lbTeHerhalen(e, 0)) { e.bak = Math.min(e.bak + 1, 5); e.dag = vandaagStr(); }
+    bewaar("leitner", leitner);
+  }
   let viaKans = false;
   // één kans: net moeilijk geworden, of een moeilijke kaart de eerste keer in deze sessie weer fout
   if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling && !alGezien))) kansMoeilijk.add(id);
@@ -1130,6 +1238,7 @@ function volgende(wistHet) {
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
   if (wistHet && kaart.herhaling === 2 && document.getElementById("herhalen").checked && s.moeilijk === true) toonGroeneSter();
   foutReeks = wistHet ? 0 : foutReeks + 1;
+  if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
@@ -1166,6 +1275,10 @@ function maakOngedaan() {
     if (actie.vorig) stats[actie.id] = actie.vorig; else delete stats[actie.id];
     if (actie.kans) kansMoeilijk.add(actie.id); else kansMoeilijk.delete(actie.id);   // kans terug zoals vóór dit antwoord
     if (!actie.gezien) sessieGezien.delete(actie.id);                                  // en "al gezien in deze sessie" ook
+    if (actie.lb) {                                                                    // en de Leitnerbak zoals vóór dit antwoord
+      if (actie.lb.had) leitner[actie.id] = actie.lb.waarde; else delete leitner[actie.id];
+      bewaar("leitner", leitner);
+    }
     bewaar("stats", stats);
     if (actie.fout) fouten.pop();
     if (actie.ingepland >= 0) stapel.splice(actie.ingepland, 1);
@@ -1270,6 +1383,7 @@ function zetHerhaalLabel(kaart) {
     el.querySelector(".herhaal-label")?.remove();
     el.querySelector(".extra-label")?.remove();
     el.querySelector(".oef-label")?.remove();
+    el.querySelector(".lb-label")?.remove();
     if (kaart.oefening) {
       const lab = document.createElement("span");
       lab.className = "oef-label";
@@ -1280,6 +1394,13 @@ function zetHerhaalLabel(kaart) {
       const lab = document.createElement("span");
       lab.className = "extra-label";
       lab.textContent = kaart.nietTeKennen ? "Extra, niet te kennen leerstof · " : "Extra info, niet uit de cursus · ";
+      el.prepend(lab);
+    }
+    const lbE = lbSessie ? leitner[kaartId(huidigVak, kaart.hfst, kaart)] : null;
+    if (lbE) {
+      const lab = document.createElement("span");
+      lab.className = "lb-label";
+      lab.textContent = `Bak ${lbE.bak} · `;
       el.prepend(lab);
     }
     if (kaart.herhaling) {
@@ -1975,7 +2096,7 @@ toonVakken();
 herstelSessie();
 
 /* aangevinkte hoofdstukken bewaren; schudden staat altijd uit als je de app opent (geldt enkel voor één ronde) */
-document.getElementById("hoofdstukLijst").addEventListener("change", () => { bewaarSessie(); telFavorieten(); });
+document.getElementById("hoofdstukLijst").addEventListener("change", () => { bewaarSessie(); telFavorieten(); telLeitner(); });
 document.getElementById("alles").addEventListener("change", () => setTimeout(() => bewaarSessie()));
 (() => {
   const schudden = document.getElementById("schudden");
@@ -1984,7 +2105,7 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
   const herhalen = document.getElementById("herhalen");
   herhalen.checked = laad("herhalen", "ja") === "ja";   // je vorige keuze wordt onthouden (de eerste keer: aan)
   herhalen.addEventListener("change", () => {
-    if (vinkjesVoorFav === null) bewaar("herhalen", herhalen.checked ? "ja" : "nee");   // bij favorieten: enkel voor die ronde
+    if (vinkjesVoorFav === null && vinkjesVoorLb === null) bewaar("herhalen", herhalen.checked ? "ja" : "nee");   // bij favorieten: enkel voor die ronde
   });
   window.addEventListener("pageshow", () => { herhalen.checked = laad("herhalen", "ja") === "ja"; });   // ook als de browser bij herladen oude vinkjes terugzet
 })();

@@ -843,3 +843,14 @@ html, body { overflow-x: clip; }
 
 /* tablet/gsm: vegen over een foto scrolt de kaart (de foto niet vastnemen of verslepen) */
 .kaart-fig img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+
+/* ===== Leitnerbak ===== */
+.lb-woord, .lb-label { color: #c586c0; font-weight: 700; }   /* VS Code: paars */
+.lb-info { font-size: 0.9rem; color: var(--tekst-zacht); margin: 0 0 2px 26px; }
+.filter .opties.lb-bak { margin: 4px 0; }
+.lb-naam { min-width: 3.2em; }
+.lb-tal { color: var(--tekst-zacht); font-size: 0.9rem; }
+.lb-tal b { color: var(--tekst-licht); font-weight: 600; }
+.lb-tot { display: grid; grid-template-columns: 1fr 1fr; column-gap: 8px; }
+.lb-tot .opties { margin: 4px 0; }
+.opties.grijs { opacity: 0.4; cursor: default; }
