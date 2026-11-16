@@ -812,9 +812,27 @@ function telJuistFout(hoofdstukken) {
 }
 
 /* Links naast de kaart: de stand van de gekozen hoofdstukken (over al je sessies) */
+/* Leitnerbak (pc): links waar je zit in de stapel van vandaag, en discreet hoeveel kaarten
+   van de gekozen hoofdstukken in de Leitnerbak zitten (alle bakken samen) */
+function toonLeitnerStand(el) {
+  const gewoon = stapel.filter(k => !k.herhaling).length;
+  const hier = Math.max(stapel.slice(0, index + 1).filter(k => !k.herhaling).length, 1);
+  let inBak = 0;
+  for (const h of gekozenHoofdstukken)
+    for (const k of vakken[huidigVak][h] || []) {
+      const id = kaartId(huidigVak, h, k);
+      if (leitner[id] && !verborgen.has(id)) inBak++;
+    }
+  el.innerHTML = `
+    <div class="stand-titel lb-woord">Leitnerbak</div>
+    <div class="stand-rij lb-rij-kaart"><span>Kaart</span><b>${hier} van ${gewoon}</b></div>
+    <div class="stand-rij lb-rij-totaal"><span>Totaal in de Leitnerbak</span><b>${inBak}</b></div>`;
+}
+
 function toonStand(t) {
   const el = document.getElementById("stand");
   if (!el) return;
+  if (lbSessie) { toonLeitnerStand(el); return; }
   const titel = gekozenHoofdstukken.length === 1 ? gekozenHoofdstukken[0] : `${gekozenHoofdstukken.length} hoofdstukken`;
   const pct = n => t.totaal ? (n / t.totaal * 100) : 0;
   el.innerHTML = `

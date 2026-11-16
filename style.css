@@ -870,3 +870,9 @@ html, body { overflow-x: clip; }
 
 /* moeilijke kaart: titel bovenaan in het rood van "fout" (ook op witte en groene kaarten) */
 .onderwerp.moeilijk-titel, .kaart.wit .onderwerp.moeilijk-titel, .kaart.extra .onderwerp.moeilijk-titel { color: var(--rood); }
+
+/* Leitnerbak op de pc: vakje links */
+.stand-rij.lb-rij-kaart span, .stand-rij.lb-rij-kaart b { color: #c586c0; }
+.stand-rij.lb-rij-totaal { font-size: 0.78rem; margin-top: 4px; letter-spacing: normal; }
+.stand-rij.lb-rij-totaal span { white-space: nowrap; }
+.stand-rij.lb-rij-totaal span, .stand-rij.lb-rij-totaal b { color: #c586c0; opacity: 0.75; font-weight: 400; }
