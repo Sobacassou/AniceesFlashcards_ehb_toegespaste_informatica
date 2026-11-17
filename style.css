@@ -883,3 +883,23 @@ html, body { overflow-x: clip; }
 /* rode ster: hardnekkige kaart (3 herhalingen in een ronde), boven op de groene */
 .kant .ster.rood, .kaart.wit .kant .ster.rood { color: var(--rood); }
 .kant .ster.rood svg { fill: currentColor; }
+
+/* Leitnerbak: roze knop onder de blauwe Start-knop */
+button.lb-knop { background: #c586c0; color: #1f1f1f; }
+button.lb-knop:hover { background: #d29bcd; }
+button.lb-knop { white-space: nowrap; }
+button.lb-knop #lbInfo { font-weight: 500; font-size: 0.85rem; }   /* zelfde hoogte als de blauwe Start-knop: alles op één regel */
+
+/* Liggend scherm (computer of tablet): het hele hoofdmenu past op het scherm, ook met de adresbalk erbij */
+@media (min-width: 760px) and (max-height: 900px) {
+  main:has(#schermHoofdstuk.actief) { padding-top: 10px; padding-bottom: 10px; }
+  #schermHoofdstuk button.terug { padding: 2px 0; margin-bottom: 4px; }
+  #schermHoofdstuk h2 { margin-bottom: 8px; }
+  #schermHoofdstuk .hoofdstuk { padding: 6px 12px; margin-bottom: 4px; }
+  #schermHoofdstuk .kolom-links > .opties { margin: 6px 0; }
+  #schermHoofdstuk .kolom-rechts { top: 10px; }
+  #schermHoofdstuk .filter { padding: 6px 12px; margin: 0 0 8px; }
+  #schermHoofdstuk .filter .opties { margin: 3px 0; }
+  #schermHoofdstuk .kolom-rechts > .opties { margin: 6px 0; }
+  #schermHoofdstuk .kolom-rechts button { padding: 9px 14px; margin-bottom: 8px; }
+}

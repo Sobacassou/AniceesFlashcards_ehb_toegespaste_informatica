@@ -494,6 +494,14 @@ function wisselFavoriet(e) {
 
 /* ===== Leitnerbak in het menu: per bak hoeveel te herhalen en hoeveel in totaal,
    voor de aangevinkte hoofdstukken (weggegooide kaarten niet meegeteld) ===== */
+// roze knop: meteen de Leitnerbak oefenen voor de aangevinkte hoofdstukken.
+// Daarna staat het menu terug zoals het was (de andere keuzes tellen bij de Leitnerbak niet mee).
+function startLeitner() {
+  const lb = document.getElementById("leitnerAan");
+  lb.checked = true; zetLeitnerModus(true);
+  try { startOefenen(); }
+  finally { lb.checked = false; zetLeitnerModus(false); }
+}
 function telLeitner() {
   const el = document.getElementById("lbInfo");
   if (!huidigVak || !el) return;
@@ -506,8 +514,7 @@ function telLeitner() {
       totaal++;
       if (lbTeHerhalen(e)) nu++;
     }
-  el.textContent = totaal === 0 ? "Nog geen kaarten in de Leitnerbak"
-    : `${nu} ${nu === 1 ? "kaart" : "kaarten"} vandaag aan de beurt · ${totaal} in de bak`;
+  el.textContent = totaal === 0 ? "(nog leeg)" : `(vandaag ${nu} ${nu === 1 ? "kaart" : "kaarten"})`;
 }
 // Leitnerbak aan: de andere keuzes worden grijs (ze tellen niet mee) en schudden / herhalen gaan uit.
 // Leitnerbak weer uit: alles terug zoals het stond.
