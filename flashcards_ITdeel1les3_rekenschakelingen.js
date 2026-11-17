@@ -66,7 +66,7 @@ const kaarten_IT_deel1_les3 = [
   { v: "Je telt 1 + 1 op met een binnenkomende carry van 1 (A = 1, B = 1, Cn-1 = 1). Wat zijn S en Cn?\na) S = 0, Cn = 1\nb) S = 1, Cn = 1\nc) S = 1, Cn = 0\nd) S = 0, Cn = 0", a: "b) S = 1, Cn = 1", o: "Volledige opteller: waarom en waarheidstabel",
     uitleg: "1 + 1 + 1 = 3 = binair 11: de rechtse 1 is de som, de linkse de overdracht. a) is het antwoord zonder carry in (1 + 1 = 10)." },
   // ===== Volledige opteller: schakelingen =====
-  { v: "Hoe bouw je een full adder met halve opstellers?", a: "Met 2 halve opstellers en een OR-poort: HA 1 telt A en B op (som S, carry Ca); HA 2 telt die S op met Cn-1 (geeft de eindsom S en carry Cb); OR(Ca, Cb) = Cn.", o: "Volledige opteller: schakelingen",
+  { v: "Hoe bouw je een full adder met halve opstellers?", a: "Met 2 halve opstellers en een OR-poort: HA 1 telt A en B op (som S, carry Ca); HA 2 telt die S op met Cn-1 (geeft de eindsom S en carry Cb); OR(Ca, Cb) = Cn.", o: "Volledige opteller: schakelingen", imgAntwoord: "afbeeldingen/ITdeel1les3_rekenschakelingen/i3_s12_fa_uit_ha.png",
     uitleg: "Er kan nooit tegelijk Ca = 1 en Cb = 1 zijn, daarom volstaat een OR. Uit je eigen nota's: Uit je vragenlijst ('teken een volledige opteller'). Achtergrond bij deze slide: In formules: S = A ⊕ B ⊕ Cn-1 en Cn = A.B + Cn-1.(A ⊕ B). Slide 13 is dezelfde schakeling als slide 12, maar met de halve opstellers 'uitgepakt' in XOR- en AND-poorten." },
   { v: "Waarvan hangt de keuze van de schakeling voor een full adder af?", a: "Van prijs, snelheid, …", o: "Volledige opteller: schakelingen",
     uitleg: "Minder poorten = goedkoper; minder poorten na elkaar = sneller." },
