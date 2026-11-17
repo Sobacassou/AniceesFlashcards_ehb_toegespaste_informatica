@@ -1098,6 +1098,8 @@ function zetOverzichtOpen(open) {
   ovOpen = open;
   vak.classList.toggle("open", open);
   document.body.classList.toggle("overzicht-open", open);
+  const knop = document.getElementById("ovOpenKnop");
+  if (knop) knop.textContent = open ? "⌃ Inklappen" : "⌄ Hele overzicht tonen";   // opengeklapt: de knop blijft onderaan het scherm staan
   pasOverzichtAan();
   if (open) { if (verschoven > 0) window.scrollBy(0, verschoven); }
   else window.scrollTo(0, 0);
@@ -1108,7 +1110,7 @@ function zetOverzichtOpen(open) {
   const knop = document.createElement("button");
   knop.id = "ovOpenKnop"; knop.className = "licht ov-open-knop"; knop.type = "button";
   knop.textContent = "⌄ Hele overzicht tonen";
-  knop.onclick = () => zetOverzichtOpen(true);
+  knop.onclick = () => zetOverzichtOpen(!ovOpen);
   vak.after(knop);
   vak.addEventListener("click", e => { if (e.target.closest(".ov-inklap")) zetOverzichtOpen(false); });
 })();
@@ -1123,12 +1125,16 @@ function pasOverzichtAan() {
     return;
   }
   if (window.innerWidth < 1100) {
+    // de hoogte die je echt ziet: op een tablet verandert die als de adresbalk van de browser verschijnt of verdwijnt
+    const zicht = Math.min(window.innerHeight, window.visualViewport ? window.visualViewport.height : Infinity);
     const boven = vak.getBoundingClientRect().top + window.scrollY;   // los van hoe ver je gescrold bent
-    let hoogte = Math.max(220, window.innerHeight - boven - 16);
+    let hoogte = Math.max(220, zicht - boven - 16);
     vak.style.maxHeight = hoogte + "px";
-    // past de pagina dan nog net niet (marges onderaan)? dan het overzicht nog iets kleiner maken
-    const teVeel = document.documentElement.scrollHeight - window.innerHeight;
-    if (teVeel > 0 && hoogte - teVeel >= 220) vak.style.maxHeight = (hoogte - teVeel) + "px";
+    // past de pagina dan nog net niet (knop en marges onderaan)? dan het overzicht nog iets kleiner maken
+    const teVeel = document.documentElement.scrollHeight - zicht;
+    if (teVeel > 0) vak.style.maxHeight = Math.max(220, hoogte - teVeel) + "px";
+    // compact overzicht: alles past op het scherm, dus de pagina zelf hoort niet gescrold te staan
+    if (window.scrollY > 0 && document.documentElement.scrollHeight <= zicht + 1) window.scrollTo(0, 0);
   } else {
     vak.style.maxHeight = "";
   }
@@ -2241,6 +2247,10 @@ document.getElementById("alles").addEventListener("change", () => setTimeout(() 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen
 window.addEventListener("resize", () => {
   if (document.getElementById("schermOefenen").classList.contains("actief")) { pasHoogteAan(); pasOverzichtAan(); }
+});
+// tablet: de adresbalk van de browser verschijnt of verdwijnt (de zichtbare hoogte verandert zonder gewone resize)
+if (window.visualViewport) window.visualViewport.addEventListener("resize", () => {
+  if (document.getElementById("schermOefenen").classList.contains("actief")) pasOverzichtAan();
 });
 
 // startscherm: de groene eenhoorn als symbooltje voor de titel

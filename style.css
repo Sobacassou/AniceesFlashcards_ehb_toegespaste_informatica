@@ -694,7 +694,10 @@ html, body { overflow-x: clip; }
 .overzicht h3 .ov-inklap { width: auto; margin: 0; padding: 4px 10px; font-size: 0.75rem; font-weight: 500; flex-shrink: 0; }
 @media (max-width: 1099px) {
   #schermOefenen.actief .ov-open-knop { display: block; }
-  body.overzicht-open #schermOefenen.actief .ov-open-knop { display: none; }
+  /* opengeklapt: de knop wordt "Inklappen" en blijft onderaan het scherm staan terwijl je scrolt */
+  body.overzicht-open #schermOefenen.actief .ov-open-knop {
+    position: sticky; bottom: 10px; z-index: 5; background: #2d2d30; box-shadow: 0 -6px 14px rgba(0, 0, 0, 0.45);
+  }
   .overzicht.open .ov-inklap { display: inline-block; }
 }
 
