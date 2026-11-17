@@ -102,9 +102,8 @@ let verborgen = new Set(laad("verborgen", []));   // weggegooide kaarten
 let stats = laad("stats", {});                      // per kaart: hoe vaak goed/fout + laatste antwoord
 let scores = laad("scores", {});                    // per vak: je laatste scores
 let favorieten = new Set(laad("favorieten", []));   // kaarten met een ster
-// rode ster: een kaart die in een ronde al 3 herhalingen kreeg en nog niet gekend was.
-// Ze blijft rood (ook in volgende rondes) tot je erop klikt; dan wordt ze een groene favoriet.
-let rodeSterren = new Set(laad("rodeSterren", []));
+// de rode ster bestaat niet meer (een kaart die niet meer terugkomt, gaat nu in vlammen op): oude gegevens opruimen
+try { localStorage.removeItem("rodeSterren"); } catch (e) {}
 
 /* ===== Leitnerbak =====
    Een kaart komt in bak 1 zodra ze moeilijk wordt of een ster krijgt, en blijft erin
@@ -469,12 +468,11 @@ function zetSter() {
   const kaart = stapel[index];
   if (!kaart) return;
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  const aan = favorieten.has(id), rood = rodeSterren.has(id);
+  const aan = favorieten.has(id);
   document.querySelectorAll("#kaart .ster").forEach(s => {
     s.classList.toggle("aan", aan);
-    s.classList.toggle("rood", rood);   // rode ster gaat boven op de groene
     s.setAttribute("aria-pressed", aan ? "true" : "false");
-    s.title = rood ? "Hardnekkige kaart: klik om er een favoriet van te maken (S)" : "Favoriet aan of uit (S)";
+    s.title = "Favoriet aan of uit (S)";
   });
 }
 function wisselFavoriet(e) {
@@ -482,12 +480,7 @@ function wisselFavoriet(e) {
   const kaart = stapel[index];
   if (!kaart) return;
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  if (rodeSterren.has(id)) {                               // rode ster: weg, en de kaart wordt (of blijft) een favoriet
-    rodeSterren.delete(id);
-    bewaar("rodeSterren", [...rodeSterren]);
-    if (!favorieten.has(id)) { favorieten.add(id); lbVoegToe(id, vandaagStr()); }
-  }
-  else if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, vandaagStr()); }   // ster: in bak 1, aan de beurt vanaf morgen
+  if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, vandaagStr()); }   // ster: in bak 1, aan de beurt vanaf morgen
   bewaar("favorieten", [...favorieten]);
   zetSter();
 }
@@ -749,7 +742,7 @@ if (typeof kaarten_WEB_les3_oef !== "undefined") voegOefeningenToe(vakken["Web E
 if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
 
 function startOefenen(kaarten) {
-  herhaalTeller = new Map();   // nieuwe ronde: elke kaart opnieuw 3 kansen
+  herhaalTeller = new Map();   // nieuwe ronde: elke kaart opnieuw tot 3 keer
   const gewoneStart = !kaarten;
   if (!kaarten) {
     gekozenHoofdstukken = [...document.querySelectorAll("#hoofdstukLijst input:checked")].map(c => c.value);
@@ -1231,12 +1224,13 @@ function volgende(wistHet) {
   const id = kaartId(huidigVak, kaart.hfst, kaart);
   const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed,
     lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined },
-    tel: herhaalTeller.has(id) ? { ...herhaalTeller.get(id) } : undefined, rood: rodeSterren.has(id) };
-  if (kaart.herhaling === 1) {                             // een herhaling: tellen
+    tel: herhaalTeller.has(id) ? { ...herhaalTeller.get(id) } : undefined };
+  if (kaart.herhaling) {                                   // een herhaling of controle: tellen
     const t = herhaalTeller.get(id) || { h: 0 };
     t.h++;
     herhaalTeller.set(id, t);
   }
+  verbrandNu = false;
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -1244,7 +1238,8 @@ function volgende(wistHet) {
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   // een foute kaart gaat pas van de teller als ook de controle (na 16) juist is: de herhaling na 8 telt nog niet
-  s.laatst = wistHet && !(kaart.herhaling === 1 && herhalenAan());
+  // (tenzij dit al de 3de keer was: dan komt er geen controle meer en is ze klaar)
+  s.laatst = wistHet && !(kaart.herhaling === 1 && herhalenAan() && actie.ingepland >= 0);
   // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
   const wasMoeilijk = s.moeilijk === true;
   if (!wistHet && kaart.herhaling) s.moeilijk = true;
@@ -1297,8 +1292,20 @@ function volgende(wistHet) {
   if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
-  if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
-  else if (foutReeks === 3) toonDuiveltje();               // 3 op rij fout: duiveltje (1 keer per foute reeks)
+  if (werdMoeilijk && !verbrandNu) toonGrootDuiveltje();  // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
+  else if (foutReeks === 3 && !verbrandNu) toonDuiveltje();   // 3 op rij fout: duiveltje (1 keer per foute reeks)
+
+  // 3de keer en nog fout: de kaart gaat in vlammen op (in plaats van de rode rand), daarna de volgende kaart
+  if (verbrandNu) {
+    bezig = true;
+    toonVlammen(() => {
+      bezig = false;
+      index++;
+      if (index < stapel.length) toonKaart();
+      else toonEinde();
+    });
+    return;
+  }
 
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
@@ -1334,7 +1341,6 @@ function maakOngedaan() {
     if (actie.kans) kansMoeilijk.add(actie.id); else kansMoeilijk.delete(actie.id);   // kans terug zoals vóór dit antwoord
     if (!actie.gezien) sessieGezien.delete(actie.id);                                  // en "al gezien in deze sessie" ook
     if (actie.tel) herhaalTeller.set(actie.id, actie.tel); else herhaalTeller.delete(actie.id);   // en de teller van herhalingen
-    if (!actie.rood && rodeSterren.has(actie.id)) { rodeSterren.delete(actie.id); bewaar("rodeSterren", [...rodeSterren]); }   // en de rode ster
     if (actie.lb) {                                                                    // en de Leitnerbak zoals vóór dit antwoord
       if (actie.lb.had) leitner[actie.id] = actie.lb.waarde; else delete leitner[actie.id];
       bewaar("leitner", leitner);
@@ -1441,7 +1447,9 @@ function herhaalFouten() {
 /* ===== Foute kaarten herhalen tijdens het oefenen (vinkje op het hoofdstukkenscherm) =====
    Gespreide herhaling: een foute kaart komt terug na 8 kaarten. Juist bij die herhaling?
    Dan nog één controle na 16 kaarten. Weer fout? Dan opnieuw na 8. Wat op het einde van de
-   ronde nog openstaat, komt vóór het eindscherm. */
+   ronde nog openstaat, komt vóór het eindscherm.
+   Je ziet een foute kaart hoogstens 3 keer in een ronde. De 3de keer is de laatste: juist = klaar,
+   fout = de kaart gaat in vlammen op (ze zit in de Leitnerbak). */
 const HERHAAL_NA = { 1: 8, 2: 16 };
 function planHerhaling(kaart, wistHet) {
   if (!herhalenAan()) return -1;
@@ -1449,13 +1457,11 @@ function planHerhaling(kaart, wistHet) {
   if (!wistHet) niveau = 1;                                // fout: na 8 kaarten terug
   else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 16
   if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 16 juist: klaar
-  // al 3 herhalingen in deze ronde en ze zou opnieuw een herhaling worden (herhaling fout of controle fout):
-  // niet meer terug, wel een rode ster (ze zit in de Leitnerbak). Een herhaling die je juist hebt, gaat nog naar de controle.
+  // al de 3de keer in deze ronde (de eerste keer + 2 keer terug): niet meer terug.
+  // Fout: de kaart gaat in vlammen op (ze zit in de Leitnerbak). Juist: klaar, ook zonder controle.
   const id = kaartId(huidigVak, kaart.hfst, kaart), t = herhaalTeller.get(id);
-  if (niveau === 1 && t && t.h >= MAX_TERUG) {
-    rodeSterren.add(id);
-    bewaar("rodeSterren", [...rodeSterren]);
-    zetSter();
+  if (1 + (t ? t.h || 0 : 0) >= MAX_KEER) {
+    if (!wistHet) verbrandNu = true;
     return -1;
   }
   const kopie = { ...kaart, herhaling: niveau };
@@ -1805,9 +1811,11 @@ let foutReeks = 0;
    controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
 let kansMoeilijk = new Set();
 let sessieGezien = new Set();   // kaarten die je in deze sessie al beantwoord hebt (van Start tot je de les verlaat)
-// per ronde: hoeveel herhalingen (h) een kaart al kreeg. Na 3 herhalingen komt ze niet meer terug als herhaling.
+// per ronde: hoe vaak (h) een kaart al terugkwam als herhaling of controle. Je ziet een foute kaart hoogstens
+// 3 keer in een ronde (Anicée: anders val ik te veel in de herhalingen en geraak ik niet door de cursus).
 let herhaalTeller = new Map();
-const MAX_TERUG = 3;
+const MAX_KEER = 3;
+let verbrandNu = false;          // dit antwoord: de kaart gaat in vlammen op (3de keer en nog fout)
 
 const DUIVEL_SVG = `
 <svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">
@@ -2269,6 +2277,106 @@ if (window.visualViewport) window.visualViewport.addEventListener("resize", () =
 /* ===== Paddenstoeltjes (vuurvliegjes) =====
    Controle juist bij een kaart die niet moeilijk geworden is: over de hele kaart verschijnen heel kleine
    paddenstoeltjes in VS Code-kleuren. Ze gloeien, zweven een beetje omhoog, flikkeren en vervagen (ongeveer 2 s). */
+/* ===== Vlammen: de kaart gaat in vlammen op =====
+   Een kaart die in deze ronde niet meer terugkomt (na 1 herhaling nog fout), brandt op van onder naar boven:
+   een gekartelde, gloeiende brandrand schuift omhoog, de kaart verdwijnt eronder, en vlammetjes in de
+   kleuren van de app (rood, oranje, geel, roze, turkoois, blauw) stijgen op. Daarna komt de volgende kaart.
+   Ze zit in de Leitnerbak, dus je ziet ze daar terug. */
+// kleurverloop van een vlammetje over zijn leven: geel, oranje, rood, dan roze/paars en op het einde turkoois of blauw
+const VLAM_LEVEN = [[0.12, "#DCDCAA"], [0.26, "#CE9178"], [0.42, "#F44747"], [0.6, "#F28CC4"], [0.78, "#C586C0"]];
+function vlamKleur(a, tint) {
+  for (const [grens, kleur] of VLAM_LEVEN) if (a < grens) return kleur;
+  return tint < 0.5 ? "#4EC9B0" : "#569CD6";
+}
+function toonVlammen(klaar) {
+  const kaart = document.getElementById("kaart");
+  const r = kaart ? kaart.getBoundingClientRect() : null;
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!r || !r.height || rustig) { if (kaart) kaart.style.opacity = ""; klaar(); return; }
+  const BOVEN = 140;                                      // ruimte boven de kaart voor de opstijgende vlammen
+  const doek = document.createElement("canvas");
+  const dpr = window.devicePixelRatio || 1;
+  doek.width = (r.width + 80) * dpr; doek.height = (r.height + BOVEN + 40) * dpr;
+  doek.style.cssText = `position:fixed;z-index:61;pointer-events:none;left:${r.left - 40}px;top:${r.top - BOVEN}px;` +
+    `width:${r.width + 80}px;height:${r.height + BOVEN + 40}px;`;
+  document.body.appendChild(doek);
+  const cx = doek.getContext("2d");
+  cx.scale(dpr, dpr);
+  const ox = 40, oy = BOVEN;                              // de kaart begint op (ox, oy) in het canvas
+  const STAPX = 10, punten = Math.ceil(r.width / STAPX) + 1;
+  const ruis = Array.from({ length: punten }, () => Math.random());
+  const DUUR = 2600, begin = performance.now();
+  const deeltjes = [];
+  let vorig = begin;
+  function rand(t) {                                      // y van de brandrand (in kaartcoördinaten) per punt
+    const basis = r.height * (1.08 - 1.25 * t);           // van net onder de kaart tot boven de kaart
+    return ruis.map((z, i) => basis + 16 * Math.sin(i * 0.9 + t * 9) * 0.5 + (z - 0.5) * 22 + 10 * Math.sin(i * 0.37 + t * 4));
+  }
+  function beeld(nu) {
+    const t = Math.min(1, (nu - begin) / DUUR), dt = Math.min(0.05, (nu - vorig) / 1000);
+    vorig = nu;
+    const ys = rand(t);
+    // de kaart: enkel wat boven de brandrand ligt blijft zichtbaar, en ze verkleurt
+    const poly = ["0px 0px", `${r.width}px 0px`];
+    for (let i = punten - 1; i >= 0; i--) poly.push(`${Math.min(i * STAPX, r.width)}px ${Math.max(0, ys[i])}px`);
+    kaart.style.clipPath = `polygon(${poly.join(",")})`;
+    kaart.style.filter = `sepia(${0.7 * t}) brightness(${1 - 0.35 * t}) saturate(${1 + t})`;
+    // nieuwe vlammetjes langs de rand
+    if (t < 0.92) for (let i = 0; i < punten; i += 1) {
+      if (Math.random() > 0.32) continue;
+      const y = ys[i];
+      if (y < -10 || y > r.height + 10) continue;
+      deeltjes.push({ x: ox + i * STAPX + (Math.random() - 0.5) * 8, y: oy + y - 4, vx: (Math.random() - 0.5) * 24,
+        vy: -(240 + Math.random() * 220), g: 7 + Math.random() * 11, l: 0, max: 0.45 + Math.random() * 0.45,
+        tint: Math.random(), vonk: Math.random() < 0.08 });
+    }
+    cx.clearRect(0, 0, doek.width, doek.height);
+    // verkoolde rand: een donkere, wazige strook net boven de brandrand
+    cx.globalCompositeOperation = "source-over";
+    cx.lineJoin = "round";
+    cx.globalAlpha = t < 0.9 ? 0.85 : (1 - t) * 8.5;
+    cx.strokeStyle = "#1a0d0a"; cx.lineWidth = 9; cx.shadowBlur = 10; cx.shadowColor = "#000";
+    cx.beginPath();
+    ys.forEach((y, i) => { const x = ox + Math.min(i * STAPX, r.width), yy = oy + Math.max(0, Math.min(r.height, y - 5)); i ? cx.lineTo(x, yy) : cx.moveTo(x, yy); });
+    cx.stroke();
+    cx.shadowBlur = 0;
+    // vlammen: onderaan heet (geel, oranje, rood), naar boven toe de koelere kleuren van de app (roze, paars, turkoois, blauw)
+    cx.globalCompositeOperation = "lighter";
+    for (let j = deeltjes.length - 1; j >= 0; j--) {
+      const d = deeltjes[j];
+      d.l += dt; if (d.l > d.max) { deeltjes.splice(j, 1); continue; }
+      d.x += d.vx * dt + Math.sin((d.l + j) * 10) * 0.5; d.y += d.vy * dt;
+      const a = d.l / d.max, f = 1 - a;
+      const k = d.vonk ? "#FFD27A" : vlamKleur(a, d.tint);
+      const g = d.vonk ? 1.8 : d.g * (0.5 + 0.5 * f);
+      cx.save(); cx.translate(d.x, d.y); cx.scale(d.vonk ? 1 : 0.7, d.vonk ? 1 : 1.5);
+      const grad = cx.createRadialGradient(0, 0, 0, 0, 0, g);
+      grad.addColorStop(0, k); grad.addColorStop(1, "rgba(0,0,0,0)");
+      cx.globalAlpha = Math.min(1, f * 1.5) * (d.vonk ? 1 : 0.6);
+      cx.fillStyle = grad;
+      cx.beginPath(); cx.arc(0, 0, g, 0, Math.PI * 2); cx.fill();
+      cx.restore();
+    }
+    // gloeiende brandrand
+    cx.globalAlpha = t < 0.9 ? 1 : (1 - t) * 10;
+    cx.lineWidth = 2.5;
+    cx.shadowBlur = 12; cx.shadowColor = "#F44747";
+    cx.strokeStyle = "#FFB45A";
+    cx.beginPath();
+    ys.forEach((y, i) => { const x = ox + Math.min(i * STAPX, r.width), yy = oy + Math.max(-2, Math.min(r.height + 2, y)); i ? cx.lineTo(x, yy) : cx.moveTo(x, yy); });
+    cx.stroke();
+    cx.shadowBlur = 0; cx.globalAlpha = 1; cx.globalCompositeOperation = "source-over";
+    if (t < 1 || deeltjes.length) {
+      if (t >= 1 && kaart.style.opacity !== "0") { kaart.style.opacity = "0"; }
+      if (nu - begin < DUUR + 700) { requestAnimationFrame(beeld); return; }
+    }
+    doek.remove();
+    kaart.style.clipPath = ""; kaart.style.filter = ""; kaart.style.opacity = "";
+    klaar();
+  }
+  requestAnimationFrame(beeld);
+}
+
 function toonSterregen() {
   const kaart = document.getElementById("kaart");
   const r = kaart ? kaart.getBoundingClientRect() : null;
