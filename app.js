@@ -514,7 +514,7 @@ function telLeitner() {
       totaal++;
       if (lbTeHerhalen(e)) nu++;
     }
-  el.textContent = totaal === 0 ? "(nog leeg)" : `(vandaag ${nu} ${nu === 1 ? "kaart" : "kaarten"})`;
+  el.textContent = totaal === 0 ? "(leeg)" : `(vandaag ${nu} ${nu === 1 ? "kaart" : "kaarten"})`;
 }
 // Leitnerbak aan: de andere keuzes worden grijs (ze tellen niet mee) en schudden / herhalen gaan uit.
 // Leitnerbak weer uit: alles terug zoals het stond.
