@@ -1280,6 +1280,8 @@ function volgende(wistHet) {
   if (draakNu) toonDraak();
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
   if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk === true) toonGroeneSter();
+  // controle juist en de kaart is niet moeilijk geworden: kleine beloning, paddenstoeltjes over de hele kaart
+  if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
   if (werdMoeilijk) toonGrootDuiveltje();                 // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
@@ -2246,6 +2248,45 @@ window.addEventListener("resize", () => {
   const el = document.getElementById("titelDieren");
   if (el) el.innerHTML = `<span class="titel-dier">${EENHOORN_SVG}</span>`;
 })();
+
+/* ===== Paddenstoeltjes (vuurvliegjes) =====
+   Controle juist bij een kaart die niet moeilijk geworden is: over de hele kaart verschijnen heel kleine
+   paddenstoeltjes in VS Code-kleuren. Ze gloeien, zweven een beetje omhoog, flikkeren en vervagen (ongeveer 2 s). */
+function toonSterregen() {
+  const kaart = document.getElementById("kaart");
+  const r = kaart ? kaart.getBoundingClientRect() : null;
+  const zichtbaar = r && r.height && r.bottom > 0 && r.top < window.innerHeight;
+  const vak = zichtbaar ? { x: r.left, y: Math.max(r.top, 0), w: r.width, h: Math.min(r.bottom, window.innerHeight) - Math.max(r.top, 0) }
+                        : { x: 0, y: 0, w: window.innerWidth, h: window.innerHeight };
+  const KLEUREN = ["#569CD6", "#4EC9B0", "#DCDCAA", "#C586C0", "#CE9178", "#B5CEA8", "#9CDCFE"];
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const N = 46;
+  for (let i = 0; i < N; i++) {
+    const p = document.createElement("div");
+    const G = 9 + Math.random() * 6;                      // klein: 9 tot 15 px
+    const kleur = KLEUREN[i % KLEUREN.length];
+    const x = vak.x + 10 + Math.random() * (vak.w - 20), y = vak.y + 10 + Math.random() * (vak.h - 20);
+    p.style.cssText = `position:fixed;z-index:60;pointer-events:none;left:${x - G / 2}px;top:${y - G / 2}px;width:${G}px;height:${G}px;` +
+      `filter:drop-shadow(0 0 2px ${kleur}) drop-shadow(0 0 5px ${kleur});`;
+    p.innerHTML = `<svg viewBox="0 0 20 20" width="100%" height="100%" aria-hidden="true">
+      <path d="M8 10.5 h4 l.8 7 q-2.8 1.2 -5.6 0 z" fill="#E8E0D0"/>
+      <path d="M1.5 11 Q2 2.5 10 2.5 Q18 2.5 18.5 11 Q10 12.6 1.5 11 z" fill="${kleur}"/>
+      <circle cx="6.5" cy="7" r="1.3" fill="#fff" opacity=".85"/><circle cx="12.5" cy="5.6" r="1.1" fill="#fff" opacity=".85"/>
+      <circle cx="14.6" cy="8.8" r=".9" fill="#fff" opacity=".85"/></svg>`;
+    document.body.appendChild(p);
+    const zw = rustig ? 0 : (Math.random() - 0.5) * 24, op = rustig ? 0 : 18 + Math.random() * 22;
+    const duur = 1700 + Math.random() * 700;
+    p.animate([
+      { transform: "translate(0,0) scale(0.2)", opacity: 0 },
+      { transform: `translate(${zw * 0.3}px,${-op * 0.2}px) scale(1)`, opacity: 1, offset: 0.18 },
+      { transform: `translate(${zw * 0.6}px,${-op * 0.45}px) scale(0.85)`, opacity: 0.35, offset: 0.38 },   // flikkeren
+      { transform: `translate(${zw * 0.8}px,${-op * 0.65}px) scale(1.05)`, opacity: 1, offset: 0.58 },
+      { transform: `translate(${zw}px,${-op * 0.85}px) scale(0.85)`, opacity: 0.4, offset: 0.78 },
+      { transform: `translate(${zw}px,${-op}px) scale(0.5)`, opacity: 0 }
+    ], { duration: duur, delay: Math.random() * 350, easing: "ease-in-out", fill: "both" });
+    setTimeout(() => p.remove(), duur + 450);
+  }
+}
 
 /* ===== Groene ster =====
    Controle juist, maar de kaart blijft moeilijk: links op de kaart, iets onder het midden,
