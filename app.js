@@ -102,6 +102,9 @@ let verborgen = new Set(laad("verborgen", []));   // weggegooide kaarten
 let stats = laad("stats", {});                      // per kaart: hoe vaak goed/fout + laatste antwoord
 let scores = laad("scores", {});                    // per vak: je laatste scores
 let favorieten = new Set(laad("favorieten", []));   // kaarten met een ster
+// rode ster: een kaart die in een ronde al 3 herhalingen kreeg en nog niet gekend was.
+// Ze blijft rood (ook in volgende rondes) tot je erop klikt; dan wordt ze een groene favoriet.
+let rodeSterren = new Set(laad("rodeSterren", []));
 
 /* ===== Leitnerbak =====
    Een kaart komt in bak 1 zodra ze moeilijk wordt of een ster krijgt, en blijft erin
@@ -251,6 +254,7 @@ function bewaarSessie() {
       s.hervatbaar = hervatbaar;
       s.kans = [...kansMoeilijk];      // ook na herladen blijft het dezelfde sessie
       s.gezien = [...sessieGezien];
+      s.tel = [...herhaalTeller];
       s.lb = lbSessie;
     }
     sessionStorage.setItem("sessie", JSON.stringify(s));
@@ -281,6 +285,7 @@ function herstelSessie() {
   hervatbaar = !!s.hervatbaar;
   kansMoeilijk = new Set(s.kans || []);
   sessieGezien = new Set(s.gezien || []);
+  herhaalTeller = new Map(s.tel || []);
   lbSessie = !!s.lb;
   reeks = 0;
   foutReeks = 0;
@@ -463,10 +468,13 @@ function telFavorieten() {
 function zetSter() {
   const kaart = stapel[index];
   if (!kaart) return;
-  const aan = favorieten.has(kaartId(huidigVak, kaart.hfst, kaart));
+  const id = kaartId(huidigVak, kaart.hfst, kaart);
+  const aan = favorieten.has(id), rood = rodeSterren.has(id);
   document.querySelectorAll("#kaart .ster").forEach(s => {
     s.classList.toggle("aan", aan);
+    s.classList.toggle("rood", rood);   // rode ster gaat boven op de groene
     s.setAttribute("aria-pressed", aan ? "true" : "false");
+    s.title = rood ? "Hardnekkige kaart: klik om er een favoriet van te maken (S)" : "Favoriet aan of uit (S)";
   });
 }
 function wisselFavoriet(e) {
@@ -474,7 +482,12 @@ function wisselFavoriet(e) {
   const kaart = stapel[index];
   if (!kaart) return;
   const id = kaartId(huidigVak, kaart.hfst, kaart);
-  if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, vandaagStr()); }   // ster: in bak 1, aan de beurt vanaf morgen
+  if (rodeSterren.has(id)) {                               // rode ster: weg, en de kaart wordt (of blijft) een favoriet
+    rodeSterren.delete(id);
+    bewaar("rodeSterren", [...rodeSterren]);
+    if (!favorieten.has(id)) { favorieten.add(id); lbVoegToe(id, vandaagStr()); }
+  }
+  else if (favorieten.has(id)) favorieten.delete(id); else { favorieten.add(id); lbVoegToe(id, vandaagStr()); }   // ster: in bak 1, aan de beurt vanaf morgen
   bewaar("favorieten", [...favorieten]);
   zetSter();
 }
@@ -729,6 +742,7 @@ if (typeof kaarten_WEB_les3_oef !== "undefined") voegOefeningenToe(vakken["Web E
 if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
 
 function startOefenen(kaarten) {
+  herhaalTeller = new Map();   // nieuwe ronde: elke kaart opnieuw 3 kansen
   const gewoneStart = !kaarten;
   if (!kaarten) {
     gekozenHoofdstukken = [...document.querySelectorAll("#hoofdstukLijst input:checked")].map(c => c.value);
@@ -1203,7 +1217,13 @@ function volgende(wistHet) {
   // onthoud dit antwoord voor de volgende keer
   const id = kaartId(huidigVak, kaart.hfst, kaart);
   const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed,
-    lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined } };
+    lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined },
+    tel: herhaalTeller.has(id) ? { ...herhaalTeller.get(id) } : undefined, rood: rodeSterren.has(id) };
+  if (kaart.herhaling === 1) {                             // een herhaling: tellen
+    const t = herhaalTeller.get(id) || { h: 0 };
+    t.h++;
+    herhaalTeller.set(id, t);
+  }
   actie.ingepland = planHerhaling(kaart, wistHet);   // foute kaart (of eerste juiste herhaling) later terug in de ronde
   acties.push(actie);
   const onderdeel = kaart.o || kaart.hfst;
@@ -1298,6 +1318,8 @@ function maakOngedaan() {
     if (actie.vorig) stats[actie.id] = actie.vorig; else delete stats[actie.id];
     if (actie.kans) kansMoeilijk.add(actie.id); else kansMoeilijk.delete(actie.id);   // kans terug zoals vóór dit antwoord
     if (!actie.gezien) sessieGezien.delete(actie.id);                                  // en "al gezien in deze sessie" ook
+    if (actie.tel) herhaalTeller.set(actie.id, actie.tel); else herhaalTeller.delete(actie.id);   // en de teller van herhalingen
+    if (!actie.rood && rodeSterren.has(actie.id)) { rodeSterren.delete(actie.id); bewaar("rodeSterren", [...rodeSterren]); }   // en de rode ster
     if (actie.lb) {                                                                    // en de Leitnerbak zoals vóór dit antwoord
       if (actie.lb.had) leitner[actie.id] = actie.lb.waarde; else delete leitner[actie.id];
       bewaar("leitner", leitner);
@@ -1412,6 +1434,15 @@ function planHerhaling(kaart, wistHet) {
   if (!wistHet) niveau = 1;                                // fout: na 8 kaarten terug
   else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 16
   if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 16 juist: klaar
+  // al 3 herhalingen in deze ronde en ze zou opnieuw een herhaling worden (herhaling fout of controle fout):
+  // niet meer terug, wel een rode ster (ze zit in de Leitnerbak). Een herhaling die je juist hebt, gaat nog naar de controle.
+  const id = kaartId(huidigVak, kaart.hfst, kaart), t = herhaalTeller.get(id);
+  if (niveau === 1 && t && t.h >= MAX_TERUG) {
+    rodeSterren.add(id);
+    bewaar("rodeSterren", [...rodeSterren]);
+    zetSter();
+    return -1;
+  }
   const kopie = { ...kaart, herhaling: niveau };
   const plek = Math.min(index + 1 + HERHAAL_NA[niveau], stapel.length);
   stapel.splice(plek, 0, kopie);
@@ -1759,6 +1790,9 @@ let foutReeks = 0;
    controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
 let kansMoeilijk = new Set();
 let sessieGezien = new Set();   // kaarten die je in deze sessie al beantwoord hebt (van Start tot je de les verlaat)
+// per ronde: hoeveel herhalingen (h) een kaart al kreeg. Na 3 herhalingen komt ze niet meer terug als herhaling.
+let herhaalTeller = new Map();
+const MAX_TERUG = 3;
 
 const DUIVEL_SVG = `
 <svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">

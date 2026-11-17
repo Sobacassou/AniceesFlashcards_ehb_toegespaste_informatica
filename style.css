@@ -876,3 +876,7 @@ html, body { overflow-x: clip; }
 .stand-rij.lb-rij-totaal { font-size: 0.78rem; margin-top: 4px; letter-spacing: normal; }
 .stand-rij.lb-rij-totaal span { white-space: nowrap; }
 .stand-rij.lb-rij-totaal span, .stand-rij.lb-rij-totaal b { color: #c586c0; opacity: 0.75; font-weight: 400; }
+
+/* rode ster: hardnekkige kaart (3 herhalingen in een ronde), boven op de groene */
+.kant .ster.rood, .kaart.wit .kant .ster.rood { color: var(--rood); }
+.kant .ster.rood svg { fill: currentColor; }
