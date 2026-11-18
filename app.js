@@ -511,8 +511,10 @@ function startLeitner() {
 function telLeitner() {
   const el = document.getElementById("lbInfo");
   if (!huidigVak || !el) return;
+  const hfst = aangevinkteHoofdstukken();
+  if (hfst.length === 0) { el.textContent = ""; return; }   // geen hoofdstuk aangevinkt: geen tekst naast de knop
   let nu = 0, totaal = 0;
-  for (const h of aangevinkteHoofdstukken())
+  for (const h of hfst)
     for (const k of vakken[huidigVak][h] || []) {
       const id = kaartId(huidigVak, h, k);
       const e = leitner[id];
