@@ -236,6 +236,7 @@ function kaartId(vak, hfst, kaart) {
 function toonScherm(id) {
   document.querySelectorAll(".scherm").forEach(s => s.classList.remove("actief"));
   document.getElementById(id).classList.add("actief");
+  if (id !== "schermOefenen") document.documentElement.classList.remove("ov-vast");   // pagina weer gewoon scrollbaar
   bewaarSessie();
 }
 
@@ -1129,25 +1130,50 @@ function zetOverzichtOpen(open) {
 
 /* Portret (smal scherm): het overzicht onder de kaart krijgt een eigen scrollbalk
    en loopt tot onderaan het scherm, zodat je altijd ziet waar je bent */
+// Anicée (al meermaals gevraagd, NIET meer laten terugkomen): ingeklapt overzicht op de tablet
+//  1. wordt NIET groter als je over je tablet veegt (de adresbalk van de browser verdwijnt dan en het scherm wordt hoger):
+//     we onthouden de kleinste zichtbare hoogte bij deze breedte en gebruiken die;
+//  2. de pagina zelf schuift niet mee als alles op het scherm past (html.ov-vast): enkel het overzicht scrolt,
+//     dus het springt ook niet terug naar boven bij een nieuwe kaart.
+// Opengeklapt overzicht: de pagina scrolt wel gewoon.
+let ovZichtMin = { breedte: 0, hoogte: Infinity };
 function pasOverzichtAan() {
   const vak = document.getElementById("overzicht");
   if (!vak) return;
+  const html = document.documentElement;
   if (window.innerWidth < 1100 && ovOpen) {
+    html.classList.remove("ov-vast");
     vak.style.maxHeight = "none";        // opengeklapt: geen eigen scrollbalk, de pagina scrolt
     return;
   }
   if (window.innerWidth < 1100) {
-    // de hoogte die je echt ziet: op een tablet verandert die als de adresbalk van de browser verschijnt of verdwijnt
-    const zicht = Math.min(window.innerHeight, window.visualViewport ? window.visualViewport.height : Infinity);
+    // de hoogte die je echt ziet: op een tablet verandert die als de adresbalk van de browser verschijnt of verdwijnt.
+    // We nemen de kleinste hoogte die we bij deze breedte zagen (nieuwe breedte = tablet gedraaid: opnieuw beginnen).
+    const nu = Math.min(window.innerHeight, window.visualViewport ? window.visualViewport.height : Infinity);
+    if (ovZichtMin.breedte !== window.innerWidth) ovZichtMin = { breedte: window.innerWidth, hoogte: nu };
+    ovZichtMin.hoogte = Math.min(ovZichtMin.hoogte, nu);
+    const zicht = ovZichtMin.hoogte;
     const boven = vak.getBoundingClientRect().top + window.scrollY;   // los van hoe ver je gescrold bent
     let hoogte = Math.max(220, zicht - boven - 16);
     vak.style.maxHeight = hoogte + "px";
+    // hoe hoog is de inhoud echt (onderkant van main)? scrollHeight is minstens het scherm zelf, en dat is
+    // groter als de adresbalk weg is; daarom meten we de inhoud
+    const inhoud = () => {
+      const scherm = document.getElementById("schermOefenen"), main = document.querySelector("main");
+      // enkel de grote blokken (bovenbalk, kaart, hint, knoppen, overzicht, knop eronder), niet wat binnen de kaart scrolt
+      const blokken = [...scherm.children, ...scherm.querySelectorAll(".oefenKolom > *")].filter(e => e.offsetParent);
+      const onder = Math.max(...blokken.map(e => e.getBoundingClientRect().bottom + (parseFloat(getComputedStyle(e).marginBottom) || 0)));
+      return onder + window.scrollY + parseFloat(getComputedStyle(main).paddingBottom || 0);
+    };
     // past de pagina dan nog net niet (knop en marges onderaan)? dan het overzicht nog iets kleiner maken
-    const teVeel = document.documentElement.scrollHeight - zicht;
+    const teVeel = inhoud() - zicht;
     if (teVeel > 0) vak.style.maxHeight = Math.max(220, hoogte - teVeel) + "px";
-    // compact overzicht: alles past op het scherm, dus de pagina zelf hoort niet gescrold te staan
-    if (window.scrollY > 0 && document.documentElement.scrollHeight <= zicht + 1) window.scrollTo(0, 0);
+    // compact overzicht: alles past op het scherm, dus de pagina zelf hoort niet gescrold te staan en mag niet meeschuiven
+    const past = inhoud() <= zicht + 1;
+    html.classList.toggle("ov-vast", past);
+    if (window.scrollY > 0 && past) window.scrollTo(0, 0);
   } else {
+    html.classList.remove("ov-vast");
     vak.style.maxHeight = "";
   }
   houdHierInBeeld(vak);

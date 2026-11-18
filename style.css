@@ -961,3 +961,7 @@ button.lb-knop { margin-top: 22px; }   /* hemel en hel wat verder uit elkaar */
   box-shadow: 0 6px 18px rgba(0,0,0,.45); pointer-events: none; opacity: 0; transition: opacity .12s; left: -9999px;
 }
 #uitlegBubbel.zichtbaar { opacity: 1; }
+
+/* Tablet, ingeklapt overzicht en alles past op het scherm: de pagina schuift niet mee als je veegt
+   (enkel het overzicht zelf scrolt). Zet app.js (pasOverzichtAan). */
+html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
