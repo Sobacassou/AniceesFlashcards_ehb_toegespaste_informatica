@@ -1304,7 +1304,12 @@ function volgende(wistHet) {
   // controle juist en de kaart is niet moeilijk geworden: kleine beloning, paddenstoeltjes over de hele kaart
   if (laatsteJuist && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
   foutReeks = wistHet ? 0 : foutReeks + 1;
-  if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
+  // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen). Zat ze er al in (bv. in bak 3),
+  // dan gaat ze terug naar bak 1: je wist ze vandaag niet, dus ze komt morgen terug.
+  if (werdMoeilijk) {
+    if (leitner[id]) { leitner[id].bak = 1; leitner[id].dag = vandaagStr(); bewaar("leitner", leitner); }
+    else lbVoegToe(id, vandaagStr());
+  }
   if (werdMoeilijk && !verbrandNu) toonGrootDuiveltje();  // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3 && !verbrandNu) toonDuiveltje();   // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
