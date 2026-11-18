@@ -26,19 +26,26 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 - **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt
 - **Overzicht met teller** per onderdeel (nog open / totaal), en klikken om naar een onderwerp te springen
 - **Kaarten schudden** voor een willekeurige volgorde (geldt voor één ronde)
-- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 8 kaarten terug (herhaling); heb je ze dan juist, dan nog één keer na 16 kaarten (controle). Een kaart krijgt hoogstens 2 herhalingen en 2 controles in een ronde. Moet ze daarna nog eens terug, dan gaat ze in vlammen op (ze zit dan in je Leitnerbak).
+- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 8 kaarten terug (herhaling); heb je ze dan juist, dan nog één keer na 16 kaarten (controle); heb je de herhaling fout, dan nog eens na 8 kaarten. Je ziet een foute kaart hoogstens 3 keer in een ronde: de 3de keer is altijd de laatste. Juist: klaar. Fout: ze gaat in vlammen op (ze zit dan in je Leitnerbak).
 
   H = herhaling (na 8 kaarten), C = controle (na 16 kaarten):
 
-  | Je antwoorden | Wat er gebeurt | Keer gezien |
-  |---|---|---|
-  | fout, H fout, H fout | vlammen | 3 |
-  | fout, H juist, C juist | klaar, met paddenstoeltjes | 3 |
-  | fout, H fout, H juist, C juist | klaar | 4 |
-  | fout, H fout, H juist, C fout | vlammen | 4 |
-  | fout, H juist, C fout, H fout | vlammen | 4 |
-  | fout, H juist, C fout, H juist, C juist | klaar | 5 |
-  | fout, H juist, C fout, H juist, C fout | vlammen | 5 |
+  | 1ste keer | 2de keer | Wat er gebeurt | 3de keer | Wat er gebeurt |
+  |---|---|---|---|---|
+  | **fout** | **H fout** | duiveltje en kaart wordt moeilijk | **H fout** | vlammen |
+  | **fout** | **H fout** | duiveltje en kaart wordt moeilijk | **H juist** | klaar, groene ster (de kaart blijft moeilijk) |
+  | **fout** | **H juist** | | **C fout** | wordt moeilijk, vlammen zonder duiveltje |
+  | **fout** | **H juist** | | **C juist** | klaar, paddenstoeltjes |
+
+  Duiveltje of vlammen? Wordt een kaart moeilijk, dan zie je het grote duiveltje. Gaat ze in vlammen op, dan zie je enkel de vlammen, zonder duiveltje (ook als ze op dat moment pas moeilijk wordt). Opbranden gebeurt altijd pas de 3de keer; dan is de kaart al moeilijk of wordt ze het net, en ze zit in je Leitnerbak. Heb je 3 kaarten na elkaar fout, dan komt het kleine duiveltje (behalve als er net een kaart opbrandt). Paddenstoeltjes krijg je als je de herhaling en de controle juist had en de kaart niet moeilijk werd; de groene ster als een moeilijke kaart de laatste keer in de ronde toch juist is.
+
+- **Moeilijke kaarten**: een kaart wordt moeilijk als je in een gewone ronde een herhaling of een controle fout hebt (de eerste keer fout is nog niet genoeg). De titel bovenaan de kaart wordt dan rood en de kaart gaat naar bak 1 van je Leitnerbak (zat ze er al in, dan terug naar bak 1). Een moeilijke kaart geneest (is niet meer moeilijk) op 3 manieren:
+  1. je hebt ze in een latere gewone ronde meteen juist (groen paardje);
+  2. je had ze in dezelfde gewone ronde eerst fout, maar daarna de herhaling én de controle juist;
+  3. ze gaat uit bak 5 van de Leitnerbak (in bak 5 juist).
+
+  Anders geneest ze niet: een gewone juiste kaart in een Leitnerbak-ronde blijft moeilijk.
+- **Leitnerbak**: een kaart komt in de Leitnerbak als ze moeilijk wordt of als je ze een ster geeft; ze komt eerst in bak 1. Met de knop Leitnerbak oefen je alleen de kaarten die vandaag aan de beurt zijn (van de aangevinkte hoofdstukken). Juist: ze gaat een bak verder en komt pas later terug (bak 1 na 1 dag, bak 2 na 2, bak 3 na 4, bak 4 na 8, bak 5 na 16 dagen). Juist in bak 5: de kaart is geleerd, ze gaat uit de Leitnerbak en is niet meer moeilijk. Fout: terug naar bak 1, morgen opnieuw. In een Leitnerbak-ronde wordt een kaart verder niet "niet meer moeilijk"; dat kan enkel in een gewone ronde of als ze uit bak 5 gaat. Alleen een Leitnerbak-ronde verplaatst kaarten tussen de bakken, behalve als een kaart in een gewone ronde opnieuw moeilijk wordt: dan gaat ze terug naar bak 1. Is een kaart niet meer moeilijk of haal je de ster weg, dan blijft ze in haar bak. Wordt een kaart die uit de Leitnerbak ging later weer moeilijk, of geef je ze weer een ster, dan komt ze opnieuw in bak 1. Oefen je een paar dagen niet, dan wachten de kaarten gewoon op je.
 
 - **Ongedaan maken** als je per ongeluk verkeerd klikt
 - **Kaarten weggooien** die je uit de code wilt verwijderen (je kan ze terugzetten als je per ongeluk verkeerd klikt)

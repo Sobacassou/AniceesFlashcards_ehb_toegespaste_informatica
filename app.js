@@ -755,6 +755,7 @@ if (typeof kaarten_WEB_les3_oef !== "undefined") voegOefeningenToe(vakken["Web E
 if (typeof kaarten_WEB_zelftest !== "undefined") for (const h in kaarten_WEB_zelftest) voegOefeningenToe(vakken["Web Essentials"][h], kaarten_WEB_zelftest[h]);
 
 function startOefenen(kaarten) {
+  ovZelfGescrold = false;        // nieuwe ronde: het overzicht volgt weer waar je bent
   herhaalTeller = new Map();   // nieuwe ronde: elke kaart opnieuw tot 3 keer
   const gewoneStart = !kaarten;
   if (!kaarten) {
@@ -1089,8 +1090,12 @@ function standVan(hfst, o) {
            oefOpen: oef.filter(nogOpen).length, oefTotaal: oef.length };
 }
 
-// huidig onderwerp in beeld houden binnen het paneel
+// huidig onderwerp in beeld houden binnen het paneel.
+// Heb je zelf in het overzicht gescrold (vinger, muiswiel of scrollbalk), dan blijft het staan waar jij het zette,
+// ook bij de volgende kaarten (Anicée). Opnieuw volgen: nieuwe ronde, op een onderwerp tikken, in- of uitklappen.
+let ovZelfGescrold = false;
 function houdHierInBeeld(vak) {
+  if (ovZelfGescrold) return;
   const hier = vak.querySelector("li.hier");
   if (hier && vak.scrollHeight > vak.clientHeight) {
     // enkel scrollen als het huidige onderwerp niet (helemaal) zichtbaar is; anders blijft het overzicht staan
@@ -1109,6 +1114,7 @@ function zetOverzichtOpen(open) {
   if (!vak || open === ovOpen) return;
   const verschoven = vak.scrollTop;       // dezelfde onderwerpen in beeld houden bij het openklappen
   ovOpen = open;
+  ovZelfGescrold = false;
   vak.classList.toggle("open", open);
   document.body.classList.toggle("overzicht-open", open);
   const knop = document.getElementById("ovOpenKnop");
@@ -1126,6 +1132,11 @@ function zetOverzichtOpen(open) {
   knop.onclick = () => zetOverzichtOpen(!ovOpen);
   vak.after(knop);
   vak.addEventListener("click", e => { if (e.target.closest(".ov-inklap")) zetOverzichtOpen(false); });
+  // zelf scrollen in het overzicht: vanaf nu blijft het staan waar je het zette
+  const zelf = () => { ovZelfGescrold = true; };
+  vak.addEventListener("touchmove", zelf, { passive: true });
+  vak.addEventListener("wheel", zelf, { passive: true });
+  vak.addEventListener("pointerdown", e => { if (e.target === vak) zelf(); });   // de scrollbalk vastnemen
 })();
 
 /* Portret (smal scherm): het overzicht onder de kaart krijgt een eigen scrollbalk
@@ -1195,6 +1206,7 @@ document.addEventListener("click", e => {
   if (i < 0) return;
   index = i;
   ovGesprongen = true;
+  ovZelfGescrold = false;       // naar een onderwerp gesprongen: het overzicht volgt weer
   toonKaart();
 });
 
@@ -1263,7 +1275,7 @@ function volgende(wistHet) {
   const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed,
     lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined },
     tel: herhaalTeller.has(id) ? { ...herhaalTeller.get(id) } : undefined };
-  if (kaart.herhaling === 1) {                             // een herhaling: tellen (controles tellen niet)
+  if (kaart.herhaling) {                                   // een herhaling of controle: tellen
     const t = herhaalTeller.get(id) || { h: 0 };
     t.h++;
     herhaalTeller.set(id, t);
@@ -1286,12 +1298,15 @@ function volgende(wistHet) {
   // dan kan ze enkel nog via haar "één kans" (herhaling én controle juist) van de stapel.
   const alGezien = sessieGezien.has(id);
   sessieGezien.add(id);
-  if (wistHet && !kaart.herhaling && !alGezien) delete s.moeilijk;
+  // niet meer moeilijk: in een GEWONE ronde de eerste keer meteen juist. In een Leitner-ronde enkel als de kaart
+  // uit bak 5 gaat (zie hieronder) (Anicée).
+  if (wistHet && !kaart.herhaling && !alGezien && !lbSessie) delete s.moeilijk;
   // Leitnerbak: enkel in een Leitner-ronde, en enkel het eerste antwoord op deze kaart in de ronde
   if (lbSessie && leitner[id] && !kaart.herhaling && !alGezien) {
     const e = leitner[id];
     if (!wistHet) { e.bak = 1; e.dag = vandaagStr(); }
-    else if (lbTeHerhalen(e, 0)) { e.bak = Math.min(e.bak + 1, 5); e.dag = vandaagStr(); }
+    else if (lbTeHerhalen(e, 0) && e.bak >= 5) { delete leitner[id]; delete s.moeilijk; }   // bak 5 juist: geleerd, uit de Leitnerbak en niet meer moeilijk
+    else if (lbTeHerhalen(e, 0)) { e.bak = e.bak + 1; e.dag = vandaagStr(); }
     bewaar("leitner", leitner);
   }
   let viaKans = false;
@@ -1301,7 +1316,7 @@ function volgende(wistHet) {
   if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling && !alGezien))) kansMoeilijk.add(id);
   else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
   // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
-  if (laatsteJuist && kansMoeilijk.has(id)) {
+  if (laatsteJuist && kaart.herhaling === 2 && kansMoeilijk.has(id)) {   // enkel via herhaling én controle juist
     delete s.moeilijk; kansMoeilijk.delete(id); viaKans = true;
   }
   // groen paardje telkens als de kaart van de stapel moeilijk gaat: via haar "één kans" in deze sessie,
@@ -1492,8 +1507,8 @@ function herhaalFouten() {
    Gespreide herhaling: een foute kaart komt terug na 8 kaarten. Juist bij die herhaling?
    Dan nog één controle na 16 kaarten. Weer fout? Dan opnieuw na 8. Wat op het einde van de
    ronde nog openstaat, komt vóór het eindscherm.
-   Een kaart krijgt hoogstens 2 herhalingen en 2 controles in een ronde. Zou ze daarna nog eens terug moeten,
-   dan gaat ze in vlammen op (ze zit in de Leitnerbak). */
+   Je ziet een foute kaart hoogstens 3 keer in een ronde. De 3de keer is altijd de laatste: juist = klaar,
+   fout = de kaart gaat in vlammen op (ze zit in de Leitnerbak). */
 const HERHAAL_NA = { 1: 8, 2: 16 };
 function planHerhaling(kaart, wistHet) {
   if (!herhalenAan()) return -1;
@@ -1501,12 +1516,11 @@ function planHerhaling(kaart, wistHet) {
   if (!wistHet) niveau = 1;                                // fout: na 8 kaarten terug
   else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 16
   if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 16 juist: klaar
-  // al 2 herhalingen in deze ronde en ze zou opnieuw een herhaling worden (herhaling fout of controle fout):
-  // niet meer terug, de kaart gaat in vlammen op (ze zit in de Leitnerbak). Een juiste herhaling gaat nog naar de controle.
-  // Zo krijgt een kaart hoogstens 2 herhalingen en 2 controles.
+  // dit was al de 3de keer in deze ronde (de eerste keer + 2 keer terug): niet meer terug.
+  // Fout: de kaart gaat in vlammen op (ze zit in de Leitnerbak). Juist: klaar, ook zonder controle.
   const id = kaartId(huidigVak, kaart.hfst, kaart), t = herhaalTeller.get(id);
-  if (niveau === 1 && t && (t.h || 0) >= MAX_HERHALINGEN) {
-    verbrandNu = true;
+  if (1 + (t ? t.h || 0 : 0) >= MAX_KEER) {
+    if (!wistHet) verbrandNu = true;
     return -1;
   }
   const kopie = { ...kaart, herhaling: niveau };
@@ -1856,11 +1870,12 @@ let foutReeks = 0;
    controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
 let kansMoeilijk = new Set();
 let sessieGezien = new Set();   // kaarten die je in deze sessie al beantwoord hebt (van Start tot je de les verlaat)
-// per ronde: hoeveel herhalingen (h) een kaart al kreeg. Hoogstens 2 herhalingen (en dus ook hoogstens 2 controles);
-// moet ze daarna nog eens terug, dan gaat ze in vlammen op (Anicée: anders val ik te veel in de herhalingen
+// per ronde: hoe vaak (h) een kaart al terugkwam als herhaling of controle. Je ziet een foute kaart hoogstens
+// 3 keer: fout, herhaling, en dan een controle (herhaling juist) of nog een herhaling (herhaling fout).
+// De 3de keer is de laatste: juist = klaar, fout = vlammen (Anicée: anders val ik te veel in de herhalingen
 // en geraak ik niet door de cursus).
 let herhaalTeller = new Map();
-const MAX_HERHALINGEN = 2;
+const MAX_KEER = 3;
 let verbrandNu = false;          // dit antwoord: de kaart gaat in vlammen op (laatste keer en nog fout)
 
 const DUIVEL_SVG = `
