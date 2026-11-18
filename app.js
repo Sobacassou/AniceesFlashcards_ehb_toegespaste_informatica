@@ -1237,7 +1237,7 @@ function volgende(wistHet) {
   const actie = { soort: "antwoord", index, id, vorig: stats[id] ? { ...stats[id] } : undefined, fout: !wistHet, reeks, foutReeks, kans: kansMoeilijk.has(id), gezien: sessieGezien.has(id), aantal: aantalBeantwoord, konijnTegoed,
     lb: { had: !!leitner[id], waarde: leitner[id] ? { ...leitner[id] } : undefined },
     tel: herhaalTeller.has(id) ? { ...herhaalTeller.get(id) } : undefined };
-  if (kaart.herhaling) {                                   // een herhaling of controle: tellen
+  if (kaart.herhaling === 1) {                             // een herhaling: tellen (controles tellen niet)
     const t = herhaalTeller.get(id) || { h: 0 };
     t.h++;
     herhaalTeller.set(id, t);
@@ -1250,7 +1250,6 @@ function volgende(wistHet) {
   const s = stats[id] || { goed: 0, fout: 0 };
   if (wistHet) s.goed++; else s.fout++;
   // een foute kaart gaat pas van de teller als ook de controle (na 16) juist is: de herhaling na 8 telt nog niet
-  // (tenzij dit al de 3de keer was: dan komt er geen controle meer en is ze klaar)
   s.laatst = wistHet && !(kaart.herhaling === 1 && herhalenAan() && actie.ingepland >= 0);
   // moeilijke kaart: fout, en daarna bij de herhaling of de controle nog eens fout
   const wasMoeilijk = s.moeilijk === true;
@@ -1270,11 +1269,13 @@ function volgende(wistHet) {
     bewaar("leitner", leitner);
   }
   let viaKans = false;
+  // de laatste keer in de ronde juist (vroeger altijd de controle; nu meestal de herhaling, want er komt geen controle meer)
+  const laatsteJuist = wistHet && !!kaart.herhaling && herhalenAan() && actie.ingepland < 0;
   // één kans: net moeilijk geworden, of een moeilijke kaart de eerste keer in deze sessie weer fout
   if (!wistHet && (werdMoeilijk || (wasMoeilijk && !kaart.herhaling && !alGezien))) kansMoeilijk.add(id);
   else if (!wistHet && wasMoeilijk && kaart.herhaling) kansMoeilijk.delete(id);   // nog eens fout: kans weg
   // of in dezelfde sessie: eerstvolgende herhaling én controle juist (de controle komt enkel na een juiste herhaling)
-  if (wistHet && kaart.herhaling === 2 && herhalenAan() && kansMoeilijk.has(id)) {
+  if (laatsteJuist && kansMoeilijk.has(id)) {
     delete s.moeilijk; kansMoeilijk.delete(id); viaKans = true;
   }
   // groen paardje telkens als de kaart van de stapel moeilijk gaat: via haar "één kans" in deze sessie,
@@ -1299,15 +1300,15 @@ function volgende(wistHet) {
   if (konijnNu) toonKonijn();
   if (draakNu) toonDraak();
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
-  if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk === true) toonGroeneSter();
+  if (laatsteJuist && s.moeilijk === true) toonGroeneSter();
   // controle juist en de kaart is niet moeilijk geworden: kleine beloning, paddenstoeltjes over de hele kaart
-  if (wistHet && kaart.herhaling === 2 && herhalenAan() && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
+  if (laatsteJuist && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
   foutReeks = wistHet ? 0 : foutReeks + 1;
   if (werdMoeilijk) lbVoegToe(id, vandaagStr());          // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen)
   if (werdMoeilijk && !verbrandNu) toonGrootDuiveltje();  // kaart wordt moeilijk: groot duiveltje dat in 5 kleintjes ontploft
   else if (foutReeks === 3 && !verbrandNu) toonDuiveltje();   // 3 op rij fout: duiveltje (1 keer per foute reeks)
 
-  // 3de keer en nog fout: de kaart gaat in vlammen op (in plaats van de rode rand), daarna de volgende kaart
+  // laatste keer en nog fout: de kaart gaat in vlammen op (in plaats van de rode rand), daarna de volgende kaart
   if (verbrandNu) {
     bezig = true;
     toonVlammen(() => {
@@ -1460,8 +1461,8 @@ function herhaalFouten() {
    Gespreide herhaling: een foute kaart komt terug na 8 kaarten. Juist bij die herhaling?
    Dan nog één controle na 16 kaarten. Weer fout? Dan opnieuw na 8. Wat op het einde van de
    ronde nog openstaat, komt vóór het eindscherm.
-   Je ziet een foute kaart hoogstens 3 keer in een ronde. De 3de keer is de laatste: juist = klaar,
-   fout = de kaart gaat in vlammen op (ze zit in de Leitnerbak). */
+   Een kaart krijgt hoogstens 2 herhalingen en 2 controles in een ronde. Zou ze daarna nog eens terug moeten,
+   dan gaat ze in vlammen op (ze zit in de Leitnerbak). */
 const HERHAAL_NA = { 1: 8, 2: 16 };
 function planHerhaling(kaart, wistHet) {
   if (!herhalenAan()) return -1;
@@ -1469,11 +1470,12 @@ function planHerhaling(kaart, wistHet) {
   if (!wistHet) niveau = 1;                                // fout: na 8 kaarten terug
   else if (kaart.herhaling === 1) niveau = 2;              // eerste herhaling juist: nog eens na 16
   if (!niveau) return -1;                                  // gewone kaart juist, of de controle na 16 juist: klaar
-  // al de 3de keer in deze ronde (de eerste keer + 2 keer terug): niet meer terug.
-  // Fout: de kaart gaat in vlammen op (ze zit in de Leitnerbak). Juist: klaar, ook zonder controle.
+  // al 2 herhalingen in deze ronde en ze zou opnieuw een herhaling worden (herhaling fout of controle fout):
+  // niet meer terug, de kaart gaat in vlammen op (ze zit in de Leitnerbak). Een juiste herhaling gaat nog naar de controle.
+  // Zo krijgt een kaart hoogstens 2 herhalingen en 2 controles.
   const id = kaartId(huidigVak, kaart.hfst, kaart), t = herhaalTeller.get(id);
-  if (1 + (t ? t.h || 0 : 0) >= MAX_KEER) {
-    if (!wistHet) verbrandNu = true;
+  if (niveau === 1 && t && (t.h || 0) >= MAX_HERHALINGEN) {
+    verbrandNu = true;
     return -1;
   }
   const kopie = { ...kaart, herhaling: niveau };
@@ -1823,11 +1825,12 @@ let foutReeks = 0;
    controle juist zijn. Eén fout daartussen = kans weg tot een volgende sessie. */
 let kansMoeilijk = new Set();
 let sessieGezien = new Set();   // kaarten die je in deze sessie al beantwoord hebt (van Start tot je de les verlaat)
-// per ronde: hoe vaak (h) een kaart al terugkwam als herhaling of controle. Je ziet een foute kaart hoogstens
-// 3 keer in een ronde (Anicée: anders val ik te veel in de herhalingen en geraak ik niet door de cursus).
+// per ronde: hoeveel herhalingen (h) een kaart al kreeg. Hoogstens 2 herhalingen (en dus ook hoogstens 2 controles);
+// moet ze daarna nog eens terug, dan gaat ze in vlammen op (Anicée: anders val ik te veel in de herhalingen
+// en geraak ik niet door de cursus).
 let herhaalTeller = new Map();
-const MAX_KEER = 3;
-let verbrandNu = false;          // dit antwoord: de kaart gaat in vlammen op (3de keer en nog fout)
+const MAX_HERHALINGEN = 2;
+let verbrandNu = false;          // dit antwoord: de kaart gaat in vlammen op (laatste keer en nog fout)
 
 const DUIVEL_SVG = `
 <svg viewBox="0 0 170 180" aria-hidden="true"><g class="du-hop">
@@ -2326,7 +2329,7 @@ function toonVlammen(klaar) {
   const ox = 40, oy = BOVEN;                              // de kaart begint op (ox, oy) in het canvas
   const STAPX = 10, punten = Math.ceil(r.width / STAPX) + 1;
   const ruis = Array.from({ length: punten }, () => Math.random());
-  const DUUR = 2600, begin = performance.now();
+  const DUUR = 1900, begin = performance.now();
   const deeltjes = [];
   let vorig = begin;
   function rand(t) {                                      // y van de brandrand (in kaartcoördinaten) per punt
@@ -2356,7 +2359,7 @@ function toonVlammen(klaar) {
     cx.globalCompositeOperation = "source-over";
     cx.lineJoin = "round";
     cx.globalAlpha = t < 0.9 ? 0.85 : (1 - t) * 8.5;
-    cx.strokeStyle = "#1a0d0a"; cx.lineWidth = 9; cx.shadowBlur = 10; cx.shadowColor = "#000";
+    cx.strokeStyle = "#2a0e2a"; cx.lineWidth = 9;   // verkoold, met een paarse zweem cx.shadowBlur = 10; cx.shadowColor = "#000";
     cx.beginPath();
     ys.forEach((y, i) => { const x = ox + Math.min(i * STAPX, r.width), yy = oy + Math.max(0, Math.min(r.height, y - 5)); i ? cx.lineTo(x, yy) : cx.moveTo(x, yy); });
     cx.stroke();
@@ -2381,15 +2384,15 @@ function toonVlammen(klaar) {
     // gloeiende brandrand
     cx.globalAlpha = t < 0.9 ? 1 : (1 - t) * 10;
     cx.lineWidth = 2.5;
-    cx.shadowBlur = 12; cx.shadowColor = "#F44747";
-    cx.strokeStyle = "#FFB45A";
+    cx.shadowBlur = 14; cx.shadowColor = "#C586C0";
+    cx.strokeStyle = "#F7A8D2";   // roze gloeiende rand (roze van VS Code / de Leitnerbak)
     cx.beginPath();
     ys.forEach((y, i) => { const x = ox + Math.min(i * STAPX, r.width), yy = oy + Math.max(-2, Math.min(r.height + 2, y)); i ? cx.lineTo(x, yy) : cx.moveTo(x, yy); });
     cx.stroke();
     cx.shadowBlur = 0; cx.globalAlpha = 1; cx.globalCompositeOperation = "source-over";
     if (t < 1 || deeltjes.length) {
       if (t >= 1 && kaart.style.opacity !== "0") { kaart.style.opacity = "0"; }
-      if (nu - begin < DUUR + 700) { requestAnimationFrame(beeld); return; }
+      if (nu - begin < DUUR + 500) { requestAnimationFrame(beeld); return; }
     }
     doek.remove();
     kaart.style.clipPath = ""; kaart.style.filter = ""; kaart.style.opacity = "";

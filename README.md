@@ -26,7 +26,20 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 - **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt
 - **Overzicht met teller** per onderdeel (nog open / totaal), en klikken om naar een onderwerp te springen
 - **Kaarten schudden** voor een willekeurige volgorde (geldt voor één ronde)
-- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 8 kaarten terug en daarna nog eens na 16, en gaat pas van de teller als je ook die controle juist hebt. Je ziet een foute kaart hoogstens 3 keer in een ronde: is ze de 3de keer nog fout, dan gaat ze in vlammen op (ze zit dan in je Leitnerbak)
+- **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 8 kaarten terug (herhaling); heb je ze dan juist, dan nog één keer na 16 kaarten (controle). Een kaart krijgt hoogstens 2 herhalingen en 2 controles in een ronde. Moet ze daarna nog eens terug, dan gaat ze in vlammen op (ze zit dan in je Leitnerbak).
+
+  H = herhaling (na 8 kaarten), C = controle (na 16 kaarten):
+
+  | Je antwoorden | Wat er gebeurt | Keer gezien |
+  |---|---|---|
+  | fout, H fout, H fout | vlammen | 3 |
+  | fout, H juist, C juist | klaar, met paddenstoeltjes | 3 |
+  | fout, H fout, H juist, C juist | klaar | 4 |
+  | fout, H fout, H juist, C fout | vlammen | 4 |
+  | fout, H juist, C fout, H fout | vlammen | 4 |
+  | fout, H juist, C fout, H juist, C juist | klaar | 5 |
+  | fout, H juist, C fout, H juist, C fout | vlammen | 5 |
+
 - **Ongedaan maken** als je per ongeluk verkeerd klikt
 - **Kaarten weggooien** die je uit de code wilt verwijderen (je kan ze terugzetten als je per ongeluk verkeerd klikt)
 - **Je voortgang wordt onthouden** in je browser (elk toestel heeft zijn eigen voortgang)
