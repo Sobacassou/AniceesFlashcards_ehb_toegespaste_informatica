@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anicée's Flashcards !</title>
-<link rel="stylesheet" href="style.css?v=177">
+<link rel="stylesheet" href="style.css?v=180">
 </head>
 <body>
 
@@ -24,29 +24,29 @@
       <!-- links: hoofdstukken -->
       <div class="kolom-links">
         <div id="hoofdstukLijst"></div>
-        <label class="opties"><input type="checkbox" id="alles" onchange="vinkAlles(this.checked)"> Alles selecteren</label>
+        <label class="opties"><input type="checkbox" id="alles" onchange="vinkAlles(this.checked)"> Alle hoofdstukken selecteren</label>
       </div>
       <!-- rechts: opties, start en scores -->
       <div class="kolom-rechts">
         <div class="filter">
           <div class="filter-titel">Welke kaarten wil je oefenen?</div>
-          <label class="opties"><input type="checkbox" id="fNieuw" checked> Nog niet beantwoord</label>
-          <label class="opties"><input type="checkbox" id="fFout" checked> Had ik eerder <span class="rood">fout</span></label>
-          <label class="opties"><input type="checkbox" id="fJuist"> Had ik eerder <span class="groen">juist</span></label>
+          <label class="opties" data-uitleg="Kaarten die je nog nooit beantwoord hebt."><input type="checkbox" id="fNieuw" checked> Nog niet beantwoord</label>
+          <label class="opties" data-uitleg="Kaarten die je de laatste keer fout had."><input type="checkbox" id="fFout" checked> Had ik eerder <span class="rood">fout</span></label>
+          <label class="opties" data-uitleg="Kaarten die je de laatste keer juist had. Vink dit aan als je alles nog eens wil overlopen."><input type="checkbox" id="fJuist"> Had ik eerder <span class="groen">juist</span></label>
         </div>
         <div class="filter">
           <div class="filter-titel">Soort kaarten</div>
-          <label class="opties"><input type="checkbox" name="oefKeuze" value="alles" checked> Alle kaarten</label>
-          <label class="opties"><input type="checkbox" name="oefKeuze" value="enkel"> Enkel <span class="oef-woord">oefeningen</span></label>
-          <label class="opties"><input type="checkbox" name="oefKeuze" value="fav"> <span>Enkel <span class="fav-woord"><svg class="mini-ster" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6L12 17l-5.38 2.85 1.03-6L3.3 9.6l6-.9z"/></svg> favorieten</span> <span id="favAantal"></span></span></label>
+          <label class="opties" data-uitleg="Alle soorten kaarten: zwart = vraag over de cursus, wit = overzicht, blauw = oefening, groen = extra uitleg die niet in de cursus staat."><input type="checkbox" name="oefKeuze" value="alles" checked> Alle kaarten</label>
+          <label class="opties" data-uitleg="Alleen de blauwe kaarten: oefeningen waarbij je zelf iets oplost of schrijft."><input type="checkbox" name="oefKeuze" value="enkel"> Enkel <span class="oef-woord">oefeningen</span></label>
+          <label class="opties" data-uitleg="Alleen de kaarten met een ster. Een ster zet je met het sterretje rechtsboven op de kaart of met de toets S. Het getal tussen haakjes is hoeveel favorieten er in de aangevinkte hoofdstukken zitten."><input type="checkbox" name="oefKeuze" value="fav"> <span>Enkel <span class="fav-woord"><svg class="mini-ster" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2l2.7 5.5 6 .9-4.35 4.25 1.03 6L12 17l-5.38 2.85 1.03-6L3.3 9.6l6-.9z"/></svg> favorieten</span> <span id="favAantal"></span></span></label>
         </div>
-        <label class="opties"><input type="checkbox" id="schudden"> Kaarten schudden</label>
-        <label class="opties lang" title="Een kaart die je fout hebt, komt na 8 kaarten terug. Heb je ze dan juist, dan nog één keer na 16 kaarten. Je ziet ze hoogstens 3 keer: de 3de keer nog fout, dan gaat ze in vlammen op."><input type="checkbox" id="herhalen"> <span><span class="rood">Foute</span> kaarten <span class="rood">herhalen</span> tijdens het oefenen</span></label>
-        <button onclick="startOefenen()">Start</button>
+        <label class="opties" data-uitleg="De kaarten komen in een willekeurige volgorde. Niet aangevinkt: in de volgorde van de cursus."><input type="checkbox" id="schudden"> Kaarten schudden</label>
+        <label class="opties lang" data-uitleg="Een kaart die je fout hebt, komt na 8 kaarten terug. Heb je ze dan juist, dan nog één keer na 16 kaarten. Je ziet ze hoogstens 3 keer: de 3de keer nog fout, dan gaat ze in vlammen op."><input type="checkbox" id="herhalen"> <span><span class="rood">Foute</span> kaarten <span class="rood">herhalen</span> tijdens het oefenen</span></label>
+        <button data-uitleg="Start met de hoofdstukken die je aanvinkte en met de keuzes die je maakte: welke kaarten, welke soort, schudden en herhalen." id="startKnop" onclick="startOefenen()">Overloop de cursus</button>
         <!-- Leitnerbak: een eigen roze knop die meteen start (het vinkje is verborgen, de app gebruikt het intern) -->
         <input type="checkbox" id="leitnerAan" hidden>
-        <button class="lb-knop" onclick="startLeitner()">Leitnerbak <span id="lbInfo"></span></button>
-        <button class="licht" id="terugzetten" onclick="toonWeggegooid()"></button>
+        <button data-uitleg="Kaarten die moeilijk worden of een ster krijgen, komen in de Leitnerbak. Je krijgt alleen de kaarten die vandaag aan de beurt zijn, van de aangevinkte hoofdstukken. Heb je een kaart juist, dan komt ze pas later terug: na 1, 2, 4, 8 en dan 16 dagen. Heb je ze fout, dan begint ze opnieuw en komt ze morgen terug." class="lb-knop" onclick="startLeitner()">Leitnerbak <span id="lbInfo"></span></button>
+        <button data-uitleg="Kaarten die je weggooide (knop Weggooien of toets W). Hier kan je ze terugzetten of de lijst kopiëren." class="licht" id="terugzetten" onclick="toonWeggegooid()"></button>
       </div>
     </div>
   </section>
@@ -124,33 +124,33 @@
 <!-- vergrote tekening (klik of Esc om te sluiten) -->
   <div class="groot-fig" id="grootFig" onclick="sluitGroot()"><img id="grootImg" alt=""></div>
 
-  <script src="flashcards_WEBles1_htmlbasis.js?v=177"></script>
-  <script src="flashcards_WEBles2_htmlmedia.js?v=177"></script>
-<script src="flashcards_WEBles2_oefeningen.js?v=177"></script>
-<script src="flashcards_WEB_zelftesten.js?v=177"></script>
-  <script src="flashcards_WEBles3_cssbasis.js?v=177"></script>
-  <script src="flashcards_WEBles3_oefeningen.js?v=177"></script>
-  <script src="flashcards_WEBles4_boxmodel.js?v=177"></script>
-  <script src="flashcards_WEBles5_layout.js?v=177"></script>
-  <script src="flashcards_ITdeel1les1_talstelsels.js?v=177"></script>
-<script src="flashcards_ITdeel1les2_logischepoorten.js?v=177"></script>
-<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=177"></script>
-<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=177"></script>
-<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=177"></script>
-<script src="flashcards_ITdeel2les3_processoren.js?v=177"></script>
-<script src="flashcards_ITdeel2les4_chipsets.js?v=177"></script>
-<script src="flashcards_ITdeel2les5_magnetisch.js?v=177"></script>
-<script src="flashcards_ITdeel2les6_optisch.js?v=177"></script>
-<script src="flashcards_ITdeel2les7_poorten.js?v=177"></script>
-<script src="flashcards_ITdeel2les8_randapparatuur.js?v=177"></script>
-<script src="flashcards_DesktopOS_linux_intro.js?v=177"></script>
-<script src="flashcards_DesktopOS_linux_wc1.js?v=177"></script>
-<script src="flashcards_DesktopOS_linux_wc2.js?v=177"></script>
-<script src="flashcards_DesktopOS_linux_wc3.js?v=177"></script>
-<script src="flashcards_DesktopOS_windows_wc1.js?v=177"></script>
-<script src="flashcards_DesktopOS_windows_wc2.js?v=177"></script>
-<script src="flashcards_DesktopOS_windows_wc3.js?v=177"></script>
-<script src="flashcards_NET_h1_networkingtoday.js?v=177"></script>
-<script src="app.js?v=177"></script>
+  <script src="flashcards_WEBles1_htmlbasis.js?v=180"></script>
+  <script src="flashcards_WEBles2_htmlmedia.js?v=180"></script>
+<script src="flashcards_WEBles2_oefeningen.js?v=180"></script>
+<script src="flashcards_WEB_zelftesten.js?v=180"></script>
+  <script src="flashcards_WEBles3_cssbasis.js?v=180"></script>
+  <script src="flashcards_WEBles3_oefeningen.js?v=180"></script>
+  <script src="flashcards_WEBles4_boxmodel.js?v=180"></script>
+  <script src="flashcards_WEBles5_layout.js?v=180"></script>
+  <script src="flashcards_ITdeel1les1_talstelsels.js?v=180"></script>
+<script src="flashcards_ITdeel1les2_logischepoorten.js?v=180"></script>
+<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=180"></script>
+<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=180"></script>
+<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=180"></script>
+<script src="flashcards_ITdeel2les3_processoren.js?v=180"></script>
+<script src="flashcards_ITdeel2les4_chipsets.js?v=180"></script>
+<script src="flashcards_ITdeel2les5_magnetisch.js?v=180"></script>
+<script src="flashcards_ITdeel2les6_optisch.js?v=180"></script>
+<script src="flashcards_ITdeel2les7_poorten.js?v=180"></script>
+<script src="flashcards_ITdeel2les8_randapparatuur.js?v=180"></script>
+<script src="flashcards_DesktopOS_linux_intro.js?v=180"></script>
+<script src="flashcards_DesktopOS_linux_wc1.js?v=180"></script>
+<script src="flashcards_DesktopOS_linux_wc2.js?v=180"></script>
+<script src="flashcards_DesktopOS_linux_wc3.js?v=180"></script>
+<script src="flashcards_DesktopOS_windows_wc1.js?v=180"></script>
+<script src="flashcards_DesktopOS_windows_wc2.js?v=180"></script>
+<script src="flashcards_DesktopOS_windows_wc3.js?v=180"></script>
+<script src="flashcards_NET_h1_networkingtoday.js?v=180"></script>
+<script src="app.js?v=180"></script>
 </body>
 </html>

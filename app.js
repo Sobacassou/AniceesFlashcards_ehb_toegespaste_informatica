@@ -349,7 +349,14 @@ function toonVakken() {
     const knop = document.createElement("button");
     knop.className = "licht vak-knop";
     knop.innerHTML = vakLabelHTML(vak);
-    knop.onclick = () => { gekozenHoofdstukken = []; kiesVak(vak); };
+    // vanuit de lijst met vakken (ook na het opstarten): alle hoofdstukken aangevinkt (dan zie je meteen
+    // hoeveel er in de Leitnerbak zit) en "Foute kaarten herhalen" aan. Een Leitner-ronde herhaalt nooit.
+    knop.onclick = () => {
+      gekozenHoofdstukken = Object.keys(vakken[vak]);
+      document.getElementById("herhalen").checked = true;
+      try { sessionStorage.setItem("herhalen", "ja"); } catch (e) {}
+      kiesVak(vak);
+    };
     lijst.appendChild(knop);
   }
   if (ontbrekendeBestanden.length) {
@@ -391,8 +398,13 @@ function kiesVak(vak) {
       </label>`;
   }
 
+  // "Alle hoofdstukken selecteren" aangevinkt als alle hoofdstukken aangevinkt zijn
+  const vakjes = [...lijst.querySelectorAll("input")];
+  document.getElementById("alles").checked = vakjes.length > 0 && vakjes.every(c => c.checked);
+
   const terug = document.getElementById("terugzetten");
   terug.style.display = aantalWeg ? "block" : "none";
+  if (terug.parentElement.classList.contains("knop-rij")) terug.parentElement.style.display = aantalWeg ? "" : "none";   // ook het vraagteken ernaast
   terug.textContent = `${aantalWeg} weggegooide kaart${aantalWeg === 1 ? "" : "en"} bekijken`;
   telFavorieten();
   telLeitner();
@@ -716,9 +728,9 @@ function voegOefeningenToe(lijst, oef) {
 // keuze oefenkaarten: vierkantjes, maar er staat er altijd precies één aan
 // Kies je "Enkel favorieten", dan springen de andere vinkjes naar een standaard om favorieten te bekijken
 // (je kan ze daarna nog zelf veranderen). Kies je daarna iets anders, dan springen ze terug zoals ze stonden.
-// Wat je bij favorieten aan "Foute kaarten herhalen" verandert, wordt niet onthouden.
-const favVinkjes = ["fNieuw", "fFout", "fJuist", "schudden", "herhalen"];
-const favStandaard = { fNieuw: true, fFout: true, fJuist: true, schudden: false, herhalen: false };
+// "Foute kaarten herhalen" blijft zoals het staat: ook favorieten kan je met herhaling oefenen.
+const favVinkjes = ["fNieuw", "fFout", "fJuist", "schudden"];
+const favStandaard = { fNieuw: true, fFout: true, fJuist: true, schudden: false };
 let vinkjesVoorFav = null;   // niet null = "Enkel favorieten" is gekozen
 document.querySelectorAll('input[name="oefKeuze"]').forEach(c => c.addEventListener("change", () => {
   const wasFav = vinkjesVoorFav !== null;
@@ -2245,18 +2257,27 @@ toonVakken();
 herstelSessie();
 
 /* aangevinkte hoofdstukken bewaren; schudden staat altijd uit als je de app opent (geldt enkel voor één ronde) */
-document.getElementById("hoofdstukLijst").addEventListener("change", () => { bewaarSessie(); telFavorieten(); telLeitner(); });
+document.getElementById("hoofdstukLijst").addEventListener("change", () => {
+  const vakjes = [...document.querySelectorAll("#hoofdstukLijst input")];
+  document.getElementById("alles").checked = vakjes.every(c => c.checked);   // ook "Alle hoofdstukken selecteren" juist zetten
+  bewaarSessie(); telFavorieten(); telLeitner();
+});
 document.getElementById("alles").addEventListener("change", () => setTimeout(() => bewaarSessie()));
 (() => {
   const schudden = document.getElementById("schudden");
   schudden.checked = false;
   try { localStorage.removeItem("schudden"); } catch (e) {}   // oude, onthouden keuze opruimen
   const herhalen = document.getElementById("herhalen");
-  herhalen.checked = laad("herhalen", "ja") === "ja";   // je vorige keuze wordt onthouden (de eerste keer: aan)
+  // standaard aangevinkt telkens je de app opent; uitvinken geldt tot je de app opnieuw opent.
+  // (Een Leitner-ronde gebruikt het herhalen nooit, aangevinkt of niet.)
+  // aan bij het opstarten en telkens je een vak kiest; binnen dezelfde sessie (ook na herladen) blijft je keuze staan
+  const sessieKeuze = () => { try { return sessionStorage.getItem("herhalen") !== "nee"; } catch (e) { return true; } };
+  herhalen.checked = sessieKeuze();
+  try { localStorage.removeItem("herhalen"); } catch (e) {}   // oude, onthouden keuze opruimen
   herhalen.addEventListener("change", () => {
-    if (vinkjesVoorFav === null && vinkjesVoorLb === null) bewaar("herhalen", herhalen.checked ? "ja" : "nee");   // bij favorieten: enkel voor die ronde
+    if (vinkjesVoorLb === null) try { sessionStorage.setItem("herhalen", herhalen.checked ? "ja" : "nee"); } catch (e) {}
   });
-  window.addEventListener("pageshow", () => { herhalen.checked = laad("herhalen", "ja") === "ja"; });   // ook als de browser bij herladen oude vinkjes terugzet
+  window.addEventListener("pageshow", () => { herhalen.checked = sessieKeuze(); });   // ook als de browser bij herladen oude vinkjes terugzet
 })();
 
 // scherm groter/kleiner gemaakt: kaarthoogte opnieuw berekenen
@@ -2537,4 +2558,69 @@ let laatstGeveegd = 0;
     };
     anim = requestAnimationFrame(glij);
   }, { passive: true });
+})();
+
+/* ===== Uitleg bij de menukeuzes: een klein vraagteken naast elke keuze (bij knoppen: naast de knop) =====
+   Tik of klik erop (of ga er met de muis over): een klein vakje met uitleg verschijnt. Tik ergens anders: weg.
+   Tikken op het vraagteken verandert het vinkje niet. */
+(() => {
+  const bubbel = document.createElement("div");
+  bubbel.id = "uitlegBubbel";
+  bubbel.setAttribute("role", "tooltip");
+  document.body.appendChild(bubbel);
+  let open = null;
+  function toon(vraag) {
+    bubbel.textContent = vraag.dataset.tekst;
+    bubbel.classList.add("zichtbaar");
+    const r = vraag.getBoundingClientRect(), b = bubbel.getBoundingClientRect();
+    let x = Math.min(window.innerWidth - b.width - 8, Math.max(8, r.right - b.width));
+    let y = r.bottom + 6;
+    if (y + b.height > window.innerHeight - 8) y = r.top - b.height - 6;   // geen plaats eronder: erboven
+    bubbel.style.left = x + "px"; bubbel.style.top = y + "px";
+    open = vraag;
+  }
+  function verberg() { bubbel.classList.remove("zichtbaar"); open = null; }
+  document.querySelectorAll("[data-uitleg]").forEach(el => {
+    const vraag = document.createElement("button");
+    vraag.type = "button"; vraag.className = "vraagje"; vraag.textContent = "?";
+    vraag.setAttribute("aria-label", "Uitleg"); vraag.dataset.tekst = el.dataset.uitleg;
+    vraag.addEventListener("click", e => { e.preventDefault(); e.stopPropagation(); toon(vraag); });   // nog eens tikken: blijft open; ergens anders tikken: weg
+    vraag.addEventListener("mouseenter", () => { if (window.matchMedia("(hover: hover)").matches) toon(vraag); });
+    vraag.addEventListener("mouseleave", () => { if (window.matchMedia("(hover: hover)").matches) verberg(); });
+    if (el.tagName === "LABEL") el.appendChild(vraag);
+    else {                                                  // knop: vraagteken buiten de knop, rechts ernaast
+      const rij = document.createElement("div");
+      rij.className = "knop-rij";
+      el.replaceWith(rij); rij.appendChild(el); rij.appendChild(vraag);
+      if (el.style.display === "none") rij.style.display = "none";   // verborgen knop (geen weggegooide kaarten): ook geen vraagteken
+    }
+  });
+  document.addEventListener("click", e => { if (open && e.target !== open) verberg(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") verberg(); });
+  window.addEventListener("scroll", verberg, true);
+})();
+
+/* ===== Menukeuzes onthouden binnen dezelfde sessie (ook na herladen) =====
+   Welke kaarten (nog niet beantwoord / fout / juist), soort kaarten (alle / oefeningen / favorieten) en schudden.
+   Bij het opnieuw opstarten van de app begint alles weer zoals standaard. (Herhalen heeft zijn eigen sessiekeuze.) */
+(() => {
+  const ids = ["fNieuw", "fFout", "fJuist", "schudden"];
+  function bewaarMenu() {
+    if (vinkjesVoorLb !== null) return;                    // tijdens het starten van de Leitnerbak niets bewaren
+    const s = { oef: (document.querySelector('input[name="oefKeuze"]:checked') || {}).value || "alles", fav: vinkjesVoorFav };
+    ids.forEach(id => { s[id] = document.getElementById(id).checked; });
+    try { sessionStorage.setItem("menuKeuzes", JSON.stringify(s)); } catch (e) {}
+  }
+  function herstelMenu() {
+    let s = null;
+    try { s = JSON.parse(sessionStorage.getItem("menuKeuzes")); } catch (e) {}
+    if (!s) return;
+    ids.forEach(id => { if (typeof s[id] === "boolean") document.getElementById(id).checked = s[id]; });
+    document.querySelectorAll('input[name="oefKeuze"]').forEach(x => { x.checked = (x.value === s.oef); });
+    vinkjesVoorFav = s.oef === "fav" && s.fav ? s.fav : null;   // bij favorieten: ook onthouden hoe het stond ervoor
+  }
+  [...ids.map(id => document.getElementById(id)), ...document.querySelectorAll('input[name="oefKeuze"]')]
+    .forEach(el => el.addEventListener("change", () => setTimeout(bewaarMenu)));   // na de eigen afhandeling van de keuze
+  herstelMenu();
+  window.addEventListener("pageshow", () => { herstelMenu(); telFavorieten(); });
 })();

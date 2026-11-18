@@ -915,3 +915,48 @@ button.lb-knop #lbInfo { font-weight: 500; font-size: 0.85rem; }   /* zelfde hoo
   #schermHoofdstuk .kolom-rechts > .opties { margin: 6px 0; }
   #schermHoofdstuk .kolom-rechts button { padding: 9px 14px; margin-bottom: 8px; }
 }
+
+/* ===== "Overloop de cursus" als hemeltafereel (tegenhanger van de brandende Leitnerbak-knop) ===== */
+#startKnop {
+  position: relative; overflow: hidden; isolation: isolate; color: #1f1f1f;
+  background: linear-gradient(180deg, #9fd0ff 0%, #5aa9ff 55%, #3794ff 100%);
+  border: 1px solid #DCDCAA;
+  text-shadow: 0 0 6px rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.9);
+}
+#startKnop::before {   /* wolkjes die langzaam voorbijdrijven */
+  content: ""; position: absolute; z-index: -1; left: 0; right: 0; bottom: -2px; height: 48%; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20200%2040%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22w%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%23ffffff%22/%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23d6e9ff%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%20fill%3D%22url%28%23w%29%22%20opacity%3D%22.92%22%3E%3Ccircle%20cx%3D%22-10%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%220%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%224%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%2234%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%2246%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%2238%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%2258%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%2268%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%2280%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%2272%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%2292%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%22102%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%22114%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22106%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22126%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%22136%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%22148%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22140%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22160%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%22170%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%22182%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22174%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22194%22%20cy%3D%2230%22%20r%3D%2211%22/%3E%3Ccircle%20cx%3D%22204%22%20cy%3D%2224%22%20r%3D%2213%22/%3E%3Ccircle%20cx%3D%22216%22%20cy%3D%2228%22%20r%3D%2210%22/%3E%3Ccircle%20cx%3D%22208%22%20cy%3D%2232%22%20r%3D%2210%22/%3E%3C/g%3E%3Crect%20y%3D%2238%22%20width%3D%22200%22%20height%3D%222%22%20fill%3D%22%23d6e9ff%22%20opacity%3D%22.92%22/%3E%3C/svg%3E") 0 100% / 160px 100% repeat-x;
+  animation: hemel-drijf 14s linear infinite;
+}
+#startKnop::after {    /* zacht gouden licht van boven */
+  content: ""; position: absolute; z-index: -2; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(60% 90% at 50% -25%, rgba(255,246,200,.85), rgba(220,220,170,.35) 45%, transparent 70%),
+    repeating-conic-gradient(from 180deg at 50% -40%, rgba(255,250,220,.22) 0deg 4deg, transparent 4deg 11deg);
+  animation: hemel-licht 4s ease-in-out infinite alternate;
+}
+#startKnop:hover { background: linear-gradient(180deg, #b3daff 0%, #6ab2ff 55%, #4a9fff 100%); }
+@keyframes hemel-drijf { from { background-position: 0 100%; } to { background-position: 160px 100%; } }
+@keyframes hemel-licht { from { opacity: .7; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { #startKnop::before, #startKnop::after { animation: none; } }
+button.lb-knop { margin-top: 22px; }   /* hemel en hel wat verder uit elkaar */
+.knop-rij:has(> .lb-knop) { margin-top: 22px; }
+.knop-rij > button.lb-knop { margin-top: 0; }
+
+/* ===== Uitleg bij de menukeuzes: klein vraagteken + uitlegvakje ===== */
+#schermHoofdstuk button.vraagje, button.vraagje {
+  flex: 0 0 auto; width: 22px; height: 22px; padding: 0; margin: 0 0 0 auto; border-radius: 50%;
+  background: transparent; border: 1px solid #5a5a5a; color: #9d9d9d;
+  font-size: 0.75rem; font-weight: 600; line-height: 20px; text-align: center; cursor: help;
+}
+#schermHoofdstuk button.vraagje:hover, button.vraagje:focus-visible { color: var(--accent); border-color: var(--accent); background: transparent; }
+.opties > button.vraagje { margin-left: auto; }
+.knop-rij { display: flex; align-items: center; gap: 10px; }
+.knop-rij > button:first-child { flex: 1 1 auto; min-width: 0; }
+#schermHoofdstuk .kolom-rechts .knop-rij > button.vraagje { margin: 0 0 8px 0; }
+#uitlegBubbel {
+  position: fixed; z-index: 80; max-width: 290px; padding: 10px 12px; border-radius: 6px;
+  background: #252526; border: 1px solid #3c3c3c; color: #d4d4d4; font-size: 0.88rem; line-height: 1.45;
+  box-shadow: 0 6px 18px rgba(0,0,0,.45); pointer-events: none; opacity: 0; transition: opacity .12s; left: -9999px;
+}
+#uitlegBubbel.zichtbaar { opacity: 1; }
