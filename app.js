@@ -839,6 +839,23 @@ function telJuistFout(hoofdstukken) {
   return { juist, fout, totaal, nieuw: totaal - juist - fout };
 }
 
+/* Teller bovenaan: je laatste antwoord (over al je sessies) op de kaarten van deze stapel.
+   Herhalingen en controles tellen niet apart; weggegooide kaarten tellen niet mee. */
+function telStapel() {
+  let juist = 0, fout = 0;
+  const gezien = new Set();
+  for (const k of stapel) {
+    if (k.herhaling) continue;
+    const id = kaartId(huidigVak, k.hfst, k);
+    if (gezien.has(id) || verborgen.has(id)) continue;
+    gezien.add(id);
+    if (!stats[id]) continue;
+    if (stats[id].laatst === true) juist++;
+    else if (stats[id].laatst === false) fout++;
+  }
+  return { juist, fout };
+}
+
 /* Links naast de kaart: de stand van de gekozen hoofdstukken (over al je sessies) */
 /* Leitnerbak (pc): links waar je zit in de stapel van vandaag, en discreet hoeveel kaarten
    van de gekozen hoofdstukken in de Leitnerbak zitten (alle bakken samen) */
@@ -945,7 +962,8 @@ function toonKaart() {
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
-  const t = telJuistFout(gekozenHoofdstukken);
+  const t = telJuistFout(gekozenHoofdstukken);   // voor het vak links (hele hoofdstukken)
+  const ts = telStapel();                         // voor de teller bovenaan (enkel deze stapel)
   // herhalingen tellen niet mee in "Kaart x van y"
   const gewoon = stapel.filter(k => !k.herhaling).length;
   const hierGewoon = stapel.slice(0, index + 1).filter(k => !k.herhaling).length;
@@ -953,8 +971,8 @@ function toonKaart() {
     `<span${lbSessie ? ' class="lb-teller"' : ""} title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +   // Leitnerbak: roze
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
     (lbSessie ? "" :                                      // Leitnerbak: enkel "Kaart x van y"
-    `<span class="groen kort">Juist ${t.juist}</span>` +
-    `<span class="rood kort">Fout ${t.fout}</span>`);
+    `<span class="groen kort" title="Kaarten van deze stapel waarvan je laatste antwoord juist was">Juist ${ts.juist}</span>` +
+    `<span class="rood kort" title="Kaarten van deze stapel waarvan je laatste antwoord fout was">Fout ${ts.fout}</span>`);
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
