@@ -972,3 +972,8 @@ button.lb-knop { margin-top: 22px; }   /* hemel en hel wat verder uit elkaar */
 /* Tablet, ingeklapt overzicht en alles past op het scherm: de pagina schuift niet mee als je veegt
    (enkel het overzicht zelf scrolt). Zet app.js (pasOverzichtAan). */
 html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
+.teller .ht-getal { min-width: 0; }   /* teller bovenaan: getal gewoon naast "Kaart x van y" */
+@media (max-width: 480px) {
+  .teller .hfst-teller { gap: 6px; }
+  .teller .hfst-balk { width: 48px; }   /* gsm: kleiner balkje, zodat alles op de lijn past */
+}

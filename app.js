@@ -846,18 +846,19 @@ function telJuistFout(hoofdstukken) {
 /* Teller bovenaan: je laatste antwoord (over al je sessies) op de kaarten van deze stapel.
    Herhalingen en controles tellen niet apart; weggegooide kaarten tellen niet mee. */
 function telStapel() {
-  let juist = 0, fout = 0;
+  let juist = 0, fout = 0, totaal = 0;
   const gezien = new Set();
   for (const k of stapel) {
     if (k.herhaling) continue;
     const id = kaartId(huidigVak, k.hfst, k);
     if (gezien.has(id) || verborgen.has(id)) continue;
     gezien.add(id);
+    totaal++;
     if (!stats[id]) continue;
     if (stats[id].laatst === true) juist++;
     else if (stats[id].laatst === false) fout++;
   }
-  return { juist, fout };
+  return { juist, fout, totaal };
 }
 
 /* Links naast de kaart: de stand van de gekozen hoofdstukken (over al je sessies) */
@@ -975,8 +976,11 @@ function toonKaart() {
     `<span${lbSessie ? ' class="lb-teller"' : ""} title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +   // Leitnerbak: roze
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
     (lbSessie ? "" :                                      // Leitnerbak: enkel "Kaart x van y"
-    `<span class="groen kort" title="Kaarten van deze stapel waarvan je laatste antwoord juist was">Juist ${ts.juist}</span>` +
-    `<span class="rood kort" title="Kaarten van deze stapel waarvan je laatste antwoord fout was">Fout ${ts.fout}</span>`);
+    // zoals in de hoofdstukkenlijst: "beantwoord / totaal" + balkje (leeg = nog niet beantwoord, rood = fout, groen = juist)
+    `<span class="hfst-teller kort" title="Kaarten van deze stapel: ${ts.juist} juist, ${ts.fout} fout, ${ts.totaal - ts.juist - ts.fout} nog niet beantwoord">` +
+      
+      `<span class="hfst-balk"><span class="hb-fout" style="width:${ts.totaal ? ts.fout / ts.totaal * 100 : 0}%"></span>` +
+      `<span class="hb-juist" style="width:${ts.totaal ? ts.juist / ts.totaal * 100 : 0}%"></span></span></span>`);
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;
