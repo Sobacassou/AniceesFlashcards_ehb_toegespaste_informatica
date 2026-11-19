@@ -1095,6 +1095,15 @@ function toonOverzicht(kaart) {
   if (ovOpen && ovGesprongen) { ovOpen = false; vak.classList.remove("open"); document.body.classList.remove("overzicht-open"); window.scrollTo(0, 0); }
   else vak.scrollTop = vorigeScroll;    // nieuwe inhoud: het overzicht niet terug naar boven laten springen
   ovGesprongen = false;
+  // nummerkolom (slide, sectie, "8 opdr. 1" ...) zo breed als het langste nummer van dit hoofdstuk,
+  // zodat elk nummer op één regel staat (minstens de vroegere 2.7rem)
+  const nrLijst = vak.querySelector(".ov-onderwerpen.met-nrs");
+  if (nrLijst) {
+    const min = 2.7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+    let breedste = 0;
+    nrLijst.querySelectorAll(".ov-nr").forEach(e => { breedste = Math.max(breedste, e.scrollWidth); });
+    nrLijst.style.setProperty("--nr-breedte", Math.ceil(breedste > min + 1 ? breedste + 6 : min) + "px");   // past alles al: niets veranderen
+  }
   pasOverzichtAan();
 }
 
