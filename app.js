@@ -973,10 +973,9 @@ function toonKaart() {
   const gewoon = stapel.filter(k => !k.herhaling).length;
   const hierGewoon = stapel.slice(0, index + 1).filter(k => !k.herhaling).length;
   document.getElementById("teller").innerHTML =
-    // Leitnerbak (roze): "Kaart x van y" van de Leitner-ronde. Gewone ronde: y = alle kaarten van de gekozen hoofdstukken
-    // (zoals in het menu, zonder weggegooide kaarten), ook als je filters minder kaarten in de ronde zetten (keuze Anicée).
-    (lbSessie ? `<span class="lb-teller" title="Waar je zit in deze Leitner-ronde">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>`
-              : `<span title="Waar je zit in deze ronde / alle kaarten van de gekozen hoofdstukken">Kaart ${Math.max(hierGewoon, 1)} van ${t.totaal}</span>`) +
+    // "Kaart x van y": y = de kaarten van deze ronde (gekozen hoofdstukken + filters). Het balkje erachter telt wel
+    // alle kaarten van de gekozen hoofdstukken, zonder filters (keuze Anicée). Leitnerbak: roze, geen balkje.
+    `<span${lbSessie ? ' class="lb-teller"' : ""} title="Waar je zit in deze ronde (de gekozen hoofdstukken, met je filters)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
     (lbSessie ? "" :                                      // Leitnerbak: enkel "Kaart x van y"
     // hetzelfde balkje als in de hoofdstukkenlijst: alle kaarten van de gekozen hoofdstukken samen
