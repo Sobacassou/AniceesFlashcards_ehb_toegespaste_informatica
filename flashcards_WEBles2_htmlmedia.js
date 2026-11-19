@@ -34,15 +34,6 @@ const kaarten_WEB_les2 = [
 
   // ===== 1.3 Afbeeldingsformaten op het web (1.3) =====
   // -- overzichtstabel uit de cursus --
-  { v: "Afbeeldingsformaten op het web (overzicht 1.3)", a: "Vijf formaten: vier raster, één vector.", o: "1.3 Afbeeldingsformaten op het web", wit: true,
-    tabel: [
-      ["Formaat", "Type", "Kenmerken"],
-      ["WebP / AVIF", "Raster", "Huidige Webstandaard. 30% tot 50% kleiner dan JPG/PNG bij gelijke kwaliteit. Ondersteunen transparantie."],
-      ["JPEG / JPG", "Raster", "Ideaal voor foto's met veel kleurverlopen. Geen transparantie."],
-      ["PNG", "Raster", "Ondersteunt transparantie (alpha-kanaal). Ideaal voor logo's en illustraties."],
-      ["SVG", "Vector", "Schaalbaar zonder kwaliteitsverlies (XML-gebaseerd). Zeer klein in bestandsgrootte."],
-      ["GIF", "Raster", "Verouderd. Ondersteunt eenvoudige animaties (slechts 256 kleuren)."]
-    ] },
   { v: "Wat zijn WebP en AVIF?", a: "De huidige webstandaard (raster): 30% tot 50% kleiner dan JPG/PNG bij gelijke kwaliteit, en ze ondersteunen transparantie.", o: "1.3 Afbeeldingsformaten op het web" },
   { v: "Hoeveel kleiner zijn WebP/AVIF dan JPG/PNG bij gelijke kwaliteit?", a: "30% tot 50%.", o: "1.3 Afbeeldingsformaten op het web" },
   { v: "Waarvoor is JPEG/JPG ideaal, en wat kan het niet?", a: "Ideaal voor foto's met veel kleurverlopen (raster). Geen transparantie.", o: "1.3 Afbeeldingsformaten op het web" },

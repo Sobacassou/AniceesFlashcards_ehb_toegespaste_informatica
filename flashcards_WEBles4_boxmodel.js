@@ -17,14 +17,6 @@ const kaarten_WEB_les4 = [
 
   // ===== 1.2 object-fit & object-position (1.2) =====
   // -- overzichtstabel uit de cursus --
-  { v: "object-fit-waarden (overzicht 1.2)", a: "Hoe een afbeelding zich gedraagt binnen een kader met vaste afmetingen.", o: "1.2 object-fit & object-position", wit: true,
-    tabel: [
-      ["Waarde", "Gedrag"],
-      ["fill", "(Standaard) Rekt de afbeelding uit om het kader exact te vullen: vervormt."],
-      ["contain", "Volledig zichtbaar binnen het kader, mogelijk met lege randen."],
-      ["cover", "Vult het kader volledig met behoud van de verhoudingen; snijdt randen af."],
-      ["scale-down", "Kiest automatisch de kleinste van none en contain."]
-    ] },
   { v: "Waarvoor dient object-fit?", a: "Het bepaalt hoe de inhoud van een afbeelding zich gedraagt binnen een kader met vaste afmetingen, zodat ze niet vervormt.\n\n.foto {\n  width: 300px;\n  height: 200px;\n  object-fit: cover;\n}", o: "1.2 object-fit & object-position" },
   { v: "Hoe rek je een afbeelding uit zodat ze haar kader exact vult, ook als ze daardoor vervormt?", a: ".foto { object-fit: fill; }", o: "1.2 object-fit & object-position",
     uitleg: "object-fit bepaalt hoe een afbeelding zich gedraagt in een kader met een vaste breedte en hoogte.\n\nfill is de standaard: de afbeelding wordt in de breedte en de hoogte apart uitgerekt of samengedrukt tot ze het kader exact vult. Klopt de verhouding van het kader niet met die van de foto, dan vervormt de foto (mensen worden te breed of te smal).\n\nJe schrijft het dus zelden: het is wat je krijgt zonder object-fit." },
@@ -170,14 +162,6 @@ const kaarten_WEB_les4 = [
 
   // ===== 5.3 Display types (5.3) =====
   // -- overzichtstabel uit de cursus --
-  { v: "Display-types (overzicht 5.3)", a: "Hoe het box model reageert, hangt af van het display-type.", o: "5.3 Display types", wit: true,
-    tabel: [
-      ["Display", "Elementen", "Gedrag in het box model"],
-      ["block", "<div>, <p>, <h1>, <header>, <article>", "Nieuwe regel, standaard 100% breed; accepteert width, height, padding en margin aan alle zijden."],
-      ["inline", "<span>, <a>, <strong>, <em>", "Zelfde regel, grootte volgens inhoud; negeert width/height en boven-/ondermarges."],
-      ["inline-block", "<button>, <input>, <img>", "Op de regel zoals inline, maar reageert volledig op width, height, padding en margin."],
-      ["none", "elk element", "Volledig weg uit de weergave (neemt 0px ruimte in)."]
-    ] },
   { v: "Geef de 4 display-types uit de cursus.", a: "block, inline, inline-block en none.\n\n.a { display: block; }\n.b { display: inline; }\n.c { display: inline-block; }\n.d { display: none; }", o: "5.3 Display types" },
   { v: "Hoe gedraagt een block-element zich in het box model?", a: "Het begint op een nieuwe regel, neemt standaard 100% van de breedte in en accepteert width, height, padding en margin aan alle zijden.\n\ndiv {\n  display: block;\n  width: 300px;\n  margin: 20px;\n}", o: "5.3 Display types",
     uitleg: "Voorbeelden: <div>, <p>, <h1>, <header>, <article>." },
@@ -270,16 +254,9 @@ const kaarten_WEB_les4 = [
   { v: "Hoe voorkom je dat foto's vervormen als je vaste breedtes en hoogtes instelt?", a: "object-fit: cover;", o: "7.2 Veelgemaakte fouten" },
 
   // ===== 7.2 Sneloverzicht (7.2) =====
-  { v: "Sneloverzicht les 4", a: "De belangrijkste eigenschappen van les 4 op een rij.", o: "7.2 Sneloverzicht", wit: true,
-    tabel: [
-      ["Eigenschap", "Wat het doet"],
-      ["box-sizing: border-box", "padding en border tellen mee binnen de opgegeven breedte"],
-      ["object-fit: cover", "vult het kader zonder de beeldverhouding te schenden"],
-      ["aspect-ratio: 16 / 9", "legt de beeldverhouding vast"],
-      ["border-collapse: collapse", "smelt dubbele tabelranden samen tot 1 lijn"],
-      ["margin-inline: auto", "centreert block-elementen horizontaal"]
-    ],
-    uitleg: "Dit is de samenvattende tabel van de cursus (7.2). Elke eigenschap heeft ook een eigen kaart in het onderwerp waar ze thuishoort." },
+  { v: "Sneloverzicht les 4: wat doen box-sizing: border-box, object-fit: cover, aspect-ratio: 16 / 9, border-collapse: collapse en margin-inline: auto?", a: "", o: "7.2 Sneloverzicht",
+    tabel: [["Eigenschap", "Wat het doet"], ["box-sizing: border-box", "padding en border tellen mee binnen de opgegeven breedte"], ["object-fit: cover", "vult het kader zonder de beeldverhouding te schenden"], ["aspect-ratio: 16 / 9", "legt de beeldverhouding vast"], ["border-collapse: collapse", "smelt dubbele tabelranden samen tot 1 lijn"], ["margin-inline: auto", "centreert block-elementen horizontaal"]],
+    uitleg: "Dit is de samenvattende tabel van de cursus (7.2). Elke eigenschap heeft ook een eigen kaart in het onderwerp waar ze thuishoort, met de code." },
   { v: "Opdracht uit de cursus: intro met achtergrondafbeelding.\n<header class=\"intro\">\n  <h1>Back to the future trilogy</h1>\n  <p>Tekst hier ....</p>\n</header>\n\nZet header-bttf.jpg als CSS-achtergrondafbeelding van de intro, en stel de grootte zo in dat de afbeelding de hele intro bedekt.", a: ".intro {\n  background-image: url(\"images/header-bttf.jpg\");\n  background-size: cover;\n}", o: "2.1 Achtergrondafbeeldingen", oefening: true,
     uitleg: "background-image zet een afbeelding achter de inhoud van het element. De afbeelding staat in de CSS, niet als <img> in de HTML.\nbackground-size: cover schaalt de afbeelding zodat ze de hele intro bedekt, zonder te vervormen; wat te veel is, wordt afgesneden.\nTer info: het pad (images/...) hangt af van waar je CSS-bestand staat ten opzichte van de afbeelding." },
   { v: "Opdracht uit de cursus: intro met achtergrondafbeelding.\n<header class=\"intro\">\n  <h1>Back to the future trilogy</h1>\n  <p>Tekst hier ....</p>\n</header>\n\nCentreer de tekst in de intro.", a: ".intro {\n  text-align: center;\n}", o: "2.1 Achtergrondafbeeldingen", oefening: true,

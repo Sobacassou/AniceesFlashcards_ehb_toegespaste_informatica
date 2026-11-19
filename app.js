@@ -973,14 +973,17 @@ function toonKaart() {
   const gewoon = stapel.filter(k => !k.herhaling).length;
   const hierGewoon = stapel.slice(0, index + 1).filter(k => !k.herhaling).length;
   document.getElementById("teller").innerHTML =
-    `<span${lbSessie ? ' class="lb-teller"' : ""} title="Waar je zit in deze ronde (enkel de kaarten die je filters toelaten)">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>` +   // Leitnerbak: roze
+    // Leitnerbak (roze): "Kaart x van y" van de Leitner-ronde. Gewone ronde: y = alle kaarten van de gekozen hoofdstukken
+    // (zoals in het menu, zonder weggegooide kaarten), ook als je filters minder kaarten in de ronde zetten (keuze Anicée).
+    (lbSessie ? `<span class="lb-teller" title="Waar je zit in deze Leitner-ronde">Kaart ${Math.max(hierGewoon, 1)} van ${gewoon}</span>`
+              : `<span title="Waar je zit in deze ronde / alle kaarten van de gekozen hoofdstukken">Kaart ${Math.max(hierGewoon, 1)} van ${t.totaal}</span>`) +
     // op smallere schermen blijven ✓ en ✗ bovenaan; op brede schermen staan ze links (toonStand)
     (lbSessie ? "" :                                      // Leitnerbak: enkel "Kaart x van y"
-    // zoals in de hoofdstukkenlijst: "beantwoord / totaal" + balkje (leeg = nog niet beantwoord, rood = fout, groen = juist)
-    `<span class="hfst-teller kort" title="Kaarten van deze stapel: ${ts.juist} juist, ${ts.fout} fout, ${ts.totaal - ts.juist - ts.fout} nog niet beantwoord">` +
-      
-      `<span class="hfst-balk"><span class="hb-fout" style="width:${ts.totaal ? ts.fout / ts.totaal * 100 : 0}%"></span>` +
-      `<span class="hb-juist" style="width:${ts.totaal ? ts.juist / ts.totaal * 100 : 0}%"></span></span></span>`);
+    // hetzelfde balkje als in de hoofdstukkenlijst: alle kaarten van de gekozen hoofdstukken samen
+    // (leeg = nog niet beantwoord, rood = fout, groen = juist), los van de filters van deze ronde
+    `<span class="hfst-teller kort" title="Gekozen hoofdstukken: ${t.juist} juist, ${t.fout} fout, ${t.nieuw} nog niet beantwoord (van ${t.totaal})">` +
+      `<span class="hfst-balk"><span class="hb-fout" style="width:${t.totaal ? t.fout / t.totaal * 100 : 0}%"></span>` +
+      `<span class="hb-juist" style="width:${t.totaal ? t.juist / t.totaal * 100 : 0}%"></span></span></span>`);
   toonStand(t);
   const vraagEl = document.getElementById("vraag");
   vraagEl.textContent = kaart.v;

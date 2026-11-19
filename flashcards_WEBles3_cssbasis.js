@@ -26,13 +26,6 @@ const kaarten_WEB_les3 = [
 
   // ===== 1.3 Vergelijkingstabel (1.3) =====
   // -- overzichtstabel uit de cursus --
-  { v: "Drie manieren om CSS toe te passen (vergelijkingstabel 1.3)", a: "Extern is de best practice (99% van de gevallen).", o: "1.3 Vergelijkingstabel", wit: true,
-    tabel: [
-      ["Methode", "Locatie", "Voordelen", "Nadelen"],
-      ["Extern", "Los .css-bestand via <link>", "Schone HTML, herbruikbaar, beter onderhoudbaar, caching", "Extra HTTP-request (minimaal)"],
-      ["Intern", "In <head> via <style>", "Handig voor testen of unieke stijlen voor één pagina", "Niet herbruikbaar op andere pagina's"],
-      ["Inline", "Op het element via style=\"...\"", "Hoge prioriteit, snel voor vluchtige tests", "Vervuilt HTML, moeilijk te onderhouden"]
-    ] },
   { v: "Geef de voor- en nadelen van externe CSS.", a: "Voordelen: schone HTML, herbruikbaar, beter onderhoudbaar, caching.\nNadeel: een extra HTTP-request (minimaal).\n\n<link rel=\"stylesheet\" href=\"css/stijl.css\">", o: "1.3 Vergelijkingstabel" },
   { v: "Geef de voor- en nadelen van interne CSS (<style>).", a: "Voordeel: handig voor testen of unieke stijlen voor één pagina.\nNadeel: niet herbruikbaar op andere pagina's.\n\n<style>\n  h1 { color: #0056b3; }\n</style>", o: "1.3 Vergelijkingstabel" },
   { v: "Geef de voor- en nadelen van inline CSS.", a: "Voordelen: hoge prioriteit, snel voor vluchtige tests.\nNadelen: vervuilt de HTML, moeilijk te onderhouden.\n\n<p style=\"color: red;\">Tekst</p>", o: "1.3 Vergelijkingstabel" },
@@ -68,15 +61,9 @@ const kaarten_WEB_les3 = [
     uitleg: "p = elementselector (alle <p>). .nieuw = class-selector: punt + naam van de class. #hoofd-navigatie = ID-selector: hekje + id." },
 
   // ===== 2.3 Combinators & relatieselectors (2.3) =====
-  { v: "Spatie, geen spatie, komma of >: wat betekent het?", a: "Het verschil zit in de tekens tussen de selectors:", o: "2.3 Combinators & relatieselectors", wit: true,
-    tabel: [
-      ["Selector", "Betekenis"],
-      [".blog-post a (spatie)", "een a binnen een .blog-post (mag diep genest zijn)"],
-      ["a.blog-post (geen spatie)", "een a die zelf de class blog-post heeft"],
-      [".blog-post, a (komma)", "alle .blog-post-elementen én alle a's, los van elkaar"],
-      [".blog-post > a (groter-dan)", "een a die een direct kind is van .blog-post"]
-    ],
-    uitleg: "Bij \"een a en een .blog-post\" heb je de komma nodig." },
+  { v: "Wat selecteren .blog-post a, a.blog-post, .blog-post, a en .blog-post > a? Let op de spatie, de komma en de >.", a: "", o: "2.3 Combinators & relatieselectors",
+    tabel: [["Selector", "Betekenis"], [".blog-post a (spatie)", "een a binnen een .blog-post (mag diep genest zijn)"], ["a.blog-post (geen spatie)", "een a die zelf de class blog-post heeft"], [".blog-post, a (komma)", "alle .blog-post-elementen en alle a's, los van elkaar"], [".blog-post > a (groter-dan)", "een a die een direct kind is van .blog-post"]],
+    uitleg: "Het verschil zit in het teken tussen de twee stukken:\n- een spatie = binnen (descendant);\n- niets = hetzelfde element heeft beide;\n- een komma = twee aparte selectors met dezelfde stijl;\n- > = direct kind (child).\n\nWil je een a en een .blog-post dezelfde stijl geven, dan heb je de komma nodig." },
   { v: "Geef de 4 combinators.", a: "1. Descendant selector (spatie)\n2. Child selector (>)\n3. Adjacent sibling selector (+)\n4. General sibling selector (~)\n\nnav a { color: white; }\nul > li { list-style: none; }\nh2 + p { font-weight: bold; }\nh2 ~ p { color: gray; }", o: "2.3 Combinators & relatieselectors" },
   { v: "Wat selecteert nav a?", a: "Alle <a>-elementen binnen een <nav>, ongeacht het nestingsniveau (descendant selector).", o: "2.3 Combinators & relatieselectors" },
   { v: "Wat selecteert ul > li?", a: "Alleen de <li>-elementen die directe kinderen zijn van een <ul> (child selector).", o: "2.3 Combinators & relatieselectors" },
@@ -93,21 +80,10 @@ const kaarten_WEB_les3 = [
   { v: "Je wil alleen de prijs \"€ 49,99\" in een zin groen maken. Welk element en welke CSS?", a: "Een <span> met een class:\n<p>Prijs: <span class=\"prijs-highlight\">€ 49,99</span></p>\n.prijs-highlight { color: #28a745; }", o: "2.4 Elementen groeperen" },
 
   // ===== 3.1 De cascade (3.1) =====
-  { v: "De cascade, eenvoudig uitgelegd", a: "Soms zeggen twee CSS-regels iets anders over hetzelfde element: de ene zegt blauw, de andere rood. De browser is dan de scheidsrechter. Hij kijkt naar 3 dingen, in deze volgorde:\n1. Heeft een regel !important?\n2. Welke selector is het specifiekst (weegt het zwaarst)?\n3. Zijn ze even zwaar? Dan wint de regel die het laatst staat.", o: "3.1 De cascade", wit: true,
+  { v: "Wat betekent \"cascading\"?", a: "Stijlregels stromen van boven naar beneden; als meerdere regels voor hetzelfde element gelden, beslist de browser welke wint.\n\np { color: blue; }\np { color: red; }   /* wint: staat later */", o: "3.1 De cascade",
     uitleg: "Cascading = neerstromen: de regels 'stromen' van boven naar beneden, en wat later komt, kan wat eerder kwam overschrijven." },
-  { v: "Volgorde: bij gelijk gewicht wint de laatste", a: "Hebben twee regels precies dezelfde selector (zelfde gewicht), dan wint de regel die het laatst geschreven is.\n\n  p { color: blue; }\n  p { color: red; }   /* deze wint: de tekst is rood */", o: "3.1 De cascade", wit: true,
-    uitleg: "Denk aan een schoolbord: als je twee keer iets op dezelfde plek schrijft, zie je wat je het laatst schreef." },
-  { v: "Meerdere CSS-bestanden: één grote lijst", a: "De browser plakt alle CSS-bestanden in de volgorde waarin ze geladen worden achter elkaar, alsof het één lijst is. Bij gelijk gewicht wint dus het laatst geladen bestand.", o: "3.1 De cascade", wit: true,
-    uitleg: "Specificiteit gaat wel vóór volgorde: een zwaardere selector in base.css wint nog altijd van een lichtere in home.css.",
-    tabel: [
-      ["Volgorde in de <head>", "Wint bij gelijk gewicht?"],
-      ["1. <link href=\"css/base.css\">", "verliest van alles hieronder"],
-      ["2. <link href=\"css/components.css\">", "wint van base.css"],
-      ["3. <link href=\"css/home.css\">", "wint van base.css en components.css"],
-      ["4. <style> ... </style> (embedded)", "staat meestal laatst: wint van alles hierboven"]
-    ] },
-  { v: "Wat betekent \"cascading\"?", a: "Stijlregels stromen van boven naar beneden; als meerdere regels voor hetzelfde element gelden, beslist de browser welke wint.\n\np { color: blue; }\np { color: red; }   /* wint: staat later */", o: "3.1 De cascade" },
-  { v: "Geef de 3 criteria waarmee de browser beslist welke CSS-regel wint, in volgorde.", a: "1. Belangrijkheid (!important)\n2. Specificiteit (gewicht van de selector)\n3. Volgorde in de code (bij gelijke specificiteit wint de laatste regel)\n\np { color: blue !important; }  /* 1. !important */\n#tekst { color: red; }         /* 2. specificiteit */\np { color: green; }            /* 3. volgorde */", o: "3.1 De cascade" },
+  { v: "Geef de 3 criteria waarmee de browser beslist welke CSS-regel wint, in volgorde.", a: "1. Belangrijkheid (!important)\n2. Specificiteit (gewicht van de selector)\n3. Volgorde in de code (bij gelijke specificiteit wint de laatste regel)\n\np { color: blue !important; }  /* 1. !important */\n#tekst { color: red; }         /* 2. specificiteit */\np { color: green; }            /* 3. volgorde */", o: "3.1 De cascade",
+    uitleg: "Specificiteit gaat wel vóór volgorde: een zwaardere selector in base.css wint nog altijd van een lichtere in home.css." },
   { v: "Welke kleur krijgt de tekst?\np { color: blue; }\np { color: red; }", a: "Rood: bij gelijke specificiteit wint de laatst geschreven regel.", o: "3.1 De cascade" },
   { v: "Je laadt base.css, components.css en home.css in die volgorde. Welke wint bij gelijke specificiteit?", a: "home.css: de regel uit het laatst geladen bestand wint.\n\n<link rel=\"stylesheet\" href=\"css/base.css\">\n<link rel=\"stylesheet\" href=\"css/components.css\">\n<link rel=\"stylesheet\" href=\"css/home.css\">", o: "3.1 De cascade",
     uitleg: "De browser behandelt alle stylesheets samen als één verzameling regels. De volgorde van inladen is dus belangrijk." },
@@ -123,32 +99,14 @@ const kaarten_WEB_les3 = [
 
   // ===== 3.2 Specificiteit (3.2) =====
   // -- overzichtstabel uit de cursus --
-  { v: "Specificiteit = punten tellen", a: "Specificiteit is het gewicht van een selector. Je telt hoeveel stukken van elk soort erin zitten, en schrijft dat als 4 getallen: (Inline, ID, Class, Type).\n• Inline: staat er style=\"...\" in de HTML? Dan 1.\n• ID: tel de #.\n• Class: tel de punten (.), de [attributen] en de :pseudo-classes (zoals :hover).\n• Type: tel de elementnamen (p, h1, a) en de ::pseudo-elements (zoals ::before).", o: "3.2 Specificiteit", wit: true,
-    uitleg: "Voorbeeld: #nav .menu a:hover\n• 1 ID (#nav)\n• 2 class-achtigen (.menu en :hover)\n• 1 type (a)\n= (0, 1, 2, 1)" },
-  { v: "Specificiteit (overzicht 3.2)", a: "Een verschil in een kolom weegt zwaarder dan alle kolommen erna samen.", o: "3.2 Specificiteit", wit: true,
-    tabel: [
-      ["Selectortype", "Voorbeeld", "Score (Inline, ID, Class, Type)"],
-      ["Universele selector", "*", "(0, 0, 0, 0)"],
-      ["Type-/elementselector", "p, h1, ::before", "(0, 0, 0, 1)"],
-      ["Class / attribuut / pseudo-class", ".btn, [type=\"text\"], :hover", "(0, 0, 1, 0)"],
-      ["ID-selector", "#hoofd-header", "(0, 1, 0, 0)"],
-      ["Inline style", "style=\"...\"", "(1, 0, 0, 0)"]
-    ] },
-  { v: "Twee scores vergelijken", a: "Vergelijk de 4 getallen van links naar rechts. Het eerste getal dat verschilt, beslist: het hoogste getal wint. De rest telt dan niet meer mee.\n\n  (0, 1, 0, 0)  wint van  (0, 0, 9, 9)\n  want 1 ID weegt zwaarder dan 9 classes en 9 elementen samen.", o: "3.2 Specificiteit", wit: true,
-    uitleg: "Zoals bij een wedstrijd: eerst kijk je naar het aantal gouden medailles. Pas als dat gelijk is, kijk je naar zilver, en dan pas naar brons." },
-  { v: "Stap voor stap: welke regel wint?", a: "Voor <p id=\"hoofd-tekst\" class=\"beschrijving\"> gelden 4 regels. Elke volgende regel is zwaarder dan de vorige, dus de tekst wordt paars.", o: "3.2 Specificiteit", wit: true,
-    tabel: [
-      ["Regel", "Score (Inline, ID, Class, Type)", "Resultaat"],
-      ["p { color: black; }", "(0, 0, 0, 1)", "verliest"],
-      [".beschrijving { color: green; }", "(0, 0, 1, 0)", "wint van p"],
-      ["p.beschrijving { color: orange; }", "(0, 0, 1, 1)", "wint van .beschrijving"],
-      ["#hoofd-tekst { color: purple; }", "(0, 1, 0, 0)", "wint van alles hierboven"]
-    ] },
-  { v: "Inline style", a: "Een stijl die je rechtstreeks in de HTML zet met style=\"...\" krijgt (1, 0, 0, 0). Die wint van elke selector in een stylesheet, ook van een ID.\n\n  <p id=\"hoofd-tekst\" style=\"color: orange;\">Deze tekst is oranje.</p>", o: "3.2 Specificiteit", wit: true },
-  { v: "!important", a: "!important is geen extra score, maar een voorrangsbord: een declaratie met !important wint van alle normale declaraties, zelfs van een inline style.\n\n  p { color: red !important; }", o: "3.2 Specificiteit", wit: true,
-    uitleg: "Gebruik het zo weinig mogelijk: het maakt je CSS moeilijk te begrijpen en te overschrijven. Maak eerst je selector specifieker of verbeter de volgorde. Enkel als het echt nodig is, bv. voor een uitzonderingsklasse." },
-  { v: "Zo laat je je regel winnen zonder !important", a: "De cursus geeft 2 manieren:\n\n1. De selector specifieker maken: voeg een ID, class of element toe, zodat je score hoger is.\n  #form button.btn { color: red; }   /* (0, 1, 1, 1) */\n\n2. De volgorde verbeteren: maak je regel even zwaar en zet hem erna. Bij een gelijke score wint de laatste regel.\n  #form .btn { color: blue; }\n  #form .btn { color: red; }   /* staat later: wint */", o: "3.2 Specificiteit", wit: true,
-    uitleg: "!important gebruik je pas als laatste redmiddel." },
+  { v: "Wat tel je in elke kolom van de specificiteit (Inline, ID, Class, Type)?", a: "Inline: 1 als er style=\"...\" in de HTML staat.\nID: het aantal #.\nClass: het aantal classes (.), [attributen] en :pseudo-classes (bv. :hover).\nType: het aantal elementnamen (p, h1, a) en ::pseudo-elements (bv. ::before).", o: "3.2 Specificiteit",
+    uitleg: "Specificiteit is het gewicht van een selector. Je telt per soort hoeveel stukken erin zitten en schrijft dat als 4 getallen.\n\nLet op: een pseudo-class (één dubbele punt, :hover) telt als class; een pseudo-element (twee dubbele punten, ::before) telt als type." },
+  { v: "Wat is de specificiteit van #nav .menu a:hover?", a: "(0, 1, 2, 1)", o: "3.2 Specificiteit",
+    uitleg: "- 1 ID: #nav\n- 2 class-achtigen: .menu en :hover (een pseudo-class telt als class)\n- 1 type: a\n- geen inline style\n\nSamen: (0, 1, 2, 1)." },
+  { v: "Geef de 2 manieren uit de cursus om je regel te laten winnen zonder !important, elk met een voorbeeld.", a: "1. De selector specifieker maken:\n#form button.btn { color: red; }   /* (0, 1, 1, 1) */\n\n2. De volgorde verbeteren: even zwaar maken en erna zetten:\n#form .btn { color: blue; }\n#form .btn { color: red; }   /* staat later: wint */", o: "3.2 Specificiteit",
+    uitleg: "Bij 1 voeg je een ID, class of element toe aan de selector, zodat de score hoger wordt: #form button.btn heeft 1 ID, 1 class en 1 type.\n\nBij 2 hebben beide regels dezelfde score (0, 1, 1, 0). Dan beslist de volgorde: de regel die het laatst staat, wint.\n\n!important gebruik je pas als laatste redmiddel." },
+  { v: "Wat is de specificiteit van #form button.btn?", a: "(0, 1, 1, 1)", o: "3.2 Specificiteit",
+    uitleg: "- 1 ID: #form\n- 1 class: .btn\n- 1 type: button\n\nSamen: (0, 1, 1, 1)." },
   { v: "In welke 4 kolommen berekent de browser specificiteit?", a: "(Inline, ID, Class, Type).\n\n<p style=\"...\">   <!-- (1, 0, 0, 0) -->\n#hoofd-header      /* (0, 1, 0, 0) */\n.btn               /* (0, 0, 1, 0) */\np                  /* (0, 0, 0, 1) */", o: "3.2 Specificiteit",
     uitleg: "Eerst vergelijkt de browser de kolom Inline, dan ID, dan Class, dan Type. Een verschil in een kolom weegt zwaarder dan alle kolommen erna samen." },
   { v: "Wat is de specificiteit van de universele selector *?", a: "(0, 0, 0, 0)\n\n* { margin: 0; }   /* (0, 0, 0, 0) */", o: "3.2 Specificiteit" },
@@ -184,18 +142,6 @@ const kaarten_WEB_les3 = [
   { v: "Welke kleur krijgt de tekst?\n  <p style=\"color: blue;\">Hallo</p>\n  p { color: red !important; }", a: "Rood: !important wint zelfs van een inline style.", o: "3.2 Specificiteit" },
 
   // ===== 3.3 Overerving (inheritance) (3.3) =====
-  { v: "Overerving, eenvoudig uitgelegd", a: "Een element dat in een ander element staat, is een kind (child). Het element rond hem is de ouder (parent). Sommige eigenschappen geeft de ouder automatisch door aan zijn kinderen, zoals ouders hun haarkleur doorgeven.\n\nVoorbeeld: zet je color: green op een div, dan wordt de tekst van de p's in die div ook groen, zonder dat je iets op de p zet.", o: "3.3 Overerving (inheritance)", wit: true,
-    uitleg: "Vuistregel: alles wat met de tekst te maken heeft, wordt geërfd. Alles wat met de doos rond het element te maken heeft, niet.",
-    tabel: [
-      ["Wel geërfd (tekst)", "Niet geërfd (layout en box model)"],
-      ["color", "margin"],
-      ["font-family", "padding"],
-      ["font-size", "border"],
-      ["line-height", "background-color"],
-      ["text-align", "width en height"]
-    ] },
-  { v: "Overerving afdwingen met inherit", a: "Met de waarde inherit zeg je: neem de waarde van de ouder over, ook als het element zelf al een andere waarde heeft.\n\n  .custom-link { color: inherit; }", o: "3.3 Overerving (inheritance)", wit: true,
-    uitleg: "Een link is standaard blauw. Met color: inherit krijgt de link de tekstkleur van het element waarin hij staat." },
   { v: "Wat is overerving in CSS?", a: "Sommige eigenschappen worden automatisch doorgegeven van ouder-elementen (parent) naar kind-elementen (child).\n\nbody { color: #333333; font-family: Arial, sans-serif; }\n/* elke p in body erft die kleur en dat lettertype */", o: "3.3 Overerving (inheritance)" },
   { v: "Welke soort eigenschappen worden wel geërfd? Geef voorbeelden.", a: "Tekstgerelateerde eigenschappen: color, font-family, font-size, line-height en text-align.\n\nbody {\n  color: #333333;\n  font-family: Arial, sans-serif;\n  line-height: 1.6;\n}", o: "3.3 Overerving (inheritance)" },
   { v: "Welke soort eigenschappen worden niet geërfd? Geef voorbeelden.", a: "Layout- en boxmodel-eigenschappen: margin, padding, border, background-color, width en height.\n\n.kaart {\n  margin: 10px;\n  padding: 10px;\n  border: 1px solid #cccccc;\n}", o: "3.3 Overerving (inheritance)" },
@@ -212,7 +158,8 @@ const kaarten_WEB_les3 = [
   { v: "Wordt border geërfd?", a: "Nee, het is een layout-/boxmodel-eigenschap.", o: "3.3 Overerving (inheritance)" },
   { v: "Wordt width geërfd?", a: "Nee, het is een layout-/boxmodel-eigenschap. Ook height niet.", o: "3.3 Overerving (inheritance)" },
   { v: "Wat doet color: inherit; bij een link?", a: "De link neemt de tekstkleur van het ouder-element over, in plaats van de standaard blauwe browserlink.", o: "3.3 Overerving (inheritance)" },
-  { v: "Wat betekent parent en wat betekent child?", a: "Parent = het ouder-element, dat rond een ander element staat. Child = het kind-element, dat erin staat.", o: "3.3 Overerving (inheritance)" },
+  { v: "Wat betekent parent en wat betekent child?", a: "Parent = het ouder-element, dat rond een ander element staat. Child = het kind-element, dat erin staat.", o: "3.3 Overerving (inheritance)",
+    uitleg: "Vuistregel: alles wat met de tekst te maken heeft, wordt geërfd. Alles wat met de doos rond het element te maken heeft, niet." },
 
   // ===== 4.1 Notatiemethoden voor kleuren (4.1) =====
   { v: "Met welke 2 eigenschappen stel je kleuren in?", a: "color (voorgrond / tekst) en background-color (achtergrond).\n\np {\n  color: #333333;\n  background-color: #f4f4f9;\n}", o: "4.1 Notatiemethoden voor kleuren" },
@@ -249,46 +196,13 @@ const kaarten_WEB_les3 = [
 
   // ===== 5.2 Lettergrootte & maateenheden (5.2) =====
   // -- overzichtstabel uit de cursus --
-  { v: "Maateenheden (overzicht 5.2)", a: "De standaardlettergrootte van browsers is 16px.", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    tabel: [
-      ["Eenheid", "Type", "Omschrijving", "Gebruik"],
-      ["px", "Absoluut", "Vaste schermpixels; schaalt niet mee met gebruikersinstellingen", "Borders, kleine vaste details"],
-      ["%", "Relatief", "Ten opzichte van het ouder-element (hangt af van de eigenschap)", "Breedtes, hoogtes, afmetingen"],
-      ["em", "Relatief", "Font-size van het ouder-element (stapelt bij nesting)", "Margins/padding relatief aan tekst"],
-      ["rem", "Relatief", "Font-size van <html> (1rem = 16px)", "Typografie (font-size), layout"],
-      ["vw / vh", "Viewport", "1% van de viewportbreedte / -hoogte", "Fullscreen hero-secties"]
-    ] },
-  { v: "rem, eenvoudig uitgelegd", a: "rem = root em. Een rem kijkt altijd naar de lettergrootte van het root-element <html>, waar het element ook staat.\n\nStandaard is html 16px, dus:\n  1rem = 16px\n  2rem = 2 × 16 = 32px\n  0.5rem = 0,5 × 16 = 8px", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "Ezelsbruggetje: rem = 'root', de wortel van de boom. Je kijkt altijd helemaal naar boven, naar html." },
-  { v: "em, eenvoudig uitgelegd", a: "Een em kijkt naar de lettergrootte van het ouder-element: het element waar het in staat.\n\nStaat een h2 in een .promo van 20px, dan:\n  1em = 20px\n  1.5em = 1,5 × 20 = 30px", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "Ezelsbruggetje: em kijkt naar zijn ouder, één stapje naar boven." },
-  { v: "em stapelt bij nesting", a: "Zet je em in em in em, dan wordt er telkens verder gerekend op de grootte van de ouder. Dat noemt de cursus 'componeert bij nesting'.", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "Met rem gebeurt dat niet: rem kijkt altijd naar html, dus elk niveau blijft even groot.",
-    tabel: [
-      ["Element (in elkaar)", "CSS", "Berekening", "Grootte"],
-      ["html", "font-size: 16px", "", "16px"],
-      ["div", "font-size: 1.5em", "1,5 × 16", "24px"],
-      ["p (in de div)", "font-size: 1.5em", "1,5 × 24", "36px"],
-      ["span (in de p)", "font-size: 1.5em", "1,5 × 36", "54px"]
-    ] },
-  { v: "Zo reken je rem en em om naar pixels", a: "Stap 1: kijk naar de eenheid.\n• rem: neem de font-size van html.\n• em (of %): neem de font-size van de ouder.\nStap 2: vermenigvuldig het getal met die grootte.\n  2.5rem met html 16px → 2,5 × 16 = 40px\n  0.8em in een p van 16px → 0,8 × 16 = 12,8px", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "Bij % werkt het voor font-size net zoals em: 80% = 0,8 × de grootte van de ouder." },
-  { v: "em en %, eenvoudig uitgelegd", a: "% betekent: een stukje van iets. De vraag is altijd: een stukje van wát?\n\nVergelijk met 'de helft': de helft van je pizza of de helft van je zakgeld. Hetzelfde woord, maar over iets anders.\n\nBij font-size kijken em en % allebei naar de lettergrootte van de ouder. Dan zijn ze hetzelfde, alleen anders geschreven:\n  1.5em = 150%\n  0.8em = 80%", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "Ezelsbruggetje: em × 100 = %. Zoals 'anderhalf' en '150 procent' hetzelfde zijn.",
-    tabel: [
-      ["em", "%", "Grootte (ouder: tekst 20px)"],
-      ["0.5em", "50%", "10px"],
-      ["1em", "100%", "20px"],
-      ["1.5em", "150%", "30px"],
-      ["2em", "200%", "40px"]
-    ] },
-  { v: "% hangt af van de eigenschap", a: "% kijkt altijd naar de ouder, maar de eigenschap zegt naar wát van de ouder.\n\nDe ouder is 600px breed en heeft tekst van 20px:\n  .vak { font-size: 50%; }   /* de helft van de TEKST: 10px */\n  .vak { width: 50%; }       /* de helft van de BREEDTE: 300px */", o: "5.2 Lettergrootte & maateenheden", wit: true,
-    uitleg: "em gaat altijd over de tekstgrootte, nooit over de breedte. Daarom zijn em en % alleen bij font-size hetzelfde.",
-    tabel: [
-      ["CSS", "Kijkt naar", "Ouder: 600px breed, tekst 20px"],
-      ["font-size: 50%", "de lettergrootte van de ouder", "10px"],
-      ["width: 50%", "de breedte van de ouder", "300px"]
-    ] },
+  { v: "html heeft font-size 16px. Hoeveel pixels zijn 1rem, 2rem en 0.5rem?", a: "1rem = 16px\n2rem = 32px (2 × 16)\n0.5rem = 8px (0,5 × 16)", o: "5.2 Lettergrootte & maateenheden",
+    uitleg: "rem = root em: rem kijkt altijd naar de lettergrootte van het root-element <html>, waar het element ook staat. Je vermenigvuldigt het getal dus altijd met de grootte van html.\n\nEzelsbruggetje: rem = 'root', de wortel van de boom. Je kijkt altijd helemaal naar boven, naar html.\n\nEzelsbruggetje: em kijkt naar zijn ouder, één stapje naar boven.\n\nBij % werkt het voor font-size net zoals em: 80% = 0,8 × de grootte van de ouder." },
+  { v: "html heeft font-size 16px. Een div, een p in die div en een span in die p krijgen elk font-size: 1.5em. Hoe groot is de tekst van elk?", a: "", o: "5.2 Lettergrootte & maateenheden",
+    tabel: [["Element (in elkaar)", "CSS", "Berekening", "Grootte"], ["html", "font-size: 16px", "", "16px"], ["div", "font-size: 1.5em", "1,5 × 16", "24px"], ["p (in de div)", "font-size: 1.5em", "1,5 × 24", "36px"], ["span (in de p)", "font-size: 1.5em", "1,5 × 36", "54px"]],
+    uitleg: "em kijkt naar de lettergrootte van de ouder. Bij elk niveau wordt dus verder gerekend op de grootte van het niveau erboven: de waarden stapelen op. De cursus noemt dat 'em componeert bij nesting'.\n\nMet rem gebeurt dat niet: rem kijkt altijd naar html, dus elk niveau blijft even groot." },
+  { v: "De ouder is 600px breed en heeft tekst van 20px. Hoe groot wordt font-size: 50%, en hoe breed wordt width: 50%?", a: "font-size: 50% = 10px (de helft van de lettergrootte van de ouder)\nwidth: 50% = 300px (de helft van de breedte van de ouder)", o: "5.2 Lettergrootte & maateenheden",
+    uitleg: "% kijkt altijd naar de ouder, maar de eigenschap bepaalt naar wát van de ouder: bij font-size naar de lettergrootte, bij width naar de breedte.\n\nem gaat altijd over de tekstgrootte, nooit over de breedte. Daarom zijn em en % alleen bij font-size hetzelfde." },
   { v: "Wat is het verschil tussen em en % bij padding?", a: "Padding is de lege ruimte binnen een vak, tussen de rand en de tekst.\n\nEen knop met tekst van 20px staat in een vak van 600px breed:\n  .knop { padding: 1em; }   /* 1 × 20px (de tekst) = 20px */\n  .knop { padding: 10%; }   /* 10% van 600px (de breedte) = 60px */\n\n• em groeit mee met de letters.\n• % groeit mee met de breedte van de ouder.", o: "5.2 Lettergrootte & maateenheden", extra: true,
     uitleg: "Daarom raadt de cursus em aan voor padding: de ruimte rond de tekst past dan altijd bij de grootte van de letters.",
     tabel: [
@@ -302,7 +216,10 @@ const kaarten_WEB_les3 = [
   { v: "Waartegenover is em relatief, en waarvoor gebruik je het?", a: "Ten opzichte van de font-size van het ouder-element (het stapelt bij nesting). Voor margins en padding relatief aan tekst.\n\n.knop {\n  font-size: 1rem;\n  padding: 0.5em 1em;\n}", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Waartegenover is rem relatief, en waarvoor gebruik je het?", a: "Ten opzichte van de font-size van het root-element <html> (1rem = 16px standaard). Voor typografie (font-size) en layout.", o: "5.2 Lettergrootte & maateenheden" },
   { v: "Wat is het verschil tussen em en rem?", a: "em is relatief aan de font-size van het ouder-element (en stapelt bij nesting); rem is altijd relatief aan het root-element <html>.", o: "5.2 Lettergrootte & maateenheden" },
-  { v: "vw en vh, eenvoudig uitgelegd", a: "vw en vh kijken niet naar een ouder, maar naar het scherm (de viewport): het deel van het browservenster waar de pagina in staat.\n\n• 1vw = 1% van de breedte van het scherm\n• 1vh = 1% van de hoogte van het scherm\n\nScherm van 1200px breed en 800px hoog:\n  50vw = 600px\n  100vh = 800px\n\nDe cursus gebruikt het voor fullscreen hero-secties: een groot blok bovenaan dat het hele scherm vult.\n\n.hero {\n  height: 100vh;\n}", o: "5.2 Lettergrootte & maateenheden", wit: true },
+  { v: "Het scherm (de viewport) is 1200px breed en 800px hoog. Hoeveel is 50vw, en hoeveel is 100vh?", a: "50vw = 600px\n100vh = 800px", o: "5.2 Lettergrootte & maateenheden",
+    uitleg: "vw en vh kijken niet naar een ouder, maar naar het scherm: het deel van het browservenster waar de pagina in staat.\n- 1vw = 1% van de breedte: 50vw = 50 × 12px = 600px.\n- 1vh = 1% van de hoogte: 100vh = de volledige hoogte = 800px." },
+  { v: "Hoe maak je een hero-sectie die precies zo hoog is als het scherm?", a: ".hero {\n  height: 100vh;\n}", o: "5.2 Lettergrootte & maateenheden",
+    uitleg: "Een hero-sectie is een groot blok bovenaan de pagina, bv. met een grote foto en een titel.\n\n100vh = 100% van de hoogte van het scherm (de viewport). Zo vult het blok het hele scherm, op elk toestel." },
   { v: "Wat betekenen 1vw en 1vh?", a: "1vw = 1% van de viewportbreedte, 1vh = 1% van de viewporthoogte.\n\n.hero {\n  width: 100vw;\n  height: 100vh;\n}", o: "5.2 Lettergrootte & maateenheden",
     uitleg: "Vooral handig voor fullscreen hero-secties." },
   { v: "Welke eenheid gebruik je voor: 1. een border, 2. font-size, 3. een fullscreen hero-sectie?", a: "1. px\n2. rem\n3. vw / vh\n\n.kaart { border: 1px solid #cccccc; }\nh1 { font-size: 2.5rem; }\n.hero { height: 100vh; }", o: "5.2 Lettergrootte & maateenheden" },
@@ -362,9 +279,8 @@ const kaarten_WEB_les3 = [
     uitleg: "Voorbeeld: a:focus-visible { outline: 3px solid #ffbf47; outline-offset: 2px; }" },
 
   // ===== 6.2 Structurele pseudo-classes (6.2) =====
-  { v: ":first-child en :last-child, eenvoudig uitgelegd", a: "Elementen die rechtstreeks in een ander element staan, zijn de kinderen. Het element rondom is de ouder.\n  <ul>              <!-- de ouder -->\n    <li>Appel</li>   <!-- eerste kind -->\n    <li>Peer</li>\n    <li>Kiwi</li>    <!-- laatste kind -->\n  </ul>\n\n• li:first-child = de li die helemaal bovenaan staat bij zijn ouder: Appel\n• li:last-child = de li die helemaal onderaan staat bij zijn ouder: Kiwi\n  li:first-child { font-weight: bold; }   /* Appel wordt vet */\n  li:last-child { border-bottom: none; }  /* geen lijn onder Kiwi */", o: "6.2 Structurele pseudo-classes", wit: true,
+  { v: "Wat selecteren li:first-child en li:last-child?", a: "Het eerste en het laatste <li>-kind van zijn ouder.", o: "6.2 Structurele pseudo-classes",
     uitleg: "Ezelsbruggetje: first = eerste, last = laatste, child = kind." },
-  { v: "Wat selecteren li:first-child en li:last-child?", a: "Het eerste en het laatste <li>-kind van zijn ouder.", o: "6.2 Structurele pseudo-classes" },
   { v: "Wat selecteert tr:nth-child(even), en waarvoor gebruik je het?", a: "Elke even rij. Voor zebrastrepen in tabellen.\n\ntr:nth-child(even) {\n  background-color: #f2f2f2;\n}", o: "6.2 Structurele pseudo-classes" },
   { v: "Wat selecteert li:nth-child(3)?", a: "Exact het derde item.\n\nli:nth-child(3) {\n  color: red;\n}", o: "6.2 Structurele pseudo-classes" },
   { v: "Waarop selecteren structurele pseudo-classes?", a: "Op de positie van een element in de HTML-boom.\n\nli:first-child { font-weight: bold; }\ntr:nth-child(even) { background-color: #f2f2f2; }", o: "6.2 Structurele pseudo-classes" },
@@ -402,35 +318,24 @@ const kaarten_WEB_les3 = [
     uitleg: "Waarom fout: elke declaratie eindigt met een puntkomma, anders leest de browser de volgende regel mee en negeert hij ze allebei. Een hexkleur heeft 6 tekens na het # (of 3). Zonder # is 333333 geen kleur. In CSS schrijf je decimalen met een punt, niet met een komma. Elke { heeft een } nodig. Een class-selector begint met een punt; zonder punt zoekt de browser een element <belangrijk>, en dat bestaat niet. Een lettertypenaam met een spatie zet je tussen aanhalingstekens." },
 
   // ===== Oefening: specificiteit berekenen (Oef. 2) =====
-  { v: "Eerst kijken welke regels passen, dan pas specificiteit", a: "Stap 1: welke regels passen op het element? Een regel als #main-content .blog-post p a past alleen als de a in een p zit, die p in een .blog-post, en die .blog-post in #main-content. Ontbreekt één schakel, dan valt de regel weg.\nStap 2: van de regels die overblijven, wint de hoogste specificiteit.\n\nDe p staat binnen het article (zoals in de cursus): regel 3 past, selectors wordt rood.\n  <article class=\"blog-post\">\n    <p>Lees meer over <a href=\"#\">selectors</a>.</p>\n  </article>\n\nDe p staat buiten het article: regel 2 en 3 passen niet meer.\n  <article class=\"blog-post\"> ... </article>\n  <p>Lees meer over <a href=\"#\">selectors</a>.</p>", o: "Oefening: specificiteit berekenen", wit: true,
-    uitleg: "Specificiteit is een wedstrijd tussen de regels die passen. Een regel die niet past, doet niet mee, hoe zwaar hij ook is." },
-  { v: "Waarom wordt de link \"selectors\" fuchsia als de p buiten het article staat?", a: "Specificiteit speelt pas mee als een regel op het element past. Bij de link \"selectors\" past alleen regel 1.\n\nKijk waar die link staat:\n  <div id=\"main-content\" class=\"container\">\n    <article class=\"blog-post\"> ... </article>\n    <p>Lees meer over <a href=\"#\">selectors</a>.</p>\n  </div>\n\nDe <p> staat naast het <article>, niet erin. De voorouders van deze link zijn dus alleen p en div#main-content.container.\n\nZo gaan de regels één voor één:\n• Regel 1, a: past, want het is een a. → fuchsia\n• Regel 2, .blog-post a: past niet. Er is geen voorouder met class blog-post.\n• Regel 3, #main-content .blog-post p a: past niet. #main-content en p a kloppen wel, maar er moet ook een .blog-post tussen zitten, en die ontbreekt.\n• Regel 4, div.container article p a.link: past niet. Er is geen article als voorouder, en de link heeft geen class link.\n\nOmdat alleen regel 1 overblijft, wordt \"selectors\" fuchsia.", o: "Oefening: specificiteit berekenen", wit: true,
-    uitleg: "Je gedachte \"p a, dus een a in een p\" is op zich juist. Maar een selector werkt alleen als het hele pad klopt. Bij regel 3 moet de p binnen een .blog-post zitten, en die zit binnen #main-content. Eén ontbrekende schakel is genoeg om de regel te laten vallen." },
+  { v: "Welke 2 stappen volg je om te bepalen welke CSS-regel een element kleurt?", a: "1. Kijk welke regels op het element passen: het hele pad van de selector moet kloppen.\n2. Van de regels die passen, wint de regel met de hoogste specificiteit.", o: "Oefening: specificiteit berekenen",
+    uitleg: "Een regel als #main-content .blog-post p a past alleen als de a in een p zit, die p in een .blog-post, en die .blog-post in #main-content. Ontbreekt één schakel, dan valt de regel weg.\n\nSpecificiteit is een wedstrijd tussen de regels die passen. Een regel die niet past, doet niet mee, hoe zwaar hij ook is." },
+  { v: "Welke kleur krijgt de link \"selectors\"? De <p> staat nu naast het <article>, niet erin.\n  <div id=\"main-content\" class=\"container\">\n    <article class=\"blog-post\"> ... </article>\n    <p>Lees meer over <a href=\"#\">selectors</a>.</p>\n  </div>\n  a { color: blue; }\n  .blog-post a { color: green; }\n  #main-content .blog-post p a { color: red; }\n  div.container article p a.link { color: orange; }", a: "Blauw: alleen regel 1 (a) past.", o: "Oefening: specificiteit berekenen", oefening: true,
+    uitleg: "De voorouders van deze link zijn alleen p en div#main-content.container. Er is geen .blog-post en geen article rond de link.\n- Regel 1, a: past, want het is een a.\n- Regel 2, .blog-post a: past niet, want er is geen voorouder met class blog-post.\n- Regel 3, #main-content .blog-post p a: past niet. #main-content en p a kloppen wel, maar er moet ook een .blog-post tussen zitten.\n- Regel 4, div.container article p a.link: past niet. Er is geen article als voorouder, en de link heeft geen class link.\n\nEen selector werkt alleen als het hele pad klopt. Eén ontbrekende schakel is genoeg om de regel te laten vallen." },
   { v: "Bereken de specificiteit (Inline, ID, Class, Type):\n1. a\n2. .blog-post a\n3. #main-content .blog-post p a\n4. div.container article p a.link", a: "1. (0, 0, 0, 1)\n2. (0, 0, 1, 1)\n3. (0, 1, 1, 2)\n4. (0, 0, 2, 4)", o: "Oefening: specificiteit berekenen", oefening: true,
     uitleg: "Tel per kolom. a = 1 element. .blog-post a = 1 class + 1 element. #main-content .blog-post p a = 1 ID + 1 class + 2 elementen (p, a). div.container article p a.link = 2 classes (.container, .link) + 4 elementen (div, article, p, a)." },
   { v: "Welke kleur krijgt de link \"flexibel\"?\n  <div id=\"main-content\" class=\"container\">\n    <article class=\"blog-post\">\n      <p class=\"intro\">CSS is <a href=\"#\" class=\"link\">flexibel</a>.</p>\n    </article>\n  </div>\n  a { color: blue; }\n  .blog-post a { color: green; }\n  #main-content .blog-post p a { color: red; }\n  div.container article p a.link { color: orange; }", a: "Rood: #main-content .blog-post p a heeft (0, 1, 1, 2) en is de enige regel met een ID. Die wint van (0, 0, 2, 4).", o: "Oefening: specificiteit berekenen", oefening: true,
-    uitleg: "Alle 4 regels passen bij deze link. Vergelijk van links naar rechts: alleen regel 3 heeft een ID (1 in de tweede kolom). Een ID weegt zwaarder dan alle classes en elementen samen, dus (0, 1, 1, 2) wint van (0, 0, 2, 4)." },
+    uitleg: "Alle 4 regels passen bij deze link. Vergelijk van links naar rechts: alleen regel 3 heeft een ID (1 in de tweede kolom). Een ID weegt zwaarder dan alle classes en elementen samen, dus (0, 1, 1, 2) wint van (0, 0, 2, 4).\n\nLees van rechts naar links: \"een p, direct in .blog-post\" en \"een a, in een p met class intro\"." },
   { v: "Welke kleur krijgt de link \"selectors\"? (Deze link heeft geen class.)\n  <div id=\"main-content\" class=\"container\">\n    <article class=\"blog-post\">\n      <p>Lees meer over <a href=\"#\">selectors</a>.</p>\n    </article>\n  </div>\n  a { color: blue; }\n  .blog-post a { color: green; }\n  #main-content .blog-post p a { color: red; }\n  div.container article p a.link { color: orange; }", a: "Rood: #main-content .blog-post p a past bij deze link en is de enige regel met een ID. Regel 4 geldt niet: deze link heeft geen class link.", o: "Oefening: specificiteit berekenen", oefening: true,
     uitleg: "Regel 4 (a.link) vraagt een a mét class link, en die heeft deze link niet. Van de regels die wel passen, heeft #main-content .blog-post p a als enige een ID: rood." },
-  { v: "Deel B: de twee selectors uitgelegd", a: "De HTML uit de cursus:\n  <article class=\"blog-post\">\n    <h2 class=\"titel\">Introductie tot Webdesign</h2>\n    <p class=\"intro\">CSS is krachtig en <a href=\"#\" class=\"link\">flexibel</a>.</p>\n    <p>Lees meer over <a href=\"#\">selectors</a>.</p>\n  </article>\n\n• .blog-post > p: > = direct kind. Dit selecteert de twee p's die rechtstreeks in het article staan, niet de h2.\n• p.intro a: een a ergens binnen een p die zelf de class intro heeft. Dit selecteert alleen de link flexibel.", o: "Oefening: specificiteit berekenen", wit: true,
-    uitleg: "Lees van rechts naar links: \"een p, direct in .blog-post\" en \"een a, in een p met class intro\"." },
   { v: "Schrijf de selector voor alleen de <p>'s die directe kinderen zijn van <article class=\"blog-post\">.", a: ".blog-post > p\n\n.blog-post > p {\n  color: #333333;\n}", o: "Oefening: specificiteit berekenen", oefening: true,
     uitleg: "> = child-combinator: alleen p's die rechtstreeks in .blog-post staan, niet dieper. .blog-post = de class van het article." },
   { v: "Schrijf de selector voor alleen de <a>'s binnen een paragraaf met class intro.", a: ".intro a (of p.intro a)\n\n.intro a {\n  color: green;\n}", o: "Oefening: specificiteit berekenen", oefening: true,
     uitleg: "De spatie = descendant-combinator: elke a die ergens in .intro staat. p.intro a is strenger: de .intro moet dan ook een p zijn." },
 
   // ===== Oefening: rem vs em (Oef. 4) =====
-  { v: "Oefening rem vs em: de oplossing in een tabel", a: "Gegeven: html { font-size: 16px; } en .artikel { font-size: 20px; }", o: "Oefening: rem vs em", wit: true,
-    uitleg: "In een nieuwere versie van de oefening heet de class .promo in plaats van .artikel: de antwoorden blijven hetzelfde.",
-    tabel: [
-      ["Element", "CSS", "Kijkt naar", "Berekening", "Grootte"],
-      ["h1", "2.5rem", "html (16px)", "2,5 × 16", "40px"],
-      ["h2 in .artikel", "1.5em", "ouder .artikel (20px)", "1,5 × 20", "30px"],
-      ["p", "1rem", "html (16px)", "1 × 16", "16px"],
-      ["span.subtekst in een p", "0.8em", "ouder p (16px)", "0,8 × 16", "12,8px"]
-    ] },
   { v: "html { font-size: 16px; } en .artikel { font-size: 20px; }\nHoeveel pixels is h1 { font-size: 2.5rem; }?", a: "40px (2,5 × 16; rem kijkt naar html).", o: "Oefening: rem vs em", oefening: true,
-    uitleg: "rem kijkt altijd naar html: 2,5 × 16 = 40px." },
+    uitleg: "rem kijkt altijd naar html: 2,5 × 16 = 40px.\n\nIn een nieuwere versie van de oefening heet de class .promo in plaats van .artikel: de antwoorden blijven hetzelfde." },
   { v: "html { font-size: 16px; } en .artikel { font-size: 20px; }\nHoeveel pixels is h2 { font-size: 1.5em; } binnen .artikel?", a: "30px (1,5 × 20; em kijkt naar de ouder .artikel).", o: "Oefening: rem vs em", oefening: true,
     uitleg: "em kijkt naar de ouder, hier .artikel van 20px: 1,5 × 20 = 30px." },
   { v: "html { font-size: 16px; } en .artikel { font-size: 20px; }\nHoeveel pixels is p { font-size: 1rem; }?", a: "16px (1 × 16; rem kijkt altijd naar html, ook binnen .artikel).", o: "Oefening: rem vs em", oefening: true,
