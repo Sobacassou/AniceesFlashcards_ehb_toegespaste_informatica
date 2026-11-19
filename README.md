@@ -30,13 +30,15 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 
   H = herhaling (na 8 kaarten), C = controle (na 16 kaarten):
 
-  | 1ste keer | 2de keer | 3de keer | Wat je ziet | Wordt ze moeilijk? | Leitnerbak? | Komt ze nog terug in deze ronde? |
-  |---|---|---|---|---|---|---|
-  | **juist** | | | niets apart | nee (was ze moeilijk: ze geneest, groen paardje) | nee | nee |
-  | **fout** | **H fout** | **H fout** | 2de keer: groot duiveltje. 3de keer: vlammen | ja, bij de 2de keer | ja, bak 1, morgen aan de beurt | nee, ze is opgebrand |
-  | **fout** | **H fout** | **H juist** | 2de keer: groot duiveltje. 3de keer: groene ster | ja, bij de 2de keer, en ze blijft moeilijk | ja, bak 1, morgen aan de beurt | nee, klaar |
-  | **fout** | **H juist** | **C fout** | 2de keer: draakje. 3de keer: vlammen (zonder duiveltje) | ja, bij de 3de keer | ja, bak 1, morgen aan de beurt | nee, ze is opgebrand |
-  | **fout** | **H juist** | **C juist** | 2de keer: draakje. 3de keer: draakje | nee | nee | nee, klaar |
+  | 1ste keer | 2de keer | reward | moeilijk | Leitnerbak | komt terug | 3de keer | reward | moeilijk | Leitnerbak | komt terug |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | **juist** | | geen | neen | neen | neen | | | | | |
+  | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H fout** | vlammen | ja | ja, bak 1 | neen |
+  | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H juist** | groene ster | ja, blijft moeilijk | ja, bak 1 | neen |
+  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C fout** | vlammen | ja | ja, bak 1 | neen |
+  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C juist** | draakje | neen | neen | neen |
+
+  Na de 1ste keer fout komt de kaart altijd terug na 8 kaarten (H). Bak 1 = morgen aan de beurt. Was een kaart al moeilijk en heb je ze de 1ste keer meteen juist, dan geneest ze (groen paardje).
 
   Wanneer stopt de herhaling? Na een fout komt de kaart na 8 kaarten terug (H). Heb je de herhaling juist, dan komt ze nog één keer na 16 kaarten (C); heb je de herhaling fout, dan nog eens na 8 kaarten (H). De 3de keer is altijd de laatste: juist = klaar, fout = vlammen. Staat "Foute kaarten herhalen" uit, of oefen je de Leitnerbak, dan komt een foute kaart niet terug in de ronde.
 
