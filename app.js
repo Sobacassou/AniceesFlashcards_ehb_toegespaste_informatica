@@ -144,7 +144,17 @@ if (leitner === null) {
   for (const id of favorieten) if (!leitner[id]) leitner[id] = { bak: 1, dag: null };
   bewaar("leitner", leitner);
 }
-let posities = laad("posities", {});                // waar je gebleven was (enkel zonder schudden)
+let posities = laad("posities", {});
+/* Gelezen / ongelezen wissen (menu): per "vak|hoofdstuk" het tijdstip waarop Anicée het hoofdstuk weer op ongelezen zette.
+   Een kaart is gelezen als je ze na dat tijdstip beantwoordde (stats[id].t). Juist/fout (laatst), moeilijk,
+   favorieten en de Leitnerbak blijven gewoon staan. */
+let gelezenVanaf = laad("gelezenVanaf", {});
+function isGelezen(id, hfst) {
+  const s = stats[id];
+  if (!s || s.laatst === undefined) return false;
+  const vanaf = gelezenVanaf[huidigVak + "|" + hfst];
+  return !vanaf || (s.t || 0) > vanaf;
+}                // waar je gebleven was (enkel zonder schudden)
 let hervatbaar = false;                             // huidige ronde onthoudt zijn plaats?
 
 /* Eenmalig: de vaknamen hadden vroeger een icoontje vooraan ("💻 IT Essentials", "🖥️ Desktop OS" …).
@@ -384,7 +394,7 @@ function kiesVak(vak) {
     const actief = kaarten.filter(k => !verborgen.has(kaartId(vak, hfst, k)));
     const goedAantal = actief.filter(k => { const st = stats[kaartId(vak, hfst, k)]; return st && st.laatst === true; }).length;
     const foutAantal = actief.filter(k => wasFout(kaartId(vak, hfst, k))).length;
-    const beantwoord = goedAantal + foutAantal;
+    const beantwoord = actief.filter(k => isGelezen(kaartId(vak, hfst, k), hfst)).length;   // gelezen (na "gelezen wissen" weer 0)
     const pct = n => actief.length ? Math.round(n / actief.length * 100) : 0;
     aantalWeg += weg;
     const aangevinkt = gekozenHoofdstukken.includes(hfst) ? "checked" : "";
@@ -417,6 +427,37 @@ function kiesVak(vak) {
 
 /* ---------- Verderzetten waar je gebleven was ---------- */
 // sleutel = vak + de aangevinkte hoofdstukken (elke combinatie onthoudt zijn eigen plaats)
+function wisGelezen(knop) {
+  const hfst = aangevinkteHoofdstukken();
+  if (!hfst.length) { melding("Vink eerst de hoofdstukken aan die je opnieuw wil lezen."); return; }
+  if (!knop.classList.contains("zeker")) {            // 1ste tik: bevestiging vragen
+    knop.classList.add("zeker"); knop.textContent = "Zeker?";
+    clearTimeout(knop._terug); knop._terug = setTimeout(() => wisKnopTerug(knop), 4000);
+    return;
+  }
+  const nu = Date.now();                                // 2de tik: wissen
+  for (const h of hfst) gelezenVanaf[huidigVak + "|" + h] = nu;
+  bewaar("gelezenVanaf", gelezenVanaf);
+  // verderzetten waar je was: voor deze hoofdstukken weer bij de eerste kaart beginnen
+  for (const sl of Object.keys(posities))
+    if (sl.startsWith(huidigVak + "|") && hfst.some(h => sl.slice(huidigVak.length + 1).split("+").includes(h))) delete posities[sl];
+  bewaar("posities", posities);
+  wisKnopTerug(knop);
+  kiesVak(huidigVak);                                   // tellers in het menu opnieuw tekenen
+  document.querySelectorAll("#hoofdstukLijst input").forEach(c => { c.checked = hfst.includes(c.value); });
+  const vakjes = [...document.querySelectorAll("#hoofdstukLijst input")];
+  document.getElementById("alles").checked = vakjes.length > 0 && vakjes.every(c => c.checked);
+  telLeitner();
+}
+function wisKnopTerug(knop) {
+  clearTimeout(knop._terug);
+  knop.classList.remove("zeker"); knop.textContent = "Gelezen / ongelezen wissen";
+}
+document.addEventListener("click", e => {             // ergens anders tikken: niets wissen
+  const k = document.getElementById("gelezenWissen");
+  if (k && k.classList.contains("zeker") && !k.contains(e.target)) wisKnopTerug(k);
+});
+
 function aangevinkteHoofdstukken() {
   return [...document.querySelectorAll("#hoofdstukLijst input:checked")].map(c => c.value);
 }
@@ -797,6 +838,7 @@ function startOefenen(kaarten) {
     kaarten = kaarten.filter(k => {
       const id = kaartId(huidigVak, k.hfst, k);
       // moeilijke kaarten die nog niet van de stapel zijn, horen bij "Had ik eerder fout" (ook als je ze laatst juist had)
+      if (wil.nieuw && !isGelezen(id, k.hfst)) return true;   // nog niet beantwoord, of weer ongelezen na "gelezen wissen"
       if (stats[id] && stats[id].moeilijk === true) return wil.fout;
       return wil[statusVan(id)];
     });
@@ -1120,7 +1162,7 @@ function nrInTitel(titel, nr) {
 // stand van een onderwerp: hoeveel kaarten nog onbeantwoord of fout zijn, op het totaal (zonder weggegooide)
 function standVan(hfst, o) {
   const ks = (vakken[huidigVak][hfst] || []).filter(k => (k.o || hfst) === o && !verborgen.has(kaartId(huidigVak, hfst, k)));
-  const nogOpen = k => { const s = stats[kaartId(huidigVak, hfst, k)]; return !s || s.laatst !== true; };
+  const nogOpen = k => { const id = kaartId(huidigVak, hfst, k), s = stats[id]; return !s || s.laatst !== true || !isGelezen(id, hfst); };
   const oef = ks.filter(k => k.oefening);
   // open/totaal = alles samen; oefOpen/oefTotaal = enkel de oefeningen
   return { open: ks.filter(nogOpen).length, totaal: ks.length,
@@ -1363,6 +1405,7 @@ function volgende(wistHet) {
   // groen paardje telkens als de kaart van de stapel moeilijk gaat: via haar "één kans" in deze sessie,
   // of een moeilijke kaart uit een vorige sessie die je meteen juist hebt
   const overwonnen = viaKans || (wasMoeilijk && !s.moeilijk);
+  s.t = Date.now();   // wanneer beantwoord: voor "gelezen / ongelezen wissen"
   stats[id] = s;
   bewaar("stats", stats);
   // laatste open kaart van dit onderdeel juist? dan springt het op ✓ (en komt de gele eenhoorn)

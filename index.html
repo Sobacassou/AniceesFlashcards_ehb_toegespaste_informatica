@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Anicée's Flashcards !</title>
-<link rel="stylesheet" href="style.css?v=199">
+<link rel="stylesheet" href="style.css?v=200">
 </head>
 <body>
 
@@ -47,6 +47,7 @@
         <input type="checkbox" id="leitnerAan" hidden>
         <button data-uitleg="Kaarten die moeilijk worden of een ster krijgen, komen in de Leitnerbak. Je krijgt alleen de kaarten die vandaag aan de beurt zijn, van de aangevinkte hoofdstukken. Heb je een kaart juist, dan komt ze pas later terug: na 1, 2, 4, 8 en dan 16 dagen. Heb je ze in de laatste bak (bak 5) juist, dan is ze geleerd en gaat ze uit de Leitnerbak. Heb je ze fout, dan begint ze opnieuw en komt ze morgen terug." class="lb-knop" onclick="startLeitner()">Leitnerbak <span id="lbInfo"></span></button>
         <button data-uitleg="Kaarten die je weggooide (knop Weggooien of toets W). Hier kan je ze terugzetten of de lijst kopiëren." class="licht" id="terugzetten" onclick="toonWeggegooid()"></button>
+        <button data-uitleg="Zet de aangevinkte hoofdstukken weer op ongelezen, zodat je de cursus opnieuw kan overlopen met 'Nog niet beantwoord'. Of een kaart juist of fout was, moeilijke kaarten, favorieten en de Leitnerbak blijven zoals ze zijn." class="licht klein-wis" id="gelezenWissen" type="button" onclick="wisGelezen(this)">Gelezen / ongelezen wissen</button>
       </div>
     </div>
   </section>
@@ -124,33 +125,33 @@
 <!-- vergrote tekening (klik of Esc om te sluiten) -->
   <div class="groot-fig" id="grootFig" onclick="sluitGroot()"><img id="grootImg" alt=""></div>
 
-  <script src="flashcards_WEBles1_htmlbasis.js?v=199"></script>
-  <script src="flashcards_WEBles2_htmlmedia.js?v=199"></script>
-<script src="flashcards_WEBles2_oefeningen.js?v=199"></script>
-<script src="flashcards_WEB_zelftesten.js?v=199"></script>
-  <script src="flashcards_WEBles3_cssbasis.js?v=199"></script>
-  <script src="flashcards_WEBles3_oefeningen.js?v=199"></script>
-  <script src="flashcards_WEBles4_boxmodel.js?v=199"></script>
-  <script src="flashcards_WEBles5_layout.js?v=199"></script>
-  <script src="flashcards_ITdeel1les1_talstelsels.js?v=199"></script>
-<script src="flashcards_ITdeel1les2_logischepoorten.js?v=199"></script>
-<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=199"></script>
-<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=199"></script>
-<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=199"></script>
-<script src="flashcards_ITdeel2les3_processoren.js?v=199"></script>
-<script src="flashcards_ITdeel2les4_chipsets.js?v=199"></script>
-<script src="flashcards_ITdeel2les5_magnetisch.js?v=199"></script>
-<script src="flashcards_ITdeel2les6_optisch.js?v=199"></script>
-<script src="flashcards_ITdeel2les7_poorten.js?v=199"></script>
-<script src="flashcards_ITdeel2les8_randapparatuur.js?v=199"></script>
-<script src="flashcards_DesktopOS_linux_intro.js?v=199"></script>
-<script src="flashcards_DesktopOS_linux_wc1.js?v=199"></script>
-<script src="flashcards_DesktopOS_linux_wc2.js?v=199"></script>
-<script src="flashcards_DesktopOS_linux_wc3.js?v=199"></script>
-<script src="flashcards_DesktopOS_windows_wc1.js?v=199"></script>
-<script src="flashcards_DesktopOS_windows_wc2.js?v=199"></script>
-<script src="flashcards_DesktopOS_windows_wc3.js?v=199"></script>
-<script src="flashcards_NET_h1_networkingtoday.js?v=199"></script>
-<script src="app.js?v=199"></script>
+  <script src="flashcards_WEBles1_htmlbasis.js?v=200"></script>
+  <script src="flashcards_WEBles2_htmlmedia.js?v=200"></script>
+<script src="flashcards_WEBles2_oefeningen.js?v=200"></script>
+<script src="flashcards_WEB_zelftesten.js?v=200"></script>
+  <script src="flashcards_WEBles3_cssbasis.js?v=200"></script>
+  <script src="flashcards_WEBles3_oefeningen.js?v=200"></script>
+  <script src="flashcards_WEBles4_boxmodel.js?v=200"></script>
+  <script src="flashcards_WEBles5_layout.js?v=200"></script>
+  <script src="flashcards_ITdeel1les1_talstelsels.js?v=200"></script>
+<script src="flashcards_ITdeel1les2_logischepoorten.js?v=200"></script>
+<script src="flashcards_ITdeel1les3_rekenschakelingen.js?v=200"></script>
+<script src="flashcards_ITdeel2les1_computerarchitectuur.js?v=200"></script>
+<script src="flashcards_ITdeel2les2_werkgeheugen.js?v=200"></script>
+<script src="flashcards_ITdeel2les3_processoren.js?v=200"></script>
+<script src="flashcards_ITdeel2les4_chipsets.js?v=200"></script>
+<script src="flashcards_ITdeel2les5_magnetisch.js?v=200"></script>
+<script src="flashcards_ITdeel2les6_optisch.js?v=200"></script>
+<script src="flashcards_ITdeel2les7_poorten.js?v=200"></script>
+<script src="flashcards_ITdeel2les8_randapparatuur.js?v=200"></script>
+<script src="flashcards_DesktopOS_linux_intro.js?v=200"></script>
+<script src="flashcards_DesktopOS_linux_wc1.js?v=200"></script>
+<script src="flashcards_DesktopOS_linux_wc2.js?v=200"></script>
+<script src="flashcards_DesktopOS_linux_wc3.js?v=200"></script>
+<script src="flashcards_DesktopOS_windows_wc1.js?v=200"></script>
+<script src="flashcards_DesktopOS_windows_wc2.js?v=200"></script>
+<script src="flashcards_DesktopOS_windows_wc3.js?v=200"></script>
+<script src="flashcards_NET_h1_networkingtoday.js?v=200"></script>
+<script src="app.js?v=200"></script>
 </body>
 </html>

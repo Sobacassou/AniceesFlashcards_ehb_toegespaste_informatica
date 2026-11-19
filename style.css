@@ -977,3 +977,9 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
   .teller .hfst-teller { gap: 6px; }
   .teller .hfst-balk { width: 48px; }   /* gsm: kleiner balkje, zodat alles op de lijn past */
 }
+
+/* menu: kleine knop "Gelezen / ongelezen wissen" (onder de weggegooide kaarten) */
+#schermHoofdstuk button.klein-wis { font-size: 0.78rem; font-weight: 500; padding: 5px 10px; color: var(--tekst-zacht); }
+#schermHoofdstuk button.klein-wis.zeker { color: var(--rood); border-color: var(--rood); }
+/* meer ruimte tussen de Leitnerbak en de knoppen eronder (weggegooide kaarten, gelezen / ongelezen wissen) */
+#schermHoofdstuk .knop-rij:has(> .lb-knop) { margin-bottom: 18px; }
