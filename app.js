@@ -1419,7 +1419,9 @@ function volgende(wistHet) {
   if (wistHet && aantalBeantwoord % 15 === 0) konijnTegoed = true;          // om de 15 juiste antwoorden in een ronde (niet op rij)
   const konijnNu = wistHet && konijnTegoed && !geelNu && !paardjeNu;        // valt het samen met eenhoorn of paardje: bij het volgende juiste antwoord
   if (konijnNu) konijnTegoed = false;
-  const draakNu = wistHet && reeks % 3 === 0 && !geelNu && !paardjeNu && !konijnNu;   // 3, 6, 9 ... op rij juist
+  // draakje: een herhaling of controle juist van een kaart die niet moeilijk is (ze wordt dus niet moeilijk).
+  // Vroeger: 3 kaarten op rij juist (Anicée: weg). Voorrang blijft: gele eenhoorn > groen paardje > konijntje > draakje.
+  const draakNu = wistHet && !!kaart.herhaling && s.moeilijk !== true && !geelNu && !paardjeNu && !konijnNu;
   if (geelNu) toonGeleEenhoorn();
   if (paardjeNu) toonEenhoorn();
   if (konijnNu) toonKonijn();
@@ -1427,7 +1429,7 @@ function volgende(wistHet) {
   // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
   if (laatsteJuist && s.moeilijk === true) toonGroeneSter();
   // controle juist en de kaart is niet moeilijk geworden: kleine beloning, paddenstoeltjes over de hele kaart
-  if (laatsteJuist && s.moeilijk !== true && !overwonnen) toonSterregen();   // niet als het groene paardje komt
+  // controle juist en niet moeilijk: vroeger paddenstoeltjes, nu het draakje (Anicée). toonSterregen blijft bestaan voor later.
   foutReeks = wistHet ? 0 : foutReeks + 1;
   // net moeilijk: in bak 1 van de Leitnerbak (aan de beurt vanaf morgen). Zat ze er al in (bv. in bak 3),
   // dan gaat ze terug naar bak 1: je wist ze vandaag niet, dus ze komt morgen terug.
@@ -1553,6 +1555,7 @@ function toonEinde() {
     scores[huidigVak] = lijst.slice(-20);
     bewaar("scores", scores);
     eindeInfo.scoreBewaard = true;
+    if (!lbSessie) setTimeout(toonSterregen, 300);   // gewone ronde klaar: paddenstoeltjes over het eindscherm (Anicée)
   }
   // titel: "Klaar met IT Essentials – II.2 Werkgeheugen" (meerdere hoofdstukken: enkel hun nummers)
   const vakTitel = vakZonderEmoji(huidigVak);
@@ -1770,9 +1773,8 @@ function stofwolkje(laag, x, y) {
 }
 
 /* ===== Beloning: draakje =====
-   Telkens als je 3 kaarten op rij juist hebt (3, 6, 9 ...) vliegt er rechts een
-   blauw draakje zigzaggend van onder naar boven. Op ¾ hoogte spuwt hij blauw vuur.
-   Een fout zet de reeks terug op 0. */
+   Heb je een herhaling of een controle juist van een kaart die niet moeilijk is, dan vliegt er rechts een
+   blauw draakje zigzaggend van onder naar boven. Op ¾ hoogte spuwt hij blauw vuur. */
 let reeks = 0;
 
 const DRAAK_SVG = `

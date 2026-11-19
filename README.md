@@ -30,14 +30,29 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 
   H = herhaling (na 8 kaarten), C = controle (na 16 kaarten):
 
-  | 1ste keer | 2de keer | Wat er gebeurt | 3de keer | Wat er gebeurt |
-  |---|---|---|---|---|
-  | **fout** | **H fout** | duiveltje en kaart wordt moeilijk | **H fout** | vlammen |
-  | **fout** | **H fout** | duiveltje en kaart wordt moeilijk | **H juist** | klaar, groene ster (de kaart blijft moeilijk) |
-  | **fout** | **H juist** | | **C fout** | wordt moeilijk, vlammen zonder duiveltje |
-  | **fout** | **H juist** | | **C juist** | klaar, paddenstoeltjes |
+  | 1ste keer | 2de keer | 3de keer | Wat je ziet | Wordt ze moeilijk? | Leitnerbak? | Komt ze nog terug in deze ronde? |
+  |---|---|---|---|---|---|---|
+  | **juist** | | | niets apart | nee (was ze moeilijk: ze geneest, groen paardje) | nee | nee |
+  | **fout** | **H fout** | **H fout** | 2de keer: groot duiveltje. 3de keer: vlammen | ja, bij de 2de keer | ja, bak 1, morgen aan de beurt | nee, ze is opgebrand |
+  | **fout** | **H fout** | **H juist** | 2de keer: groot duiveltje. 3de keer: groene ster | ja, bij de 2de keer, en ze blijft moeilijk | ja, bak 1, morgen aan de beurt | nee, klaar |
+  | **fout** | **H juist** | **C fout** | 2de keer: draakje. 3de keer: vlammen (zonder duiveltje) | ja, bij de 3de keer | ja, bak 1, morgen aan de beurt | nee, ze is opgebrand |
+  | **fout** | **H juist** | **C juist** | 2de keer: draakje. 3de keer: draakje | nee | nee | nee, klaar |
 
-  Duiveltje of vlammen? Wordt een kaart moeilijk, dan zie je het grote duiveltje. Gaat ze in vlammen op, dan zie je enkel de vlammen, zonder duiveltje (ook als ze op dat moment pas moeilijk wordt). Opbranden gebeurt altijd pas de 3de keer; dan is de kaart al moeilijk of wordt ze het net, en ze zit in je Leitnerbak. Heb je 3 kaarten na elkaar fout, dan komt het kleine duiveltje (behalve als er net een kaart opbrandt). Paddenstoeltjes krijg je als je de herhaling en de controle juist had en de kaart niet moeilijk werd; de groene ster als een moeilijke kaart de laatste keer in de ronde toch juist is.
+  Wanneer stopt de herhaling? Na een fout komt de kaart na 8 kaarten terug (H). Heb je de herhaling juist, dan komt ze nog één keer na 16 kaarten (C); heb je de herhaling fout, dan nog eens na 8 kaarten (H). De 3de keer is altijd de laatste: juist = klaar, fout = vlammen. Staat "Foute kaarten herhalen" uit, of oefen je de Leitnerbak, dan komt een foute kaart niet terug in de ronde.
+
+  Wanneer naar de Leitnerbak? Zodra een kaart moeilijk wordt, gaat ze naar bak 1 (morgen aan de beurt). Zat ze er al in, bv. in bak 3, dan gaat ze terug naar bak 1. Ook een kaart met een ster komt in de Leitnerbak. Een kaart die meteen juist is of de herhaling en de controle juist had, gaat er niet in.
+
+  Beloningen en straffen:
+  - **Draakje**: een herhaling of een controle juist van een kaart die niet moeilijk is (ze wordt dus niet moeilijk).
+  - **Groene ster**: een moeilijke kaart is de laatste keer in de ronde toch juist (ze blijft moeilijk).
+  - **Groen paardje**: een moeilijke kaart is niet meer moeilijk.
+  - **Gele eenhoorn**: de laatste open kaart van een onderwerp is juist.
+  - **Konijntje**: om de 15 juiste antwoorden in een ronde (niet op rij).
+  - **Paddenstoeltjes**: op het eindscherm als je een gewone ronde uit hebt.
+  - **Groot duiveltje**: een kaart wordt moeilijk (behalve als ze op dat moment opbrandt: dan enkel de vlammen).
+  - **Klein duiveltje**: 3 kaarten na elkaar fout (behalve als er net een kaart opbrandt).
+  - **Vlammen**: de 3de keer is nog fout: de kaart brandt op en komt niet meer terug in de ronde.
+  - Er komt telkens maar één van de dieren tegelijk. Voorrang: gele eenhoorn > groen paardje > konijntje > draakje. Een konijntje dat samenvalt met de eenhoorn of het paardje, komt bij het volgende juiste antwoord.
 
 - **Moeilijke kaarten**: een kaart wordt moeilijk als je in een gewone ronde een herhaling of een controle fout hebt (de eerste keer fout is nog niet genoeg). De titel bovenaan de kaart wordt dan rood en de kaart gaat naar bak 1 van je Leitnerbak (zat ze er al in, dan terug naar bak 1). Een moeilijke kaart geneest (is niet meer moeilijk) op 3 manieren:
   1. je hebt ze in een latere gewone ronde meteen juist (groen paardje);
