@@ -91,6 +91,13 @@ button.klein:hover { background: var(--vlak-hover); }
   flex-shrink: 0; font-size: 0.8rem;
 }
 .hfst-naam { flex: 1; min-width: 0; }
+/* hoofdstukkenlijst: "149 / 160" en een balkje (leeg = nog niet beantwoord, rood = fout, groen = juist).
+   Getal rechts uitgelijnd in een vaste breedte en de balk altijd even breed: alle balken staan onder elkaar. */
+.hfst-teller { display: flex; align-items: center; gap: 10px; }
+.ht-getal { font-variant-numeric: tabular-nums; min-width: 9ch; text-align: right; }
+.hfst-balk { display: flex; justify-content: flex-end; width: 90px; height: 9px; border: 1px solid #6a6a6a; border-radius: 3px; overflow: hidden; box-sizing: border-box; }
+.hfst-balk .hb-fout { background: var(--rood); }
+.hfst-balk .hb-juist { background: var(--groen); }
 .opties { display: flex; align-items: center; gap: 8px; margin: 12px 0; cursor: pointer; }
 .opties input { accent-color: var(--accent); }
 #terugzetten { margin-top: 6px; }

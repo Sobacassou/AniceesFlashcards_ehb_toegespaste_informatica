@@ -393,8 +393,10 @@ function kiesVak(vak) {
         <input type="checkbox" value="${hfst}" ${aangevinkt}>
         <span class="hfst-naam">${hfst}</span>
         <small>
-          <span>${actief.length} kaarten${beantwoord ? ` · ${beantwoord} beantwoord` : ""}</span>
-          ${goedAantal || foutAantal ? `<span><span class="groen">${pct(goedAantal)}% juist</span> · <span class="rood">${pct(foutAantal)}% fout</span></span>` : ""}
+          <span class="hfst-teller" title="beantwoord / totaal (leeg = nog niet beantwoord, rood = fout, groen = juist)">
+            <span class="ht-getal">${beantwoord} / ${actief.length}</span>
+            <span class="hfst-balk"><span class="hb-fout" style="width:${pct(foutAantal)}%"></span><span class="hb-juist" style="width:${pct(goedAantal)}%"></span></span>
+          </span>
         </small>
       </label>`;
   }
@@ -1180,9 +1182,13 @@ function pasOverzichtAan() {
   if (window.innerWidth < 1100) {
     // de hoogte die je echt ziet: op een tablet verandert die als de adresbalk van de browser verschijnt of verdwijnt.
     // We nemen de kleinste hoogte die we bij deze breedte zagen (nieuwe breedte = tablet gedraaid: opnieuw beginnen).
-    const nu = Math.min(window.innerHeight, window.visualViewport ? window.visualViewport.height : Infinity);
+    // Uitzonderingen: met twee vingers ingezoomd meten we niet; en is de hoogte veel groter dan de kleinste
+    // (meer dan de adresbalk: toetsenbord dicht, gesplitst scherm weg), dan geldt die nieuwe hoogte.
+    const vv = window.visualViewport;
+    const ingezoomd = vv && vv.scale > 1.01;
+    const nu = ingezoomd ? window.innerHeight : Math.min(window.innerHeight, vv ? vv.height : Infinity);
     if (ovZichtMin.breedte !== window.innerWidth) ovZichtMin = { breedte: window.innerWidth, hoogte: nu };
-    ovZichtMin.hoogte = Math.min(ovZichtMin.hoogte, nu);
+    if (!ingezoomd) ovZichtMin.hoogte = nu > ovZichtMin.hoogte + 120 ? nu : Math.min(ovZichtMin.hoogte, nu);
     const zicht = ovZichtMin.hoogte;
     const boven = vak.getBoundingClientRect().top + window.scrollY;   // los van hoe ver je gescrold bent
     let hoogte = Math.max(220, zicht - boven - 16);
