@@ -18,6 +18,8 @@ const kaarten_IT_deel2_les4 = [
   { v: "Geef drie voorbeelden van apparaten die een verschillende bussnelheid nodig hebben.", a: "Keyboard, CPU en grafische kaart.", o: "Wat zijn bussen?" },
   { v: "Welk van die drie heeft het minst data nodig?", a: "Het keyboard (toetsenbord).", o: "Wat zijn bussen?",
     uitleg: "Achtergrond (wordt niet gevraagd): Vergelijk een bus met het verkeer. Een bus is een weg: een toetsenbord heeft genoeg aan een rustig straatje, een grafische kaart heeft een snelweg nodig." },
+  { v: "Uit welke vijf delen bestaat het hoofdstuk Chipsets en bussen?", a: "1. Bussen\n2. Uitbreidingsbussen en PCI Express\n3. Opslaginterfaces\n4. Chipsets\n5. Moederbord en voeding", o: "Wat zijn bussen?",
+    uitleg: "Het hoofdstuk gaat over hoe de onderdelen van een computer gegevens uitwisselen.\n- Bussen: de verbindingen waarlangs de gegevens gaan.\n- Uitbreidingsbussen en PCI Express: de bus waarin je extra kaarten steekt, bv. een grafische kaart.\n- Opslaginterfaces: hoe schijven (HDD en SSD) aangesloten worden: PATA, SATA, SAS, M.2, U.2.\n- Chipsets: de chip die regelt welke gegevens waarheen gaan.\n- Moederbord en voeding: de printplaat waarop alles zit, en de voeding die alles van stroom voorziet." },
 
   // ===== Twee soorten bussen (slide 4) =====
   { v: "Welke 2 belangrijke bussen heeft een computer meestal?", a: "De systeembus en de uitbreidingsbus.", o: "Twee soorten bussen",
@@ -53,6 +55,10 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waarom heet het een 'uitbreidingsbus'?", a: "Omdat je er extra apparaten (kaarten) op aansluit om de computer uit te breiden.", o: "Twee soorten bussen" },
   { v: "Is de uitbreidingsbus rechtstreeks met de systeembus verbonden?", a: "Nee, via de chipset.", o: "Twee soorten bussen" },
   { v: "Waarvoor dient de uitbreidingsbus?", a: "Voor in- en uitvoerapparaten (bv. geluidskaart, NIC, SSD).", o: "Twee soorten bussen" },
+  { v: "Waardoor werd de FSB (front side bus) vervangen?", a: "Door rechtstreekse verbindingen: bij Intel QPI en DMI, bij AMD HyperTransport en later Infinity Fabric.", o: "Twee soorten bussen",
+    uitleg: "De FSB was vroeger de ene gedeelde bus tussen de processor en de northbridge. Alles moest daarover: geheugen, grafische kaart, de rest van het systeem. Dat werd een flessenhals.\n\nDaarom kwamen er rechtstreekse punt-tot-punt-verbindingen:\n- Intel: QPI (QuickPath Interconnect) tussen processors, en DMI (Direct Media Interface) tussen processor en chipset.\n- AMD: HyperTransport, en later Infinity Fabric.\n\nPunt-tot-punt = een verbinding tussen precies 2 onderdelen, die ze dus niet met andere moeten delen." },
+  { v: "Wat deed de southbridge vroeger?", a: "Hij regelde de tragere zaken: USB, harde schijven, audio, netwerk en de PCI-slots.", o: "Twee soorten bussen",
+    uitleg: "Tot ongeveer 2011 bestond de chipset uit 2 chips:\n- de northbridge, dicht bij de processor, voor de snelle zaken: het geheugen en de grafische kaart;\n- de southbridge, verder weg, voor alles wat trager is.\n\nVandaag zit de taak van de northbridge in de processor zelf. De southbridge bestaat nog, als de chipset: bij Intel heet die de PCH (Platform Controller Hub)." },
 
   // ===== De systeembus (slide 5) =====
   { v: "Wat is de systeembus?", a: "Het uiteindelijke centrale verbindingsorgaan, tussen processor en geheugen, I/O-apparaten, …", o: "De systeembus",
@@ -89,6 +95,8 @@ const kaarten_IT_deel2_les4 = [
   { v: "Waarom kan je in de praktijk minder geheugen gebruiken dan de adresbus toelaat?", a: "Omdat de chipset, het moederbord en het besturingssysteem ook een maximum hebben.", o: "Systeembus: de adresbus" },
   { v: "Hoeveel geheugen is aanspreekbaar in vakjes 1 tot 6?", a: "1 = 1 MiB (2^20)\n2 = 16 MiB (2^24)\n3 = 4 GiB (2^32)\n4 = 64 GiB (2^36)\n5 = 1 TiB (2^40)\n6 = 4 PiB (2^52)", o: "Systeembus: de adresbus", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s06_adrestabel_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s06_adrestabel.jpg",
     uitleg: "Rekentruc: 2^10 = Ki, 2^20 = Mi, 2^30 = Gi, 2^40 = Ti, 2^50 = Pi. Bv. 2^36 = 2^6 × 2^30 = 64 GiB." },
+  { v: "Wat is PAE?", a: "Physical Address Extension: een techniek waarmee een 32-bitprocessor 36 adreslijnen gebruikt, zodat hij 64 GiB geheugen kan aanspreken in plaats van 4 GiB.", o: "Systeembus: de adresbus",
+    uitleg: "Met n adreslijnen kan je 2 tot de n-de adressen aanspreken.\n- 32 adreslijnen: 2^32 = 4 GiB. Dat was de grens van een gewone 32-bitprocessor.\n- 36 adreslijnen: 2^36 = 64 GiB.\n\nPAE voegt 4 adreslijnen toe. Zo kon een 32-bitsysteem toch meer dan 4 GiB werkgeheugen gebruiken. Een 64-bitprocessor heeft dat niet meer nodig." },
 
   // ===== Rekenvoorbeeld adresbus (slide 7) =====
   { v: "Reken uit hoeveel geheugen een adresbus van 32 lijnen kan aanspreken.", a: "Elke lijn is 0 of 1, dus 2^32 combinaties. 2^32 = 2^2 × 2^30 = 4 Gi adressen. Elk adres is 1 byte: 4 GiB aanspreekbaar.", o: "Rekenvoorbeeld adresbus",
@@ -198,6 +206,9 @@ const kaarten_IT_deel2_les4 = [
   { v: "Welke bussen werden door PCI Express vervangen?", a: "PCI en PCI-X.", o: "Uitbreidingsbussen" },
   { v: "Wat betekent GT/s?", a: "Gigatransfers per seconde: miljard overdrachten per seconde.", o: "Uitbreidingsbussen" },
   { v: "Welke bus was zeer lang de standaard vóór PCIe?", a: "PCI.", o: "Uitbreidingsbussen" },
+  { v: "Geef de uitbreidingsbussen uit de tabel van de cursus, met jaar, type, breedte en klok.", a: "", o: "Uitbreidingsbussen",
+    tabel: [["Jaar", "Bus", "Type", "Breedte", "Klok"], ["1981", "PC-bus", "parallel", "8 bits", "4,77 MHz (eerste IBM PC)"], ["1992", "VL-bus", "parallel", "32 bits", "33 tot 40 MHz (snelle bus voor grafische kaarten)"], ["1992", "PCI", "parallel", "32 bits", "33 MHz (zeer lang de standaard)"], ["1998", "PCI-X", "parallel", "64 bits", "66 tot 133 MHz (voor servers, nooit echt doorgebroken)"], ["2003", "PCI Express", "serieel", "1 tot 16 lanes", "2,5 GT/s per lane (de standaard van vandaag)"]],
+    uitleg: "De cursus zegt: ter informatie, de details moet je niet kennen.\n\nWat je wel moet onthouden:\n- alle oude bussen (PC-bus, VL-bus, PCI, PCI-X) waren parallel;\n- PCI Express (2003) is serieel en werkt met lanes;\n- PCI Express vervangt PCI en PCI-X en is de standaard van vandaag.\n\nBreedte = hoeveel bits tegelijk over de bus gaan (bij parallelle bussen). Klok = hoe vaak per seconde er data verstuurd wordt. GT/s = gigatransfers per seconde." },
 
   // ===== Parallel tegenover serieel (slide 15) =====
   { v: "Wat betekent parallelle communicatie?", a: "Bits worden over de verschillende kanalen tegelijkertijd verzonden.", o: "Parallel tegenover serieel",
@@ -406,6 +417,18 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Backplane = printplaat in de server waar de schijven in geschoven worden." },
   { v: "Welke opslaginterface hoort bij deze foto's en waar wordt ze vooral gebruikt?", a: "SAS (Serial Attached SCSI): een SAS-schijf en -kabel. Vooral in servers en storage-oplossingen.", o: "Opslaginterfaces: SAS", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s24_sas.jpg",
     uitleg: "Laatste versie SAS-4: tot 22,5 Gbit/s. SATA-schijven passen op SAS-backplanes, omgekeerd niet." },
+  { v: "Wat is SCSI?", a: "Een oudere, parallelle interface om opslagapparaten aan te sluiten, vooral in servers en professionele computers.", o: "Opslaginterfaces: SAS",
+    uitleg: "SCSI spreek je uit als 'skuzzie'. Het staat voor Small Computer System Interface.\n\nSAS (Serial Attached SCSI) is de seriële opvolger van SCSI. Net zoals PATA vervangen werd door SATA, werd het parallelle SCSI vervangen door het seriële SAS." },
+  { v: "Welke versies van SAS bestaan er?", a: "SAS-1, SAS-2, SAS-3 en SAS-4.", o: "Opslaginterfaces: SAS",
+    uitleg: "Elke nieuwe versie is sneller. SAS-4 haalt 22,5 Gbit/s.\n\nSAS wordt vooral in servers en storage-oplossingen gebruikt: daar moeten veel schijven tegelijk snel en betrouwbaar werken." },
+  { v: "Is SAS-4 sneller of trager dan SATA III?", a: "Sneller: 22,5 Gbit/s tegenover 6 Gbit/s.", o: "Opslaginterfaces: SAS",
+    uitleg: "SATA III is de snelste versie van SATA: 6 Gbit/s, in de praktijk ongeveer 550 MB/s.\n\nSAS-4 haalt 22,5 Gbit/s, bijna 4 keer zoveel. Daarom gebruikt men SAS in servers, waar veel schijven tegelijk veel data moeten verwerken." },
+  { v: "Wat is een storage-oplossing?", a: "Een systeem dat speciaal dient om veel data op te slaan, vaak met veel schijven samen.", o: "Opslaginterfaces: SAS",
+    uitleg: "Bv. een server met tientallen schijven, of een NAS (Network Attached Storage: een kastje met schijven dat je via het netwerk gebruikt).\n\nIn zulke systemen worden de schijven vaak via SAS aangesloten, en met RAID gecombineerd (hoofdstuk 5)." },
+  { v: "Wat is een backplane?", a: "Een printplaat in een server waar je de schijven rechtstreeks in kan steken, zonder losse kabels.", o: "Opslaginterfaces: SAS",
+    uitleg: "Een server heeft vooraan vaak een rij vakjes (bays) voor schijven. Achteraan die vakjes zit de backplane: een printplaat met aansluitingen. Je schuift een schijf in een vakje, en ze klikt meteen in de aansluiting.\n\nVoordeel: je kan schijven snel vervangen, zonder de server open te maken en kabels te verleggen." },
+  { v: "Past een SATA-schijf op een SAS-backplane? En een SAS-schijf op een SATA-aansluiting?", a: "SATA-schijf op SAS: ja.\nSAS-schijf op SATA: nee.", o: "Opslaginterfaces: SAS",
+    uitleg: "SAS is compatibel met SATA, maar alleen in één richting.\n- Een SAS-controller kan ook met SATA-schijven praten. Daarom kan je in een server met SAS ook goedkopere SATA-schijven steken.\n- Een SATA-controller begrijpt SAS niet. De stekker van een SAS-schijf is zo gemaakt dat hij niet in een SATA-aansluiting past." },
 
   // ===== Opslaginterfaces: M.2 (slide 25) =====
   { v: "Wat is M.2?", a: "Een klein insteekkaartje, rechtstreeks op het moederbord, zonder kabels.", o: "Opslaginterfaces: M.2",
@@ -418,6 +441,8 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Een M.2-slot heeft een 'key' (inkeping): Key M voor SSD's, Key E voor wifi/bluetooth (zie het AMD-schema: 'Key E slot')." },
   { v: "Welke opslaginterface zie je op deze foto (plat op het moederbord)?", a: "Een M.2-SSD: een klein insteekkaartje rechtstreeks op het moederbord, zonder kabels.", o: "Opslaginterfaces: M.2", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s25_m2.jpg",
     uitleg: "M.2 is een form factor, geen snelheid: de kaart werkt via SATA of PCI Express. Huidige SSD's: PCIe 4.0 of 5.0 met 4 lanes." },
+  { v: "Wat wordt meestal in een M.2-slot gestoken, en geef een ander voorbeeld van een M.2-kaartje.", a: "Meestal een SSD. Een ander voorbeeld: een wifi-module.", o: "Opslaginterfaces: M.2",
+    uitleg: "M.2 is een form factor: een vorm van een klein kaartje dat je rechtstreeks in een slot op het moederbord steekt, zonder kabels.\n\nOmdat M.2 enkel de vorm vastlegt, kan je er verschillende soorten kaartjes in steken: SSD's, maar ook wifi- en bluetoothmodules. De sleutel (de inkeping in het kaartje) bepaalt in welk slot een kaartje past." },
 
   // ===== Opslaginterfaces: U.2 (slide 26) =====
   { v: "Wat is U.2?", a: "Een aansluiting voor SSD's; de SSD zit terug in een behuizing.", o: "Opslaginterfaces: U.2",
@@ -428,6 +453,10 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "De adapter zet een M.2-slot om naar een U.2-kabelaansluiting, zodat ook een gewoon moederbord een U.2-SSD kan gebruiken." },
   { v: "Wat zie je op deze foto's?", a: "Een M.2-adapter met een U.2-kabel: zo sluit je een U.2-SSD aan.", o: "Opslaginterfaces: U.2", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s26_u2.jpg",
     uitleg: "U.2: de SSD zit terug in een behuizing (meer ruimte voor chips, hogere capaciteit), maar kabels zijn vereist, vaak via een M.2-adapter." },
+  { v: "Wat is het verschil tussen een U.2-SSD en een M.2-SSD qua uiterlijk?", a: "Een U.2-SSD zit in een behuizing van 2,5 inch en wordt met een kabel aangesloten. Een M.2-SSD is een bloot kaartje dat rechtstreeks op het moederbord zit.", o: "Opslaginterfaces: U.2",
+    uitleg: "Omdat een U.2-SSD groter is, is er meer ruimte voor geheugenchips. Daardoor kan de maximale capaciteit hoger zijn.\n\nDe behuizing van een U.2-SSD voert ook de warmte af (passieve koeling). U.2 vind je vooral in werkstations en servers." },
+  { v: "Wat is een M.2-adapter voor U.2, en waarom gebruik je die vaak?", a: "Een M.2-kaartje dat je in een M.2-slot steekt, met daarop een aansluiting voor de U.2-kabel. Je gebruikt het omdat veel moederborden geen aparte U.2-aansluiting hebben.", o: "Opslaginterfaces: U.2",
+    uitleg: "U.2 en M.2 (met NVMe) gebruiken allebei PCIe-lanes. De adapter neemt de PCIe-lanes van het M.2-slot en geeft ze door via de U.2-kabel naar de SSD.\n\nZo kan je een U.2-SSD ook gebruiken op een gewoon moederbord van een desktop." },
 
   // ===== Opslaginterfaces vergeleken (slide 27) =====
   { v: "Vergelijk PATA, SATA III, SAS-4, M.2 en U.2 (interface, snelheid, waar je het vindt).", a: "PATA (IDE): parallel, brede lintkabel; tot 133 MB/s; oude pc's\nSATA III: serieel, kabel; 6 Gbit/s, ongeveer 550 MB/s; harde schijven, goedkopere SSD's\nSAS-4: serieel, kabel; 22,5 Gbit/s; servers en storage\nM.2: kaartje op het moederbord, SATA of PCIe x4; tot ongeveer 15,8 GB/s (PCIe 5.0 x4); SSD in desktop en laptop\nU.2: kabel, PCIe x4; zoals PCIe x4; SSD in servers", o: "Opslaginterfaces vergeleken",
@@ -442,6 +471,8 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Bijna elk besturingssysteem ondersteunt AHCI." },
   { v: "Waar staat NVMe voor en waarvoor is het gemaakt?", a: "Non-Volatile Memory (Host Controller Interface) Express. Gemaakt voor PCI Express (rechtstreeks of via M.2, U.2), speciaal gemaakt voor SSD's.", o: "Protocollen: AHCI en NVMe",
     uitleg: "Express verwijst naar PCI Express. NVMe is dus de taal, PCIe de weg en M.2 of U.2 de stekker." },
+  { v: "Wat betekent non-volatile, zoals in NVMe?", a: "Niet-vluchtig: de data blijft bewaard, ook zonder stroom.", o: "Protocollen: AHCI en NVMe",
+    uitleg: "NVMe = Non-Volatile Memory Express. Non-volatile memory is geheugen dat zijn data niet verliest als de stroom uitvalt, zoals het flashgeheugen in een SSD.\n\nHet tegenovergestelde is volatile (vluchtig): het werkgeheugen (RAM) is alles kwijt als de stroom uitvalt." },
 
   // ===== AHCI tegenover NVMe (slide 29) =====
   { v: "Welke voordelen van SSD's benut NVMe maximaal?", a: "Lage latency en intern parallellisme.", o: "AHCI tegenover NVMe",
@@ -452,6 +483,12 @@ const kaarten_IT_deel2_les4 = [
     uitleg: "Een harde schijf heeft één arm met koppen: die kan maar één ding tegelijk." },
   { v: "Vul de NVMe-kolom aan (1 tot 6).", a: "1 = PCI Express (rechtstreeks, M.2, U.2)\n2 = flashgeheugen in SSD's\n3 = tot 65 535 queues\n4 = tot 65 536 commands per queue\n5 = lage latency\n6 = intern parallellisme", o: "AHCI tegenover NVMe", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s29_ahci_nvme_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s29_ahci_nvme.jpg",
     uitleg: "AHCI: gemaakt voor SATA, ontworpen rond de draaiende harde schijf, 1 queue met 32 commands, hogere latency, sterk punt: hoge compatibiliteit." },
+  { v: "Wat zijn een command en een queue bij AHCI en NVMe?", a: "Command: een opdracht aan de schijf, bv. data lezen of schrijven.\nQueue: een wachtrij waarin de commands klaarstaan.", o: "AHCI tegenover NVMe",
+    uitleg: "Het besturingssysteem stuurt commands naar de schijf. Die worden niet allemaal meteen uitgevoerd: ze wachten in een queue tot de schijf ze kan afhandelen.\n\n- AHCI: 1 queue met maximaal 32 commands.\n- NVMe: tot 65 535 queues met elk tot 65 536 commands.\n\nHoe meer queues en commands, hoe meer opdrachten tegelijk klaar kunnen staan voor de schijf." },
+  { v: "Waarom volstaat één queue voor een harde schijf, en waarom is AHCI niet ideaal voor een snelle SSD?", a: "Een harde schijf heeft één leeskop en kan maar met één ding tegelijk bezig zijn: 1 queue is genoeg.\nEen SSD kan veel meer opdrachten tegelijk uitvoeren. Met 1 queue van 32 commands wordt AHCI dan een flessenhals.", o: "AHCI tegenover NVMe",
+    uitleg: "AHCI werd gemaakt voor harde schijven. De kop moet zich telkens verplaatsen naar de juiste plaats, dus de schijf werkt de opdrachten één voor één af.\n\nEen SSD heeft geen kop: ze heeft veel geheugenchips die tegelijk kunnen werken (intern parallellisme). Om dat te benutten, heb je veel queues nodig: dat biedt NVMe." },
+  { v: "Wat is latency, en wat is intern parallellisme bij een SSD?", a: "Latency: de wachttijd, hoe lang het duurt voordat een opdracht uitgevoerd wordt.\nIntern parallellisme: een SSD kan veel opdrachten tegelijk uitvoeren op haar verschillende geheugenchips.", o: "AHCI tegenover NVMe",
+    uitleg: "Lage latency = korte wachttijd: de schijf reageert snel.\n\nNVMe heeft een lagere latency dan AHCI, omdat het rechtstreeks via PCIe met de processor praat en minder tussenstappen heeft.\n\nIntern parallellisme: een SSD bestaat uit meerdere flashchips. Elke chip kan tegelijk met een andere opdracht bezig zijn. NVMe benut dat met zijn vele queues." },
 
   // ===== Snelheden op een rij (slide 30) =====
   { v: "Hoe is de grafiek 'Snelheden op een rij' opgebouwd?", a: "Maximale bit rate in bit/s op een logaritmische schaal: elke rasterlijn is 10 keer sneller.", o: "Snelheden op een rij", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s30_snelheden_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s30_snelheden.jpg",
@@ -611,6 +648,8 @@ const kaarten_IT_deel2_les4 = [
   { v: "Wat toont dit schema?", a: "Het pinout-schema van de verschillende voedingsconnectors (ATX 20/24-pin, 4/8-pin, PCIe 6/8-pin, Molex, SATA …) met hun spanningen.", o: "ATX-voedingen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s39_pinout.jpg",
     uitleg: "Ter informatie: je moet de pinout niet kennen, wel welke connector waarvoor dient." },
   { v: "Welke voedingsconnectors zijn 1 tot 6?", a: "1 = 24-pin (20+4) moederbordconnector\n2 = PCIe 6-8 pins (grafische kaart)\n3 = CPU 4+4 pins (EPS)\n4 = Molex (oudere toestellen)\n5 = SATA (schijven)\n6 = 16 pins 12VHPWR / 12V-2x6 (krachtige grafische kaarten, tot 600 W)", o: "ATX-voedingen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s40_connectors_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les4_chipsets/l4_s40_connectors.jpg" },
+  { v: "Wat doet een voeding precies?", a: "Ze zet de wisselstroom van het stopcontact (230 V) om naar lage gelijkspanningen (12 V, 5 V en 3,3 V) voor de onderdelen van de computer.", o: "ATX-voedingen",
+    uitleg: "Wisselstroom (AC) = stroom die voortdurend van richting wisselt, zoals uit het stopcontact. Gelijkstroom (DC) = stroom in één richting, zoals uit een batterij.\n\nDe onderdelen van een computer werken op lage gelijkspanning:\n- 12 V: vooral de processor, de grafische kaart en de motors van harde schijven;\n- 5 V en 3,3 V: o.a. chips, usb en SSD's.\n\nDe voeding is met kabels verbonden met het moederbord en de andere onderdelen." },
 
   // ===== Een moederbord lezen (slide 41) =====
   { v: "Welke 10 onderdelen moet je op een moederbord kunnen aanwijzen (slide 41)?", a: "1. CPU-socket\n2. RAM-slots\n3. PCIe x16-slot\n4. PCIe x1-slot\n5. M.2-slot\n6. Chipset (onder de heatsink)\n7. CMOS-batterij\n8. SATA-poorten\n9. Voeding moederbord (24-pin)\n10. Voeding CPU (8-pin)", o: "Een moederbord lezen", img: "afbeeldingen/ITdeel2les4_chipsets/l4_s41_moederbord.jpg",
