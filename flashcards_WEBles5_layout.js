@@ -40,6 +40,8 @@ const kaarten_WEB_les5 = [
   { v: "Flexbox (1D) en CSS Grid (2D)", a: "Voor layouts in rijen én kolommen tegelijk (2D) bestaat CSS Grid. Flexbox is voor één richting tegelijk.", o: "2. Flexbox: eendimensionale layouts (1D)", extra: true },
 
   // ===== 2.1 Didactische roadmap =====
+  { v: "Welke 3 sterke punten van flexbox noemen de slides?", a: "1. Layout in één dimensie: ofwel horizontaal (row), ofwel verticaal (column).\n2. Veel controle over de uitlijning van de inhoud, zowel horizontaal als verticaal.\n3. De volgorde van de inhoud is eenvoudig te wijzigen.", o: "2. Flexbox: eendimensionale layouts (1D)",
+    uitleg: "Eén dimensie = de items staan op één lijn: een rij of een kolom. Voor een rooster met rijen én kolommen tegelijk is er CSS Grid.\n\nUitlijning doe je met justify-content (hoofdas) en align-items (kruisas). De volgorde wijzig je met order, zonder de HTML aan te passen." },
   { v: "Geef de 6 stappen van de didactische roadmap om met flexbox te bouwen.", a: "1. Activeer flexbox op de ouder.\n2. Bepaal de richting (hoofdas).\n3. Lijn uit op de hoofdas.\n4. Lijn uit op de kruisas.\n5. Laat items plooien/wrappen.\n6. Stuur individuele kinderen bij.", o: "2.1 Didactische roadmap" },
   { v: "Welke CSS hoort bij elke stap van de flexbox-roadmap?", a: ".container { display: flex; }\nflex-direction: row | column;\njustify-content: space-between;\nalign-items: center;\nflex-wrap: wrap;\n.item { flex: 1; }", o: "2.1 Didactische roadmap" },
   { v: "Roadmap stap 1: op welk element zet je display: flex, de ouder of de kinderen?", a: "Op de ouder (de container).\n\n.container {\n  display: flex;\n}", o: "2.1 Didactische roadmap" },
@@ -55,6 +57,8 @@ const kaarten_WEB_les5 = [
   { v: "De assen draaien mee met flex-direction", a: "Bij flex-direction: column wordt de hoofdas verticaal en de kruisas horizontaal. justify-content lijnt dan verticaal uit en align-items horizontaal.\n\n.kolom {\n  display: flex;\n  flex-direction: column;\n}", o: "2.2 Het as-systeem", extra: true },
 
   // ===== 2.3 Overzicht parent vs. child properties =====
+  { v: "<div class=\"container\">   (display: flex)\n  <div class=\"a\">\n    <p>tekst</p>\n  </div>\n  <div class=\"b\"></div>\n</div>\n\nWelke elementen zijn flex items? Is de p een flex item?", a: "De divs a en b zijn flex items. De p is geen flex item.", o: "2.2 Het as-systeem",
+    uitleg: "Alleen de directe kinderen van de flex container worden flex items. De p is een kleinkind: hij zit in een flex item en volgt de gewone stroom.\n\nWil je dat de p ook een flex item wordt, dan geef je div a zelf display: flex. Div a is dan tegelijk een flex item (van .container) en een flex container (voor de p): een geneste flex container (nested flex container)." },
   { v: "Noem de 7 parent/container-properties van flexbox.", a: "flex-direction, flex-wrap, flex-flow, justify-content, align-items, align-content en gap (row-gap / column-gap).", o: "2.3 Overzicht parent vs. child properties" },
   { v: "Noem de 6 child/item-properties van flexbox.", a: "flex-grow, flex-shrink, flex-basis, flex, align-self en order.", o: "2.3 Overzicht parent vs. child properties" },
   { v: "Welke elementen zijn de flex items?", a: "De direct onderliggende kinderen van de flex container.", o: "2.3 Overzicht parent vs. child properties" },
@@ -72,6 +76,12 @@ const kaarten_WEB_les5 = [
   { v: "Meer over order", a: "order is een getal (standaard 0). Een item met een lager getal komt eerder, zonder dat je de HTML verandert.", o: "2.3 Overzicht parent vs. child properties", extra: true },
 
   // ===== 2.4 display & flex-direction =====
+  { v: "Wat is de standaardwaarde van flex-flow?", a: "row nowrap", o: "2.3 Overzicht parent vs. child properties",
+    uitleg: "flex-flow is de shorthand voor flex-direction en flex-wrap. Samen bepalen ze de hoofdas en de kruisas van de container.\n\nrow nowrap = flex-direction: row (naast elkaar) en flex-wrap: nowrap (alles op één regel): de standaard van beide." },
+  { v: "Geef de waarden van align-content.", a: "flex-start, flex-end, center, stretch, space-between en space-around.", o: "2.3 Overzicht parent vs. child properties",
+    uitleg: "align-content verdeelt de rijen in de container op de kruisas. Het werkt pas als er meerdere rijen zijn, dus met flex-wrap: wrap.\n\nDe waarden lijken op die van justify-content, maar justify-content verdeelt de items op één rij langs de hoofdas." },
+  { v: "Mag order negatief zijn? En wat gebeurt er als twee items hetzelfde order-getal hebben?", a: "Ja, bv. order: -1: dat item komt vóór de items met order 0.\nZelfde getal: die items blijven in de volgorde van de HTML.", o: "2.3 Overzicht parent vs. child properties",
+    uitleg: "Standaard heeft elk item order: 0. De browser zet de items van het laagste naar het hoogste getal. In de slide krijgt een item order: -1 en staat het dus vooraan; een item met order: 99 staat achteraan.\n\n.item {\n  order: 5;   /* standaard 0 */\n}" },
   { v: "Wat doet display: flex (of display: inline-flex)?", a: "Het transformeert het element naar een flex container. Alle directe kinderen worden automatisch flex items.", o: "2.4 display & flex-direction" },
   { v: "Wat bepaalt flex-direction?", a: "De richting van de hoofdas.", o: "2.4 display & flex-direction" },
   { v: "Wat is de standaardwaarde van flex-direction?", a: "row: horizontaal van links naar rechts.", o: "2.4 display & flex-direction" },
@@ -113,6 +123,10 @@ const kaarten_WEB_les5 = [
   { v: "Waarom gebruik je gap in plaats van margin tussen flex items?", a: "gap maakt een schone tussenruimte tussen de items, zonder gedoe met margin.", o: "2.4 flex-wrap & gap" },
 
   // ===== 2.5 flex-grow, flex-shrink & flex-basis =====
+  { v: "Wat betekent gap: 10px 20px?", a: "row-gap: 10px (tussen de rijen) en column-gap: 20px (tussen de kolommen).", o: "2.4 flex-wrap & gap",
+    uitleg: "Met 2 waarden is de eerste de ruimte tussen de rijen (row-gap) en de tweede de ruimte tussen de kolommen (column-gap). Met 1 waarde, bv. gap: 10px, zijn beide even groot.\n\n.container {\n  display: flex;\n  gap: 10px 20px;\n}" },
+  { v: "Waarom is gap eigenlijk een minimum tussenruimte?", a: "Met bv. justify-content: space-between kan de werkelijke ruimte tussen de items groter zijn dan de gap.", o: "2.4 flex-wrap & gap",
+    uitleg: "space-between verdeelt alle vrije ruimte tussen de items. Is die vrije ruimte groter dan de gap, dan staan de items verder uit elkaar. De gap zorgt enkel dat ze nooit dichter bij elkaar komen dan die waarde." },
   { v: "Wanneer bepalen de child-properties hoe flex items zich aanpassen?", a: "Wanneer de flex container vrije ruimte overheeft, of ruimte tekortkomt.", o: "2.5 flex-grow, flex-shrink & flex-basis" },
   { v: "Wat is flex-grow?", a: "De groeifactor: een getal zonder eenheid dat aangeeft hoeveel van de overgebleven vrije ruimte het item mag opsnoepen ten opzichte van de andere items.", o: "2.5 flex-grow, flex-shrink & flex-basis" },
   { v: "Wat betekent flex-grow: 0, 1 en 2? Welke is de standaard?", a: "0 (standaard): het item groeit niet.\n1: het item groeit en pakt een evenredig deel van de vrije ruimte.\n2: het item pakt 2x zoveel vrije ruimte als een item met flex-grow: 1.", o: "2.5 flex-grow, flex-shrink & flex-basis" },
@@ -126,6 +140,8 @@ const kaarten_WEB_les5 = [
     uitleg: "Kan ingesteld worden in px, %, em, rem of auto (standaard)." },
 
   // ===== 2.5 De flex-shorthand =====
+  { v: "Wat zijn de standaardwaarden van flex-grow, flex-shrink, flex-basis en order?", a: "", o: "2.5 flex-grow, flex-shrink & flex-basis", tabel: [["Eigenschap", "Standaard", "Betekenis van de standaard"], ["flex-grow", "0", "het item groeit niet"], ["flex-shrink", "1", "het item mag krimpen"], ["flex-basis", "auto", "de grootte komt van de inhoud (of van width)"], ["order", "0", "de volgorde van de HTML"]],
+    uitleg: "Daarom is flex: 0 1 auto (flex: initial) het standaardgedrag van een flex item.\n\nIn de slides: flex-grow: 4; /* default 0 */, flex-shrink: 3; /* default 1 */, flex-basis: auto; /* default auto */ en order: 5; /* default is 0 */." },
   { v: "Wat is de syntax van de flex-shorthand?", a: "flex: <flex-grow> <flex-shrink> <flex-basis>", o: "2.5 De flex-shorthand" },
   { v: "Is de flex-shorthand of zijn de losse eigenschappen aanbevolen?", a: "De flex-shorthand.", o: "2.5 De flex-shorthand",
     uitleg: "De cursus raadt de shorthand aan in plaats van de drie losse eigenschappen. Er zijn 4 veelgebruikte patronen." },
@@ -139,12 +155,16 @@ const kaarten_WEB_les5 = [
   { v: "Wat is het verschil tussen flex: 1 en flex: auto?", a: "flex: 1 (1 1 0%): de kolommen worden exact even groot.\nflex: auto (1 1 auto): de breedte hangt af van de inhoud.", o: "2.5 De flex-shorthand" },
 
   // ===== 2.5 align-self =====
+  { v: "Welke delen van de flex-shorthand zijn optioneel?", a: "Het 2de en het 3de deel: flex-shrink en flex-basis.", o: "2.5 De flex-shorthand",
+    uitleg: "flex: <flex-grow> <flex-shrink> <flex-basis>\n\nGeef je maar één getal, bv. flex: 1, dan is dat flex-grow en vult de browser de rest zelf in. De standaard is flex: 0 1 auto.\n\nDe slides raden aan de shorthand te gebruiken in plaats van de losse eigenschappen." },
   { v: "Wat doet align-self?", a: "Het overschrijft de align-items-waarde van de parent voor één specifiek kind.", o: "2.5 align-self" },
   { v: "Laat de kaart met de classes card-item en special naar de bodem zakken.", a: ".card-item.special {\n  align-self: flex-end;\n}", o: "2.5 align-self",
     uitleg: ".card-item.special (zonder spatie) selecteert een element dat beide classes heeft. Alle andere kaarten volgen nog steeds align-items van de ouder." },
   { v: "align-self werkt op de … as.", a: "kruisas (cross axis)", o: "2.5 align-self" },
 
   // ===== 2.6 Flexbox patterns =====
+  { v: "Geef de waarden van align-self.", a: "auto, flex-start, flex-end, center, baseline en stretch.", o: "2.5 align-self",
+    uitleg: "auto = het item volgt de align-items van de container. De andere waarden zijn dezelfde als bij align-items, maar gelden voor één item.\n\n.item {\n  align-self: flex-end;\n}" },
   { v: "Geef de 3 flexbox-patterns uit de cursus.", a: "A: het perfect centrerend blok (dead center).\nB: de footer steeds mooi onderaan (app layout).\nC: het media object (icoon/foto + tekst).", o: "2.6 Flexbox patterns" },
   { v: "Hoe centreer je een blok perfect, horizontaal én verticaal (pattern A)?", a: ".hero-banner {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  min-height: 400px;\n}", o: "2.6 Flexbox patterns" },
   { v: "Waarom staat er min-height: 400px in pattern A (dead center)?", a: "Zodat de container hoger is dan zijn inhoud; anders is er geen ruimte om verticaal te centreren.", o: "2.6 Flexbox patterns",
@@ -255,4 +275,13 @@ kaarten_WEB_les5.structuur = [
   { kop: "Module 4: Video's & kernoverzicht", slide: "M4" },
   { o: "4.1 Aanbevolen video's", slide: "4.1", sub: true },
   { o: "4.2 Quick reference", slide: "4.2", sub: true },
+  { kop: "Oefeningen les 5", slide: "Oef." },
+  { o: "Oef. 1 Chatlink, navigatie & sticky", slide: "Pos. 1", sub: true },
+  { o: "Oef. 2 Tooltip", slide: "Pos. 2", sub: true },
+  { o: "Oef. 3 Afbeelding met overlay", slide: "Pos. 3", sub: true },
+  { o: "Flexbox Froggy", slide: "Test", sub: true },
+  { o: "Oef. 1 Navigatie (flexbox)", slide: "Flex 1", sub: true },
+  { o: "Oef. 2 Movie Gallery", slide: "Flex 2", sub: true },
+  { o: "Oef. 3 Inschrijvingsformulier", slide: "Flex 3", sub: true },
+  { o: "Oef. 4 Paginatie", slide: "Flex 4", sub: true },
 ];
