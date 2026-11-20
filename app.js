@@ -1838,11 +1838,33 @@ function toonDraak() {
   const laag = document.createElement("div");
   laag.id = "draakje";
   laag.innerHTML = `<div class="dr-vlieger"><div class="dr-zig">${DRAAK_SVG}</div></div>`;
+  // vertrekt altijd aan de onderkant van de kaart (rechts op de kaart), ook als de kaart niet in beeld is, spuwt vuur
+  // op ongeveer 70% van de kaarthoogte en vliegt daarna verder tot boven het scherm (Anicée).
+  // Snelheid zoals vroeger (schermhoogte + 180 px in 6,3 s, waarvan ruim 1 s stil voor het vuur): kortere weg = korter.
+  const vl = laag.querySelector(".dr-vlieger");
+  let duur = 6286, vuurAan = duur * 0.56, vuurUit = duur * 0.72;
+  const k = document.getElementById("kaart"), r = k && k.getBoundingClientRect();
+  if (r && r.height) {
+    const H = window.innerHeight, vuurY = r.bottom - r.height * 0.70;
+    const y0 = r.bottom - 40, y1 = vuurY - 30, y2 = vuurY - 75, y3 = -180;
+    const snel = (H + 180 - 45) / (6286 * 0.83);          // px per ms, zoals vroeger buiten het vuurmoment
+    const stil = 6286 * 0.17;                             // de tijd bij het vuur, zoals vroeger
+    const t1 = Math.max(400, (y0 - y1) / snel), t3 = Math.max(400, (y2 - y3) / snel);
+    duur = Math.round(t1 + stil + t3); vuurAan = t1; vuurUit = t1 + stil;
+    vl.style.right = Math.max(16, window.innerWidth - r.right + 16) + "px";
+    vl.style.animation = "none"; vl.style.opacity = "1";
+    vl.animate([
+      { transform: `translateY(${y0}px)`, opacity: 0, offset: 0 },
+      { opacity: 1, offset: Math.min(0.06, 200 / duur) },
+      { transform: `translateY(${y1}px)`, offset: t1 / duur },
+      { transform: `translateY(${y2}px)`, offset: (t1 + stil) / duur },
+      { opacity: 1, offset: 0.95 },
+      { transform: `translateY(${y3}px)`, opacity: 0, offset: 1 }
+    ], { duration: duur, easing: "linear", fill: "forwards" });
+  }
   document.body.appendChild(laag);
-  const duur = 6286;                     // 4,4 s op snelheid 0,7
-  // op ¾ hoogte vuur spuwen (zelfde moment als in de mockup)
-  setTimeout(() => laag.classList.add("vuur"), duur * 0.56);
-  setTimeout(() => laag.classList.remove("vuur"), duur * 0.72);
+  setTimeout(() => laag.classList.add("vuur"), vuurAan);
+  setTimeout(() => laag.classList.remove("vuur"), vuurUit);
   setTimeout(() => laag.remove(), duur + 300);
 }
 
