@@ -430,9 +430,19 @@ function kiesVak(vak) {
 function wisGelezen(knop) {
   const hfst = aangevinkteHoofdstukken();
   if (!hfst.length) { melding("Vink eerst de hoofdstukken aan die je opnieuw wil lezen."); return; }
-  if (!knop.classList.contains("zeker")) {            // 1ste tik: bevestiging vragen
-    knop.classList.add("zeker"); knop.textContent = "Zeker?";
-    clearTimeout(knop._terug); knop._terug = setTimeout(() => wisKnopTerug(knop), 4000);
+  if (knop.classList.contains("wacht")) return;        // tijdens het aftellen telt een tik niet
+  if (!knop.classList.contains("zeker")) {            // 1ste tik: 2 seconden aftellen, dan pas bevestigen
+    knop.classList.add("wacht");
+    let n = 2; knop.textContent = `Zeker? (${n})`;
+    clearInterval(knop._tel); clearTimeout(knop._terug);
+    knop._tel = setInterval(() => {
+      n--;
+      if (n > 0) { knop.textContent = `Zeker? (${n})`; return; }
+      clearInterval(knop._tel);
+      knop.classList.remove("wacht"); knop.classList.add("zeker");
+      knop.textContent = "Ja, wis gelezen / ongelezen";
+      knop._terug = setTimeout(() => wisKnopTerug(knop), 5000);
+    }, 1000);
     return;
   }
   const nu = Date.now();                                // 2de tik: wissen
@@ -450,12 +460,68 @@ function wisGelezen(knop) {
   telLeitner();
 }
 function wisKnopTerug(knop) {
-  clearTimeout(knop._terug);
-  knop.classList.remove("zeker"); knop.textContent = "Gelezen / ongelezen wissen";
+  clearTimeout(knop._terug); clearInterval(knop._tel);
+  knop.classList.remove("zeker", "wacht"); knop.textContent = "Gelezen / ongelezen wissen";
 }
 document.addEventListener("click", e => {             // ergens anders tikken: niets wissen
   const k = document.getElementById("gelezenWissen");
-  if (k && k.classList.contains("zeker") && !k.contains(e.target)) wisKnopTerug(k);
+  if (k && (k.classList.contains("zeker") || k.classList.contains("wacht")) && !k.contains(e.target)) wisKnopTerug(k);
+});
+
+/* Rest van één hoofdstuk naar de Leitnerbak: nog niet gelezen, fout of moeilijk (en nog niet in de Leitnerbak).
+   Juiste en weggegooide kaarten niet. Bevestigen: 1ste tik, 2 s wachten (aftellen), dan pas telt de 2de tik. */
+const REST_TEKST = "Rest van het hoofdstuk naar de Leitnerbak";
+function restKaarten() {
+  const hfst = aangevinkteHoofdstukken();
+  if (hfst.length !== 1 || !huidigVak) return null;
+  const h = hfst[0], ids = [];
+  for (const k of vakken[huidigVak][h] || []) {
+    const id = kaartId(huidigVak, h, k), s = stats[id];
+    if (verborgen.has(id) || leitner[id]) continue;
+    if (!isGelezen(id, h) || (s && (s.laatst === false || s.moeilijk === true))) ids.push(id);
+  }
+  return ids;
+}
+function zetRestKnop() {
+  const knop = document.getElementById("restNaarLb");
+  if (!knop || knop.classList.contains("wacht") || knop.classList.contains("zeker")) return;
+  const ids = restKaarten();
+  knop.classList.toggle("uit", ids === null || ids.length === 0);
+  knop.textContent = REST_TEKST + (ids && ids.length ? ` (${ids.length})` : "");
+}
+function restNaarLeitner(knop) {
+  const ids = restKaarten();
+  if (ids === null) { melding("Vink precies één hoofdstuk aan om de rest ervan naar de Leitnerbak te zetten."); return; }
+  if (!ids.length) { melding("Er zijn geen kaarten meer om naar de Leitnerbak te zetten in dit hoofdstuk."); return; }
+  if (knop.classList.contains("wacht")) return;             // tijdens het aftellen telt een tik niet
+  if (!knop.classList.contains("zeker")) {                  // 1ste tik: 2 seconden aftellen
+    knop.classList.add("wacht");
+    let n = 2; knop.textContent = `Zeker? (${n})`;
+    clearInterval(knop._tel); clearTimeout(knop._terug);
+    knop._tel = setInterval(() => {
+      n--;
+      if (n > 0) { knop.textContent = `Zeker? (${n})`; return; }
+      clearInterval(knop._tel);
+      knop.classList.remove("wacht"); knop.classList.add("zeker");
+      knop.textContent = `Ja, zet ${ids.length} ${ids.length === 1 ? "kaart" : "kaarten"} in de Leitnerbak`;
+      knop._terug = setTimeout(() => restKnopTerug(knop), 5000);
+    }, 1000);
+    return;
+  }
+  for (const id of ids) leitner[id] = { bak: 1, dag: null };   // 2de tik: in bak 1, meteen aan de beurt
+  bewaar("leitner", leitner);
+  restKnopTerug(knop);
+  telLeitner();
+  melding(`${ids.length} ${ids.length === 1 ? "kaart staat" : "kaarten staan"} nu in bak 1 van de Leitnerbak.`);
+}
+function restKnopTerug(knop) {
+  clearInterval(knop._tel); clearTimeout(knop._terug);
+  knop.classList.remove("wacht", "zeker");
+  zetRestKnop();
+}
+document.addEventListener("click", e => {             // ergens anders tikken: niets doen
+  const k = document.getElementById("restNaarLb");
+  if (k && (k.classList.contains("wacht") || k.classList.contains("zeker")) && !k.contains(e.target)) restKnopTerug(k);
 });
 
 function aangevinkteHoofdstukken() {
@@ -555,6 +621,7 @@ function telLeitner() {
   const el = document.getElementById("lbInfo");
   if (!huidigVak || !el) return;
   const hfst = aangevinkteHoofdstukken();
+  zetRestKnop();
   if (hfst.length === 0) { el.textContent = ""; return; }   // geen hoofdstuk aangevinkt: geen tekst naast de knop
   let nu = 0, totaal = 0;
   for (const h of hfst)
@@ -566,6 +633,7 @@ function telLeitner() {
       if (lbTeHerhalen(e)) nu++;
     }
   el.textContent = totaal === 0 ? "(leeg)" : `(vandaag ${nu} ${nu === 1 ? "kaart" : "kaarten"})`;
+  zetRestKnop();
 }
 // Leitnerbak aan: de andere keuzes worden grijs (ze tellen niet mee) en schudden / herhalen gaan uit.
 // Leitnerbak weer uit: alles terug zoals het stond.

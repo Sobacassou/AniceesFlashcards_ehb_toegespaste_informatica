@@ -988,3 +988,15 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 
 /* aantal verwachte punten bij een opsomming (IT Essentials) */
 #vraag .aantal { color: #9d9d9d; font-weight: 400; white-space: nowrap; }
+
+/* de 3 kleine knoppen onder de Leitnerbak: groter en verder uit elkaar (tablet) */
+#schermHoofdstuk button#terugzetten, #schermHoofdstuk button.klein-wis { font-size: 0.85rem; min-height: 44px; padding: 8px 14px; }
+#schermHoofdstuk .knop-rij:has(> #gelezenWissen) { margin-top: 14px; }
+/* "Rest van het hoofdstuk naar de Leitnerbak": nog verder weg, roze rand (kleur van de Leitnerbak) */
+#schermHoofdstuk .knop-rij:has(> #restNaarLb) { margin-top: 30px; }
+#schermHoofdstuk button#restNaarLb { color: #c586c0; border-color: #c586c0; }
+#schermHoofdstuk button#restNaarLb.uit { opacity: 0.45; }
+#schermHoofdstuk button#restNaarLb.wacht { color: #ce9178; border-color: #ce9178; }
+#schermHoofdstuk button#restNaarLb.zeker { color: #fff; background: var(--rood); border-color: var(--rood); }
+#schermHoofdstuk button#gelezenWissen.wacht { color: #ce9178; border-color: #ce9178; }
+#schermHoofdstuk button#gelezenWissen.zeker { color: #fff; background: var(--rood); border-color: var(--rood); }
