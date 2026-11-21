@@ -29,15 +29,12 @@ const kaarten_WEB_les5 = [
     uitleg: "Vroeger waren daar ingewikkelde hacks voor nodig; moderne CSS heeft met display: flow-root één schone oplossing." },
   { v: "Wat doet display: flow-root precies?", a: "Het maakt van de container een nieuwe Block Formatting Context die zijn gefloate kinderen netjes omsluit.\n\n.float-container {\n  display: flow-root;\n}", o: "1.2 clear & pitfalls van float" },
   { v: "Wat had men vroeger nodig om parent collapse op te lossen?", a: "Ingewikkelde hacks. Moderne CSS heeft één schone oplossing: display: flow-root.", o: "1.2 clear & pitfalls van float" },
-  { v: "Clearfix en Block Formatting Context", a: "De bekendste oude hack tegen parent collapse heet de 'clearfix'.\n\nEen Block Formatting Context (BFC) is een afgesloten blok dat zijn eigen floats volledig binnen zich houdt. Daarom omsluit een container met display: flow-root zijn gefloate kinderen.", o: "1.2 clear & pitfalls van float", extra: true,
-    uitleg: "De cursus noemt clear een 'attribuut'; eigenlijk is het een CSS-eigenschap." },
 
   // ===== 2. Flexbox: eendimensionale layouts (1D) =====
   { v: "Waarvoor staat flexbox?", a: "Flexible Box Layout.", o: "2. Flexbox: eendimensionale layouts (1D)" },
   { v: "Waarvoor is flexbox speciaal ontworpen?", a: "Voor het verdelen van ruimte en het uitlijnen van elementen in één dimensie: als een rij (horizontaal) óf als een kolom (verticaal).", o: "2. Flexbox: eendimensionale layouts (1D)" },
   { v: "Flexbox werkt in … dimensie: als een … óf als een ….", a: "één · rij (horizontaal) · kolom (verticaal).", o: "2. Flexbox: eendimensionale layouts (1D)",
     uitleg: "Eendimensionaal (1D) betekent: je werkt in één richting tegelijk, een rij óf een kolom." },
-  { v: "Flexbox (1D) en CSS Grid (2D)", a: "Voor layouts in rijen én kolommen tegelijk (2D) bestaat CSS Grid. Flexbox is voor één richting tegelijk.", o: "2. Flexbox: eendimensionale layouts (1D)", extra: true },
 
   // ===== 2.1 Didactische roadmap =====
   { v: "Welke 3 sterke punten van flexbox noemen de slides?", a: "1. Layout in één dimensie: ofwel horizontaal (row), ofwel verticaal (column).\n2. Veel controle over de uitlijning van de inhoud, zowel horizontaal als verticaal.\n3. De volgorde van de inhoud is eenvoudig te wijzigen.", o: "2. Flexbox: eendimensionale layouts (1D)",
@@ -54,7 +51,6 @@ const kaarten_WEB_les5 = [
   { v: "Wat is de hoofdas (main axis)? Wat is de standaardrichting?", a: "De primaire richting waarin items achter elkaar geplaatst worden. Standaard horizontaal, van links naar rechts.", o: "2.2 Het as-systeem" },
   { v: "Wat is de kruisas (cross axis)? Wat is de standaardrichting?", a: "De as die loodrecht op de hoofdas staat. Standaard verticaal, van boven naar beneden.", o: "2.2 Het as-systeem" },
   { v: "De kruisas staat … op de hoofdas.", a: "loodrecht", o: "2.2 Het as-systeem" },
-  { v: "De assen draaien mee met flex-direction", a: "Bij flex-direction: column wordt de hoofdas verticaal en de kruisas horizontaal. justify-content lijnt dan verticaal uit en align-items horizontaal.\n\n.kolom {\n  display: flex;\n  flex-direction: column;\n}", o: "2.2 Het as-systeem", extra: true },
 
   // ===== 2.3 Overzicht parent vs. child properties =====
   { v: "<div class=\"container\">   (display: flex)\n  <div class=\"a\">\n    <p>tekst</p>\n  </div>\n  <div class=\"b\"></div>\n</div>\n\nWelke elementen zijn flex items? Is de p een flex item?", a: "De divs a en b zijn flex items. De p is geen flex item.", o: "2.2 Het as-systeem",
@@ -71,9 +67,6 @@ const kaarten_WEB_les5 = [
   { v: "Wat doet flex-basis?", a: "Het bepaalt de basisgrootte van een item vóór de verdeling van de ruimte.", o: "2.3 Overzicht parent vs. child properties" },
   { v: "Is align-self een parent- of een child-property? Wat doet het?", a: "Een child-property: het overschrijft align-items voor 1 item.", o: "2.3 Overzicht parent vs. child properties" },
   { v: "flex is een shorthand voor welke 3 eigenschappen?", a: "flex-grow, flex-shrink en flex-basis (grow shrink basis).", o: "2.3 Overzicht parent vs. child properties" },
-  { v: "Meer over flex-flow", a: "flex-flow: row wrap; is hetzelfde als flex-direction: row; en flex-wrap: wrap; samen.", o: "2.3 Overzicht parent vs. child properties", extra: true },
-  { v: "Meer over align-content", a: "align-content heeft pas effect als de items over meerdere rijen staan (dus met flex-wrap: wrap).", o: "2.3 Overzicht parent vs. child properties", extra: true },
-  { v: "Meer over order", a: "order is een getal (standaard 0). Een item met een lager getal komt eerder, zonder dat je de HTML verandert.", o: "2.3 Overzicht parent vs. child properties", extra: true },
 
   // ===== 2.4 display & flex-direction =====
   { v: "Wat is de standaardwaarde van flex-flow?", a: "row nowrap", o: "2.3 Overzicht parent vs. child properties",
@@ -90,7 +83,6 @@ const kaarten_WEB_les5 = [
   { v: "Welke flex-direction zet de items horizontaal van rechts naar links?", a: "row-reverse\n\n.container {\n  flex-direction: row-reverse;\n}", o: "2.4 display & flex-direction" },
   { v: "Schrijf de CSS voor een horizontale .navigatie-balk met flexbox.", a: ".navigatie-balk {\n  display: flex;\n  flex-direction: row;\n}", o: "2.4 display & flex-direction", oefening: true,
     uitleg: "display: flex = maakt van .navigatie-balk een flex-container. flex-direction: row = de items naast elkaar (horizontaal); dit is de standaard." },
-  { v: "Verschil tussen display: flex en display: inline-flex", a: "display: flex: de container gedraagt zich als een block-element (volle breedte).\ndisplay: inline-flex: de container gedraagt zich als een inline-element (zo breed als zijn inhoud).\n\nBinnenin werkt flexbox bij allebei hetzelfde.", o: "2.4 display & flex-direction", extra: true },
 
   // ===== 2.4 justify-content =====
   { v: "Wat bepaalt justify-content?", a: "Hoe de overgebleven vrije ruimte op de hoofdas verdeeld wordt.", o: "2.4 justify-content" },
@@ -202,8 +194,6 @@ const kaarten_WEB_les5 = [
   { v: "Wat gebeurt er met de badge als je position: relative op .card vergeet?", a: "Dan zoekt de badge de volgende gepositioneerde ouder, of de <body>: hij belandt in de hoek van de pagina in plaats van in de kaart.", o: "3.1 absolute",
     uitleg: "Zo staat de badge 'Nieuw' 10px van de bovenrand en 10px van de rechterrand van de kaart. Vergeet je position: relative op .card, dan zoekt de badge verder naar boven en belandt hij in de hoek van de pagina." },
   { v: "Wat is het verschil tussen relative en absolute wat ruimte betreft?", a: "relative: de oorspronkelijke plek blijft gereserveerd.\nabsolute: het element neemt geen ruimte meer in.", o: "3.1 absolute" },
-  { v: "Wat is precies het startpunt van absolute zonder gepositioneerde ouder?", a: "Technisch positioneert een absolute element zonder gepositioneerde ouder zich ten opzichte van het beginblok van de pagina (de 'initial containing block'). De cursus vereenvoudigt dat tot <body>.", o: "3.1 absolute", extra: true,
-    uitleg: "Voor het examen hou je de cursusformulering aan: ten opzichte van de <body>." },
 
   // ===== 3.1 fixed & sticky =====
   { v: "Wat doet position: fixed?", a: "Het element wordt uit de documentstroom gehaald en vastgezet ten opzichte van de browser-viewport. Het blijft op exact dezelfde plek staan tijdens het scrollen.", o: "3.1 fixed & sticky",
@@ -228,7 +218,6 @@ const kaarten_WEB_les5 = [
   { v: "Je zet z-index: 100 op een element, maar het werkt niet. Wat ontbreekt er?", a: "Een position anders dan static: z-index werkt alleen op gepositioneerde elementen.\n\n.element {\n  position: relative;\n  z-index: 100;\n}", o: "3.2 z-index & stacking context" },
   { v: "Geef het tweede voorbeeld van z-index uit de cursus.", a: "Een winkelkar met het aantal artikels.", o: "3.2 z-index & stacking context",
     uitleg: "Een ander voorbeeld uit de cursus is een winkelkar met het aantal artikels: het bolletje met het aantal ligt boven het winkelkar-icoon." },
-  { v: "Waar staat de z in z-index voor? En wat is een stacking context?", a: "De z verwijst naar de derde as: de diepte, naar je toe uit het scherm (x = horizontaal, y = verticaal).\n\nEen element met een position en een z-index vormt een eigen 'stapel' (stacking context). z-index-waarden worden binnen die stapel met elkaar vergeleken.", o: "3.2 z-index & stacking context", extra: true },
 
   // ===== 4.1 Aanbevolen video's =====
   { v: "Welke 4 video's worden aangeraden voor les 5?", a: "CSS Positioning & Z-Index Uitgelegd, CSS Flexbox, CSS Flexbox Code Along en CSS Flexbox in 20 Minuten.", o: "4.1 Aanbevolen video's" },

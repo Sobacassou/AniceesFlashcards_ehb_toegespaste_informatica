@@ -17,7 +17,7 @@ const kaarten_IT_deel2_les8 = [
   // ===== Toetsenbord (slide 3) =====
   { v: "Wat is het belangrijkste invoerapparaat?", a: "Het toetsenbord.", o: "Toetsenbord",
     uitleg: "Een invoerapparaat is een toestel waarmee je iets in de computer ingeeft." },
-  { v: "Welke soorten toetsen heeft een toetsenbord?", a: "Alfabetische en numerieke tekens, controletoetsen en functietoetsen.", o: "Toetsenbord",
+  { v: "Welke soorten toetsen heeft een toetsenbord?", n: 4, a: "Alfabetische en numerieke tekens, controletoetsen en functietoetsen.", o: "Toetsenbord",
     uitleg: "Toetsenbord: geschiedenis: Verschillende soorten layouts" },
   { v: "Geef de 3 toetsenbordlayouts uit de cursus.", a: "Azerty, Qwerty en Dvorak.", o: "Toetsenbord" },
   { v: "Azerty, Qwerty en Dvorak", a: "Azerty gebruiken we in België en Frankrijk; Qwerty gebruiken de meeste andere landen.\n\nDvorak zet de letters die je het vaakst gebruikt op de middelste rij, zodat je sneller en met minder bewegingen kan typen. Weinig mensen gebruiken het.", o: "Toetsenbord", extra: true },
@@ -125,7 +125,7 @@ const kaarten_IT_deel2_les8 = [
   { v: "Welke resolutie hoort bij vak 1 tot 8?", a: "1. 4K (3840x2160) [16:9]\n2. 1600p (2560x1600) [16:10]\n3. 1440p (2560x1440) [16:9]\n4. 1200p (1920x1200) [16:10]\n5. 1080p (1920x1080) [16:9]\n6. 900p (1600x900) [16:9]\n7. 800p (1280x800) [16:10]\n8. 720p (1280x720) [16:9]", o: "Scherm: resoluties vergeleken", img: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s17_resoluties_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s17_resoluties.jpg" },
   { v: "Hoeveel pixels heeft 4K (3840x2160)?", a: "8 294 400 pixels (8,29 MP).", o: "Scherm: resoluties vergeleken" },
   { v: "Hoeveel pixels heeft 1080p (1920x1080)?", a: "2 073 600 pixels (2,07 MP).", o: "Scherm: resoluties vergeleken" },
-  { v: "Welke resoluties in het overzicht hebben de verhouding 16:10?", a: "1600p (2560x1600), 1200p (1920x1200) en 800p (1280x800).", o: "Scherm: resoluties vergeleken" },
+  { v: "Welke resoluties in het overzicht hebben de verhouding 16:10?", n: 3, a: "1600p (2560x1600), 1200p (1920x1200) en 800p (1280x800).", o: "Scherm: resoluties vergeleken" },
   { v: "Wat is de resolutie van 900p, 1600p en 800p?", a: "900p = 1600x900\n1600p = 2560x1600\n800p = 1280x800", o: "Scherm: resoluties vergeleken" },
   { v: "Hoe bereken je het aantal pixels van een resolutie?", a: "Breedte × hoogte.", o: "Scherm: resoluties vergeleken",
     uitleg: "Het aantal pixels = breedte × hoogte. Bv. 1920 × 1080 = 2 073 600 pixels ≈ 2,07 MP. MP = megapixel = 1 miljoen pixels.\n\nIn de afbeelding staat bij 800p '1.2MP'. Dat klopt niet: 1 024 000 pixels is 1,02 MP.", imgAntwoord: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s17_resoluties.jpg" },
@@ -159,7 +159,7 @@ const kaarten_IT_deel2_les8 = [
   // ===== Scanner (slide 20) =====
   { v: "Welke onderdelen van de scanner staan op plaats 1 tot 6?", a: "1. document to be scanned (het document)\n2. glass plate (glasplaat)\n3. movable light source (beweegbare lichtbron)\n4. fixed mirror (vaste spiegel)\n5. movable mirror (beweegbare spiegel)\n6. CCD capture device (sensor)", o: "Scanner", img: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s20_scanner_vraag.jpg", imgAntwoord: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s20_scanner.jpg",
     uitleg: "Zo werkt een flatbedscanner (een scanner met een glasplaat, zoals op een kopieertoestel):\n1. Je legt het document op de glasplaat (glass plate).\n2. Een beweegbare lichtbron (movable light source) schuift onder het glas en verlicht het document lijn per lijn.\n3. Het weerkaatste licht gaat via de beweegbare spiegel (movable mirror) naar de vaste spiegel (fixed mirror).\n4. De vaste spiegel stuurt het licht naar de CCD-sensor (CCD capture device). Die meet rood, groen en blauw licht en maakt er een digitaal beeld van." },
-  { v: "Welke onderdelen van een scanner bewegen, volgens het schema?", a: "De movable light source (lichtbron) en de movable mirror (beweegbare spiegel).", o: "Scanner", imgAntwoord: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s20_scanner.jpg" },
+  { v: "Welke onderdelen van een scanner bewegen, volgens het schema?", n: 2, a: "De movable light source (lichtbron) en de movable mirror (beweegbare spiegel).", o: "Scanner", imgAntwoord: "afbeeldingen/ITdeel2les8_randapparatuur/l8_s20_scanner.jpg" },
   { v: "Welke spiegel in de scanner beweegt niet?", a: "De fixed mirror.", o: "Scanner" },
   { v: "Welk onderdeel vangt het licht op in de scanner?", a: "Het CCD capture device.", o: "Scanner" },
   { v: "Welke 3 kleuren toont het CCD capture device in het schema?", a: "Rood, groen en blauw.", o: "Scanner" },
@@ -171,7 +171,7 @@ const kaarten_IT_deel2_les8 = [
   // ===== Printer: matrix, thermisch en inkjet (slide 21) =====
   { v: "Hoe drukt een matrixprinter af?", a: "Met een printkop met pennetjes.", o: "Printer: matrix, thermisch en inkjet",
     uitleg: "De printkop van een matrixprinter heeft kleine pennetjes die door een inktlint op het papier slaan, zoals een typemachine. Elk teken is een patroon van puntjes." },
-  { v: "Waarvoor wordt een matrixprinter nog steeds gebruikt?", a: "Rekeningen, stoffige omgevingen, kettingpapier en doordrukken.", o: "Printer: matrix, thermisch en inkjet" },
+  { v: "Waarvoor wordt een matrixprinter nog steeds gebruikt?", n: 4, a: "Rekeningen, stoffige omgevingen, kettingpapier en doordrukken.", o: "Printer: matrix, thermisch en inkjet" },
   { v: "Welke printer kan doordrukken?", a: "De matrixprinter.", o: "Printer: matrix, thermisch en inkjet" },
   { v: "Wat heeft een thermische printer nodig, en waarvoor wordt hij gebruikt?", a: "Speciaal papier. Hij wordt gebruikt voor kastickets.", o: "Printer: matrix, thermisch en inkjet",
     uitleg: "Een inkjetprinter spuit kleine druppeltjes inkt door kleine spuitmondjes op het papier. De printer zelf is goedkoop, maar de inktpatronen zijn duur." },

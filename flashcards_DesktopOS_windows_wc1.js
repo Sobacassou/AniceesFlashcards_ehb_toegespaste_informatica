@@ -223,8 +223,6 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "De cursus gebruikt echo in de opdrachten, maar legt het niet uit." },
   { v: ">> : tekst achteraan een bestand toevoegen", a: "C:\\test> echo Nog een regel >> bestand.txt\n\n>> zet de tekst achteraan in een bestaand bestand. Met > wordt een bestaand bestand overschreven.", o: "Redirection en piping", extra: true,
     uitleg: "Niet uit de Windows-cursus." },
-  { v: "Een leeg bestand maken in CMD", a: "C:\\test> type nul > leeg.txt\n\nMaakt een leeg bestand leeg.txt in de map waar je staat.", o: "Redirection en piping", extra: true,
-    uitleg: "Niet uit de Windows-cursus. Een bestand met tekst maak je zoals in de cursus: echo tekst > bestand.txt." },
   { v: "Toon sorteer.txt gesorteerd op het eerste cijfer.", a: "C:\\> sort < sorteer.txt", o: "Redirection en piping", oefening: true,
     uitleg: "sort = sorteer de regels.\n< sorteer.txt = input redirection: sort leest het bestand sorteer.txt (van Canvas).\n\nInhoud van sorteer.txt (van Canvas):\n3) regel 3 | e) regel 5\n5) regel 5 | a) regel 1\n1) regel 1 | c) regel 3\n2) regel 2 | d) regel 4\n4) regel 4 | b) regel 2\n\nResultaat op het cijfer: 1) … 2) … 3) … 4) … 5) …\nResultaat op de letters: 5) regel 5 | a) · 4) regel 4 | b) · 1) regel 1 | c) · 2) regel 2 | d) · 3) regel 3 | e)" },
   { v: "Toon sorteer.txt gesorteerd op de letters.", a: "C:\\> sort /+14 < sorteer.txt", o: "Redirection en piping", oefening: true,
@@ -270,7 +268,6 @@ const kaarten_DOS_windows_wc1 = [
     uitleg: "Het nieuwe wachtwoord typ je twee keer, zodat een tikfout opvalt. Verder is er geen extra controle: een vergissing is snel gebeurd." },
   { v: "Hoe wijzig je je wachtwoord in Windows? En via RDP?", a: "Ctrl+Alt+Delete en Change a password. Via RDP: Ctrl+Alt+End.", o: "Wachtwoord wijzigen",
     uitleg: "Usermanagement komt aan bod in het volgende werkcollege." },
-  { v: "Welke opties staan op dit scherm?", a: "1 Lock · 2 Sign out · 3 Change a password · 4 Task Manager", o: "Wachtwoord wijzigen", img: "afbeeldingen/DesktopOS_windows_wc1/ctrl_alt_del_vraag.jpg", imgAntwoord: "afbeeldingen/DesktopOS_windows_wc1/ctrl_alt_del.jpg" },
   { v: "Waarom moet je opletten als je je wachtwoord wijzigt?", a: "Er is geen extra controle: een wijziging en een vergissing zijn even snel gebeurd.", o: "Wachtwoord wijzigen" },
   { v: "Waarmee beheert de school de gebruikers en wachtwoorden?", a: "Active Directory.", o: "Wachtwoord wijzigen",
     uitleg: "Over Active Directory volgt later meer." },
@@ -288,7 +285,6 @@ const kaarten_DOS_windows_wc1 = [
   // ===== Netwerklocaties =====
   { v: "Welke map werd voor dit werkcollege op de fileserver aangemaakt, en waarvoor dient ze?", a: "WeWinShare: een map waar je bestanden aan kan toevoegen.", o: "Netwerklocaties",
     uitleg: "Je koppelt ze als netwerkschijf met een eigen schijfletter: visueel met Map network drive, of in CMD met net use." },
-  { v: "Wat staat er op de fileserver van de school?", a: "Gedeelde files voor studenten en docenten.", o: "Netwerklocaties" },
   { v: "Wanneer kan je de fileserver van de school bereiken?", a: "Als je verbonden bent met het netwerk van de school: fysiek of via VPN.", o: "Netwerklocaties" },
   { v: "Hoe voeg je in Windows een netwerklocatie toe zodat ze een eigen schijfletter krijgt?", a: "Als netwerkschijf (Map network drive).", o: "Netwerklocaties",
     uitleg: "Een netwerkschijf is een map op een andere computer, bv. de fileserver van de school, die je in Windows ziet met een eigen schijfletter (bv. Z:). Zo open je die map in de Verkenner net als een schijf op je eigen pc.\nZo doe je het: Verkenner (Win+E) → This PC → See more (…) → Map network drive → kies een schijfletter en geef het pad in, bv. \\\\dt-srv-file1.ehb.local\\Studentenstorage\\TI\\Desktop OS\\WeWinShare → log in met je EhB-gegevens.\nIn CMD kan het ook, met net use." },
@@ -326,7 +322,6 @@ const kaarten_DOS_windows_wc1 = [
   { v: "Verwijder VLC weer en bekijk de geïnstalleerde pakketten.", a: "C:\\> winget uninstall VideoLAN.VLC\nC:\\> winget list", o: "Winget", oefening: true,
     uitleg: "winget uninstall VideoLAN.VLC = verwijder VLC.\nwinget list = toon de geïnstalleerde software: VLC staat er niet meer bij." },
   // ===== Extra handige tools =====
-  { v: "Extra handige tools – niet te kennen leerstof", a: "Dit deel van de cursus hoef je niet te kennen. De kaarten hierover kan je weggooien als je wil.", o: "Extra handige tools", extra: true, nietTeKennen: true },
   { v: "Office 365", a: "Als student aan de Erasmushogeschool heb je een Office 365-account: je gebruikt de apps online of downloadt ze, via office.com.", o: "Extra handige tools", extra: true, nietTeKennen: true },
   { v: "PowerToys", a: "Een verzameling hulpprogramma's om je Windows verder op maat aan te passen en de gebruikservaring te verbeteren. Op de officiële GitHub-repository (github.com/microsoft/PowerToys) worden developers opgeroepen om tools bij te dragen; daar vind je ook de laatste versie (.msi).", o: "Extra handige tools", extra: true, nietTeKennen: true },
   { v: "Fancy Zones", a: "Een window manager om zones te maken waarin je programma's getoond worden (handig op grote schermen).", o: "Extra handige tools", extra: true, nietTeKennen: true },

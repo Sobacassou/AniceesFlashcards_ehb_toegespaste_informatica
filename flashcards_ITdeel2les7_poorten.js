@@ -108,7 +108,7 @@ const kaarten_IT_deel2_les7 = [
   { v: "Welke vorm heeft de USB-C-stekker?", a: "Een symmetrische stekker, iets groter dan micro-B.", o: "USB-C" },
   { v: "Tot welke USB-versie gaat USB-C?", a: "Tot USB4.", o: "USB-C" },
   { v: "Hoeveel stroom kan USB-C leveren, en in welke richting?", a: "3 A tot 5 A, in beide richtingen.", o: "USB-C" },
-  { v: "Welke signalen kunnen via de alternate mode van USB-C lopen?", a: "Thunderbolt, DisplayPort en HDMI.", o: "USB-C",
+  { v: "Welke signalen kunnen via de alternate mode van USB-C lopen?", n: 3, a: "Thunderbolt, DisplayPort en HDMI.", o: "USB-C",
     uitleg: "Alternate mode: via dezelfde stekker kan ook een ander signaal lopen, bijvoorbeeld beeld naar een scherm (DisplayPort of HDMI)." },
   { v: "Is USB-C een snelheid?", a: "Nee: USB-C is een stekker, geen snelheid.", o: "USB-C" },
   { v: "Doet elk toestel met USB-C alles (USB4, stroom, alternate mode)?", a: "Nee: USB-C kan veel, maar niet elk toestel doet alles.", o: "USB-C", imgAntwoord: "afbeeldingen/ITdeel2les7_poorten/l7_s10_usbc.jpg" },
@@ -164,7 +164,7 @@ const kaarten_IT_deel2_les7 = [
   // ===== Op de kabel (slide 15) =====
   { v: "Welke 2 dingen lees je af op het logo van een USB-kabel?", a: "De snelheid (bv. 40 Gbps) en het vermogen dat de kabel aankan (240 W of 60 W).", o: "Op de kabel", img: "afbeeldingen/ITdeel2les7_poorten/l7_s15_kabel.jpg" },
   { v: "Welke vermogens staan op de kabellogo's?", a: "240 W of 60 W.", o: "Op de kabel", imgAntwoord: "afbeeldingen/ITdeel2les7_poorten/l7_s15_kabel.jpg" },
-  { v: "Welke kabels staan in het overzicht van de kabellogo's?", a: "USB 40Gbps-, USB 20Gbps-, USB 5Gbps- en Hi-Speed USB-kabels, telkens met hoeveel vermogen ze aankunnen.", o: "Op de kabel",
+  { v: "Welke kabels staan in het overzicht van de kabellogo's?", n: 4, a: "USB 40Gbps-, USB 20Gbps-, USB 5Gbps- en Hi-Speed USB-kabels, telkens met hoeveel vermogen ze aankunnen.", o: "Op de kabel",
     uitleg: "Hi-Speed USB = USB 2.0 (480 Mbit/s).\n\nOok een kabel kan de zwakste schakel zijn: een trage kabel tussen een snelle poort en een snel toestel maakt de hele verbinding traag.\n\nOp het kabellogo staan twee dingen: de snelheid (bijvoorbeeld 40 Gbps) en het vermogen dat de kabel veilig kan doorgeven (240 W of 60 W). Hi-Speed USB is de naam voor USB 2.0." },
   { v: "Met hoeveel ampère komen 60 W en 240 W overeen bij USB-C?", a: "60 W = 3 A bij 20 V.\n240 W = 5 A bij 48 V.", o: "Op de kabel",
     uitleg: "Formule: vermogen = spanning × stroom (P = U × I, watt = volt × ampère).\n- 20 V × 3 A = 60 W\n- 48 V × 5 A = 240 W\n\nVoor meer dan 3 A heeft een kabel een speciale chip nodig (e-marker) die zegt dat hij dat aankan." },

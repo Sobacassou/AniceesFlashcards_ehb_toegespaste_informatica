@@ -985,3 +985,6 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 #schermHoofdstuk .knop-rij:has(> .lb-knop) { margin-bottom: 18px; }
 /* "weggegooide kaarten bekijken" even groot als "Gelezen / ongelezen wissen" (Anicée) */
 #schermHoofdstuk button#terugzetten { font-size: 0.78rem; font-weight: 500; padding: 5px 10px; color: var(--tekst-zacht); }
+
+/* aantal verwachte punten bij een opsomming (IT Essentials) */
+#vraag .aantal { color: #9d9d9d; font-weight: 400; white-space: nowrap; }

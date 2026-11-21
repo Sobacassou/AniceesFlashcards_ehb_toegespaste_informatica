@@ -1035,6 +1035,8 @@ function toonKaart() {
   // meerkeuze/juist-fout (vraag over meerdere regels): links uitlijnen, leest makkelijker
   vraagEl.classList.toggle("meerkeuze", kaart.v.includes("\n"));
   vraagEl.classList.toggle("code", !webCode && /\n {2,}/.test(kaart.v));
+  // IT Essentials: bij een opsomming staat het aantal verwachte punten grijs achter de vraag, bv. (4)
+  if (kaart.n) { const nEl = document.createElement("span"); nEl.className = "aantal"; nEl.textContent = " (" + kaart.n + ")"; vraagEl.appendChild(nEl); }
   // tekening op de voorkant (bv. met nummers i.p.v. de namen)
   zetFiguur("figVoor", kaart.img);
   document.getElementById("figAchter").innerHTML = "";

@@ -7,7 +7,7 @@ const kaarten_IT_deel2_les2 = [
   // ===== Inhoud (slide 2) =====
   { v: "Welke twee technologieën zitten achter het werkgeheugen en de cache?", a: "SRAM en DRAM.", o: "Inhoud",
     uitleg: "SRAM (statisch) is snel en duur en wordt gebruikt voor de cache. DRAM (dynamisch) is trager maar goedkoop en klein, en wordt gebruikt voor het werkgeheugen." },
-  { v: "Welke geheugenmodules komen aan bod?", a: "DIMM en SODIMM.", o: "Inhoud",
+  { v: "Welke geheugenmodules komen aan bod?", n: 2, a: "DIMM en SODIMM.", o: "Inhoud",
     uitleg: "Een module is het reepje met geheugenchips dat je in het moederbord steekt. DIMM is voor desktops en servers, SODIMM (kleiner) voor laptops en andere kleine toestellen." },
 
   // ===== Geheugenkarakteristieken › Capaciteit (slide 3) =====
@@ -264,7 +264,7 @@ const kaarten_IT_deel2_les2 = [
   // ===== De geheugenhiërarchie › Piramide (slide 18) =====
   { v: "Waarom bestaat er een geheugenhiërarchie?", a: "Er bestaat geen geheugen dat tegelijk snel, groot en goedkoop is.", o: "Piramide",
     uitleg: "Daarom combineert een computer verschillende soorten: het kleine, snelle geheugen bovenaan bevat wat nu nodig is, de grote, trage opslag onderaan bewaart de rest." },
-  { v: "Welke lagen heeft de piramide van de geheugenhiërarchie (van boven naar onder)?", a: "1. CPU Register\n2. Cache (Level 1, Level 2)\n3. RAM (Physical RAM, Virtual Memory)\n4. Storage Device Types\n5. Input Sources", o: "Piramide",
+  { v: "Welke lagen heeft de piramide van de geheugenhiërarchie (van boven naar onder)?", n: 5, a: "1. CPU Register\n2. Cache (Level 1, Level 2)\n3. RAM (Physical RAM, Virtual Memory)\n4. Storage Device Types\n5. Input Sources", o: "Piramide",
     uitleg: "Storage Device Types: ROM/BIOS, Removable Drives, Network/Internet Storage, Hard Drive. Input Sources: Keyboard, Mouse, Removable Media, Scanner/Camera/Mic/Video, Remote Source, Other Sources." },
   { v: "Wat staat er bovenaan de piramide, en wat onderaan?", a: "Bovenaan de CPU-registers; onderaan de invoerbronnen (Input Sources).", o: "Piramide",
     uitleg: "Bovenaan: het snelste, kleinste en duurste geheugen. Onderaan: het traagste, maar het grootste en goedkoopste." },
@@ -398,7 +398,7 @@ const kaarten_IT_deel2_les2 = [
   // -- extra info, niet uit de cursus --
   { v: "Is lezen bij SRAM destructief?", a: "Nee, lezen laat de waarde ongemoeid. Bij DRAM is dat wel zo: daar moet de cel na elke leesoperatie opnieuw geschreven worden.", o: "SRAM", extra: true,
     uitleg: "" },
-  { v: "Wat zijn de voor- en nadelen van SRAM ten opzichte van DRAM?", a: "Zeer snel, maar ook zeer duur en groot.", o: "SRAM",
+  { v: "Wat zijn de voor- en nadelen van SRAM ten opzichte van DRAM?", n: 3, a: "Zeer snel, maar ook zeer duur en groot.", o: "SRAM",
     uitleg: "Groot = veel plaats per bit op de chip. Dat komt door de 6 transistoren per cel." },
   { v: "Waarvoor wordt SRAM vooral gebruikt?", a: "Voor cachegeheugens.", o: "SRAM",
     uitleg: "Cache moet razendsnel zijn en mag klein zijn, dus het dure SRAM is daar de juiste keuze." },
@@ -443,7 +443,7 @@ const kaarten_IT_deel2_les2 = [
   { v: "Welke waarde heeft een DRAM-cel als de condensator geladen is? En niet geladen?", a: "Geladen = 1.\nNiet geladen = 0.", o: "DRAM",
     uitleg: "In de emmer-vergelijking: volle emmer = 1, lege emmer = 0." },
   // -- extra info, niet uit de cursus --
-  { v: "Uit welke onderdelen bestaat een DRAM-cel?", a: "1 transistor (FET) en 1 condensator (C).", o: "DRAM",
+  { v: "Uit welke onderdelen bestaat een DRAM-cel?", n: 2, a: "1 transistor (FET) en 1 condensator (C).", o: "DRAM",
     uitleg: "Men noemt dat een 1T1C-cel. Veel eenvoudiger dan een SRAM-cel met 6 transistoren." },
   // -- extra info, niet uit de cursus --
   { v: "Waarom moeten de gegevens in DRAM constant ververst worden?", a: "Omdat de lading van de condensator weglekt.", o: "DRAM",
@@ -626,7 +626,7 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "" },
   { v: "Waar bevinden de geheugenkanalen zich bij dual channel?", a: "Op het moederbord.", o: "Dual channel",
     uitleg: "In het blokschema van H1 zag je al drie DDR3-kanalen aan de Core i7: dat was triple channel." },
-  { v: "Welke varianten van dual channel bestaan er nog?", a: "Triple channel (3 kanalen) en quad channel (4 kanalen).", o: "Dual channel",
+  { v: "Welke varianten van dual channel bestaan er nog?", n: 2, a: "Triple channel (3 kanalen) en quad channel (4 kanalen).", o: "Dual channel",
     uitleg: "Quad channel zie je vooral bij servers en zware werkstations." },
   // -- extra info, niet uit de cursus --
   { v: "Hoe breed is single, dual, triple en quad channel in totaal?", a: "Single: 64 bits; Dual: 128 bits; Triple: 192 bits; Quad: 256 bits Telkens het aantal kanalen × 64 bits.", o: "Dual channel", extra: true,
@@ -642,7 +642,7 @@ const kaarten_IT_deel2_les2 = [
     uitleg: "" },
   { v: "Waarom helpt dual channel weinig bij programma's die kleine stukjes data op verschillende plaatsen opvragen?", a: "Dan gaat de meeste tijd naar het opzoeken (vertraging), en dat verandert niet. Het doorsturen zelf is zo voorbij, dus een bredere bus helpt nauwelijks.", o: "Dual channel", extra: true,
     uitleg: "" },
-  { v: "Noem de voorwaarden waaronder dual channel het best werkt.", a: "1) Modules in paren, in de juiste sloten\n2) Dezelfde capaciteit\n3) Dezelfde snelheid\n4) Allebei single of allebei double sided", o: "Dual channel",
+  { v: "Noem de voorwaarden waaronder dual channel het best werkt.", n: 4, a: "1) Modules in paren, in de juiste sloten\n2) Dezelfde capaciteit\n3) Dezelfde snelheid\n4) Allebei single of allebei double sided", o: "Dual channel",
     uitleg: "Het eenvoudigste: gebruik twee identieke modules, liefst als set gekocht." },
   // -- extra info, niet uit de cursus --
   { v: "Wat gebeurt er als je twee modules in de verkeerde sloten zet?", a: "Dan werken ze mogelijk maar in single channel. De computer werkt wel, maar je verliest de extra bandbreedte.", o: "Dual channel", extra: true,
