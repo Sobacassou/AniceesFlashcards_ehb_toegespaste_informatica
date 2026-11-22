@@ -993,8 +993,9 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 #schermHoofdstuk button#terugzetten, #schermHoofdstuk button.klein-wis { font-size: 0.85rem; min-height: 44px; padding: 8px 14px; }
 #schermHoofdstuk .knop-rij:has(> #gelezenWissen) { margin-top: 14px; }
 /* "Rest van het hoofdstuk naar de Leitnerbak": nog verder weg, roze rand (kleur van de Leitnerbak) */
-#schermHoofdstuk .knop-rij:has(> #restNaarLb) { margin-top: 30px; }
-#schermHoofdstuk button#restNaarLb { color: #c586c0; border-color: #c586c0; }
+/* de 3 knoppen zien er hetzelfde uit (Anicée): zelfde kleur, zelfde ruimte ertussen */
+#schermHoofdstuk .knop-rij:has(> #restNaarLb) { margin-top: 14px; }
+#schermHoofdstuk button#restNaarLb { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #schermHoofdstuk button#restNaarLb.uit { opacity: 0.45; }
 #schermHoofdstuk button#restNaarLb.wacht { color: #ce9178; border-color: #ce9178; }
 #schermHoofdstuk button#restNaarLb.zeker { color: #fff; background: var(--rood); border-color: var(--rood); }

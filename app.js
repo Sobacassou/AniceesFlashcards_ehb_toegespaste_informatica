@@ -470,7 +470,7 @@ document.addEventListener("click", e => {             // ergens anders tikken: n
 
 /* Rest van één hoofdstuk naar de Leitnerbak: nog niet gelezen, fout of moeilijk (en nog niet in de Leitnerbak).
    Juiste en weggegooide kaarten niet. Bevestigen: 1ste tik, 2 s wachten (aftellen), dan pas telt de 2de tik. */
-const REST_TEKST = "Rest van het hoofdstuk naar de Leitnerbak";
+const REST_TEKST = "Gooi de rest in de Leitnerbak";
 function restKaarten() {
   const hfst = aangevinkteHoofdstukken();
   if (hfst.length !== 1 || !huidigVak) return null;

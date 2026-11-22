@@ -222,6 +222,8 @@ const kaarten_IT_deel2_les4 = [
   // ===== PCI Express (slide 16) =====
   { v: "Wat is PCI Express t.o.v. PCI?", a: "De opvolger van PCI, maar niet achterwaarts compatibel met PCI.", o: "PCI Express",
     uitleg: "Een oude PCI-kaart past dus niet in een PCIe-slot." },
+  { v: "Waar staat PCIe voor?", a: "Peripheral Component Interconnect Express.", o: "PCI Express",
+    uitleg: "- Peripheral component = een randapparaat of uitbreidingskaart, bv. een grafische kaart of een SSD.\n- Interconnect = een verbinding tussen onderdelen.\n- Express = de snelle opvolger van de oudere bus PCI (Peripheral Component Interconnect, 1992).\n\nPCI was parallel en gedeeld: alle kaarten deelden dezelfde bus. PCI Express (2003) is serieel en werkt met lanes. Elk apparaat heeft een eigen punt-tot-punt-verbinding met de processor of de chipset." },
   { v: "Is PCI Express serieel of parallel? Waarom is dat een voordeel?", a: "Serieel in plaats van parallel: geen skew.", o: "PCI Express",
     uitleg: "Zie slide 15." },
   { v: "Welke aantallen lanes bestaan er bij PCI Express?", n: 4, a: "x1, x4, x8 of x16.", o: "PCI Express",
@@ -335,7 +337,7 @@ const kaarten_IT_deel2_les4 = [
   // ===== USB (slide 21) =====
   { v: "Waar staat USB voor?", a: "Universal Serial Bus.", o: "USB",
     uitleg: "Serieel, net zoals PCIe en SATA." },
-  { v: "Wat zijn de kenmerken van USB?", n: 4, a: "Verscheidene apparaten, 1 interface; meest wijdverspreid (o.a. door medewerking van HP, MS, IBM, Compaq, Apple, …); plug & play; hot-pluggable.", o: "USB",
+  { v: "Wat zijn de kenmerken van USB?", n: 4, a: "- Verscheidene apparaten, 1 interface\n- Meest wijdverspreid (o.a. door medewerking van HP, MS, IBM, Compaq, Apple, …)\n- Plug & play\n- Hot-pluggable", o: "USB",
     uitleg: "USB wordt verder behandeld in hoofdstuk 7: 'Poorten'." },
   { v: "Wat is het verschil tussen plug & play en hot-pluggable?", a: "Plug & play: het apparaat wordt automatisch herkend en ingesteld. Hot-pluggable: je kan het in- en uitpluggen terwijl de computer aan staat.", o: "USB",
     uitleg: "Niet letterlijk in de cursus uitgelegd; USB is allebei." },
