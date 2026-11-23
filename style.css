@@ -1001,3 +1001,46 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 #schermHoofdstuk button#restNaarLb.zeker { color: #fff; background: var(--rood); border-color: var(--rood); }
 #schermHoofdstuk button#gelezenWissen.wacht { color: #ce9178; border-color: #ce9178; }
 #schermHoofdstuk button#gelezenWissen.zeker { color: #fff; background: var(--rood); border-color: var(--rood); }
+
+/* landscape / brede schermen: geen vak links meer, de kaart krijgt die plaats (Anicée) */
+@media (min-width: 1100px) {
+  main:has(#schermOefenen.actief) { max-width: 1240px; }
+  #schermOefenen.actief { grid-template-columns: minmax(0, 1fr) 320px; }
+  #schermOefenen .stand { display: none; }
+  .oefenKolom > * { grid-column: 1; }
+  .bovenbalk .balk-links { grid-column: 1; }
+  .bovenbalk .knoppen-rechts { grid-column: 2; }
+  .overzicht { grid-column: 2; }
+}
+/* landscape zoals portret: Stoppen + teller, daaronder Ongedaan + Weggooien, daaronder de kaart; overzicht rechts */
+@media (min-width: 1100px) {
+  #schermOefenen .oefenKolom > .bovenbalk {
+    grid-column: 1; display: flex; flex-wrap: wrap; row-gap: 8px;
+  }
+  #schermOefenen .balk-links { flex-basis: 100%; }
+  #schermOefenen .knoppen-rechts { flex-basis: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #schermOefenen .knoppen-rechts .klein { width: 100%; text-align: center; }
+  .overzicht { grid-row: 1 / -1; }
+}
+@media (min-width: 1100px) { .teller .kort { display: inline-flex; } }   /* balkje naast de teller, zoals in portret */
+/* bevestigen bij "Gooi de rest in de Leitnerbak": kleur van de Leitnerbak (keuze B) */
+#schermHoofdstuk button#restNaarLb.zeker { color: #1e1e1e; background: #c586c0; border-color: #c586c0; }
+#schermHoofdstuk button#restNaarLb.wacht { color: #f2b8e6; border-color: #c586c0; }   /* aftellen ook in de kleuren van de Leitnerbak */
+
+/* landscape: de kaart groeit mee tot onderaan het scherm (minstens 400px); past de tekst niet, dan de rode scrollbalk */
+@media (min-width: 1100px) {
+  #schermOefenen .kaart { height: max(400px, calc(100vh - 230px)); }
+}
+/* rode scrollbalk in het overzicht, zoals op de kaart */
+.overzicht { scrollbar-color: var(--rood) transparent; }
+.overzicht::-webkit-scrollbar { width: 8px; }
+.overzicht::-webkit-scrollbar-thumb { background: var(--rood); border-radius: 4px; }
+.ov-duim { display: none; }
+@media (pointer: coarse) {
+  .overzicht { scrollbar-width: none; }
+  .overzicht::-webkit-scrollbar { display: none; }
+  .ov-duim.zichtbaar { display: block; position: absolute; right: 3px; width: 6px; border-radius: 3px; background: var(--rood); pointer-events: none; }
+}
+
+/* Wist ik / Wist ik niet: geen vulling bij hover, ook niet na een tik (zelfde layout als groen) */
+.fout:hover, .goed:hover { background: transparent; }

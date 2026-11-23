@@ -503,7 +503,7 @@ function restNaarLeitner(knop) {
       if (n > 0) { knop.textContent = `Zeker? (${n})`; return; }
       clearInterval(knop._tel);
       knop.classList.remove("wacht"); knop.classList.add("zeker");
-      knop.textContent = `Ja, zet ${ids.length} ${ids.length === 1 ? "kaart" : "kaarten"} in de Leitnerbak`;
+      knop.textContent = `Ja, zet ${ids.length} ${ids.length === 1 ? "kaart" : "kaarten"} erin`;
       knop._terug = setTimeout(() => restKnopTerug(knop), 5000);
     }, 1000);
     return;
@@ -1219,8 +1219,29 @@ function toonOverzicht(kaart) {
     nrLijst.querySelectorAll(".ov-nr").forEach(e => { breedste = Math.max(breedste, e.scrollWidth); });
     nrLijst.style.setProperty("--nr-breedte", Math.ceil(breedste > min + 1 ? breedste + 6 : min) + "px");   // past alles al: niets veranderen
   }
-  pasOverzichtAan();
+  pasOverzichtAan();  zetOvDuim();
 }
+
+/* Rode scrollbalk in het overzicht (zoals op de kaart), ook op tablet waar de browser zijn eigen balk verbergt */
+function zetOvDuim() {
+  const vak = document.getElementById("overzicht");
+  if (!vak) return;
+  let duim = vak.querySelector(".ov-duim");
+  if (!duim) { duim = document.createElement("div"); duim.className = "ov-duim"; vak.appendChild(duim); }
+  const sh = vak.scrollHeight, ch = vak.clientHeight;
+  if (sh <= ch + 2 || getComputedStyle(vak).overflowY === "visible") { duim.classList.remove("zichtbaar"); return; }
+  const rand = 8, baan = ch - 2 * rand, h = Math.max(36, baan * ch / sh), deel = vak.scrollTop / (sh - ch);
+  duim.style.height = h + "px";
+  duim.style.top = (vak.scrollTop + rand + (baan - h) * deel) + "px";
+  duim.classList.add("zichtbaar");
+}
+(function () {
+  const vak = document.getElementById("overzicht");
+  if (!vak) return;
+  vak.addEventListener("scroll", zetOvDuim, { passive: true });
+  window.addEventListener("resize", zetOvDuim);
+  if (window.ResizeObserver) new ResizeObserver(zetOvDuim).observe(vak);
+})();
 
 // staat het nummer (bv. "2.3" of "M1") al vooraan in de titel? dan tonen we het rechts niet nog eens
 function nrInTitel(titel, nr) {
