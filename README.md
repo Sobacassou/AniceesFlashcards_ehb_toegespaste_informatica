@@ -32,11 +32,11 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 
   | 1ste keer | 2de keer | reward | moeilijk | Leitnerbak | komt terug | 3de keer | reward | moeilijk | Leitnerbak | komt terug |
   |---|---|---|---|---|---|---|---|---|---|---|
-  | **juist** | | verdampen | neen | neen | neen | | | | | |
+  | **juist** | | elektriseren | neen | neen | neen | | | | | |
   | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H fout** | vlammen | ja | ja, bak 1 | neen |
   | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H juist** | groene ster | ja, blijft moeilijk | ja, bak 1 | neen |
   | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C fout** | vlammen | ja | ja, bak 1 | neen |
-  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C juist** | draakje + verdampen | neen | neen | neen |
+  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C juist** | draakje + elektriseren | neen | neen | neen |
 
   Na de 1ste keer fout komt de kaart altijd terug na 8 kaarten (H). Bak 1 = morgen aan de beurt. Was een kaart al moeilijk en heb je ze de 1ste keer meteen juist, dan geneest ze (groen paardje).
 
@@ -54,7 +54,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
   - **Groot duiveltje**: een kaart wordt moeilijk (behalve als ze op dat moment opbrandt: dan enkel de vlammen).
   - **Klein duiveltje**: 3 kaarten na elkaar fout (behalve als er net een kaart opbrandt).
   - **Vlammen**: de 3de keer is nog fout: de kaart brandt op en komt niet meer terug in de ronde.
-  - **Verdampen**: een juiste kaart die niet meer terugkomt in de ronde (niet moeilijk, niet in de Leitnerbak, geen herhaling meer): de rand licht groen op, kleurt blauw zoals het draakje, wordt ijzig met elektrische vonken en verdampt naar buiten (1,5 s). Enkel in een gewone ronde. Komt bovenop de andere beloningen (bv. het draakje).
+  - **Elektriseren**: een juiste kaart die niet meer terugkomt in de ronde (niet moeilijk, niet in de Leitnerbak, geen herhaling meer): de rand licht groen op, kleurt blauw zoals het draakje, wordt ijzig met elektrische bliksems en dooft dan uit (ongeveer 1,25 s). Enkel in een gewone ronde. Komt bovenop de andere beloningen (bv. het draakje).
   - Er komt telkens maar één van de dieren tegelijk. Voorrang: gele eenhoorn > groen paardje > konijntje > draakje. Een konijntje dat samenvalt met de eenhoorn of het paardje, komt bij het volgende juiste antwoord.
 
 - **Moeilijke kaarten**: een kaart wordt moeilijk als je in een gewone ronde een herhaling of een controle fout hebt (de eerste keer fout is nog niet genoeg). De titel bovenaan de kaart wordt dan rood en de kaart gaat naar bak 1 van je Leitnerbak (zat ze er al in, dan terug naar bak 1). Een moeilijke kaart geneest (is niet meer moeilijk) op 3 manieren:

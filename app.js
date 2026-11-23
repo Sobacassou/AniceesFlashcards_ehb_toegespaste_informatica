@@ -1545,7 +1545,7 @@ function volgende(wistHet) {
   }
 
   // juist en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling meer gepland):
-  // de kaart kleurt blauw in de kleuren van het draakje en verdampt snel (Anicée). Enkel in een gewone ronde.
+  // de rand wordt elektrisch (zie toonVerdamp) (Anicée). Enkel in een gewone ronde.
   const verdampNu = wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id];
   if (verdampNu) {
     bezig = true;
@@ -2572,10 +2572,11 @@ function vlamKleur(a, tint) {
   for (const [grens, kleur] of VLAM_LEVEN) if (a < grens) return kleur;
   return tint < 0.5 ? "#4EC9B0" : "#569CD6";
 }
-/* Verdampen (Anicée): juist, en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling
-   meer gepland). Enkel de rand doet mee, de kaart zelf blijft staan. Samen 1,5 s:
+/* Elektriseren (Anicée): juist, en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling
+   meer gepland). Enkel de rand doet mee, de kaart zelf blijft staan. Samen ongeveer 1,25 s:
    1. de rand licht groen op (juist), 0,3 s;  2. hij kleurt blauw in de tinten van het draakje, 0,2 s;
-   3. hij wordt ijzig en er lopen elektrische vonken door het ijs, 0,5 s;  4. het ijs verdampt naar buiten, 0,5 s.
+   3. hij wordt ijzig en er lopen elektrische bliksems door, 0,5 s;  4. de rand dooft uit, 0,25 s.
+   (Functie heet nog toonVerdamp. De damp-code blijft ongebruikt staan; elektrische paddenstoeltjes: voor later.)
    Komt bovenop de andere beloningen (draakje enz.). */
 function toonVerdamp(klaar) {
   const kaart = document.getElementById("kaart");
@@ -2638,7 +2639,7 @@ function toonVerdamp(klaar) {
     const m = (a, b) => Math.round(a + (b - a) * f);
     return `rgb(${m(115, 79)},${m(201, 193)},${m(145, 255)})`;
   }
-  const GROEN = 300, BLAUW = 200, IJS = 100, STROOM = 400, DUUR = 1500;
+  const GROEN = 300, BLAUW = 200, IJS = 100, STROOM = 400, DUUR = 1250;
   const T_IJS = GROEN + BLAUW, T_DAMP = T_IJS + IJS + STROOM;
   kaart.classList.add("flits-goed");
   setTimeout(() => { kaart.classList.remove("flits-goed"); kaart.classList.add("rand-weg"); }, GROEN);   // vanaf nu tekent het canvas de rand
@@ -2651,7 +2652,7 @@ function toonVerdamp(klaar) {
       ic.shadowColor = "rgba(79,193,255,0.6)"; ic.shadowBlur = 14; ic.stroke(); ic.shadowBlur = 0;
     }
     if (t > T_IJS) {
-      const weg = Math.max(0, Math.min(1, (t - T_DAMP) / 300));
+      const weg = Math.max(0, Math.min(1, (t - T_DAMP) / 250));   // na de bliksems dooft de rand
       if (weg < 1) {                                     // ijzige blauwe rand, die vervaagt als het ijs verdampt
         randPad(ic); ic.strokeStyle = `rgba(156,220,254,${(1 - weg).toFixed(3)})`; ic.lineWidth = 3;
         ic.shadowColor = "rgba(79,193,255,0.9)"; ic.shadowBlur = 14; ic.stroke(); ic.shadowBlur = 0;
@@ -2664,9 +2665,6 @@ function toonVerdamp(klaar) {
           ic.strokeStyle = n % 2 ? "rgba(255,255,255,0.95)" : "rgba(79,193,255,0.95)"; ic.lineWidth = n % 2 ? 1.2 : 2; ic.stroke();
         }
         ic.restore();
-      }
-      if (t > T_DAMP - 100 && t < T_DAMP + 150) for (let i = 0; i < 22; i++) {   // het ijs verdampt naar buiten
-        const [x, y, nx, ny] = opRand(Math.random()); nieuweDamp(x, y, nx, ny);
       }
     }
     tekenDamp(t);
