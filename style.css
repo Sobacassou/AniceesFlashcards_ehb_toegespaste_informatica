@@ -1044,3 +1044,6 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 
 /* Wist ik / Wist ik niet: geen vulling bij hover, ook niet na een tik (zelfde layout als groen) */
 .fout:hover, .goed:hover { background: transparent; }
+
+/* juist en de kaart komt niet meer terug: na het groen oplichten tekent het canvas de rand (ijs, verdampen) */
+.kaart.rand-weg .kant { border-color: transparent; transition: none; }

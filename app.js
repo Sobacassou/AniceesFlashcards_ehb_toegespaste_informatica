@@ -1544,6 +1544,20 @@ function volgende(wistHet) {
     return;
   }
 
+  // juist en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling meer gepland):
+  // de kaart kleurt blauw in de kleuren van het draakje en verdampt snel (Anicée). Enkel in een gewone ronde.
+  const verdampNu = wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id];
+  if (verdampNu) {
+    bezig = true;
+    toonVerdamp(() => {
+      bezig = false;
+      index++;
+      if (index < stapel.length) toonKaart();
+      else toonEinde();
+    });
+    return;
+  }
+
   // rand van de kaart even groen (juist) of rood (fout) laten oplichten
   const kaartEl = document.getElementById("kaart");
   const flits = wistHet ? "flits-goed" : "flits-fout";
@@ -2558,6 +2572,114 @@ function vlamKleur(a, tint) {
   for (const [grens, kleur] of VLAM_LEVEN) if (a < grens) return kleur;
   return tint < 0.5 ? "#4EC9B0" : "#569CD6";
 }
+/* Verdampen (Anicée): juist, en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling
+   meer gepland). Enkel de rand doet mee, de kaart zelf blijft staan. Samen 1,5 s:
+   1. de rand licht groen op (juist), 0,3 s;  2. hij kleurt blauw in de tinten van het draakje, 0,2 s;
+   3. hij wordt ijzig en er lopen elektrische vonken door het ijs, 0,5 s;  4. het ijs verdampt naar buiten, 0,5 s.
+   Komt bovenop de andere beloningen (draakje enz.). */
+function toonVerdamp(klaar) {
+  const kaart = document.getElementById("kaart");
+  const r = kaart ? kaart.getBoundingClientRect() : null;
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!r || !r.height || rustig) { klaar(); return; }
+  const M = 110, dpr = window.devicePixelRatio || 1;     // ruimte rond de kaart voor de damp
+  const W = r.width + 2 * M, H = r.height + 2 * M;
+  function maakDoek(filter) {
+    const d = document.createElement("canvas");
+    d.width = W * dpr; d.height = H * dpr;
+    d.style.cssText = `position:fixed;z-index:61;pointer-events:none;left:${r.left - M}px;top:${r.top - M}px;` +
+      `width:${W}px;height:${H}px;${filter}`;
+    document.body.appendChild(d);
+    const c = d.getContext("2d"); c.scale(dpr, dpr);
+    return [d, c];
+  }
+  const [dampDoek, dc] = maakDoek("filter:blur(5px);");   // wazige damp
+  const [ijsDoek, ic] = maakDoek("");                      // scherpe rand en vonken
+  const X0 = M, Y0 = M, X1 = M + r.width, Y1 = M + r.height, RAD = 10;
+  const omtrek = 2 * (r.width + r.height);
+  function opRand(u) {                                   // punt op de rand (u van 0 tot 1) + richting naar buiten
+    let d = u * omtrek;
+    if (d < r.width) return [X0 + d, Y0, 0, -1];
+    d -= r.width; if (d < r.height) return [X1, Y0 + d, 1, 0];
+    d -= r.height; if (d < r.width) return [X1 - d, Y1, 0, 1];
+    d -= r.width; return [X0, Y1 - d, -1, 0];
+  }
+  function randPad(c) { c.beginPath(); if (c.roundRect) c.roundRect(X0, Y0, r.width, r.height, RAD); else c.rect(X0, Y0, r.width, r.height); }
+  function zigzag(x1, y1, x2, y2, ruw) {                 // een elektrische vonk tussen 2 punten
+    const n = 7; ic.moveTo(x1, y1);
+    for (let i = 1; i < n; i++) {
+      const f = i / n, nx = -(y2 - y1), ny = x2 - x1, l = Math.hypot(nx, ny) || 1, o = (Math.random() - 0.5) * ruw;
+      ic.lineTo(x1 + (x2 - x1) * f + nx / l * o, y1 + (y2 - y1) * f + ny / l * o);
+    }
+    ic.lineTo(x2, y2);
+  }
+  const KLEUREN = ["232,247,255", "156,220,254", "79,193,255", "86,156,214"];   // #E8F7FF #9CDCFE #4FC1FF #569CD6 (draakje)
+  const damp = [];
+  function nieuweDamp(x, y, nx, ny) {                    // nx, ny: richting naar buiten
+    damp.push({ x0: x, y0: y, nx, ny, geboren: performance.now() - begin, snel: 110 + Math.random() * 110,
+      zwaai: 6 + Math.random() * 16, fase: Math.random() * 6.3, freq: 3 + Math.random() * 4, g: 5 + Math.random() * 6,
+      leef: 300 + Math.random() * 150, max: (0.14 + Math.random() * 0.16) * 2.2, k: KLEUREN[damp.length % 4] });
+  }
+  function tekenDamp(t) {
+    for (const d of damp) {
+      const l = t - d.geboren;
+      if (l < 0 || l > d.leef) continue;
+      const u = l / d.leef, sec = l / 1000;
+      const weg = d.snel * sec + 30 * u * u, golf = Math.sin(d.fase + sec * d.freq) * d.zwaai * u;   // weg van de rand, golvend opzij
+      const x = d.x0 + d.nx * weg - d.ny * golf, y = d.y0 + d.ny * weg + d.nx * golf;
+      const g = d.g * (1 + 2.2 * u), a = d.max * Math.sin(Math.PI * Math.min(1, u * 1.15));
+      if (a <= 0) continue;
+      const grad = dc.createRadialGradient(x, y, 0, x, y, g);
+      grad.addColorStop(0, `rgba(${d.k},${a.toFixed(3)})`); grad.addColorStop(1, `rgba(${d.k},0)`);
+      dc.fillStyle = grad; dc.beginPath(); dc.arc(x, y, g, 0, Math.PI * 2); dc.fill();
+    }
+  }
+  function blauweRand(f) {                               // van groen #73c991 naar blauw #4FC1FF
+    const m = (a, b) => Math.round(a + (b - a) * f);
+    return `rgb(${m(115, 79)},${m(201, 193)},${m(145, 255)})`;
+  }
+  const GROEN = 300, BLAUW = 200, IJS = 100, STROOM = 400, DUUR = 1500;
+  const T_IJS = GROEN + BLAUW, T_DAMP = T_IJS + IJS + STROOM;
+  kaart.classList.add("flits-goed");
+  setTimeout(() => { kaart.classList.remove("flits-goed"); kaart.classList.add("rand-weg"); }, GROEN);   // vanaf nu tekent het canvas de rand
+  const begin = performance.now();
+  function beeld(nu) {
+    const t = nu - begin;
+    dc.clearRect(0, 0, W, H); ic.clearRect(0, 0, W, H);
+    if (t > GROEN && t <= T_IJS) {                       // groen wordt blauw
+      randPad(ic); ic.strokeStyle = blauweRand((t - GROEN) / BLAUW); ic.lineWidth = 2;
+      ic.shadowColor = "rgba(79,193,255,0.6)"; ic.shadowBlur = 14; ic.stroke(); ic.shadowBlur = 0;
+    }
+    if (t > T_IJS) {
+      const weg = Math.max(0, Math.min(1, (t - T_DAMP) / 300));
+      if (weg < 1) {                                     // ijzige blauwe rand, die vervaagt als het ijs verdampt
+        randPad(ic); ic.strokeStyle = `rgba(156,220,254,${(1 - weg).toFixed(3)})`; ic.lineWidth = 3;
+        ic.shadowColor = "rgba(79,193,255,0.9)"; ic.shadowBlur = 14; ic.stroke(); ic.shadowBlur = 0;
+      }
+      if (t > T_IJS + IJS * 0.6 && t < T_DAMP) {         // elektrische vonken lopen door het ijs
+        ic.save(); ic.shadowColor = "rgba(79,193,255,1)"; ic.shadowBlur = 10;
+        for (let n = 0; n < 4; n++) {
+          const u = Math.random(), [x1, y1] = opRand(u), [x2, y2] = opRand((u + 0.04 + Math.random() * 0.08) % 1);
+          ic.beginPath(); zigzag(x1, y1, x2, y2, 14);
+          ic.strokeStyle = n % 2 ? "rgba(255,255,255,0.95)" : "rgba(79,193,255,0.95)"; ic.lineWidth = n % 2 ? 1.2 : 2; ic.stroke();
+        }
+        ic.restore();
+      }
+      if (t > T_DAMP - 100 && t < T_DAMP + 150) for (let i = 0; i < 22; i++) {   // het ijs verdampt naar buiten
+        const [x, y, nx, ny] = opRand(Math.random()); nieuweDamp(x, y, nx, ny);
+      }
+    }
+    tekenDamp(t);
+    if (t < DUUR) requestAnimationFrame(beeld);
+    else {
+      dampDoek.remove(); ijsDoek.remove();
+      kaart.classList.remove("flits-goed", "rand-weg");
+      klaar();
+    }
+  }
+  requestAnimationFrame(beeld);
+}
+
 function toonVlammen(klaar) {
   const kaart = document.getElementById("kaart");
   const r = kaart ? kaart.getBoundingClientRect() : null;
