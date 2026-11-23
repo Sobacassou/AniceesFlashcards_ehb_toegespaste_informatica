@@ -1047,3 +1047,14 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
 
 /* juist en de kaart komt niet meer terug: na het groen oplichten tekent het canvas de rand (ijs, verdampen) */
 .kaart.rand-weg .kant { border-color: transparent; transition: none; }
+
+/* landscape: overzicht uitgelijnd met de kaart: begint op dezelfde hoogte als de kaart en is even hoog (Anicée) */
+@media (min-width: 1100px) {
+  .overzicht { grid-row: 2 / -1; max-height: max(400px, calc(100vh - 230px)); }
+}
+/* landscape op een tablet: 100vh telt ook de ruimte achter de adresbalk van de browser mee, waardoor de kaart en de
+   knoppen onder het scherm vielen. 100dvh = de echt zichtbare hoogte (Anicée). Oudere browsers houden de vh-regel. */
+@media (min-width: 1100px) {
+  #schermOefenen .kaart { height: max(320px, calc(100dvh - 230px)); }
+  .overzicht { max-height: max(320px, calc(100dvh - 230px)); }
+}
