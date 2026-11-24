@@ -1513,13 +1513,17 @@ function volgende(wistHet) {
   if (konijnNu) konijnTegoed = false;
   // draakje: een herhaling of controle juist van een kaart die niet moeilijk is (ze wordt dus niet moeilijk).
   // Vroeger: 3 kaarten op rij juist (Anicée: weg). Voorrang blijft: gele eenhoorn > groen paardje > konijntje > draakje.
-  const draakNu = wistHet && !!kaart.herhaling && s.moeilijk !== true && !geelNu && !paardjeNu && !konijnNu;
+  // hemel (wolkjes): de laatste keer in de ronde juist (de controle) van een kaart die niet moeilijk is. Vervangt daar
+  // het draakje en de elektrische rand (Anicée, 24/11). Het draakje komt dus enkel nog bij de herhaling (H juist).
+  const hemelNu = laatsteJuist && s.moeilijk !== true && !lbSessie;
+  const draakNu = wistHet && !!kaart.herhaling && s.moeilijk !== true && !hemelNu && !geelNu && !paardjeNu && !konijnNu;
   if (geelNu) toonGeleEenhoorn();
   if (paardjeNu) toonEenhoorn();
   if (konijnNu) toonKonijn();
   if (draakNu) toonDraak();
-  // controle juist, maar de kaart blijft op de stapel moeilijk: groene ster (voorlopig altijd, ook samen met iets anders)
-  if (laatsteJuist && s.moeilijk === true) toonGroeneSter();
+  // controle juist, maar de kaart blijft moeilijk: vroeger de groene ster, nu de elektrische rand (Anicée, 24/11).
+  // toonGroeneSter blijft bestaan voor later.
+  const sterElektrisch = laatsteJuist && s.moeilijk === true;
   // controle juist en de kaart is niet moeilijk geworden: kleine beloning, paddenstoeltjes over de hele kaart
   // controle juist en niet moeilijk: vroeger paddenstoeltjes, nu het draakje (Anicée). toonSterregen blijft bestaan voor later.
   foutReeks = wistHet ? 0 : foutReeks + 1;
@@ -1544,9 +1548,22 @@ function volgende(wistHet) {
     return;
   }
 
-  // juist en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling meer gepland):
+  // controle juist en niet moeilijk: wolkjes (hemel), daarna de volgende kaart
+  if (hemelNu) {
+    bezig = true;
+    toonHemel(() => {
+      bezig = false;
+      index++;
+      if (index < stapel.length) toonKaart();
+      else toonEinde();
+    });
+    return;
+  }
+
+  // juist en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling meer gepland),
+  // of de controle juist van een kaart die moeilijk blijft (vroeger groene ster):
   // de rand wordt elektrisch (zie toonVerdamp) (Anicée). Enkel in een gewone ronde.
-  const verdampNu = wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id];
+  const verdampNu = sterElektrisch || (wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id]);
   if (verdampNu) {
     bezig = true;
     toonVerdamp(() => {
@@ -2993,3 +3010,109 @@ let laatstGeveegd = 0;
   herstelMenu();
   window.addEventListener("pageshow", () => { herstelMenu(); telFavorieten(); });
 })();
+
+/* ===== Hemel: controle juist (eerst fout, dan herhaling en controle juist) =====
+   Boven op de kaart verschijnen kinderlijke wolkjes in de blauwe tinten van het draakje (#E8F7FF, #9CDCFE, #4FC1FF,
+   #569CD6), met een gele schijn rond en door de wolkjes (niet over de hele kaart), een iriserend randje en
+   glinsterende sterretjes in VS Code-kleuren (#DCDCAA, #C586C0, #4EC9B0) als magische toets. Ze drijven naar rechts en
+   zacht en aarzelend weg, zonder te botsen (ongeveer 3,2 s). De kaart zelf blijft staan. */
+const WOLK_TINTEN = [["#E8F7FF", "#9CDCFE", "#4FC1FF"], ["#9CDCFE", "#4FC1FF", "#569CD6"], ["#E8F7FF", "#4FC1FF", "#569CD6"]];
+// vormen van wolkjes: viewBox, pad en hoogte/breedte
+const WOLK_VORMEN = {
+  bol:   { vb: "0 0 96 60",  asp: 0.625, d: "M18 50 a14 14 0 0 1 4 -27 a18 18 0 0 1 32 -8 a15 15 0 0 1 24 12 a12 12 0 0 1 0 23 z" },
+  plat:  { vb: "0 0 120 40", asp: 0.333, d: "M10 34 a10 10 0 0 1 6 -16 a14 14 0 0 1 24 -8 a16 16 0 0 1 28 0 a12 12 0 0 1 22 6 a10 10 0 0 1 20 9 a8 8 0 0 1 0 9 z" },
+  pluis: { vb: "0 0 96 60",  asp: 0.625, d: "M14 50 a10 10 0 0 1 2 -18 a11 11 0 0 1 14 -12 a13 13 0 0 1 22 -6 a12 12 0 0 1 20 6 a11 11 0 0 1 12 14 a9 9 0 0 1 -2 16 z" }
+};
+/* 5 varianten, zodat het niet altijd hetzelfde is (Anicée). Elke keer wordt er één gekozen. */
+const HEMEL_VARIANTEN = [
+  { naam: "stapelwolkjes", vorm: "bol",   n: [5, 6], b: [85, 135],  glinster: 3 },
+  { naam: "veel kleine wolkjes", vorm: "bol", n: [10, 12], b: [42, 62], glinster: 1 },
+  { naam: "grote wolk met kleintjes", vorm: "bol", n: [5, 5], b: [55, 80], groot: 190, glinster: 3 },
+  { naam: "schemerwolkjes", vorm: "bol", n: [5, 6], b: [85, 130], glinster: 4, schemer: true,
+    tinten: [["#9CDCFE", "#569CD6", "#4FC1FF"], ["#569CD6", "#1E5A8A", "#4FC1FF"], ["#4FC1FF", "#0E3A5F", "#9CDCFE"]] },
+  { naam: "regenboogje", vorm: "bol", n: [4, 5], b: [90, 130], glinster: 3, regenboog: true }
+];
+function wolkSVG(i, vorm, tinten) {
+  const v = WOLK_VORMEN[vorm || "bol"];
+  const T = tinten || WOLK_TINTEN, [boven, onder, rand] = T[i % T.length], id = "hw" + i + (vorm || "bol") + (tinten ? "s" : "");
+  return `<svg viewBox="${v.vb}" width="100%" height="100%" aria-hidden="true" style="overflow:visible">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${boven}"/><stop offset="1" stop-color="${onder}"/></linearGradient>
+      <linearGradient id="${id}m" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4EC9B0"/><stop offset=".5" stop-color="#9CDCFE" stop-opacity=".35"/><stop offset="1" stop-color="#C586C0"/></linearGradient>
+      <radialGradient id="${id}g" cx="50%" cy="35%" r="55%"><stop offset="0" stop-color="#FFF6C8" stop-opacity=".9"/><stop offset="1" stop-color="#FFE58A" stop-opacity="0"/></radialGradient></defs>
+    <path d="${v.d}" fill="url(#${id})" stroke="${rand}" stroke-width="1.6"/>
+    <path d="${v.d}" fill="url(#${id}g)"/>
+    <path d="${v.d}" fill="none" stroke="url(#${id}m)" stroke-width="2.4"/>
+  </svg>`;
+}
+// regenboogje in VS Code-kleuren (paars, blauw, turkoois, geel), achter het eerste wolkje
+const REGENBOOG_SVG = `<svg viewBox="0 0 100 52" width="100%" height="100%" aria-hidden="true" fill="none" stroke-linecap="round">
+  <path d="M8 50 A42 42 0 0 1 92 50" stroke="#C586C0" stroke-width="5" opacity=".75"/>
+  <path d="M14 50 A36 36 0 0 1 86 50" stroke="#4FC1FF" stroke-width="5" opacity=".75"/>
+  <path d="M20 50 A30 30 0 0 1 80 50" stroke="#4EC9B0" stroke-width="5" opacity=".75"/>
+  <path d="M26 50 A24 24 0 0 1 74 50" stroke="#DCDCAA" stroke-width="5" opacity=".75"/></svg>`;
+function toonHemel(klaar, keuze) {
+  const V = HEMEL_VARIANTEN[keuze !== undefined ? keuze : Math.floor(Math.random() * HEMEL_VARIANTEN.length)];
+  const vorm = WOLK_VORMEN[V.vorm];
+  const kaart = document.getElementById("kaart");
+  const r = kaart ? kaart.getBoundingClientRect() : null;
+  const rustig = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!r || !r.height || rustig) { if (klaar) klaar(); return; }
+  const wolken = [];
+  const N = V.n[0] + Math.floor(Math.random() * (V.n[1] - V.n[0] + 1)), DUUR = 2800;
+  const STAP = Math.min(90, 450 / N);                     // na elkaar beginnen, ook met veel wolkjes niet te lang
+  const ver = r.width * 0.55;                             // alle wolkjes even ver en even snel: ze botsen niet
+  // willekeurige plaatsen in het bovenste derde, maar niet over elkaar (anders lijkt het alsof ze botsen)
+  const plekken = [];
+  for (let i = 0, poging = 0; plekken.length < N && poging < 400; poging++) {
+    const B = (V.groot && plekken.length === 0) ? V.groot : V.b[0] + Math.random() * (V.b[1] - V.b[0]), h = B * vorm.asp;
+    const px = 8 + Math.random() * (r.width * 0.62), py = 6 + Math.random() * Math.max(0, r.height / 3 - h - 6);
+    if (plekken.some(q => px < q.x + q.B * 0.9 && q.x < px + B * 0.9 && py < q.y + q.h * 0.8 && q.y < py + h * 0.8)) continue;
+    plekken.push({ x: px, y: py, B, h });
+  }
+  for (let i = 0; i < plekken.length; i++) {
+    const w = document.createElement("div");
+    const { B } = plekken[i], x = r.left + plekken[i].x, y = r.top + plekken[i].y;
+    // gele schijn: een zachte gloed rond het wolkje, en een lichtere kern door het wolkje heen (in de svg)
+    w.style.cssText = `position:fixed;z-index:62;pointer-events:none;left:${x}px;top:${y}px;width:${B}px;height:${B * vorm.asp}px;` +
+      (V.schemer ? "filter:drop-shadow(0 0 8px rgba(255,214,90,1)) drop-shadow(0 0 22px rgba(255,190,60,.75));"   // schemer: zon erachter
+                 : "filter:drop-shadow(0 0 6px rgba(255,229,138,.95)) drop-shadow(0 0 16px rgba(255,214,90,.6));");
+    w.innerHTML = wolkSVG(i, V.vorm, V.tinten);
+    document.body.appendChild(w);
+    // zacht en aarzelend: de snelheid gaat rustig op en neer (even vertragen, dan weer verder), heel licht golvend
+    const fase = Math.random() * 6.28, frames = [];
+    for (let k = 0; k <= 40; k++) {
+      const t = k / 40;
+      const voort = Math.max(0, t - 0.05 * Math.sin(2 * Math.PI * t * 1.5));       // aarzelen zonder terug te gaan
+      const sch = t < 0.15 ? 0.5 + 0.5 * (t / 0.15) : 1;
+      const op = t < 0.12 ? t / 0.12 : t > 0.8 ? Math.max(0, (1 - t) / 0.2) : 1;
+      frames.push({ transform: `translate(${(ver * voort).toFixed(1)}px,${((V.golf || 3) * Math.sin(fase + t * 2 * Math.PI * (V.freq || 1.2))).toFixed(1)}px) scale(${sch.toFixed(3)})`, opacity: op });
+    }
+    w.animate(frames, { duration: DUUR, delay: i * STAP, easing: "linear", fill: "both" });
+    if (V.regenboog && i === 0) {
+      const rb = document.createElement("div"), RB = B * 1.25;
+      rb.style.cssText = `position:fixed;z-index:61;pointer-events:none;left:${x + B / 2 - RB / 2}px;top:${y - RB * 0.22}px;width:${RB}px;height:${RB * 0.52}px;` +
+        "filter:drop-shadow(0 0 4px rgba(255,229,138,.6));";
+      rb.innerHTML = REGENBOOG_SVG;
+      document.body.appendChild(rb);
+      rb.animate(frames, { duration: DUUR, delay: i * STAP, easing: "linear", fill: "both" });
+      wolken.push(rb);
+    }
+    wolken.push(w);
+    // magische VS Code-toets: kleine glinsterende sterretjes (geel, paars, turkoois) die even oplichten bij het wolkje
+    for (let j = 0; j < V.glinster; j++) {
+      const g = document.createElement("div"), kl = ["#DCDCAA", "#C586C0", "#4EC9B0"][(i + j) % 3], G = 13 + Math.random() * 7;
+      g.style.cssText = `position:fixed;z-index:63;pointer-events:none;left:${x + Math.random() * B}px;top:${y + Math.random() * B * vorm.asp * 0.8}px;` +
+        `width:${G}px;height:${G}px;filter:drop-shadow(0 0 4px ${kl}) drop-shadow(0 0 8px ${kl});`;
+      g.innerHTML = `<svg viewBox="0 0 10 10" width="100%" height="100%" aria-hidden="true"><path d="M5 0 Q5.6 4.4 10 5 Q5.6 5.6 5 10 Q4.4 5.6 0 5 Q4.4 4.4 5 0z" fill="${kl}"/></svg>`;
+      document.body.appendChild(g);
+      const dx = ver * (0.2 + 0.3 * Math.random()), st = 400 + Math.random() * 1400;
+      g.animate([
+        { transform: "translate(0,0) scale(0) rotate(0deg)", opacity: 0 },
+        { transform: `translate(${dx * 0.4}px,-3px) scale(1) rotate(45deg)`, opacity: 1, offset: 0.4 },
+        { transform: `translate(${dx}px,-6px) scale(0) rotate(90deg)`, opacity: 0 }
+      ], { duration: 900, delay: i * STAP + st, easing: "ease-in-out", fill: "both" });
+      wolken.push(g);
+    }
+  }
+  setTimeout(() => { wolken.forEach(w => w.remove()); if (klaar) klaar(); }, DUUR + N * STAP + 100);   // ruim genoeg, ook voor het laatste wolkje
+}
