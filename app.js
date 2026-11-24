@@ -1515,6 +1515,7 @@ function volgende(wistHet) {
   // Vroeger: 3 kaarten op rij juist (Anicée: weg). Voorrang blijft: gele eenhoorn > groen paardje > konijntje > draakje.
   // hemel (wolkjes): de laatste keer in de ronde juist (de controle) van een kaart die niet moeilijk is. Vervangt daar
   // het draakje en de elektrische rand (Anicée, 24/11). Het draakje komt dus enkel nog bij de herhaling (H juist).
+  // De 1ste keer meteen juist geeft ook wolkjes (zie wolkjesNu hieronder).
   const hemelNu = laatsteJuist && s.moeilijk !== true && !lbSessie;
   const draakNu = wistHet && !!kaart.herhaling && s.moeilijk !== true && !hemelNu && !geelNu && !paardjeNu && !konijnNu;
   if (geelNu) toonGeleEenhoorn();
@@ -1548,22 +1549,15 @@ function volgende(wistHet) {
     return;
   }
 
-  // controle juist en niet moeilijk: wolkjes (hemel), daarna de volgende kaart
-  if (hemelNu) {
-    bezig = true;
-    toonHemel(() => {
-      bezig = false;
-      index++;
-      if (index < stapel.length) toonKaart();
-      else toonEinde();
-    });
-    return;
-  }
+  // wolkjes (Anicée, 24/11): juist en de kaart komt niet meer terug in de ronde (de 1ste keer meteen juist, of de controle
+  // juist), niet moeilijk en niet in de Leitnerbak. De wolkjes houden niets tegen: de rand licht groen op zoals altijd
+  // en de volgende kaart komt al terwijl de wolkjes nog wegdrijven.
+  const wolkjesNu = hemelNu || (wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id]);
+  if (wolkjesNu) toonHemel();
 
-  // juist en de kaart komt niet meer terug (niet moeilijk, niet in de Leitnerbak, geen herhaling meer gepland),
-  // of de controle juist van een kaart die moeilijk blijft (vroeger groene ster):
-  // de rand wordt elektrisch (zie toonVerdamp) (Anicée). Enkel in een gewone ronde.
-  const verdampNu = sterElektrisch || (wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id]);
+  // de laatste keer juist van een kaart die moeilijk blijft (vroeger groene ster): de rand wordt elektrisch
+  // (zie toonVerdamp) en daarna komt de volgende kaart. Enkel in een gewone ronde.
+  const verdampNu = sterElektrisch;
   if (verdampNu) {
     bezig = true;
     toonVerdamp(() => {

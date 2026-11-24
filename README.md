@@ -30,13 +30,15 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 
   H = herhaling (na 8 kaarten), C = controle (na 16 kaarten):
 
-  | 1ste keer | 2de keer | reward | moeilijk | Leitnerbak | komt terug | 3de keer | reward | moeilijk | Leitnerbak | komt terug |
-  |---|---|---|---|---|---|---|---|---|---|---|
-  | **juist** | | elektriseren | neen | neen | neen | | | | | |
-  | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H fout** | vlammen | ja | ja, bak 1 | neen |
-  | **fout** | **H fout** | groot duiveltje | ja | ja, bak 1 | ja, na 8 kaarten (H) | **H juist** | elektriseren | ja, blijft moeilijk | ja, bak 1 | neen |
-  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C fout** | vlammen | ja | ja, bak 1 | neen |
-  | **fout** | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C juist** | wolkjes | neen | neen | neen |
+  | 1ste keer | | 2de keer | reward | moeilijk | Leitnerbak | komt terug | 3de keer | | moeilijk | Leitnerbak | komt terug |
+  |---|---|---|---|---|---|---|---|---|---|---|---|
+  | **juist** | wolkjes | | geen | neen | neen | neen | | | | | |
+  | **fout** | | **H fout** | duiveltje | ja | ja | ja, na 8 kaarten (H) | **H fout** | vlammen | | | neen |
+  | **fout** | | **H fout** | duiveltje | ja | ja | ja, na 8 kaarten (H) | **H juist** | elektrisch | | | neen |
+  | **fout** | | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C fout** | vlammen | ja | ja | neen |
+  | **fout** | | **H juist** | draakje | neen | neen | ja, na 16 kaarten (C) | **C juist** | wolkjes | neen | neen | neen |
+
+  Een leeg vakje: er verandert niets tegenover de vorige stap.
 
   Na de 1ste keer fout komt de kaart altijd terug na 8 kaarten (H). Bak 1 = morgen aan de beurt. Was een kaart al moeilijk en heb je ze de 1ste keer meteen juist, dan geneest ze (groen paardje).
 
@@ -53,8 +55,8 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
   - **Groot duiveltje**: een kaart wordt moeilijk (behalve als ze op dat moment opbrandt: dan enkel de vlammen).
   - **Klein duiveltje**: 3 kaarten na elkaar fout (behalve als er net een kaart opbrandt).
   - **Vlammen**: de 3de keer is nog fout: de kaart brandt op en komt niet meer terug in de ronde.
-  - **Elektriseren**: een juiste kaart die niet meer terugkomt in de ronde (niet moeilijk, niet in de Leitnerbak, geen herhaling meer), en ook een moeilijke kaart die de laatste keer in de ronde toch juist is (ze blijft moeilijk; vroeger de groene ster): de rand licht groen op, kleurt blauw zoals het draakje, wordt ijzig met elektrische bliksems en dooft dan uit (ongeveer 1,25 s). Enkel in een gewone ronde. Komt bovenop de andere beloningen (bv. de gele eenhoorn).
-  - **Wolkjes**: de controle (C) juist van een kaart die niet moeilijk is. Blauwe wolkjes in de tinten van het draakje, met een gele schijn, een randje in VS Code-turkoois en -paars en glinsterende sterretjes, drijven zacht en aarzelend over het bovenste derde van de kaart naar rechts weg (ongeveer 3 s). Er zijn 5 varianten (stapelwolkjes, veel kleine wolkjes, grote wolk met kleintjes, schemerwolkjes, regenboogje); de app kiest er telkens één. Enkel in een gewone ronde. In de plaats van het draakje en het elektriseren.
+  - **Elektriseren**: een moeilijke kaart is de laatste keer in de ronde toch juist (H fout, dan H juist; ze blijft moeilijk): de rand licht groen op, kleurt blauw zoals het draakje, wordt ijzig met elektrische bliksems en dooft dan uit (ongeveer 1,25 s). Enkel in een gewone ronde.
+  - **Wolkjes**: een juiste kaart die niet meer terugkomt in de ronde en niet moeilijk is: de 1ste keer meteen juist, of de controle (C) juist. Enkel kaarten die niet in de Leitnerbak zitten. Blauwe wolkjes in de tinten van het draakje, met een gele schijn, een randje in VS Code-turkoois en -paars en glinsterende sterretjes, drijven zacht en aarzelend over het bovenste derde van de kaart naar rechts weg (ongeveer 3 s). Er zijn 5 varianten (stapelwolkjes, veel kleine wolkjes, grote wolk met kleintjes, schemerwolkjes, regenboogje); de app kiest er telkens één. De volgende kaart komt al terwijl de wolkjes nog wegdrijven. Enkel in een gewone ronde.
   - Er komt telkens maar één van de dieren tegelijk. Voorrang: gele eenhoorn > groen paardje > konijntje > draakje. Een konijntje dat samenvalt met de eenhoorn of het paardje, komt bij het volgende juiste antwoord.
 
 - **Moeilijke kaarten**: een kaart wordt moeilijk als je in een gewone ronde een herhaling of een controle fout hebt (de eerste keer fout is nog niet genoeg). De titel bovenaan de kaart wordt dan rood en de kaart gaat naar bak 1 van je Leitnerbak (zat ze er al in, dan terug naar bak 1). Een moeilijke kaart geneest (is niet meer moeilijk) op 3 manieren:
