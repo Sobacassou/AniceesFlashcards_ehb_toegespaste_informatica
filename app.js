@@ -1074,7 +1074,8 @@ function toonKaart() {
   document.getElementById("kaart").classList.remove("omgedraaid");
   document.getElementById("kaart").classList.toggle("wit", kaart.wit === true);   // witte kaart = cursus voorstellen
   document.getElementById("kaart").classList.toggle("extra", kaart.extra === true);   // lichtgroene kaart = extra info, niet uit de cursus
-  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);   // oefening (zoals een zwarte kaart, met blauw label "Oefening")
+  document.getElementById("kaart").classList.toggle("oefening", kaart.oefening === true);
+  document.getElementById("kaart").classList.toggle("examen", kaart.examen === true);   // oefening (zoals een zwarte kaart, met blauw label "Oefening")
   document.getElementById("antwoordKnoppen").style.display = "none";
   document.getElementById("hint").style.display = "block";
   // teller + aantal juist (groen) en fout (rood): zelfde telling als op de hoofdstukkenpagina
@@ -1477,10 +1478,11 @@ function volgende(wistHet) {
   // uit bak 5 gaat (zie hieronder) (Anicée).
   if (wistHet && !kaart.herhaling && !alGezien && !lbSessie) delete s.moeilijk;
   // Leitnerbak: enkel in een Leitner-ronde, en enkel het eerste antwoord op deze kaart in de ronde
+  let uitBak5 = false;   // bak 5 juist in een Leitner-ronde: de kaart gaat uit de Leitnerbak (dan ook wolkjes, Anicée)
   if (lbSessie && leitner[id] && !kaart.herhaling && !alGezien) {
     const e = leitner[id];
     if (!wistHet) { e.bak = 1; e.dag = vandaagStr(); }
-    else if (lbTeHerhalen(e, 0) && e.bak >= 5) { delete leitner[id]; delete s.moeilijk; }   // bak 5 juist: geleerd, uit de Leitnerbak en niet meer moeilijk
+    else if (lbTeHerhalen(e, 0) && e.bak >= 5) { delete leitner[id]; delete s.moeilijk; uitBak5 = true; }   // bak 5 juist: geleerd, uit de Leitnerbak en niet meer moeilijk
     else if (lbTeHerhalen(e, 0)) { e.bak = e.bak + 1; e.dag = vandaagStr(); }
     bewaar("leitner", leitner);
   }
@@ -1550,9 +1552,10 @@ function volgende(wistHet) {
   }
 
   // wolkjes (Anicée, 24/11): juist en de kaart komt niet meer terug in de ronde (de 1ste keer meteen juist, of de controle
-  // juist), niet moeilijk en niet in de Leitnerbak. De wolkjes houden niets tegen: de rand licht groen op zoals altijd
+  // juist), niet moeilijk en niet in de Leitnerbak. Ook als een kaart in een Leitner-ronde uit bak 5 gaat (bovenop het
+  // groen paardje of de gele eenhoorn). De wolkjes houden niets tegen: de rand licht groen op zoals altijd
   // en de volgende kaart komt al terwijl de wolkjes nog wegdrijven.
-  const wolkjesNu = hemelNu || (wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id]);
+  const wolkjesNu = hemelNu || uitBak5 || (wistHet && !lbSessie && actie.ingepland < 0 && s.moeilijk !== true && !leitner[id]);
   if (wolkjesNu) toonHemel();
 
   // de laatste keer juist van een kaart die moeilijk blijft (vroeger groene ster): de rand wordt elektrisch
@@ -1743,6 +1746,13 @@ function zetHerhaalLabel(kaart) {
     el.querySelector(".extra-label")?.remove();
     el.querySelector(".oef-label")?.remove();
     el.querySelector(".lb-label")?.remove();
+    el.querySelector(".ex-label")?.remove();
+    if (kaart.examen) {
+      const lab = document.createElement("span");
+      lab.className = "ex-label";
+      lab.textContent = "Examenvraag · ";
+      el.prepend(lab);
+    }
     if (kaart.oefening) {
       const lab = document.createElement("span");
       lab.className = "oef-label";

@@ -23,7 +23,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
 - **Slim filteren**: oefen alleen kaarten die je nog niet beantwoord hebt, die je eerder fout had, of die moeilijk waren
 - **Figuren en schema's** op de kaarten (schakelingen, tabellen, Linux-uitvoer…), met genummerde vakjes op de voorkant
 - **Extra uitleg** bij veel antwoorden
-- **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt
+- **Witte en zwarte kaarten**: witte kaarten leggen de cursus uit, zwarte ondervragen ze. Kaarten met een turquoise rand geven extra info die niet uit de cursus komt. Roze omrande kaarten (VS Code-roze) zijn mogelijke examenvragen
 - **Overzicht met teller** per onderdeel (nog open / totaal), en klikken om naar een onderwerp te springen
 - **Kaarten schudden** voor een willekeurige volgorde (geldt voor één ronde)
 - **Foute kaarten herhalen tijdens het oefenen**: een foute kaart komt na 8 kaarten terug (herhaling); heb je ze dan juist, dan nog één keer na 16 kaarten (controle); heb je de herhaling fout, dan nog eens na 8 kaarten. Je ziet een foute kaart hoogstens 3 keer in een ronde: de 3de keer is altijd de laatste. Juist: klaar. Fout: ze gaat in vlammen op (ze zit dan in je Leitnerbak).
@@ -56,7 +56,7 @@ Meer dan **3.000 kaarten** voor IT Essentials, Desktop OS, Web Essentials en Net
   - **Klein duiveltje**: 3 kaarten na elkaar fout (behalve als er net een kaart opbrandt).
   - **Vlammen**: de 3de keer is nog fout: de kaart brandt op en komt niet meer terug in de ronde.
   - **Elektriseren**: een moeilijke kaart is de laatste keer in de ronde toch juist (H fout, dan H juist; ze blijft moeilijk): de rand licht groen op, kleurt blauw zoals het draakje, wordt ijzig met elektrische bliksems en dooft dan uit (ongeveer 1,25 s). Enkel in een gewone ronde.
-  - **Wolkjes**: een juiste kaart die niet meer terugkomt in de ronde en niet moeilijk is: de 1ste keer meteen juist, of de controle (C) juist. Enkel kaarten die niet in de Leitnerbak zitten. Blauwe wolkjes in de tinten van het draakje, met een gele schijn, een randje in VS Code-turkoois en -paars en glinsterende sterretjes, drijven zacht en aarzelend over het bovenste derde van de kaart naar rechts weg (ongeveer 3 s). Er zijn 5 varianten (stapelwolkjes, veel kleine wolkjes, grote wolk met kleintjes, schemerwolkjes, regenboogje); de app kiest er telkens één. De volgende kaart komt al terwijl de wolkjes nog wegdrijven. Enkel in een gewone ronde.
+  - **Wolkjes**: een juiste kaart die niet meer terugkomt in de ronde en niet moeilijk is: de 1ste keer meteen juist, of de controle (C) juist. Enkel kaarten die niet in de Leitnerbak zitten. Blauwe wolkjes in de tinten van het draakje, met een gele schijn, een randje in VS Code-turkoois en -paars en glinsterende sterretjes, drijven zacht en aarzelend over het bovenste derde van de kaart naar rechts weg (ongeveer 3 s). Er zijn 5 varianten (stapelwolkjes, veel kleine wolkjes, grote wolk met kleintjes, schemerwolkjes, regenboogje); de app kiest er telkens één. De volgende kaart komt al terwijl de wolkjes nog wegdrijven. In een gewone ronde, en ook in een Leitner-ronde als een kaart uit bak 5 gaat (dan bovenop het groen paardje of de gele eenhoorn).
   - Er komt telkens maar één van de dieren tegelijk. Voorrang: gele eenhoorn > groen paardje > konijntje > draakje. Een konijntje dat samenvalt met de eenhoorn of het paardje, komt bij het volgende juiste antwoord.
 
 - **Moeilijke kaarten**: een kaart wordt moeilijk als je in een gewone ronde een herhaling of een controle fout hebt (de eerste keer fout is nog niet genoeg). De titel bovenaan de kaart wordt dan rood en de kaart gaat naar bak 1 van je Leitnerbak (zat ze er al in, dan terug naar bak 1). Een moeilijke kaart geneest (is niet meer moeilijk) op 3 manieren:
@@ -111,6 +111,7 @@ Er zijn drie zoorten kaarten:
 - kaarten met extra info die niet uit de cursus komt: turkoos omrand
 - gewone zwarte flashcards
 - blauwe kaarten met oefeningen en zelftesten
+- roze kaarten met mogelijke examenvragen (Desktop OS: Linux en Windows), met het label Examenvraag
 
 Weggegooide kaarten kan je als lijst kopiëren (*Lijst kopiëren*) om ze daarna uit de js-bestanden te halen.
 

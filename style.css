@@ -1058,3 +1058,9 @@ html.ov-vast, html.ov-vast body { overflow: hidden; overscroll-behavior: none; }
   #schermOefenen .kaart { height: max(320px, calc(100dvh - 230px)); }
   .overzicht { max-height: max(320px, calc(100dvh - 230px)); }
 }
+
+/* Examenkaarten (roze, VS Code #C586C0), Anicée */
+:root{--ex:#c586c0}
+.ex-label{color:var(--ex);font-weight:700;font-size:1.2em}
+.kaart.examen .kant{border:2px solid var(--ex)}
+.kaart.examen .onderwerp{color:var(--ex)}
